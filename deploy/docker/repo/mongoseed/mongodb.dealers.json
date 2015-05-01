@@ -1,0 +1,2 @@
+{ "_id" : { "$oid" : "548f8b65e4b0ecab6ac98c9d" }, "_class" : "smpl.fabrikant.ordering.repositories.mongodb.models.Dealer", "name" : "BigJoe", "contact" : "John Doe", "address" : "123 Main Street, Redmond, WA 98052", "email" : "jdoe@tempuri.org", "phone" : "425-555-1212" }
+

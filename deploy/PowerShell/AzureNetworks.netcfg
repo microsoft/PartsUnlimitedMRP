@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NetworkConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration">
+  <VirtualNetworkConfiguration>
+    <Dns>
+      <DnsServers/>
+    </Dns>
+    <VirtualNetworkSites>
+      <VirtualNetworkSite name="mrp-linux-vnet" Location="West Us">
+        <AddressSpace>
+          <AddressPrefix>172.16.0.0/12</AddressPrefix>
+        </AddressSpace>
+        <Subnets>
+          <Subnet name="FrontEndSubnet">
+            <AddressPrefix>172.16.1.0/24</AddressPrefix>
+          </Subnet>
+          <Subnet name="BackEndSubnet">
+            <AddressPrefix>172.16.2.0/24</AddressPrefix>
+          </Subnet>
+          <Subnet name="Gateway">
+            <AddressPrefix>172.16.0.0/24</AddressPrefix>
+          </Subnet>
+        </Subnets>
+        <DnsServersRef/>
+      </VirtualNetworkSite>
+    </VirtualNetworkSites>
+  </VirtualNetworkConfiguration>
+</NetworkConfiguration>

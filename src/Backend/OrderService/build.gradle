@@ -1,0 +1,61 @@
+import com.microsoft.appinsights.*
+
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url "http://gradle.artifactoryonline.com/gradle/libs/" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.7.RELEASE")
+        classpath("org.springframework.data:spring-data-mongodb:1.6.0.RELEASE")
+        classpath("org.mongodb:mongo-java-driver:2.12.3")
+        classpath("org.hibernate:hibernate-core:4.2.0.Final")
+        classpath("org.apache.httpcomponents:httpclient:4.3.5")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'ordering-service'
+    version = '0.1.0'
+}
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+}
+
+dependencies {
+    compile('com.microsoft.azure:applicationinsights-core:0.9.0')
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.data:spring-data-mongodb")
+    compile("org.mongodb:mongo-java-driver:2.12.3")
+    compile("org.hibernate:hibernate-core:4.2.0.Final")
+    compile("org.apache.httpcomponents:httpclient:4.3.5")
+    testCompile("junit:junit")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
+task loadBuildInformation(type: BuildInformationTask) {
+    versionFile = file('version.properties')
+
+    project.processResources.dependsOn("loadBuildInformation")
+    project.processResources.dependsOn("loadBuildInformation")
+}
+
+
+task cleanBuildInformation(type: CleanBuildInformationTask) {
+    project.clean.dependsOn("cleanBuildInformation")
+}

@@ -1,0 +1,69 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "West US"
+        },
+        "newStorageAccountName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "publicIPAddressName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "publicIPAddressType": {
+            "value": "Dynamic"
+        },
+        "vmStorageAccountContainerName": {
+            "value": "vhds"
+        },
+        "vmName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "vmSize": {
+            "value": "Standard_A2"
+        },
+        "vmSourceImageName": {
+            "value": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_10-amd64-server-20150202-en-us-30GB"
+        },
+        "adminUserName": {
+            "value": "azureuser"
+        },
+        "adminPassword": {
+            "value": "Passw0rd1!"
+        },
+        "virtualNetworkName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "addressPrefix": {
+            "value": "10.0.0.0/16"
+        },
+        "subnetName": {
+            "value": "Subnet-1"
+        },
+        "subnetPrefix": {
+            "value": "10.0.0.0/24"
+        },
+        "dnsName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "subscriptionId": {
+            "value": "0c3a2f71-4128-4509-8719-3b16f291ad5f"
+        },
+        "nicName": {
+            "value": "<<CONFIGURE>>"
+        },
+        "vmExtensionName": {
+            "value": "setupscript"
+        },
+        "customScriptFilePath":{
+            "value" : "https://raw.githubusercontent.com/dcaro/mrpv2/master/Install-MRP-app.sh"
+        },
+        "customScriptCommandToExecute" : {
+            "value" : "sh Install-MRP-app.sh"
+        }
+    }
+}

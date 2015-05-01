@@ -1,0 +1,17 @@
+{
+  "name": "mrp",
+  "default_attributes": {
+    "tomcat": {
+      "mrp_port": 9080
+    }
+  },
+  "override_attributes": {
+    "chef_client": {
+      "interval": "60",
+      "splay": "1"
+    }
+  },
+  "run_list": [
+    "recipe[MRPApp]",
+    "recipe[chef-client::service]"
+  ]

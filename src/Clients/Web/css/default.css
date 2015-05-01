@@ -1,0 +1,437 @@
+﻿body {
+    overflow-x: hidden;
+    font-weight: 400;
+}
+
+input[type=text] {
+    font-size: 9pt;
+}
+
+select {
+    font-size: 9pt;
+    padding: 2px 10px 5px 6px;
+    min-height: 28px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    height: 28px;
+}
+
+/*
+Weight and size definitions for typographic classes and elements.
+*/
+h1, .win-type-xx-large {
+    font-size: 42pt;
+    font-weight: 200;
+    letter-spacing: 0;
+    line-height: 1.1429; /* 64px when font-size is 42pt */
+}
+
+h2, .win-type-x-large {
+    font-size: 20pt;
+    font-weight: 200;
+    line-height: 1.2; /* 32px when font-size is 20pt */
+}
+
+h3, .win-type-large {
+    font-size: 11pt;
+    font-weight: 600;
+    line-height: 1.3636; /* 20px when font-size is 11pt */
+}
+
+h4, .win-type-medium, code, pre, samp {
+    font-size: 11pt;
+    font-weight: 400;
+    line-height: 1.3636; /* 20px when font-size is 11pt */
+}
+
+body, h5, .win-type-small, legend {
+    font-size: 11pt;
+    font-weight: 300;
+    line-height: 1.3636; /* 20px when font-size is 11pt */
+}
+
+.win-type-x-small {
+    font-size: 11pt;
+    font-weight: 300;
+    line-height: 1.3636; /* 20px when font-size is 11pt */
+}
+
+h6, caption, figcaption, small, .win-type-xx-small {
+    font-size: 9pt;
+    font-weight: 400;
+    line-height: 1.6667; /* 20px when font-size is 9pt */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#launchpad {
+    height: 300px;
+    width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+#companylogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#launchtiles {
+    display: flex;
+    margin-top: 100px;
+}
+
+.launchtile {
+    width: 140px;
+    height: 85px;
+    background-color: #E0E0E0;
+    margin: 10px;
+}
+
+.launchtilelogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.launchtiletitle {
+    text-align: center;
+}
+
+.launchtileinner {
+}
+
+#contenthost {
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 1;
+}
+
+.titlearea {
+    float: left;
+    height: 40px;
+    margin-top: 3px;
+}
+
+.fragment {
+    height: 100%;
+    width: 100%;
+}
+
+    .fragment section[role=main] {
+        margin: auto 40px;
+        height: calc(100% - 60px);
+    }
+
+.navigation {
+    margin: 0px;
+    padding: 52px 0px 0px 10px;
+    list-style: none;
+    background: #E0E0E0;
+    width: 400px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.header-cover {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 44px;
+    width: 100%;
+    background-color: #E0E0E0;
+    z-index: 1;
+}
+
+.nav-cover {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 44px;
+    width: 70px;
+    background-color: #E0E0E0;
+    z-index: 2;
+}
+
+.nav-trigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+label[for="nav-trigger"] {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 52px;
+    height: 44px;
+    cursor: pointer;
+    background-image: url('../images/hamburger.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 12px;
+    background-position-y: 10px;
+    background-color: #C0C0C0;
+}
+
+.nav-trigger:checked + label {
+    left: 200px;
+}
+
+.nav-trigger:checked ~ #contenthost {
+    left: 200px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+}
+
+.nav-trigger + label, #contenthost {
+    transition: ease-in-out left 0.3s;
+}
+
+.navigationButton {
+}
+
+.win-navbarcommand-button,
+.win-navbarcommand-splitbutton {
+    background-color: transparent;
+    color: #000000;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 100;
+    font-family: arial;
+}
+
+.progressUnderlay {
+    position: absolute;
+    left: 0px;
+    top: 44px;
+    width: 100%;
+    height: 100%;
+    z-index: 90;
+    background-color: black;
+    opacity: 0.0;
+    transition-property: opacity;
+    transition-timing-function: ease;
+    transition-duration: 0.3s;
+}
+
+.progressContainer {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 350px;
+    height: 240px;
+    position: absolute;
+    top: calc(50% - 125px);
+    left: calc(50% - 175px);
+    z-index: 100;
+    color: black;
+    margin-left: 12px;
+    margin-top: 0px;
+    background-color: black;
+    opacity: 0.75;
+}
+
+.progressMessageContainer {
+    color: #09F;
+    margin-bottom: 10px;
+}
+
+#progressMessage {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.progressLocation {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #09F;
+}
+
+.page-header {
+    background-color: #E0E0E0;
+    height: 44px;
+}
+
+.page-header-home {
+    float: left;
+    margin-left: 60px;
+    margin-right: 10px;
+    padding: 0px;
+    display: inline;
+    background-color: transparent;
+    border-style: none;
+    height: 44px;
+    min-width: 60px;
+}
+
+    .page-header-home img {
+        margin-top: 2px;
+        height: 40px;
+    }
+
+.edittools {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.itemListView {
+    float: left;
+    margin-top: 10px;
+    width: 320px;
+    height: calc(100% - 100px);
+}
+
+.listItem {
+    margin: 14px;
+}
+
+.list-item-entry-small {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.editDetail {
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 50%;
+    background: #F0F0F0;
+    padding: 10px;
+    max-height: calc(100% - 120px);
+    overflow-y: auto;
+}
+
+    .editDetail .horizontalDetail {
+        display: inline-block;
+        width: 100%;
+    }
+
+        .editDetail .horizontalDetail .horizontalDetailCol {
+            display: inline-block;
+            width: 32%;
+        }
+
+    .editDetail input[type=text] {
+        float: left;
+        width: calc(100% - 20px);
+    }
+
+    .editDetail .selectinput {
+        float: left;
+        width: calc(100% - 20px);
+    }
+
+    .editDetail .inputlabel {
+        float: left;
+        width: 30%;
+        font-size: 11pt;
+        font-weight: 600;
+        line-height: 1.3636;
+    }
+
+    .editDetail .horizontalDetail .inputlabel {
+        height: 24px;
+        margin-top: 12px;
+        width: 46%;
+    }
+
+    .editDetail .buttonlabel {
+        margin-right: 8px;
+        font-weight: 400;
+    }
+
+    .editDetail .horizontalDetail input {
+        height: 24px;
+        margin-right: 0px;
+        width: 50%;
+    }
+
+.detailExpander {
+    display: inline-block;
+    width: 100%;
+}
+
+.pagePopup .win-contentdialog .win-contentdialog-dialog {
+    max-width: 768px;
+    max-height: 640px;
+}
+
+.pagePopup .win-contentdialog .win-contentdialog-scroller {
+    height: 380px;
+    overflow: hidden;
+}
+
+.pagePopup .fragment {
+    height: 360px;
+    overflow: hidden;
+}
+
+    .pagePopup .fragment section[role=main] {
+        margin: auto 0px;
+        height: 100%;
+    }
+
+.pagePopup .itemListView {
+    height: calc(100% - 50px);
+    max-height: calc(100% - 50px);
+    width: calc(50% - 22px);
+    margin-top: 0px;
+}
+
+.pagePopup .editDetail {
+    float: right;
+    max-height: calc(100% - 60px);
+    margin-left: 10px;
+    width: calc(50% - 22px);
+    margin-top: 0px;
+}
+
+    .pagePopup .editDetail input[type=text] {
+        width: 100%;
+    }
+
+.pagePopup .edittools {
+}
+
+#confirmdialog {
+    z-index: 1000;
+}
+
+.textinput-multiline {
+}
+
+.win-container.win-selected .win-selectionborder {
+    border-width: 2px;
+    border-style: solid;
+}
+
+html.win-hoverable .win-container.win-selected:hover .win-selectionborder {
+    border-width: 2px;
+    border-style: solid;
+}
+
+.win-selectioncheckmarkbackground {
+    display: none;
+}

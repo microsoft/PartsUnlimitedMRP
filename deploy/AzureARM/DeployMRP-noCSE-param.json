@@ -1,0 +1,64 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters" : {
+        "location": {
+             "value": "West US"
+        },
+        "newStorageAccountName": {
+            "value": "dcaro0503"
+        },
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "publicIPAddressName": {
+            "value": "mrpip1"
+        },
+        "publicIPAddressType" : {
+            "value" : "Dynamic"
+        },
+        "vmStorageAccountContainerName": {
+            "value": "vhds"
+        },
+        "vmName": {
+            "value": "dcarolinux1"
+        },
+        "vmSize": {
+            "value": "Standard_A1"
+        },
+        "vmSourceImageName": {
+            "value": "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-12_04_5-LTS-amd64-server-20140927-en-us-30GB"
+        },
+        "adminUserName": {
+            "value": "azureuser"
+        },
+        "adminPassword": {
+            "value": "Passw0rd1!"
+        },
+        "virtualNetworkName":{
+            "value" : "mrpvnet"
+        },
+        "addressPrefix":{
+            "value" : "10.0.0.0/16"
+        },
+        "subnet1Name": {
+            "value" : "Subnet-1"
+        },
+        "subnet2Name": {
+            "value" : "Subnet-2"
+        },
+        "subnet1Prefix" : {
+            "value" : "10.0.0.0/24"
+        },
+        "subnet2Prefix" : {
+            "value" : "10.0.1.0/24"
+        },
+        "dnsName" : {
+            "value" : "dcaro0503"
+        },
+        "nicName":{
+            "value" : "mrpnic2"  
+        }
+    }
+
+} 

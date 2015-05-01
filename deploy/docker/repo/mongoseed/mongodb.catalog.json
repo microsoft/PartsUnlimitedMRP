@@ -1,0 +1,4 @@
+{ "_id" : { "$oid" : "548f7d43e4b0e999bb9d3521" }, "_class" : "smpl.fabrikant.ordering.repositories.mongodb.models.Accessory", "skuNumber" : "ACC-0001", "description" : "Shelving", "unit" : "meters", "unitPrice" : 10.75 }
+{ "_id" : { "$oid" : "548f7d43e4b0e999bb9d3522" }, "_class" : "smpl.fabrikant.ordering.repositories.mongodb.models.Accessory", "skuNumber" : "ACC-0002", "description" : "Refrigeration Unit", "unit" : "", "unitPrice" : 1500 }
+{ "_id" : { "$oid" : "548f7d43e4b0e999bb9d3523" }, "_class" : "smpl.fabrikant.ordering.repositories.mongodb.models.Accessory", "skuNumber" : "ACC-0003", "description" : "Freezer Unit", "unit" : "", "unitPrice" : 4500 }
+{ "_id" : { "$oid" : "548f7d44e4b0e999bb9d3524" }, "_class" : "smpl.fabrikant.ordering.repositories.mongodb.models.Accessory", "skuNumber" : "ACC-0004", "description" : "Fancy Shelving", "unit" : "meters", "unitPrice" : 30.5 }

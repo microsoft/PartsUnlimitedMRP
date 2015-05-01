@@ -1,0 +1,17 @@
+﻿.edittools {
+    display: block;
+    height: 40px;
+}
+
+.edit-tools-button {
+    min-width: 60px;
+    min-height: 40px;
+    width: 60px;
+    margin: 0px;
+    padding: 0px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    font-family: "Segoe UI Symbol", "Symbols";
+    font-size: 18pt;
+}

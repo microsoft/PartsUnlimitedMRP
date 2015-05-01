@@ -1,0 +1,36 @@
+﻿.fullDeliveryDetail {
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 50%;
+    max-height: calc(100% - 120px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+    .fullDeliveryDetail .editDetail {
+        float: left;
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 100%;
+        background: #F0F0F0;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 0px;
+    }
+
+.deliveryDetail {
+    margin-bottom: 10px;
+}
+
+    .deliveryDetail .eventsSection {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+
+.deliveryDetail .horizontalDetail .horizontalDetailCol {
+    display: inline-block;
+    width: 48%;
+}

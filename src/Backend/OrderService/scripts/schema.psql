@@ -1,0 +1,125 @@
+DROP DATABASE Fabrikant;
+
+DROP TABLE ShipmentEventInfo;
+DROP TABLE ShipmentRecords;
+DROP TABLE DeliveryAddress;
+DROP TABLE PhoneInfo;
+
+DROP TABLE OrderEvents;
+DROP TABLE Orders;
+DROP TABLE QuoteAdditionalItemRecord;
+DROP TABLE Quotes;
+DROP TABLE CatalogItem;
+DROP TABLE Dealers;
+
+CREATE DATABASE Fabrikant;
+
+CREATE TABLE CatalogItems
+(
+  sku_number VARCHAR(32) PRIMARY KEY,
+  description VARCHAR(128),
+  price  NUMERIC(8,2)
+);
+
+CREATE TABLE Dealers
+(
+  name VARCHAR(50) PRIMARY KEY,
+  contact VARCHAR(50) NOT NULL,
+  address VARCHAR(128) NOT NULL,
+  email VARCHAR(128) NOT NULL,
+  phone VARCHAR(16) NOT NULL
+);
+
+CREATE TABLE Quotes
+(
+  quote_id varchar(64) primary key,
+
+  valid_until varchar(32),
+
+  customer_name varchar(64),
+  dealer_name varchar(50),
+
+  total_cost  NUMERIC(8,2),
+  discount  NUMERIC(8,2),
+
+  city varchar(32),
+  postal_code varchar(16),
+  state char(2),
+
+  foreign key (dealer_name) references Dealers(name)
+);
+
+CREATE TABLE QuoteAdditionalItemRecord
+(
+  id serial PRIMARY KEY,
+
+  quote_id varchar(64),
+  sku_number VARCHAR(32),
+
+  amount numeric(5,2),
+
+  foreign key (quote_id) references Quotes,
+  foreign key (sku_number) references CatalogItems
+);
+
+create table Orders
+(
+  order_id varchar(80) primary key,
+  quote_id varchar(64),
+  order_date varchar(32),
+  status varchar(16),
+
+  foreign key (quote_id) references Quotes(quote_id)
+);
+
+create table OrderEvents
+(
+  id serial primary key,
+
+  order_id varchar(80),
+  order_date varchar(32),
+  comments varchar(128),
+
+  foreign key (order_id) references Orders(order_id)
+);
+
+create table PhoneInfo
+(
+  phone VARCHAR(16) PRIMARY KEY,
+  kind varchar(16)
+);
+
+create table DeliveryAddress
+(
+  id serial primary key,
+  street varchar(128),
+  city varchar(32),
+  state char(2),
+  postal_code varchar(16)
+);
+
+create table ShipmentRecords
+(
+  order_id varchar(80) primary key,
+
+  delivery_date varchar(32),
+  delivery_address integer,
+  contact_name varchar(64),
+  primary_phone varchar(16),
+  alternate_phone varchar(16),
+
+  foreign key (order_id) references Orders(order_id),
+  foreign key (delivery_address) references DeliveryAddress(id),
+  foreign key (primary_phone) references PhoneInfo(phone),
+  foreign key (alternate_phone) references PhoneInfo(phone)
+);
+
+create table ShipmentEventInfo
+(
+  id serial primary key,
+  order_id varchar(80),
+  date varchar(32),
+  comments varchar(128),
+
+  foreign key (order_id) references Orders(order_id)
+);

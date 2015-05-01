@@ -1,0 +1,177 @@
+0. Pre-prereqs
+- Install Azure Cross Platform CLI (http://azure.microsoft.com/en-us/documentation/articles/xplat-cli/) on your 
+
+workstation. You will use this to get an Azure publish settings file.
+- Start CLI
+- Run 
+	azure login
+- Enter username and password
+- Run
+	azure account download
+
+This will generate a PublishSettings file which will be used later
+
+1. Prereqs
+- Provision Chef server. Make sure HTTP and HTTPS endpoints are added.
+- Do initial configuration the Chef Server. This may take a few minutes.
+	sudo chef-setup -u labuser -p P2ssw0rd 
+- It will prompt you "by continuing..." etc. Type "Yes" and press enter.
+- Create an organization and save the key
+	- sudo chef-server-ctl org-create fabrikam fabrikam -a labuser > fabrikam-validator.pem
+
+- Install the Git client. Run
+	sudo apt-get -y install git
+- Download and install the ChefDK. Run 
+	wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.4.0-1_amd64.deb
+	sudo dpkg --install ./chefdk_0.4.0-1_amd64.deb
+	sudo rm ./chefdk_0.4.0-1_amd64.deb
+- Verify install. Run
+	chef verify
+- Set up environment paths. Run
+	eval "$(chef shell-init bash)"
+- Install chef-provisioning-azure gem
+ 	chef gem install chef-provisioning-azure
+
+2. Create Chef repo and upload cookbooks
+- Clone the baseline Git repo.
+	git clone git://github.com/chef/chef-repo.git
+- Key files for your user and organization generated when you set up the Chef server. Copy those to the /etc/chef 
+
+folder.
+	sudo cp *.pem /etc/chef/
+	mkdir ~/.chef && cp *.pem ~/.chef
+- Configure the knife.rb configuration file by running
+	sudo knife configure
+
+	- Params:
+	/home/labuser/.chef/knife.rb
+	https://{server name}.cloudapp.net:443/organizations/fabrikam
+	labuser
+	fabrikam-validator
+	/etc/chef/fabrikam-validator.pem
+	/home/labuser/chef-repo/cookbooks
+- Run 
+	sudo knife ssl fetch
+- Run
+	knife download / --chef-repo-path ./chef-repo
+- Make an MRP app cookbook
+	knife cookbook create MRPApp
+- Edit chef-repo/cookbooks/MRPApp/metadata.rb
+- Add the line at the end
+	depends 'apt'
+- Edit chef-repo/coobooks/MRPApp/recipes/default.rb
+- Add the recipe from MRPApp-Idempotent (see source control)
+- Download the dependencies
+	knife cookbook site install apt
+	knife cookbook site install chef-client
+- Upload the cookbook
+	knife cookbook upload MRPApp --include-dependencies
+	knife cookbook upload chef-client --include-dependencies
+
+3. Create role (WEB)
+
+- Go to the Chef web console
+- Go to Policy tab
+- Click Cookbooks, validate that cookbooks are present
+- Click Roles
+- Click Create
+- Enter name "mrp", click next
+- Drag the MRPApp cookbook into the Current Run List
+- Drag the chef-client::service cookbook into the Current Run List, click next
+- under Default Attributes, paste
+{
+  "tomcat": {
+    "mrp_port": 9080
+  }
+}
+- Click next
+- Under override attributes, paste
+{
+  "chef_client": {
+    "interval": "60",
+    "splay": "1"
+  }
+}
+- Click create role
+
+3. Create role (CONSOLE)
+- Create file /chef-repo/roles/mrp.json
+- Add the following contents to the file:
+{
+  "name": "mrp",
+  "default_attributes": {
+    "tomcat": {
+      "mrp_port": 9080
+    }
+  },
+  "override_attributes": {
+    "chef_client": {
+      "interval": "60",
+      "splay": "1"
+    }
+  },
+  "run_list": [
+    "recipe[MRPApp]",
+    "recipe[chef-client::service]"
+  ]
+}
+- Run to upload role: 
+	cd chef-repo && knife upload roles && cd ..
+
+4. Provision server using role
+- Make a folder called .azure (/home/{user name}/.azure/)
+- Open up the publishsettings file from step 0
+- Take the "ManagementCertificate" line from the publishsettings file -- everything between the quotation marks.
+- Make a file named "cert.pfx" in /home/{user name}/.azure/ that contains the contents from above
+- Take the "ID" line from the publishsettings file -- it's a guid
+- Make a file called "config" in /home/{user name}/.azure/
+- Contents should be:
+[default]
+management_certificate = "/home/{user name}/.azure/cert.pfx"
+subscription_id = "{subscription id}"
+
+- Make file called provision.rb. Paste the following into it. Fill in the variables in {curly braces}:
+require 'chef/provisioning/azure_driver'
+
+with_chef_server "https://{server name}.cloudapp.net/organizations/fabrikam",
+:client_name => Chef::Config[:node_name],
+:signing_key_filename => Chef::Config[:client_key]
+with_driver 'azure'
+
+machine_options = {
+ :bootstrap_options => {
+ :cloud_service_name => '{cloud service name}',
+ :storage_account_name => '{storage account name}',
+ :vm_size => "Small",
+ :location => 'East US',
+ :tcp_endpoints => '9080:9080,8080:8080'
+
+ },
+ :image_id => 'b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_2_LTS-amd64-server-20150309-en-us-30GB',
+ :password => "P2ssw0rd",
+ :convergence_options => { ssl_verify_mode: :verify_none }
+
+}
+
+machine '{machine name}' do
+ machine_options machine_options
+ role 'mrp'
+end
+
+
+- Run chef-client -z ./provision.rb
+
+5. validate mrp app is functional
+- go to chef server, look at "reports" tab, "runs" -- you should see a successful run
+- go to http://{cloud service name}.cloudapp.net:9080/mrp, click around. may take 15-30 seconds before the order server is 
+
+responding
+
+6. Log in to MRP server
+- U/P: ubuntu/P2ssw0rd (password is configurable in previous step)
+- Execute "sudo /etc/init.d/tomcat7 stop"
+
+7. Validate MRP app isn't functional
+- http://{cloud service name}.cloudapp.net:9080/mrp, observe site is down
+- Reload after 60 seconds, site should be back up
+- Go to Chef console and look at Runs again, you'll see a new run that remediated the problem

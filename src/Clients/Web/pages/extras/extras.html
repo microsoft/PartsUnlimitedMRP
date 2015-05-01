@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>extras</title>
+
+    <link href="extras.css" rel="stylesheet" />
+    <script src="extras.js"></script>
+</head>
+<body>
+    <div class="extras fragment">
+        <section class="page-section" aria-label="Main content" role="main">
+            <!-- Simple template for the ListView instantiation  -->
+            <div class="extrasItemTemplate" data-win-control="WinJS.Binding.Template" style="display: none">
+                <div class="listItem extrasItem">
+                    <div class="extrasItem-Detail">
+                        <h3 data-win-bind="textContent: skuNumber"></h3>
+                        <div class="list-item-entry-small" data-win-bind="textContent: description"></div>
+                        <div class="list-item-entry-small" data-win-bind="textContent: unit"></div>
+                        <div class="list-item-entry-small" data-win-bind="textContent: unitPrice"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="edittools" data-win-control="Controls.EditTools" data-win-options="{  }"></div>
+
+            <div id="listView"
+                 class="itemListView extrasListView"
+                 data-win-control="WinJS.UI.ListView"
+                 data-win-options="{
+                    itemTemplate: select('.extrasItemTemplate'),
+                    selectionMode: 'single',
+                    tapBehavior: 'directSelect',
+                    swipeBehavior: 'select',
+                    layout: { type: WinJS.UI.ListLayout }
+                 }">
+            </div>
+
+            <div class="editDetail extrasDetail">
+                <label class="inputlabel">Name:</label>
+                <input id="extras-skuNumber" class="textinput" type="text" data-win-bind="value: skuNumber Binding.Mode.twoway" />
+                <br />
+                <label class="inputlabel">Description:</label>
+                <input id="extras-description" class="textinput" type="text" data-win-bind="value: description Binding.Mode.twoway" />
+                <br />
+                <label class="inputlabel">Unit:</label>
+                <input id="extras-unit" class="textinput" type="text" data-win-bind="value: unit Binding.Mode.twoway" />
+                <br />
+                <label class="inputlabel">Price:</label>
+                <input id="extras-unitPrice" class="textinput" type="text" data-win-bind="value: unitPrice Binding.Mode.twoway" />
+            </div>
+        </section>
+    </div>
+</body>
+</html>
