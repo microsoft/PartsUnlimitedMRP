@@ -1,0 +1,29 @@
+# MRP Setup #
+
+To be able to run through this walkthrough there is a dependency on Java 8 SDK and JRE8. These can be found at the link below:
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+## 1. Build the MRP solution ##
+
+In order to build the MRP solution we will need to install some more dependencies. 
+
+1.	To build the project, navigate to the OrderService folder with cmd/PowerShell console and initiate the build by calling the gradlew file with the parameter of the build.gradle file.
+PS>.\gradlew build
+Once run you can find the compiled jar file under the “build/libs” folder.
+
+
+## 2. Open the solution in Eclipse ##
+
+We recommend Eclipse IDE but you can use whatever IDE you want.
+1.	To be able to add the OrderService to Eclipse as a project first we need to add the plugin.
+2.	Open the file build.gradle.
+3.	Add the following line into the section of plugins.
+apply plugin: 'eclipse'
+4.	Run the following command in the PowerShell console
+PS>.\gradlew eclipse
+PS>.\gradlew buildDependents
+5.	Open Eclipse and create a new workspace.
+6.	Right click on the Project Explorer and select import a new project.
+7.	Browse to the OrderService root folder and select it
+8.	Check the OrderService project and click finish. 
+
