@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.repositories.mongodb;
+package smpl.ordering.repositories.mongodb;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.channel.TelemetryChannel;
@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import smpl.fabrikant.ordering.Utility;
+import smpl.ordering.Utility;
 
 import java.util.Collection;
 import java.util.Date;

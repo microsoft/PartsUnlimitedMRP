@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.repositories.mongodb.models;
+package smpl.ordering.repositories.mongodb.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,7 +11,7 @@ public class CatalogItem
     {
     }
 
-    public CatalogItem(smpl.fabrikant.ordering.models.CatalogItem from)
+    public CatalogItem(smpl.ordering.models.CatalogItem from)
     {
         this.skuNumber = from.getSkuNumber();
         this.description = from.getDescription();
@@ -20,11 +20,11 @@ public class CatalogItem
         this.leadTime = from .getLeadTime();
     }
 
-    public smpl.fabrikant.ordering.models.CatalogItem toCatalogItem()
+    public smpl.ordering.models.CatalogItem toCatalogItem()
     {
         int calculatedLeadTime = (inventory > 0 ) ? 0 : leadTime;
 
-        smpl.fabrikant.ordering.models.CatalogItem result = new smpl.fabrikant.ordering.models.CatalogItem();
+        smpl.ordering.models.CatalogItem result = new smpl.ordering.models.CatalogItem();
         result.setSkuNumber(skuNumber);
         result.setDescription(description);
         result.setPrice(price);

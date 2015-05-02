@@ -1,8 +1,8 @@
-package smpl.fabrikant.ordering.repositories.mock;
+package smpl.ordering.repositories.mock;
 
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.models.DealerInfo;
-import smpl.fabrikant.ordering.repositories.DealersRepository;
+import smpl.ordering.TestPath;
+import smpl.ordering.models.DealerInfo;
+import smpl.ordering.repositories.DealersRepository;
 
 import java.util.ArrayList;
 import java.util.List;

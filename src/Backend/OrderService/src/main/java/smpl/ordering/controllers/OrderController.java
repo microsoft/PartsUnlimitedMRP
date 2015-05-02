@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.controllers;
+package smpl.ordering.controllers;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import org.springframework.http.HttpHeaders;
@@ -6,14 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import smpl.fabrikant.ordering.BadRequestException;
-import smpl.fabrikant.ordering.ConflictingRequestException;
-import smpl.fabrikant.ordering.OrderingInitializer;
-import smpl.fabrikant.ordering.Utility;
-import smpl.fabrikant.ordering.models.*;
-import smpl.fabrikant.ordering.repositories.OrderRepository;
-import smpl.fabrikant.ordering.repositories.QuoteRepository;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.BadRequestException;
+import smpl.ordering.ConflictingRequestException;
+import smpl.ordering.OrderingInitializer;
+import smpl.ordering.Utility;
+import smpl.ordering.models.*;
+import smpl.ordering.repositories.OrderRepository;
+import smpl.ordering.repositories.QuoteRepository;
+import smpl.ordering.repositories.RepositoryFactory;
 
 import java.text.DateFormat;
 import java.util.Date;

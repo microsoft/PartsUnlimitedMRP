@@ -1,8 +1,8 @@
-package smpl.fabrikant.ordering.repositories;
+package smpl.ordering.repositories;
 
-import smpl.fabrikant.ordering.ConflictingRequestException;
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.models.*;
+import smpl.ordering.ConflictingRequestException;
+import smpl.ordering.TestPath;
+import smpl.ordering.models.*;
 
 import java.util.List;
 

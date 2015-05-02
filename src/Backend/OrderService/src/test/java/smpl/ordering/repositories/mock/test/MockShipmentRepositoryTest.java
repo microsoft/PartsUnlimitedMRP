@@ -1,10 +1,10 @@
-package smpl.fabrikant.ordering.repositories.mock.test;
+package smpl.ordering.repositories.mock.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import smpl.fabrikant.ordering.BadRequestException;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
-import smpl.fabrikant.ordering.repositories.ShipmentRepositoryTest;
+import smpl.ordering.BadRequestException;
+import smpl.ordering.repositories.RepositoryFactory;
+import smpl.ordering.repositories.ShipmentRepositoryTest;
 
 @SuppressWarnings("EmptyMethod")
 public class MockShipmentRepositoryTest extends ShipmentRepositoryTest

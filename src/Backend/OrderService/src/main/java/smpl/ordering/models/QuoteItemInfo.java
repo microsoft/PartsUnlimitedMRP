@@ -1,10 +1,10 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
 /**
  * Represents a line item of catalog item products, coming from the client to the service
  *
  * @see QuoteItemInfo
- * @see smpl.fabrikant.ordering.models.CatalogItem
+ * @see smpl.ordering.models.CatalogItem
  */
 public class QuoteItemInfo
         implements Comparable<QuoteItemInfo>

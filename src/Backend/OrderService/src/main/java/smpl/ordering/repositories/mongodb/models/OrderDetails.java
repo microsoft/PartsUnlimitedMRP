@@ -1,11 +1,11 @@
-package smpl.fabrikant.ordering.repositories.mongodb.models;
+package smpl.ordering.repositories.mongodb.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import smpl.fabrikant.ordering.models.Order;
-import smpl.fabrikant.ordering.models.OrderEventInfo;
-import smpl.fabrikant.ordering.models.OrderStatus;
+import smpl.ordering.models.Order;
+import smpl.ordering.models.OrderEventInfo;
+import smpl.ordering.models.OrderStatus;
 
 import java.util.List;
 

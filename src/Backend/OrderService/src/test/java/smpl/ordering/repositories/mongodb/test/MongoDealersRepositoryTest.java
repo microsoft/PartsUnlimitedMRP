@@ -1,11 +1,11 @@
-package smpl.fabrikant.ordering.repositories.mongodb.test;
+package smpl.ordering.repositories.mongodb.test;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import smpl.fabrikant.ordering.ConfigurationRule;
-import smpl.fabrikant.ordering.repositories.DealersRepositoryTest;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.ConfigurationRule;
+import smpl.ordering.repositories.DealersRepositoryTest;
+import smpl.ordering.repositories.RepositoryFactory;
 
 
 @SuppressWarnings("EmptyMethod")

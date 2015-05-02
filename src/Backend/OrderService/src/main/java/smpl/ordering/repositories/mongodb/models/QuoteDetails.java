@@ -1,10 +1,10 @@
-package smpl.fabrikant.ordering.repositories.mongodb.models;
+package smpl.ordering.repositories.mongodb.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import smpl.fabrikant.ordering.models.QuoteItemInfo;
-import smpl.fabrikant.ordering.models.Quote;
+import smpl.ordering.models.QuoteItemInfo;
+import smpl.ordering.models.Quote;
 
 import java.util.List;
 

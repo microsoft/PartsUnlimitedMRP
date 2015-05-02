@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

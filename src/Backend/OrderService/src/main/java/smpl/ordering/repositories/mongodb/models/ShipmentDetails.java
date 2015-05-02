@@ -1,12 +1,12 @@
-package smpl.fabrikant.ordering.repositories.mongodb.models;
+package smpl.ordering.repositories.mongodb.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import smpl.fabrikant.ordering.models.DeliveryAddress;
-import smpl.fabrikant.ordering.models.PhoneInfo;
-import smpl.fabrikant.ordering.models.ShipmentEventInfo;
-import smpl.fabrikant.ordering.models.ShipmentRecord;
+import smpl.ordering.models.DeliveryAddress;
+import smpl.ordering.models.PhoneInfo;
+import smpl.ordering.models.ShipmentEventInfo;
+import smpl.ordering.models.ShipmentRecord;
 
 @Document(collection = "shipments")
 public class ShipmentDetails

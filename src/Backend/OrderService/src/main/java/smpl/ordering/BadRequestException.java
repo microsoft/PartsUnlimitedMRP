@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 /**
  * Communicating a bad REST request from a called API to the controller, which should use
