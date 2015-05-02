@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
 public class ShipmentEventInfo
 {

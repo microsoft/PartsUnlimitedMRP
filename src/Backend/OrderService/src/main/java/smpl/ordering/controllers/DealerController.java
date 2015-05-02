@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.controllers;
+package smpl.ordering.controllers;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import org.springframework.http.HttpHeaders;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import smpl.fabrikant.ordering.OrderingInitializer;
-import smpl.fabrikant.ordering.Utility;
-import smpl.fabrikant.ordering.models.DealerInfo;
-import smpl.fabrikant.ordering.repositories.DealersRepository;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.OrderingInitializer;
+import smpl.ordering.Utility;
+import smpl.ordering.models.DealerInfo;
+import smpl.ordering.repositories.DealersRepository;
+import smpl.ordering.repositories.RepositoryFactory;
 
 import java.util.List;
 

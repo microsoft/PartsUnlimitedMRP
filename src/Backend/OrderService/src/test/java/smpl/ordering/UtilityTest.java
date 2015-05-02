@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import org.junit.Rule;

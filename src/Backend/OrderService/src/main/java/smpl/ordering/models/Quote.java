@@ -1,13 +1,13 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
-import smpl.fabrikant.ordering.Utility;
+import smpl.ordering.Utility;
 
 import java.util.*;
 
 /**
  * Represents quote information sent from the service to the client.
  *
- * @see smpl.fabrikant.ordering.models.Order
+ * @see smpl.ordering.models.Order
  */
 public class Quote
 {

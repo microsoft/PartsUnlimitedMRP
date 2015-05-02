@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 /**
  * Interface for unit test hooks into various backend components.

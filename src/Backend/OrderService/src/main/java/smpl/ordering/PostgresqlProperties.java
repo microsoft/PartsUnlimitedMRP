@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

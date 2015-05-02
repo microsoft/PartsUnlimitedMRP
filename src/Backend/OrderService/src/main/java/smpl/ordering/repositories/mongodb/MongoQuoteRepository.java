@@ -1,15 +1,15 @@
-package smpl.fabrikant.ordering.repositories.mongodb;
+package smpl.ordering.repositories.mongodb;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import smpl.fabrikant.ordering.BadRequestException;
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.models.*;
-import smpl.fabrikant.ordering.repositories.DealersRepository;
-import smpl.fabrikant.ordering.repositories.QuoteRepository;
-import smpl.fabrikant.ordering.repositories.mongodb.models.QuoteDetails;
+import smpl.ordering.BadRequestException;
+import smpl.ordering.TestPath;
+import smpl.ordering.models.*;
+import smpl.ordering.repositories.DealersRepository;
+import smpl.ordering.repositories.QuoteRepository;
+import smpl.ordering.repositories.mongodb.models.QuoteDetails;
 
 import java.util.*;
 

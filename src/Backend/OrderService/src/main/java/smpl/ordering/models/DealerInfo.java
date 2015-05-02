@@ -1,6 +1,6 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
-import smpl.fabrikant.ordering.Utility;
+import smpl.ordering.Utility;
 
 /**
  * Represents the information stored about an individual dealer.

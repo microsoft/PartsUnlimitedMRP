@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OrderingServiceProperties
 {
     private String storage = "memory";
-    private String pingMessage = "The Fabrikant ordering service is available";
+    private String pingMessage = "The ordering service is available";
     private String validationMessage = "Version unknown";
     private String instrumentationKey = "";
 

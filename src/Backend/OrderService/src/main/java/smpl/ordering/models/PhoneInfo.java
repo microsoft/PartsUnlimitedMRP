@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
 /**
  * Information regarding phone numbers for individuals related

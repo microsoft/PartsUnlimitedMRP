@@ -1,9 +1,9 @@
-package smpl.fabrikant.ordering.repositories;
+package smpl.ordering.repositories;
 
-import smpl.fabrikant.ordering.BadRequestException;
-import smpl.fabrikant.ordering.models.OrderStatus;
-import smpl.fabrikant.ordering.models.ShipmentEventInfo;
-import smpl.fabrikant.ordering.models.ShipmentRecord;
+import smpl.ordering.BadRequestException;
+import smpl.ordering.models.OrderStatus;
+import smpl.ordering.models.ShipmentEventInfo;
+import smpl.ordering.models.ShipmentRecord;
 
 import java.util.List;
 

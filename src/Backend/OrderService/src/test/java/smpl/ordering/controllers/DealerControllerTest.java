@@ -1,14 +1,14 @@
-package smpl.fabrikant.ordering.controllers;
+package smpl.ordering.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.models.DealerInfo;
-import smpl.fabrikant.ordering.repositories.DealersRepository;
-import smpl.fabrikant.ordering.repositories.DealersRepositoryTest;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.TestPath;
+import smpl.ordering.models.DealerInfo;
+import smpl.ordering.repositories.DealersRepository;
+import smpl.ordering.repositories.DealersRepositoryTest;
+import smpl.ordering.repositories.RepositoryFactory;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package smpl.fabrikant.ordering.repositories;
+package smpl.ordering.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import smpl.fabrikant.ordering.OrderingConfiguration;
-import smpl.fabrikant.ordering.repositories.mock.*;
-import smpl.fabrikant.ordering.repositories.mongodb.*;
+import smpl.ordering.OrderingConfiguration;
+import smpl.ordering.repositories.mock.*;
+import smpl.ordering.repositories.mongodb.*;
 
 @SuppressWarnings("EmptyCatchBlock")
 public class RepositoryFactory
