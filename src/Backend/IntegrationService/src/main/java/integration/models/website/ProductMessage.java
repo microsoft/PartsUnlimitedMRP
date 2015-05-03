@@ -12,7 +12,7 @@ public class ProductMessage {
     private List<ProductItem> productList;
 
     public ProductMessage(){
-        setProductList(new ArrayList<>());
+        setProductList(new ArrayList<ProductItem>());
     }
 
     public ProductMessage(List<CatalogItem> catalogItems) {
