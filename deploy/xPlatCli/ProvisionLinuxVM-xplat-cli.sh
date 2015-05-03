@@ -17,10 +17,13 @@ LinuxVMName=""
 MRPInstallScriptName=""
 DropStorageAccountName=""
 DropContainerName=""
-
+ScriptLocation="https://$DropStorageAccountName.blob.core.windows.net/$DropContainerName/$MRPInstallScriptName"
 
 # Add Azure account
 azure account import $PublishSettingsFileLocation
+
+# Set the Azure account you want to use
+azure account set $SubscriptionName
 
 # Create Storage account
 azure storage account create --location "$AzureLocation" $StorageAccountName --label $StorageAccountName 
@@ -46,4 +49,4 @@ azure vm disk attach-new $LinuxVMName 512 https://$StorageAccountName.blob.core.
 azure vm endpoint create $LinuxVMName 9080 9080
 
 # Use CustomScriptForLinux extension to deploy the app on the VM.
-azure vm extension set $LinuxVMName CustomScriptForLinux Microsoft.OSTCExtensions 1.* -i '{"fileUris":["https://$DropStorageAccountName.blob.core.windows.net/$DropContainerName/$MRPInstallScriptName"], "commandToExecute": " sh $MRPInstallScriptName " }'
+azure vm extension set $LinuxVMName CustomScriptForLinux Microsoft.OSTCExtensions 1.* -i '{"fileUris":["'$ScriptLocation'"], "commandToExecute": "sh '$MRPInstallScriptName'"}'
