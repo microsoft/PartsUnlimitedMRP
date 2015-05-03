@@ -2,7 +2,9 @@ package integration.models.mrp;
 
 import integration.models.website.OrderMessage;
 
-import java.time.LocalDateTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,13 @@ public class ShipmentRecord {
     }
 
     public ShipmentRecord(OrderMessage message, String orderId) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 14);
+        
         setEvents(new ArrayList());
         setOrderId(orderId);
-        setDeliveryDate(LocalDateTime.now().plusWeeks(2).toString());
+        setDeliveryDate(dateFormat.format(c));
         setDeliveryAddress(new DeliveryAddress(message.getAddress(), message.getCity(), message.getState(), message.getPostalCode()));
         setContactName(message.getCustomerName());
         setPrimaryContactPhone(new PhoneInfo(message.getPhone()));
