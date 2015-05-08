@@ -1,5 +1,5 @@
 ﻿#!/bin/bash
-$DropStorageAccountName = "<<CONFIGURE>>"
+
 # Install packages
 apt-get update
 apt-get install openjdk-8-jdk -y
@@ -12,8 +12,11 @@ apt-get install wget -y
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
 
-$DropContainerName = "drops"
-$AzureResource = "https://${DropStorageAccountName}.blob.core.windows.net/${DropContainerName}/"
+# Configure the storage account and container name here
+DropStorageAccountName=""
+DropContainerName=""
+AzureResource="https://$DropStorageAccountName.blob.core.windows.net/$DropContainerName/"
+
 # Download MongoRecords.js from Azure blog storage
 wget ${AzureResource}MongoRecords.js
 
