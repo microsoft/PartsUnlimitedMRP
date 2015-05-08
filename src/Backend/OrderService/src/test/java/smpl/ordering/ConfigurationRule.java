@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

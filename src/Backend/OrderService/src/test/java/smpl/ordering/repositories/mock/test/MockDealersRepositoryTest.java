@@ -1,9 +1,9 @@
-package smpl.fabrikant.ordering.repositories.mock.test;
+package smpl.ordering.repositories.mock.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import smpl.fabrikant.ordering.repositories.DealersRepositoryTest;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.repositories.DealersRepositoryTest;
+import smpl.ordering.repositories.RepositoryFactory;
 
 @SuppressWarnings("EmptyMethod")
 public class MockDealersRepositoryTest

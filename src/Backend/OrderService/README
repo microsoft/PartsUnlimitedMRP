@@ -1,4 +1,4 @@
-Fabrikant Development Status
+﻿Fabrikam Development Status
 
 At this point, a skeleton of the service REST API is in place. Quotes can be created and queried, catalog item can be
 added to the catalog, dealers added and listed, and orders can be created from quotes.

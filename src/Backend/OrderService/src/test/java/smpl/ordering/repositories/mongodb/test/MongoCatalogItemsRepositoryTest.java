@@ -1,11 +1,11 @@
-package smpl.fabrikant.ordering.repositories.mongodb.test;
+package smpl.ordering.repositories.mongodb.test;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import smpl.fabrikant.ordering.ConfigurationRule;
-import smpl.fabrikant.ordering.repositories.CatalogItemsRepositoryTest;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.ConfigurationRule;
+import smpl.ordering.repositories.CatalogItemsRepositoryTest;
+import smpl.ordering.repositories.RepositoryFactory;
 
 
 public class MongoCatalogItemsRepositoryTest extends CatalogItemsRepositoryTest

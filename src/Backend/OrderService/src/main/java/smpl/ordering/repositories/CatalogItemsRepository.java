@@ -1,6 +1,6 @@
-package smpl.fabrikant.ordering.repositories;
+package smpl.ordering.repositories;
 
-import smpl.fabrikant.ordering.models.CatalogItem;
+import smpl.ordering.models.CatalogItem;
 
 import java.util.List;
 

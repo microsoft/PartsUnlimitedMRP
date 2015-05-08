@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import java.io.IOException;
 import java.util.Enumeration;

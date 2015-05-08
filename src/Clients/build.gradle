@@ -2,5 +2,5 @@ apply plugin: 'war'
 
 war {
   from 'Web'
-  baseName='fabrikant'
+  baseName='mrp'
 }

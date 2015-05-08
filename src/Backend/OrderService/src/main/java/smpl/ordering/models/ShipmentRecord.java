@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering.models;
+package smpl.ordering.models;
 
 import java.util.ArrayList;
 import java.util.List;

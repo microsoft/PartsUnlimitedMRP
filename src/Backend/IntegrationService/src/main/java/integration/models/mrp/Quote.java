@@ -5,13 +5,13 @@ import integration.models.website.OrderItem;
 import integration.models.website.OrderMessage;
 
 import java.text.DateFormat;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Quote {
-
     private String quoteId;
     private String customerName;
     private String dealerName;
@@ -27,7 +27,10 @@ public class Quote {
     }
 
     public Quote(OrderMessage message) {
-
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+    
         this.customerName = message.getCustomerName();
         this.dealerName = "Website";
         this.setCity(message.getCity());
@@ -35,8 +38,9 @@ public class Quote {
         this.state = message.getState();
         this.totalCost = message.getTotalCost();
         this.discount = message.getDiscount();
-        this.validUntil = LocalDateTime.now().plusDays(1).toString();
+        this.validUntil = dateFormat.format(c);
         this.quoteItems = new ArrayList<QuoteItemInfo>();
+        
         for (OrderItem orderItem : message.getItems()){
             QuoteItemInfo quoteItem = new QuoteItemInfo(orderItem);
             this.quoteItems.add(quoteItem);

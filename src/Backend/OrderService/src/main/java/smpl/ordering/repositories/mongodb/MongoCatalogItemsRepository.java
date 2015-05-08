@@ -1,12 +1,12 @@
-package smpl.fabrikant.ordering.repositories.mongodb;
+package smpl.ordering.repositories.mongodb;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.repositories.CatalogItemsRepository;
-import smpl.fabrikant.ordering.repositories.mongodb.models.CatalogItem;
+import smpl.ordering.TestPath;
+import smpl.ordering.repositories.CatalogItemsRepository;
+import smpl.ordering.repositories.mongodb.models.CatalogItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,11 @@ public class MongoCatalogItemsRepository
         implements CatalogItemsRepository, TestPath
 {
     @Override
-    public List<smpl.fabrikant.ordering.models.CatalogItem> getCatalogItems()
+    public List<smpl.ordering.models.CatalogItem> getCatalogItems()
     {
         List<CatalogItem> found = operations.findAll(CatalogItem.class);
 
-        List<smpl.fabrikant.ordering.models.CatalogItem> result = new ArrayList<>();
+        List<smpl.ordering.models.CatalogItem> result = new ArrayList<>();
 
         for (CatalogItem catalogItem : found)
         {
@@ -32,7 +32,7 @@ public class MongoCatalogItemsRepository
     }
 
     @Override
-    public smpl.fabrikant.ordering.models.CatalogItem getCatalogItem(String sku)
+    public smpl.ordering.models.CatalogItem getCatalogItem(String sku)
     {
         CatalogItem existing = findExistingCatalogItem(sku);
 
@@ -51,10 +51,10 @@ public class MongoCatalogItemsRepository
     }
 
     @Override
-    public boolean upsertCatalogItem(String sku, smpl.fabrikant.ordering.models.CatalogItem catalogItem, String eTag)
+    public boolean upsertCatalogItem(String sku, smpl.ordering.models.CatalogItem catalogItem, String eTag)
     {
         CatalogItem existing = findExistingCatalogItem(sku);
-        CatalogItem mongoCatalogItem = new smpl.fabrikant.ordering.repositories.mongodb.models.CatalogItem(catalogItem);
+        CatalogItem mongoCatalogItem = new smpl.ordering.repositories.mongodb.models.CatalogItem(catalogItem);
 
         if (existing != null)
         {

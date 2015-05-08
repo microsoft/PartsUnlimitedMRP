@@ -1,13 +1,13 @@
-package smpl.fabrikant.ordering.repositories.mock;
+package smpl.ordering.repositories.mock;
 
-import smpl.fabrikant.ordering.BadRequestException;
-import smpl.fabrikant.ordering.TestPath;
-import smpl.fabrikant.ordering.models.Order;
-import smpl.fabrikant.ordering.models.OrderStatus;
-import smpl.fabrikant.ordering.models.ShipmentEventInfo;
-import smpl.fabrikant.ordering.models.ShipmentRecord;
-import smpl.fabrikant.ordering.repositories.OrderRepository;
-import smpl.fabrikant.ordering.repositories.ShipmentRepository;
+import smpl.ordering.BadRequestException;
+import smpl.ordering.TestPath;
+import smpl.ordering.models.Order;
+import smpl.ordering.models.OrderStatus;
+import smpl.ordering.models.ShipmentEventInfo;
+import smpl.ordering.models.ShipmentRecord;
+import smpl.ordering.repositories.OrderRepository;
+import smpl.ordering.repositories.ShipmentRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package smpl.fabrikant.ordering;
+package smpl.ordering;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.TelemetryConfiguration;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import smpl.fabrikant.ordering.repositories.RepositoryFactory;
+import smpl.ordering.repositories.RepositoryFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
