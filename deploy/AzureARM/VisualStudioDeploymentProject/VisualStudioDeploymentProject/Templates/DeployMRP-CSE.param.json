@@ -1,0 +1,29 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "newStorageAccountName": {
+      "value": "globaluniquename"
+      //ensure all lowercase letters, numbers, no special characters
+    },
+    "location": {
+      "value": "West US"
+    },
+    "adminUsername": {
+      "value": "adminuser"
+    },
+    "adminPassword": {
+      "value": "Passw0rd!"
+    },
+    "dnsNameForPublicIP": {
+      "value": "globaluniquename"
+    },
+    "customScriptFilePath":{
+      "value" : "https://yourstorageaccount.blob.core.windows.net/mrpapp/Install-MRP-app.sh"
+    },
+    "customScriptCommandToExecute" : {
+      "value" : "sh Install-MRP-app.sh"
+    }
+  }
+}
+
