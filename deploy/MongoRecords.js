@@ -1,3 +1,19 @@
+var conn;
+while (conn === undefined)
+{
+    try
+    {
+        conn = new Mongo("localhost:27017");
+    }
+    catch (e)
+    {
+        print(e);
+    }
+
+    sleep(100);
+}
+
+db = conn.getDB("ordering");
 db.catalog.insert(
 [
   {"skuNumber" : "LIG-0001", "description" : "Helogen Headlights (2 Pack)", "price" : 38.99, "inventory" : 10, "leadTime" : 3},
