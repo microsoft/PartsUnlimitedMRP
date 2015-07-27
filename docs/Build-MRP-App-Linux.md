@@ -100,7 +100,7 @@ cd ~/PartsUnlimitedMRP/src/Backend/OrderService
 2. Now, run the `./gradlew` shell script 
 ```
 chmod +x gradlew
-./gradelw build
+./gradlew build
 ```
 
 This will pull down [gradle](http://gradle.org/) components then build the solution...
@@ -124,7 +124,7 @@ cd ~/PartsUnlimitedMRP/src/Backend/IntegrationService
 2. Now, run the `./gradlew` shell script
 ```
 chmod +x gradlew
-./gradelw build
+./gradlew build
 ```
 
 This will pull down [gradle](http://gradle.org/) components and then build the solution...
@@ -152,7 +152,7 @@ cd ~/PartsUnlimitedMRP/src/Clients
 2. Now, run the `./gradlew` shell script
 ```
 chmod +x gradlew
-./gradelw build
+./gradlew build
 ```
 This will pull down [gradle](http://gradle.org/) components and then build the solution...
 
