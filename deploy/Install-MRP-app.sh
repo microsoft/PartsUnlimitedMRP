@@ -8,6 +8,7 @@ add-apt-repository ppa:webupd8team/java
 apt-get update
 apt-get install oracle-java8-installer -y
 apt-get install mongodb -y
+apt-get install tomcat7 -y
 apt-get install wget -y
 
 # Configure the storage account and container name here
@@ -23,6 +24,21 @@ sleep 10
 
 # Add the records to ordering database on MongoDB
 mongo --nodb MongoRecords.js
+
+# Change Tomcat listening port from 8080 to 9080
+sed -i s/8080/9080/g /etc/tomcat7/server.xml
+
+# Download the client WAR file
+wget ${AzureResource}mrp.war
+
+# Wait for 10 seconds to make sure previous step is completed
+sleep 10
+
+# Copy WAR file to Tomcat directory for auto-deployment
+cp mrp.war /var/lib/tomcat7/webapps
+
+# Restart Tomcat
+/etc/init.d/tomcat7 restart
 
 # Download the Ordering Service jar from Azure storage
 wget ${AzureResource}ordering-service-0.1.0.jar

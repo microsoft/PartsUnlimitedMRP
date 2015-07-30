@@ -81,6 +81,7 @@ $script = [IO.File]::ReadAllText("$ScriptPath\..\$AppInstallScript") -replace 'D
 Set-AzureStorageBlobContent -Blob $AppInstallScript -Container $DropContainerName -File "$ScriptPath\..\$AppInstallScript" -Force
 Set-AzureStorageBlobContent -Blob "MongoRecords.js" -Container $DropContainerName -File "$ScriptPath\..\MongoRecords.js" -Force
 Set-AzureStorageBlobContent -Blob "ordering-service-0.1.0.jar" -Container $DropContainerName -File "$ScriptPath\..\..\builds\ordering-service-0.1.0.jar" -Force
+Set-AzureStorageBlobContent -Blob "mrp.war" -Container $DropContainerName -File "$ScriptPath\..\..\builds\mrp.war" -Force
 #----------------------------------------------------
 
 #----------------------------------------------------
