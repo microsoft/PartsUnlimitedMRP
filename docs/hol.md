@@ -73,6 +73,7 @@ To prepare the e-commerce site:
 5. **Create** a new entry:
   * Name: `AzureWebJobsDashboard`
   * Value: `DefaultEndpointsProtocol=https;AccountName=<your storage account name>;AccountKey=<your storage account key>` 
+
 	> This is the shared storage connection string which is used for communication between the outsourced application and the website hosted in Azure. This connection string also enables the Web Jobs dashboard (available at `https://<your web app>.scm.azurewebsites.net/azurejobs`). The account was provisioned as part of the deployment process and you can retrieve the key from the portal. 
 6. Click **Save**
 
@@ -84,6 +85,7 @@ Now that the applications are deployed, it's time to review the two main challen
 1. In your web browser, **navigate** to your deployment of the e-commerce web site
 2. Scroll down the page until you find the **product listings**
 3. Click a **product** image to navigate to the details page
+
 	> Under the price, the stock status and lead time is displayed. However, as this is managed by the outsourced MRP system, the information displayed on the e-commerce site needs to be manually maintained and updated. This often leads to the wrong information being shown to customers.
 5. Click **Add to Cart**
 5. On the cart page, click **Checkout**
@@ -92,6 +94,7 @@ Now that the applications are deployed, it's time to review the two main challen
  * Password: `YouShouldChangeThisPassword1!`
 7. On the payment page, complete the form and click **Submit Order**
 8. Once the checkout is complete, **navigate** to `/orders` page on your deployment of the MRP application
+
 	> The new order is not present in the MRP system. Until the order is logged with the MRP system, it cannot be processed. This manual process leads to slower deliveries for their customers. 
 
 As you can see, the experience using the two applications while they are running independently introduces challenges for both Parts Unlimited and their customers. Until these two applications are integrated and have two-way communication, Parts Unlimited users will continue to experience frustration through delayed order processing times and incorrect stock levels.
@@ -118,8 +121,10 @@ The integration service is a simple Java Spring app that runs side-by-side with 
 
 1. Open **File Explorer** and navigate to the `$/src/Backend/IntegrationService/src/main/java/integration/scheduled` directory in your local PartsUnlimitedMRP repository
 2. Open `UpdateProductProcessTask.java`
+
 	> This task is configured to run on a fixed schedule (see the `@Scheduled` annotation). Each time it runs, it queries the MRP REST API to retrieve the product catalog with stock levels and pushes this information to the Azure 'product' queue. 
 3. Open `CreateOrderProcessTask.java`
+
 	> This task is also configured to run on a fixed schedule. Each time it runs, it retrieves new orders from the Azure 'orders' queue and inserts these into the MRP app via the REST API.
 
 These two tasks establish the basics of two-way communication between the MRP app and the e-commerce app.
@@ -129,6 +134,7 @@ These two tasks establish the basics of two-way communication between the MRP ap
 In order to deploy the integration service, it needs to be configured with the correct storage account:
 
 1. Retrieve the **storage account name and access key** deployed as part of the MRP app
+
 	> This information can be retrieved from the Azure Portal, via the CLI, or via PowerShell.
 2. Open **File Explorer** and browse to `$/builds` directory in your local PartsUnlimitedMRP repository
 3. Open `integration-service-0.1.0.jar` with **7-Zip** (or the ZIP program of your choice)
@@ -142,11 +148,13 @@ Now that the integration service configuration has been updated, it can be deplo
 
 1. From a **command prompt**, navigate to the `$/builds` directory in your local PartsUnlimitedMRP repository
 2. **Run** the secure copy command using `pscp` or your client of choice: `pscp -P <your Linux VM SSH port> ./integration-service-0.1.0.jar mrp_admin@<your Linux VM DNS name>.cloudapp.net:~`
+
 	> The service DNS name and SSH port can be retrieved from the Azure Portal, via the CLI, or via PowerShell. The password is contained in the provisioning script used to initially provision the environment (default: `P2ssw0rd`).
 3. **Wait** for the upload to complete.
 4. **Start** the `putty` application (or your SSH client of choice)
 5. **Connect** to `<your Linux VM DNS name>.cloudapp.net` on port `<your Linux VM SSH port>`.
 6. **Run** the integration service with the command: `java -jar integration-service-0.1.0.jar &`
+
 	> The ampersand forces the command to run in the background (and remain running once the user logs off).
 7. The application will now start and output some information to the console
 8. Once complete, **disconnect** with the command: `logout`
@@ -178,6 +186,7 @@ Parts Unlimited have built two applications that will run as WebJobs alongside t
 At the end of this section you will have two WebJobs which will be responsible for triggering the two-way communication between the integration service and the e-commerce app: 
 
 1. Scheduled processing of new orders: new orders will flow from the website into a SQL database, where the web job then reads the unprocessed orders and writes a message to the `orders` queue within an Azure storage account
+
 	> An alternative approach would be to place the order directly on to the queue as part of the checkout logic in the site. This would reduce the latency between the order being placed and then processed by the MRP.
 2. Inventory updates: the web job will monitor the `product` queue and use the information contained in the incoming messages to update the SQL database with inventory levels and lead times 
 
@@ -192,8 +201,10 @@ Both WebJobs are part of the extended website Visual Studio solution:
   * PartsUnlimited.WebJobs.ProcessOrder: scheduled processing of new orders
   * PartsUnlimited.WebJobs.UpdateProductInventory: receives and processes inventory updates
 5. Open `Functions.cs` from the PartsUnlimited.WebJobs.ProcessOrder project
+
 	> The WebJobs SDK automatically obtains a connection to the `orders` queue and passes it to this static method. It will be configured to run on a scheduled basis as there is no trigger for this operation (note the `NoAutomaticTrigger` attribute). Once running, it finds unprocessed orders in the database and pushes them onto the `orders` queue.
 6. Open `Functions.cs` from the PartsUnlimited.WebJobs.UpdateProductInventory project
+
 	> The WebJobs SDK automatically obtains a connection to the `product` queue and calls this message whenever a message is available for processing. Once called, it updates the product record in the database.
 
 ### Deploy Process Orders WebJob
@@ -201,16 +212,17 @@ Both WebJobs are part of the extended website Visual Studio solution:
 1. Open the `config.json` file under the **PartsUnlimited.WebJobs.ProcessOrder** project 
 2. Set the database connection string and the Azure WebJob storage connection string
 ![Example configuration file][1]
+
 	> Database connection string should be in the format:
-	>
-	> `
-	> Server=tcp:{serverName}.database.windows.net,1433;Database={databaseName};User ID={userName}@{serverName};Password={password};Trusted_Connection=False;Encrypt=True;Connection Timeout=30;`
+	> `Server=tcp:{serverName}.database.windows.net,1433;Database={databaseName};User ID={userName}@{serverName};Password={password};Trusted_Connection=False;Encrypt=True;Connection Timeout=30;`
 3. Within Solution Explorer, right click on the **PartsUnlimited.WebJobs.ProcessOrder** project and select **Publish**
 4. In the Profile tab select **File System** as the publish target and enter a profile name (e.g. ProcessOrderWebJob)
 5. Click **OK**
 6. Click **Publish**
 7. A link to the published webjob will be provided in the Output Window. **Open** this location
-  	> `Web App was published successfully file:///C:/MSCorp.PartsUnlimited/artifacts/bin/PartsUnlimited.WebJobs.ProcessOrder/Release/Publish`
+
+  	> `Web App was published successfully 	file:///C:/MSCorp.PartsUnlimited/artifacts/bin/PartsUnlimited.WebJobs.ProcessOrder/Release/Publish`
+  	
  	![Example build folder][2]
 8. **Zip** up the contents of the folder into a zip file called `ProcessOrderWebJob.zip`
 9. Return to the [Azure Management Portal][portal]
@@ -230,15 +242,17 @@ The order processing WebJob has now been deployed. Orders placed by customers on
 1. Edit the `config.json` file under the **PartsUnlimited.WebJobs.UpdateProductInventory** project
 2. Set the database connection string and the Azure WebJob storage connection string
 	![Example configuration file][1]
+
 	> Database connection string should be in the format:
-	>
 	> `Server=tcp:{serverName}.database.windows.net,1433;Database={databaseName};User ID={userName}@{serverName};Password={password};Trusted_Connection=False;Encrypt=True;Connection Timeout=30;`
 3. Within Solution Explorer, right click on the **PartsUnlimited.WebJobs.UpdateProductInventory** project and select **Publish**
 4. In the Profile tab select **File System** as the publish target and enter a profile name (e.g. UpdateProductInventoryWebJob)
 5. Click **OK**
 6. Click **Publish**
 7. A link to the published webjob will be provided in the Output Window. **Open** this location
+
 	> `Web App was published successfully	file:///C:/MSCorp.PartsUnlimited/artifacts/bin/PartsUnlimited.WebJobs.UpdateProductInventory/Release/Publish`
+	
 	![Example build folder][3]
 8. **Zip** up the contents of the folder into a zip file called `UpdateProductInventoryWebJob.zip
 9. Return to the [Azure Management Portal][portal]
@@ -274,6 +288,7 @@ In this section you will use the e-commerce website to place a new order and the
 12. On the payment page, complete the form and click **Submit Order**
 13. Switch back to **Postman**
 14. **Re-send** the postman request to refresh the list of orders. There is one more order now (the order just placed)
+
 > If you don’t see an order, remember that the webjob only processes orders every 5 minutes. Wait for 5 minutes and then re-send the request.
 
 ### Inventory Update
@@ -300,10 +315,9 @@ In this section you will use the MRP REST API to update stock levels and lead ti
 12. **Re-send** the original `GET` to see the values change
 13. Return to the browser and **refresh** the page displaying the 'Filter Set' product. The product is now out of stock and had a lead time of 5 - 6 days
 ![Oil Filters stock level][10]
+
 	> If you still see it saying in stock, this could be for one of two reasons:
-  	> 
   	> 1. The outsourced application is configured to send a message to the storage account with the current inventory and lead times every 30 seconds. Until this scheduled task runs and the webjob picks up the message, the website will not see the updated stock level.
-  	> 
   	> 2. The website is configured to cache individual products for ten minutes to ensure adequate performance under load. The easiest way to invalidate the cache is to restart the site from the Azure management portal.
 
 
