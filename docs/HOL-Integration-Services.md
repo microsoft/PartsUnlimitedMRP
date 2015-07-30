@@ -1,6 +1,6 @@
 <properties
-   pageTitle="Parts Unlimited Integration services"
-   description="Hands on lab to setup bi directional communication between the Parts Unlimited MRP outsourced application and the PartsUnlimited asp.net website."
+   pageTitle="Parts Unlimited Integration Services"
+   description="Hands on lab to setup two way communication between the Parts Unlimited MRP outsourced application and the PartsUnlimited ASP.NET vNext e-commerce website."
    authors="dtzar"/>
 
 <!---
