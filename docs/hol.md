@@ -325,7 +325,6 @@ In this section you will use the MRP REST API to update stock levels and lead ti
 [1]: ./media/hol/config_shot.png
 [2]: ./media/hol/order_build.png
 [3]: ./media/hol/inventory_build.png
-[4]: ./media/hol/azure_webjob_highlight.png
 [5]: ./media/hol/postman_get.png
 [6]: ./media/hol/isolated.png
 [7]: ./media/hol/communicating.png
