@@ -96,7 +96,7 @@ Write-Output -Verbose "Azure Virtual Network(s) have been created"
 #-----------------------------------------------------
 Write-Output "Begin creation of Azure Linux VM"
 $images = Get-AzureVMImage `
-        | where { $_.ImageFamily -eq "Ubuntu Server 14.10" } `
+        | where { $_.ImageFamily -eq "Ubuntu Server 14.04 LTS" } `
         | Sort-Object -Descending -Property PublishedDate
 $latestImage = $images[0].ImageName
 
