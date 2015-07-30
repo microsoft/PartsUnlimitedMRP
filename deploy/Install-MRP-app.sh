@@ -11,6 +11,8 @@ apt-get install mongodb -y
 apt-get install tomcat7 -y
 apt-get install wget -y
 
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
 # Configure the storage account and container name here
 DropStorageAccountName=""
 DropContainerName="mrp-drops"
