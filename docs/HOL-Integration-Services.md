@@ -1,11 +1,7 @@
 <properties
-   pageTitle="Page title that displays in the browser tab and search results"
-   description="Article description that will be displayed on landing pages and in most search results"
-   services="service-name"
-   documentationCenter="dev-center-name"
-   authors="GitHub-alias-of-only-one-author"
-   manager="manager-alias"
-   editor=""/>
+   pageTitle="Parts Unlimited Integration services"
+   description="Hands on lab to setup bi directional communication between the Parts Unlimited MRP outsourced application and the PartsUnlimited asp.net website."
+   authors="dtzar"/>
 
 <!---
 <tags
@@ -322,15 +318,15 @@ In this section you will use the MRP REST API to update stock levels and lead ti
 
 
 <!--Image references-->
-[1]: ./media/hol/config_shot.png
-[2]: ./media/hol/order_build.png
-[3]: ./media/hol/inventory_build.png
-[5]: ./media/hol/postman_get.png
-[6]: ./media/hol/isolated.png
-[7]: ./media/hol/communicating.png
-[8]: ./media/hol/java_integration.png
-[9]: ./media/hol/pre_inventory_update.png
-[10]: ./media/hol/post_inventory_update.png
+[1]: ./hol-integration-services/config_shot.png
+[2]: ./hol-integration-services/order_build.png
+[3]: ./hol-integration-services/inventory_build.png
+[5]: ./hol-integration-services/postman_get.png
+[6]: ./hol-integration-services/isolated.png
+[7]: ./hol-integration-services/communicating.png
+[8]: ./hol-integration-services/java_integration.png
+[9]: ./hol-integration-services/pre_inventory_update.png
+[10]: ./hol-integration-services/post_inventory_update.png
 
 
 <!--Reference style links - using these makes the source content way more readable than using inline links-->  
