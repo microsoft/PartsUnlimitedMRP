@@ -317,8 +317,8 @@ In this section you will use the MRP REST API to update stock levels and lead ti
 ![Oil Filters stock level][10]
 
 	> If you still see it saying in stock, this could be for one of two reasons:
-  	> 1. The outsourced application is configured to send a message to the storage account with the current inventory and lead times every 30 seconds. Until this scheduled task runs and the webjob picks up the message, the website will not see the updated stock level.
-  	> 2. The website is configured to cache individual products for ten minutes to ensure adequate performance under load. The easiest way to invalidate the cache is to restart the site from the Azure management portal.
+  	> 	1. The outsourced application is configured to send a message to the storage account with the current inventory and lead times every 30 seconds. Until this scheduled task runs and the webjob picks up the message, the website will not see the updated stock level.
+  	> 	2. The website is configured to cache individual products for ten minutes to ensure adequate performance under load. The easiest way to invalidate the cache is to restart the site from the Azure management portal.
 
 
 <!--Image references-->
