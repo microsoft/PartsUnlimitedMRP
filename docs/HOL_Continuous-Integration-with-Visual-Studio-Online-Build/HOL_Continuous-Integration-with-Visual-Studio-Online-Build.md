@@ -64,6 +64,8 @@ command line.
 
 ![](<media/clone_mrp.png>)
 
+**NOTE:** you must install Git before you can run Git clone from the command line. Download and install Git from here: [https://git-scm.com/](https://git-scm.com/ "https://git-scm.com/")
+
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
 your Visual Studio Online account
 
@@ -88,8 +90,6 @@ application:
 The application is written in Java, so we are going to use a Linux machine to
 build it.
 
- 
-
 **1.** Go to <https://portal.azure.com>
 
 **2.** Click the **New** button in the top left corner of the Azure portal
@@ -111,8 +111,7 @@ that was chosen for SSH access.
 
 ![](<media/ssh_details.png>)
 
-**6.** Connect via SSH to the new Linux machine using the DNS name and public
-port from step five.
+**6.** Connect via SSH to the new Linux machine using the **public DNS name** and **public port** from step five.
 
 	ssh <user>@<public_dns> -p <public_port>
 
@@ -126,12 +125,9 @@ this step**:
 
 **8.** Copy and paste the following snippet to **run these commands**:
 
-	# Update current packages
-	sudo apt-get update
-
 	# Install Gradle, Java, and MongoDB
-	sudo apt-get install gradle
-	sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb
+	sudo apt-get install gradle -y
+	sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
 
 	# Set environment variables for Java
 	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -139,7 +135,7 @@ this step**:
 	
 	# Install node and npm
 	curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
-	sudo apt-get install node npm
+	sudo apt-get install nodejs npm -y
 
 **9.** Our build server is ready to install a build agent on it, but first we
 need to create a new build agent pool. Go to your **account home page**:
@@ -168,7 +164,8 @@ the Visual Studio Online agent installer:
 **14.** Create an agent by running the following commands:
 
 	cd ~/
-	mkdir myagent; cd myagent
+	mkdir myagent
+    cd myagent
 	vsoagent-installer
 
 This installs the agent to the directory **~/myagent**.
@@ -184,11 +181,11 @@ with the following command:
 
 -   Alternate password
 
--   Server URL
+-   Server URL (Visual Studio Online URL)
 
--   Agent name (enter in **linux**)
+-   Agent name (press enter for default)
 
--   Agent pool (press enter for default)
+-   Agent pool (enter in **linux** - the pool created earlier in this lab)
 
 ![](<media/start_agent.png>)
 
@@ -202,9 +199,7 @@ A continuous integration build will give us the ability check whether the code
 we checked in can compile and will successfully pass any automated tests that we
 have created against it.
 
-**1.** Go to your **account’s homepage**:
-
-[https://<account>.visualstudio.com](https://<account>.visualstudio.com)
+**1.** Go to your **account’s homepage**: https://<account\>.visualstudio.com
 
 **2.** Click **Browse** and then select your team project and click
 **Navigate**.
@@ -277,6 +272,8 @@ with the following:
 	Artifact Type: Server
 
 ![](<media/build_pub_step_details.png>)
+
+**NOTE:** The Content field supports minimatch patterns. You can find more information here: [https://github.com/Microsoft/vso-agent-tasks](https://github.com/Microsoft/vso-agent-tasks "https://github.com/Microsoft/vso-agent-tasks")
 
 **11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**
 
