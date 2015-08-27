@@ -17,10 +17,13 @@ esac
 shift #past argument or value
 done
 
+# Kill java to stop current website
+pkill -9 'java'
+
 # Remove old artifacts
-rm -f MongoRecords.js*
-rm -f mrp.war*
-rm -f ordering-service-0.1.-.jar*
+rm -f /var/lib/partsunlimited/MongoRecords.js*
+rm -f /var/lib/partsunlimited/mrp.war*
+rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
 
 # Install packages
 apt-get update
@@ -33,9 +36,6 @@ apt-get install wget -y
 # Set Java environment variables
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
-
-# Kill java to stop current website
-pkill -9 'java'
 
 # Configure the storage account and container name here
 AzureResource="https://$DropStorageAccountName.blob.core.windows.net/$DropContainerName/"
