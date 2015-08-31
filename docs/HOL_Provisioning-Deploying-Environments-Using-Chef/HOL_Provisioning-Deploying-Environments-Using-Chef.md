@@ -571,10 +571,3 @@ This will take you to the dashboard where you can see statistics about your depl
 **Step 11.** Reload the MRP application site, and you should see the site successfully load.
 
 In this hands-on lab you explored some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab was designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.
-
-Try these labs out for next steps:
-
-- Automated Testing hands-on lab
-- Load Testing and Autoscaling hands-on lab
-- Automated Recovery hands-on lab
-- HDD: User Telemetry hands-on lab
