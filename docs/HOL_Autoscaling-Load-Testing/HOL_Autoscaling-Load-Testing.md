@@ -128,7 +128,7 @@ It may take a few minutes for the virtual machine to be created.
 
 ![](<media/task2-step11.png>)
 
-**Step 12.** In the availability set, select **CPU** next to **Scale by metric**. The instance range will cover both instances and the target CPU default is 60 - 80%. Additionally,keep the scale up and down by settings. Click the Save button at the bottom of the page to save the auto-scaling configuration settings for the availability set. 
+**Step 12.** In the availability set, select **CPU** next to **Scale by metric**. The instance range will cover both instances and the target CPU default is 60 - 80%. Additionally, keep the scale up and down by settings. Click the Save button at the bottom of the page to save the auto-scaling configuration settings for the availability set. 
 
 ![](<media/task2-step12.png>)
 
