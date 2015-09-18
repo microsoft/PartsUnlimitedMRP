@@ -29,9 +29,19 @@ public class DealerController
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getDealers()
     {
+		//Fix this line in Application Performance Monitoring HOL from 1000 to 1
+		int numMongoDBCalls = 1000; 
+		
         try
         {
-            List<DealerInfo> dealers = getRepository().getDealers();
+			int count = 0; 
+			List<DealerInfo> dealers = getRepository().getDealers();
+			
+			while(count < numMongoDBCalls - 1)
+			{
+				dealers = getRepository().getDealers();
+				count++; 
+			}
             if (dealers == null || dealers.size() == 0)
             {
                 return new ResponseEntity<List<DealerInfo>>(HttpStatus.NOT_FOUND);

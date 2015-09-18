@@ -58,16 +58,18 @@ page**:
 These credentials will be used when interacting with the git repository from the
 command line.
 
-**4.** Clone the **PartsUnlimitedMRP** git repository located here:
+**4.** Clone the **PartsUnlimitedMRP** git repository located in GitHub:
 
-<https://github.com/Microsoft/PartsUnlimitedMRP.git>
+    git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
 
 ![](<media/clone_mrp.png>)
 
-**NOTE:** you must install Git before you can run Git clone from the command line. Download and install Git from here: [https://git-scm.com/](https://git-scm.com/ "https://git-scm.com/")
+**NOTE:** you must install Git before you can run Git clone from the command line.
+
+    sudo apt-get install git
 
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
-your Visual Studio Online account
+your Visual Studio Online account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
 	git remote add vso <url_to_repository>
 	git push -u vso --all
@@ -120,6 +122,8 @@ that was chosen for SSH access.
 **7.** If you are on **Ubuntu 14.04**, run these commands; otherwise, **ignore
 this step**:
 
+Press [ENTER] to continue when asked after the first command.
+
 	sudo add-apt-repository ppa:openjdk-r/ppa
 	sudo apt-get update
 
@@ -135,7 +139,7 @@ this step**:
 	
 	# Install node and npm
 	curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
-	sudo apt-get install nodejs npm -y
+	sudo apt-get install -y nodejs
 
 **9.** Our build server is ready to install a build agent on it, but first we
 need to create a new build agent pool. Go to your **account home page**:
@@ -157,6 +161,8 @@ page
 build machine. This doesn't install an agent, it simply pulls down the agent
 installer. Go back to the ssh session, and **enter these commands** to install
 the Visual Studio Online agent installer:
+
+**NOTE:** Do not change $USER with your user, keep it as $USER.
 
 	sudo npm install vsoagent-installer -g
 	sudo chown -R $USER ~/.npm
@@ -285,7 +291,7 @@ with the following:
 ![](<media/build_save.png>)
 
 **13.** Go to the **Code** tab, select the **index.html** file located at
-src/Clints/Web, and click **Edit**
+src/Clients/Web, and click **Edit**
 
 ![](<media/edit_index_web.png>)
 
