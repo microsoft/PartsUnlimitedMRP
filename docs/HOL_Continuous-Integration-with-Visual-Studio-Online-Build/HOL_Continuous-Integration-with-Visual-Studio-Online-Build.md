@@ -186,7 +186,7 @@ the Visual Studio Online agent installer:
 
 This installs the agent to the directory **~/myagent**.
 
-**15.** The first time we run the agent, it will be configured. Authorize Agent at Visual Studio Online. Run the agent with the following command:
+**15.** The first time we run the agent, it will be configured. Run the agent with the following command:
 
 	node agent/vsoagent
 
