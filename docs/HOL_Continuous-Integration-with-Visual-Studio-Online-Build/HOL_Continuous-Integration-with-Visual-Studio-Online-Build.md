@@ -170,7 +170,7 @@ the Visual Studio Online agent installer:
 
 **14.** Create an agent by running the following commands:
 
-	cd ~/   
+	cd ~/
 	mkdir myagent
     cd myagent
 	vsoagent-installer
