@@ -58,6 +58,7 @@ page**:
 These credentials will be used when interacting with the git repository from the
 command line.
 
+
 **4.** Clone the **PartsUnlimitedMRP** git repository located in GitHub:
 
     git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
@@ -158,8 +159,16 @@ page
 
 ![](<media/agent_pool_details.png>)
 
-**13.** We are not ready to install the agent installer once globally on our
-build machine. This doesn't install an agent, it simply pulls down the agent
+**12.1.** Go to the newly created pool “**linux**”, expand it, and
+add your **Alternate authentication credentials** (created earlier, step 3 - Set up your Visual Studio Online account)  to a groups **Agent Pool Service Accounts**  and **Agent Pool Administrators**
+
+![](<media/vso_agent_pool.png>)
+
+**NOTE:** membership at "Agent Pool Administrators group" **allows adding agent to pool** while "Agent Pool Service Accounts" **allows the agent to listen to the build queue**.
+
+
+
+**13.** We are now ready to install the agent installer. This doesn't install an agent, it simply pulls down the agent
 installer. Go back to the ssh session, and **enter these commands** to install
 the Visual Studio Online agent installer:
 
@@ -177,19 +186,7 @@ the Visual Studio Online agent installer:
 
 This installs the agent to the directory **~/myagent**.
 
-**15.** The first time we run the agent, it will be configured. Authorize Agent at Visual Studio Online. 
-
-**15.1** Go to your Visual Studio Tenant and to settings:
-
-Go to the **Agent pools** tab and then...
-
-![](<media/new_agent_pool.png>)
-
-...put your agent it to a group **Agent Pool Service Accounts**
-
-![](<media/vso_agent_pool.png>)
-
-**15.2** Run the agent with the following command:
+**15.** The first time we run the agent, it will be configured. Run the agent with the following command:
 
 	node agent/vsoagent
 
