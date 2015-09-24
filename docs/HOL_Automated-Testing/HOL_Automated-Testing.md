@@ -27,6 +27,8 @@ First, we need to set up Eclipse in order to work on the Parts Unlimited MRP App
 
 ![](media/drag_install_button.png)
 
+**Note:** If the drag and drop functionality does not work for you, you can also install it via the `Help -> Eclipse Marketplace` dialog by searching for `gradle`.
+
 **3.** This should trigger the Eclipse Marketplace install dialog to appear. Click **Confirm** to move to the next page.
 
 ![](media/confirm_gradle_install.png)
@@ -135,10 +137,10 @@ This should open up the JUnit window and give you a summary of the test run.
 
 ![](media/default_test_run.png)
 
-**3.** Paste the following code into the `CatalogControllerTest.java` file:
+**3.** Paste the following code on **line 31** of the `CatalogControllerTest.java` file :
 
 	@Test
-	public void testAddMultipleCatalogItems() throws Exception
+	public void testAddCatalogItems() throws Exception
 	{
     	ResponseEntity<List<CatalogItem>> oldItems = controller.getCatalogItems();
     	int sizeBeforeAdds = 0;
