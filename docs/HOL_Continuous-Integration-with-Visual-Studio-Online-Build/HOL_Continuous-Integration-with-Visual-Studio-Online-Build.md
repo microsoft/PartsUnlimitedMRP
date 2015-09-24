@@ -58,6 +58,7 @@ page**:
 These credentials will be used when interacting with the git repository from the
 command line.
 
+
 **4.** Clone the **PartsUnlimitedMRP** git repository located in GitHub:
 
     git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
@@ -71,9 +72,10 @@ command line.
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
 your Visual Studio Online account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
+	cd PartUnlimitedMRP/
 	git remote add vso <url_to_repository>
 	git push -u vso --all
-
+	
 ![](<media/push_to_vso.png>)
 
 **NOTE:** we added the Visual Studio Online repository as a remote named **vso**, so we need to
@@ -157,8 +159,16 @@ page
 
 ![](<media/agent_pool_details.png>)
 
-**13.** We are not ready to install the agent installer once globally on our
-build machine. This doesn't install an agent, it simply pulls down the agent
+**12.1.** Go to the newly created pool “**linux**”, expand it, and
+add your **Alternate authentication credentials** (created earlier, step 3 - Set up your Visual Studio Online account)  to a groups **Agent Pool Service Accounts**  and **Agent Pool Administrators**
+
+![](<media/vso_agent_pool.png>)
+
+**NOTE:** membership at "Agent Pool Administrators group" **allows adding agent to pool** while "Agent Pool Service Accounts" **allows the agent to listen to the build queue**.
+
+
+
+**13.** We are now ready to install the agent installer. This doesn't install an agent, it simply pulls down the agent
 installer. Go back to the ssh session, and **enter these commands** to install
 the Visual Studio Online agent installer:
 
@@ -176,8 +186,7 @@ the Visual Studio Online agent installer:
 
 This installs the agent to the directory **~/myagent**.
 
-**15.** The first time we run the agent, it will be configured. Run the agent
-with the following command:
+**15.** The first time we run the agent, it will be configured. Run the agent with the following command:
 
 	node agent/vsoagent
 
