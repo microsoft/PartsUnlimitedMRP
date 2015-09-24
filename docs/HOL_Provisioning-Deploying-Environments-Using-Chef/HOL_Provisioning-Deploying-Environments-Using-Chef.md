@@ -1,4 +1,3 @@
-#Provisioning and Deploying Environments Using Chef 
 
 In this hands-on lab you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
 
@@ -6,7 +5,7 @@ In this hands-on lab you will explore some of the new features and capabilities 
 
 - An SSH client such as PuTTY
 
-- PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine
+- PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine (see [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md))
 
 **Tasks**
 
@@ -204,7 +203,7 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
 
     knife cookbook site install chef-client
 
-**Step 8.** We will first open up a full copy of the recipe on the host machine where you are connected to the Chef Server, found at [https://raw.githubusercontent.com/dtzar/chef/master/workshop/mrpapp/recipes/default.rb](https://raw.githubusercontent.com/dtzar/chef/master/workshop/mrpapp/recipes/default.rb).
+**Step 8.** We will first open up a full copy of the recipe on the host machine where you are connected to the Chef Server, found at [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
 
 **Step 9.** Copy all of the contents of this page to your host machine clipboard with `Ctrl-a` and `Ctrl-c`. 
 
