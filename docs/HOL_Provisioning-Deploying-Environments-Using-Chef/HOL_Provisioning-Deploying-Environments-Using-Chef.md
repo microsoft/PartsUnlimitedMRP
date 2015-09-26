@@ -1,4 +1,3 @@
-#Provisioning and Deploying Environments Using Chef 
 
 In this hands-on lab you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
 
@@ -6,7 +5,7 @@ In this hands-on lab you will explore some of the new features and capabilities 
 
 - An SSH client such as PuTTY
 
-- PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine (see [https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md))
+- PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine (see [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md))
 
 **Tasks**
 
@@ -204,7 +203,7 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
 
     knife cookbook site install chef-client
 
-**Step 8.** We will first open up a full copy of the recipe on the host machine where you are connected to the Chef Server, found at [https://raw.githubusercontent.com/dtzar/chef/master/workshop/mrpapp/recipes/default.rb](https://raw.githubusercontent.com/dtzar/chef/master/workshop/mrpapp/recipes/default.rb).
+**Step 8.** We will first open up a full copy of the recipe on the host machine where you are connected to the Chef Server, found at [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
 
 **Step 9.** Copy all of the contents of this page to your host machine clipboard with `Ctrl-a` and `Ctrl-c`. 
 
@@ -225,9 +224,11 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
     
 **Step 12.** Paste the contents of the recipe into the mrpapp recipe file such as right-clicking inside the Putty session.
 
-**Step 13.** Save the file with `Ctrl-o` then **Enter**.
+**Step 13.** In all of the instances where `https://chefdemowus.blob.core.windows.net/mrpbuild/` exist in the *default.rb* file, replace them with `https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/`. For *MongoRecords.js*, change the source directory to be `https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/deploy/MongoRecords.js`. 
 
-**Step 14.** *The following explains what the recipe is doing to provision the application.*
+**Step 14.** Save the file with `Ctrl-o` then **Enter**.
+
+**Step 15.** *The following explains what the recipe is doing to provision the application.*
 
 The first thing the recipe will do will be to run the 'apt' resource – this will cause our recipe to execute 'apt-get update' prior to running, to make sure the package sources on the machine are up-to-date.
 
@@ -275,7 +276,7 @@ At this point, all of our dependencies will be installed, so we can start config
 
     ↪	# Load MongoDB data 
     ↪	remote_file 'mongodb_data' do
-    ↪		source 'https://chefdemowus.blob.core.windows.net/mrpbuild/MongoRecords.js'
+    ↪		source 'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/deploy/MongoRecords.js'
     ↪		path './MongoRecords.js'
     ↪		action :create
     ↪		notifies :run, "script[mongodb_import]", :immediately
@@ -306,8 +307,7 @@ Now we can download the MRP application and start running it in Tomcat. If we ge
 
     ↪	# Install the MRP app, restart the Tomcat service if necessary
     ↪	remote_file 'mrp_app' do
-    ↪		source 'https://chefdemowus.blob.core.windows.net/mrpbuild/mrp.war'
-    ↪		path '/var/lib/tomcat7/webapps/mrp.war'
+    ↪		source 'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/mrp.war'
     ↪		action :create
     ↪		notifies :restart, "service[tomcat7]", :immediately
     ↪	end
@@ -316,7 +316,7 @@ Now we can download the MRP application and start running it in Tomcat. If we ge
 
     ↪	# Install the MRP app, restart the Tomcat service if necessary
     ↪	remote_file 'mrp_app' do
-    ↪		source 'https://chefdemowus.blob.core.windows.net/mrpbuild/mrp.war'
+    ↪		source 'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/mrp.war'
     ↪		path '/var/lib/tomcat7/webapps/mrp.war'
     ↪		action :create
     ↪		notifies :restart, "service[tomcat7]", :immediately
@@ -332,7 +332,7 @@ We can define the Tomcat servce's desired state, which is "running". This will c
 Finally, we can make sure the ordering service is running. This uses a combination of remote_file and script resources to check if the ordering service needs to be killed and restarted, or if it's not running at all when it should be. The end result of this is that the ordering service will always be up and running.
 
     ↪	remote_file 'ordering_service' do
-    ↪		source 'https://chefdemowus.blob.core.windows.net/mrpbuild/ordering-service-0.1.0.jar'
+    ↪		source 'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/ordering-service-0.1.0.jar'
     ↪		path './ordering-service-0.1.0.jar'
     ↪		action :create
     ↪		notifies :run, "script[stop_ordering_service]", :immediately
@@ -354,7 +354,7 @@ Finally, we can make sure the ordering service is running. This uses a combinati
     ↪		not_if "pgrep -f ordering-service"
     ↪	end
 
-**Step 15.** Now that the recipe is written, we can upload the cookbooks to the Chef server. From the command line, run: 
+**Step 16.** Now that the recipe is written, we can upload the cookbooks to the Chef server. From the command line, run: 
 
     knife cookbook upload mrpapp --include-dependencies
     knife cookbook upload chef-client --include-dependencies
