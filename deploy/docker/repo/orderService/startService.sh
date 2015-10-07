@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while ! curl http://mongodb:27017/
+while ! curl http://mongo:27017/
 do
   echo "$(date) - still trying"
   sleep 1
