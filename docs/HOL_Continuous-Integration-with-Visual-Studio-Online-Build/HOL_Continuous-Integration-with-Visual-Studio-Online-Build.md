@@ -281,7 +281,7 @@ Set the **Working Directory** to the following location:
 **10.** Select the Publish Build Artifacts task, and fill in the input values
 with the following:
 
-	Copy Root: $(build.sourcedirectory)
+	Copy Root: $(Build.SourcesDirectory)
 	Contents: **/build/libs/!(buildSrc)*.?ar
 	Artifact Name: drop
 	Artifact Type: Server
