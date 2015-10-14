@@ -82,7 +82,7 @@ your Visual Studio Online account. While pushing, use the user name (secondary) 
 push to that remote in the future for our changes to appear in our Visual Studio Online
 repository.
 
-**6.** Your Visual Studio Online account should not have a copy of the PartsUnlimitedMRP
+**6.** Your Visual Studio Online account should now have a copy of the PartsUnlimitedMRP
 application:
 
 ![](<media/mrp_in_vso.png>)
