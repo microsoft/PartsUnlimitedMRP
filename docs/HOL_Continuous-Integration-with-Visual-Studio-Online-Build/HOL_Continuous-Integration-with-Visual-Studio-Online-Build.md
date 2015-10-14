@@ -253,8 +253,11 @@ Set the **Working Directory** to the following location:
 
 **7.** Select the second Gradle task and **edit the task name** to say
 *OrderService* and set the **Gradle Wrapper** to the following location:
+(NOTE: set the Options to **-x text** as the test have external dependencies on a mongo database.)
 
 	src/Backend/OrderService/gradlew
+	-x test
+	
 
 Set the **Working Directory** to the following location:
 
