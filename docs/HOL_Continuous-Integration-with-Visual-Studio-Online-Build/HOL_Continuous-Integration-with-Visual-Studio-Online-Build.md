@@ -65,11 +65,11 @@ command line.
 
 ![](<media/clone_mrp.png>)
 
-**NOTE:** you must install Git before you can run Git clone from the command line.  If you are running linux on your local workstation install git:
+**NOTE:** If you are running Linux on your local workstation install git:
 
     sudo apt-get install git
 	
-**NOTE:** if you are running Windows, you can install the git client from here
+**NOTE:** If you are running Windows, you can install the git client from here:
 
 	http://git-scm.com/download
 
