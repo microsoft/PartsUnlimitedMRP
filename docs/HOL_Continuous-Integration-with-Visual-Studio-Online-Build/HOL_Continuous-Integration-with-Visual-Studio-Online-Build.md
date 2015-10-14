@@ -65,9 +65,13 @@ command line.
 
 ![](<media/clone_mrp.png>)
 
-**NOTE:** you must install Git before you can run Git clone from the command line.
+**NOTE:** you must install Git before you can run Git clone from the command line.  If you are running linux on your local workstation install git:
 
     sudo apt-get install git
+	
+**NOTE:** if you are running Windows, you can install the git client from here
+
+	http://git-scm.com/download
 
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
 your Visual Studio Online account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
