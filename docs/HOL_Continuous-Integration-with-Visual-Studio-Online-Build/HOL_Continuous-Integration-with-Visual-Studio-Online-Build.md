@@ -72,7 +72,7 @@ command line.
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
 your Visual Studio Online account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
-	cd PartUnlimitedMRP/
+	cd PartsUnlimitedMRP/
 	git remote add vso <url_to_repository>
 	git push -u vso --all
 	
