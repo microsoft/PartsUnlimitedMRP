@@ -291,7 +291,7 @@ Set the **Working Directory** to the following location:
 **10.** Select the Publish Build Artifacts task, and fill in the input values
 with the following:
 
-	Copy Root: $(Build.SourcesDirectory)
+	Copy Root: $(build.sourcedirectory)
 	Contents: **/build/libs/!(buildSrc)*.?ar
 	Artifact Name: drop
 	Artifact Type: Server
@@ -304,21 +304,25 @@ with the following:
 
 ![](<media/build_ci_trigger.png>)
 
-**12.** Click **Save**, give the build definition a name (i.e.
+**12.** Click **General**, set the default queue to the previously created queue (**linux**)
+
+![](<media/build_general.png>)
+
+**13.** Click **Save**, give the build definition a name (i.e.
 *PartsUnlimitedMRP.CI*), and then click **Ok**
 
 ![](<media/build_save.png>)
 
-**13.** Go to the **Code** tab, select the **index.html** file located at
+**14.** Go to the **Code** tab, select the **index.html** file located at
 src/Clients/Web, and click **Edit**
 
 ![](<media/edit_index_web.png>)
 
-**14.** Change the **Parts Unlimited MRP** and then
+**15.** Change the **Parts Unlimited MRP** and then
 click the **save button**.
 ![](<media/save_index.png>)
 
-**15.** This should have triggered the build definition we previously created,
+**16.** This should have triggered the build definition we previously created,
 and you should get a build summary similar to this, which includes test results:
 
 ![](<media/build_summary.png>)
