@@ -135,6 +135,9 @@ Press [ENTER] to continue when asked after the first command.
 
 **8.** Copy and paste the following snippet to **run these commands**:
 
+	# Install git client
+	sudo apt-get install git
+
 	# Install Gradle, Java, and MongoDB
 	sudo apt-get install gradle -y
 	sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
