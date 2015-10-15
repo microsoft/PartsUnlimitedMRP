@@ -65,14 +65,18 @@ command line.
 
 ![](<media/clone_mrp.png>)
 
-**NOTE:** you must install Git before you can run Git clone from the command line.
+**NOTE:** If you are running Linux on your local workstation install git:
 
     sudo apt-get install git
+	
+**NOTE:** If you are running Windows, you can install the git client from here:
+
+	http://git-scm.com/download
 
 **5.** Add your Visual Studio Online repository as a new remote called **vso** and push to it
 your Visual Studio Online account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
-	cd PartUnlimitedMRP/
+	cd PartsUnlimitedMRP/
 	git remote add vso <url_to_repository>
 	git push -u vso --all
 	
@@ -82,7 +86,7 @@ your Visual Studio Online account. While pushing, use the user name (secondary) 
 push to that remote in the future for our changes to appear in our Visual Studio Online
 repository.
 
-**6.** Your Visual Studio Online account should not have a copy of the PartsUnlimitedMRP
+**6.** Your Visual Studio Online account should now have a copy of the PartsUnlimitedMRP
 application:
 
 ![](<media/mrp_in_vso.png>)
@@ -130,6 +134,9 @@ Press [ENTER] to continue when asked after the first command.
 	sudo apt-get update
 
 **8.** Copy and paste the following snippet to **run these commands**:
+
+	# Install git client
+	sudo apt-get install git
 
 	# Install Gradle, Java, and MongoDB
 	sudo apt-get install gradle -y
@@ -253,8 +260,11 @@ Set the **Working Directory** to the following location:
 
 **7.** Select the second Gradle task and **edit the task name** to say
 *OrderService* and set the **Gradle Wrapper** to the following location:
+(NOTE: set the Options to **-x text** as the test have external dependencies on a mongo database.)
 
 	src/Backend/OrderService/gradlew
+	-x test
+	
 
 Set the **Working Directory** to the following location:
 
@@ -281,7 +291,7 @@ Set the **Working Directory** to the following location:
 **10.** Select the Publish Build Artifacts task, and fill in the input values
 with the following:
 
-	Copy Root: $(Build.SourcesDirectory)
+	Copy Root: $(build.sourcedirectory)
 	Contents: **/build/libs/!(buildSrc)*.?ar
 	Artifact Name: drop
 	Artifact Type: Server
@@ -294,21 +304,25 @@ with the following:
 
 ![](<media/build_ci_trigger.png>)
 
-**12.** Click **Save**, give the build definition a name (i.e.
+**12.** Click **General**, set the default queue to the previously created queue (**linux**)
+
+![](<media/build_general.png>)
+
+**13.** Click **Save**, give the build definition a name (i.e.
 *PartsUnlimitedMRP.CI*), and then click **Ok**
 
 ![](<media/build_save.png>)
 
-**13.** Go to the **Code** tab, select the **index.html** file located at
+**14.** Go to the **Code** tab, select the **index.html** file located at
 src/Clients/Web, and click **Edit**
 
 ![](<media/edit_index_web.png>)
 
-**14.** Change the **Parts Unlimited MRP** and then
+**15.** Change the **Parts Unlimited MRP** and then
 click the **save button**.
 ![](<media/save_index.png>)
 
-**15.** This should have triggered the build definition we previously created,
+**16.** This should have triggered the build definition we previously created,
 and you should get a build summary similar to this, which includes test results:
 
 ![](<media/build_summary.png>)
