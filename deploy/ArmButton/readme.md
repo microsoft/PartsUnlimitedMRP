@@ -8,14 +8,14 @@ The server is deployed according to the settings in the ARM template. A custom s
 extension then runs the install shell script to install and configure the app.
 
 ### Access the MRP application
-Once the deployment has succeeded, you can navigate to
+Once the deployment has succeeded, you can confirm that the service is running by checking the following URL:
 ```
-http://_dnsName_._location_.cloudapp.azure.com:8080/mrp
+http://{dnsName}.{location}.cloudapp.azure.com:8080/catalog
 ```
 where:
-*	`dnsName` is the name of the public IP you configured when deploying. The image
+*	`{dnsName}` is the name of the public IP you configured when deploying. The image
 	below shows an example deployment where the `dnsName` is `nwc-partsunlimited-mrp`:
 
 	![](dns.png)
-* `location` is the location that you selected (e.g. westus)
-* An example URL would be http://nwc-partsunlimited-mrp.westus.cloudapp.azure.com:8080/mrp
+* `{location}` is the location that you selected (e.g. westus)
+* An example URL would be http://nwc-partsunlimited-mrp.westus.cloudapp.azure.com:8080/catalog
