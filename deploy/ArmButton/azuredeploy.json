@@ -41,12 +41,12 @@
         }
     },
     "variables": {
-        "githubRoot": "https://github.com/colindembovsky/PartsUnlimitedMRP/raw/arm",
-        "installScript": "[concat(variables('githubRoot'),'/deploy/ArmButton/Install-MRP-app.sh')]",
-        "mongoRecordsFile":"[concat(variables('githubRoot'),'/deploy/MongoRecords.js')]",
-        "mrpWar": "[concat(variables('githubRoot'),'/builds/mrp.war')]",
-        "orderingService": "[concat(variables('githubRoot'),'/builds/ordering-service-0.1.0.jar')]",
-        "commandToExecute": "./Install-MRP-app.sh", 
+        "githubRoot": "https://github.com/colindembovsky/PartsUnlimitedMRP/raw/arm/",
+        "installScript": "[concat(variables('githubRoot'),'deploy/ArmButton/Install-MRP-app.sh')]",
+        "mongoRecordsFile":"[concat(variables('githubRoot'),'deploy/MongoRecords.js')]",
+        "mrpWar": "[concat(variables('githubRoot'),'builds/mrp.war')]",
+        "orderingService": "[concat(variables('githubRoot'),'builds/ordering-service-0.1.0.jar')]",
+        "commandToExecute": "sh ./Install-MRP-app.sh", 
         "imagePublisher": "Canonical",
         "imageOffer": "UbuntuServer",
         "ubuntuOSVersion": "14.04.2-LTS",

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Kill java to stop current website
 pkill -9 'java'
 
