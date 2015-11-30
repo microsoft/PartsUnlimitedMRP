@@ -46,7 +46,7 @@
         "mongoRecordsFile":"[concat(variables('githubRoot'),'/deploy/MongoRecords.js')]",
         "mrpWar": "[concat(variables('githubRoot'),'/builds/mrp.war')]",
         "orderingService": "[concat(variables('githubRoot'),'/builds/ordering-service-0.1.0.jar')]",
-        "commandToExecute": "Install-MRP-app.sh", 
+        "commandToExecute": "./Install-MRP-app.sh", 
         "imagePublisher": "Canonical",
         "imageOffer": "UbuntuServer",
         "ubuntuOSVersion": "14.04.2-LTS",
