@@ -197,7 +197,7 @@
                 "[variables('mrpWar')]",
                 "[variables('orderingService')]"
             ],
-            "commandToExecute": "[parameters('commandToExecute')]"
+            "commandToExecute": "[variables('commandToExecute')]"
           }
         }
       }
