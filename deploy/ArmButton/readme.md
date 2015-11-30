@@ -10,7 +10,7 @@ extension then runs the install shell script to install and configure the app.
 ### Access the MRP application
 Once the deployment has succeeded, you can navigate to
 ```
-http://_dnsName_._location_.cloudapp.azure.com:9080/mrp
+http://_dnsName_._location_.cloudapp.azure.com:8080/mrp
 ```
 where:
 *	`dnsName` is the name of the public IP you configured when deploying. The image
@@ -18,4 +18,4 @@ where:
 
 	![](dns.png)
 * `location` is the location that you selected (e.g. westus)
-* An example URL would be http://nwc-partsunlimited-mrp.westus.cloudapp.azure.com:9080/mrp
+* An example URL would be http://nwc-partsunlimited-mrp.westus.cloudapp.azure.com:8080/mrp

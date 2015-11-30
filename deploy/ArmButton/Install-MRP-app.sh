@@ -4,9 +4,13 @@
 pkill -9 'java'
 
 # Remove old artifacts
-rm -f /var/lib/partsunlimited/MongoRecords.js*
-rm -f /var/lib/partsunlimited/mrp.war*
-rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
+if [ ! -d /var/lib/partsunlimited ]; then
+	mkdir /var/lib/partsunlimited
+else
+	rm -f /var/lib/partsunlimited/MongoRecords.js*
+	rm -f /var/lib/partsunlimited/mrp.war*
+	rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
+fi
 
 # Install packages
 apt-get update
@@ -21,7 +25,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
 
 # Copy the mongoRecords.js to the correct location
-cp ./MongoRecords.js /var/lib/partsunlimited
+cp ./MongoRecords.js /var/lib/partsunlimited/
 
 # Add the records to ordering database on MongoDB
 mongo ordering /var/lib/partsunlimited/MongoRecords.js
@@ -30,7 +34,7 @@ mongo ordering /var/lib/partsunlimited/MongoRecords.js
 sed -i s/8080/9080/g /etc/tomcat7/server.xml
 
 # Copy war to deployment dir
-cp ./mrp.war /var/lib/tomcat7/webapps
+cp ./mrp.war /var/lib/tomcat7/webapps/
 
 # Restart Tomcat
 /etc/init.d/tomcat7 restart
@@ -41,4 +45,4 @@ cp ./ordering-service-0.1.0.jar /var/lib/partsunlimited/
 # Run Ordering Service app
 java -jar /var/lib/partsunlimited/ordering-service-0.1.0.jar &
 
-echo "MRP application successfully deployed. Go to http://$HOSTNAME.cloudapp.net:9080/mrp"
+echo "MRP application successfully deployed. Go to http://host.location.cloudapp.net:8080/mrp"
