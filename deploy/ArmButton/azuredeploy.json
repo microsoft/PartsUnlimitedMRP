@@ -66,7 +66,8 @@
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "nsgName": "PartsUnlimitedNSG",
-        "mrpPorts": "8080,9080"
+        "mrpPort1": "8080",
+        "mrpPort2": "9080"
     },
     "resources": [
         {
@@ -100,14 +101,28 @@
                     {
                         "name": "web_rule",
                         "properties": {
-                            "description": "Allow WEB",
+                            "description": "Allow WEB Port 1",
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "sourceAddressPrefix": "Internet",
-                            "destinationPortRange": "[variables('mrpPorts')]",
+                            "destinationPortRange": "[variables('mrpPort1')]",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 101,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "web_rule",
+                        "properties": {
+                            "description": "Allow WEB Port 2",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationPortRange": "[variables('mrpPort2')]",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 102,
                             "direction": "Inbound"
                         }
                     },
