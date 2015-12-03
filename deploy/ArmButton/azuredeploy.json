@@ -99,7 +99,7 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "web_rule",
+                        "name": "web_rule1",
                         "properties": {
                             "description": "Allow WEB Port 1",
                             "protocol": "Tcp",
@@ -113,7 +113,7 @@
                         }
                     },
                     {
-                        "name": "web_rule",
+                        "name": "web_rule2",
                         "properties": {
                             "description": "Allow WEB Port 2",
                             "protocol": "Tcp",
