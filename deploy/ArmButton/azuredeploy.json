@@ -136,7 +136,7 @@
                             "destinationPortRange": "22",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 102,
+                            "priority": 103,
                             "direction": "Inbound"
                         }
                     }
