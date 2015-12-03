@@ -66,7 +66,7 @@
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "nsgName": "PartsUnlimitedNSG",
-        "mrpPort": "8080"
+        "mrpPorts": "8080,9080"
     },
     "resources": [
         {
@@ -104,7 +104,7 @@
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "sourceAddressPrefix": "Internet",
-                            "destinationPortRange": "[variables('mrpPort')]",
+                            "destinationPortRange": "[variables('mrpPorts')]",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 101,
