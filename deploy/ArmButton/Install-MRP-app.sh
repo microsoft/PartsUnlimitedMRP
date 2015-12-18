@@ -14,8 +14,8 @@ fi
 
 # Install packages
 apt-get update
-apt-get install openjdk-8-jdk -y
-apt-get install openjdk-8-jre -y
+apt-get install openjdk-7-jdk -y
+apt-get install openjdk-7-jre -y
 apt-get install mongodb -y
 apt-get install tomcat7 -y
 apt-get install wget -y
