@@ -41,7 +41,7 @@
         }
     },
     "variables": {
-        "githubRoot": "https://github.com/colindembovsky/PartsUnlimitedMRP/raw/arm/",
+        "githubRoot": "https://github.com/OguzPastirmaci/PartsUnlimitedMRP/raw/master/",
         "installScript": "[concat(variables('githubRoot'),'deploy/ArmButton/Install-MRP-app.sh')]",
         "mongoRecordsFile":"[concat(variables('githubRoot'),'deploy/MongoRecords.js')]",
         "mrpWar": "[concat(variables('githubRoot'),'builds/mrp.war')]",
