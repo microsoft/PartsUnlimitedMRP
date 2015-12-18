@@ -21,8 +21,8 @@ apt-get install tomcat7 -y
 apt-get install wget -y
 
 # Set Java environment variables
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+export PATH=$PATH:/usr/lib/jvm/java-7-openjdk-amd64/bin
 
 # Copy the mongoRecords.js to the correct location
 cp ./MongoRecords.js /var/lib/partsunlimited/
