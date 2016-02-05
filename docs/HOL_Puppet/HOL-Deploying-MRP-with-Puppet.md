@@ -25,7 +25,7 @@ This lab calls for the use of two machines. The Puppet Master server must be a L
 agent can run on Linux or Windows. For this lab, the _node_ that we will be configuring is an Ubuntu VM.
 
 Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.
-Simply click the button below and follow the wizard to deploy the two machines.
+Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines.
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
