@@ -27,14 +27,14 @@ agent can run on Linux or Windows. For this lab, the _node_ that we will be conf
 Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.
 Simply click the button below and follow the wizard to deploy the two machines.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-sshkey%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-sshkey%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
 
-## Task 2: Something
+## Task 2: Create a Puppet Program to Configure the MRP Node
 The Parts Unlimited MRP application is a Java application that requires [mongodb](https://www.mongodb.org/)
 and [tomcat](http://tomcat.apache.org/).
