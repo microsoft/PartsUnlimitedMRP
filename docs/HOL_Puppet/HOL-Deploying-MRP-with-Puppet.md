@@ -15,7 +15,8 @@ agent - the rest of the configuration will be applied by instructing Puppet how 
 though _puppet programs_ on the Puppet Master. 
 
 1. Provisioning a Puppet Master and node (both Ubuntu VMs) in Azure using ARM templates
-1. Install the Puppet Agent on the node
+1. Retrieve the Puppet Master admin password
+1. Install Puppet Agent on the node
 1. Create a puppet program to describe the environment for the MRP application
 1. Manually triggering the provisioning
 1. Remediating Configuration Changes
@@ -25,7 +26,17 @@ This lab calls for the use of two machines. The Puppet Master server must be a L
 agent can run on Linux or Windows. For this lab, the _node_ that we will be configuring is an Ubuntu VM.
 
 Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.
-Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines.
+Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines. You will need
+to log in to the Azure Portal.
+
+The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
+delete the resource group in order to remove all the created resources at any time.
+
+You will need to select a subscription and region to deploy the Resource Group to and to supply an admin username 
+and password and unique name for both machines. For simplicity, both machines will be created using Standard A2 size.
+
+Make sure you make a note of the region as well as the usernames and passwords for the machines. Allow
+about 10 minutes for deployment and then another 10 minutes for the Puppet Master to configure Puppet. 
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
@@ -34,7 +45,30 @@ Simply click the Deploy to Azure button below and follow the wizard to deploy th
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
+![](<media/1.jpg>)
 
-## Task 2: Create a Puppet Program to Configure the MRP Node
+When the deployment completes, you should see the following resources in the Azure Portal:
+
+![](<media/2.jpg>)
+
+Click on the "partspuppetmaster" Public IP Address. Then make a note of the DNS name:
+
+![](<media/3.jpg>)
+
+The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
+(Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
+ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console
+sign in page:
+
+![](<media/4.jpg>)
+
+## Task 2: Retrieve the Puppet Master admin password
+The Puppet Master VM comes from the Azure MarketPlace. It is configured to install Puppet Server from an answerfile.
+One of the fields in the answerfile is the admin password. We will now SSH into the Puppet Master and retrieve the
+password. 
+
+## Task 3: Install Puppet Agent on the node
+
+## Task 4: Create a Puppet Program to Configure the MRP Node
 The Parts Unlimited MRP application is a Java application that requires [mongodb](https://www.mongodb.org/)
 and [tomcat](http://tomcat.apache.org/).
