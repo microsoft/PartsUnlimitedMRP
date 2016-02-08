@@ -17,9 +17,9 @@ though _puppet programs_ on the Puppet Master.
 1. Provisioning a Puppet Master and node (both Ubuntu VMs) in Azure using ARM templates
 1. Retrieve the Puppet Master admin password
 1. Install Puppet Agent on the node
-1. Create a puppet program to describe the environment for the MRP application
-1. Manually triggering the provisioning
-1. Remediating Configuration Changes
+1. Configure the Puppet Production Environment
+1. Test the Production Environment Configuration
+1. Create a Puppet program to describe the environment for the MRP application
 
 ## Task 1: Provision the Lab
 This lab calls for the use of two machines. The Puppet Master server must be a Linux machine, but the puppet
@@ -33,7 +33,8 @@ The VMs will be deployed to a Resource Group along with a virtual network (VNET)
 delete the resource group in order to remove all the created resources at any time.
 
 You will need to select a subscription and region to deploy the Resource Group to and to supply an admin username 
-and password and unique name for both machines. For simplicity, both machines will be created using Standard A2 size.
+and password and unique name for both machines. The Puppet Master will be a Standard D2_V2 while the partsmrp machine
+will be a Standard A2.
 
 Make sure you make a note of the region as well as the usernames and passwords for the machines. Allow
 about 10 minutes for deployment and then another 10 minutes for the Puppet Master to configure Puppet. 
@@ -127,8 +128,7 @@ _IP-of-puppet-master_ puppetmaster _internal-name-of-puppet-master_. For example
 ![](<media/9.jpg>)
 
 
-Then press cntrl-X to exit, and enter 'Y' to save the changes, and enter to confirm the file name. Test your edits by
-entering the following command:
+Then press `cntrl-X`, `y` and `enter` to save the changes. Test your edits by entering the following command:
 ```
 ping partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
 ```
@@ -142,8 +142,8 @@ Next, enter the command that you copied from the Puppet Console to add the node:
 
 The command will take a few moments to complete.
 
-When the command is complete, you can exit the SSH terminal. From here on, you will configure the node only from
-the Puppet Master.
+From here on, you will configure the node only from the Puppet Master, though you will use the partsmrp SSH
+terminal to manually force Puppet to configure it.
 
 Return to the Puppet Console and refresh the node requests page (where you previously go the node install command). You
 should see a pending request. This request has come from the node and will authorize the certificate between the puppet
@@ -155,7 +155,11 @@ master and the partsmrp node:
 
 ![](<media/13.jpg>)
 
-## Task 4: Create a Puppet Program to Configure the MRP Node
+>**Note:** It is possible to automate the install and configuration of the Puppet agent onto an Azure VM using the
+[Puppet Agent extension](https://github.com/Azure/azure-quickstart-templates/tree/master/puppet-agent-windows) from the 
+Azure Marketplace.
+
+## Task 4: Configure the Puppet Production Environment
 The Parts Unlimited MRP application is a Java application that requires [mongodb](https://www.mongodb.org/)
 and [tomcat](http://tomcat.apache.org/) to be installed and configured on the partsmrp machine (the node). Instead of
 installing and configuring manually, we will now write a puppet program that will instruct the node how to configure
@@ -163,9 +167,9 @@ itself.
 
 Puppet Programs are stored in a particular folder in the puppet master. Puppet programs are made up of manifests
 that describe the desired state of the node(s). The manifests can consume modules, which are pre-packaged Puppet
-Programs. Users can create their own modules or consume modules from a marketplace maintained by PuppetLabs knows
-as the Forge. Some modules on the Forge are official modules that are supported - others are open-source modules
-uploaded from the community.
+Programs. Users can create their own modules or consume modules from a marketplace maintained by PuppetLabs known
+as the [Forge](http://forge.puppetlabs.com). Some modules on the Forge are official modules that are supported - 
+others are open-source modules uploaded from the community.
 
 There are two major ways to organise Puppet Programs. One is by _site_, and the other is by _environment_. Organizing
 by site allows you to configure a group of nodes from a single catalog. Howeverm, it is better to organize by 
@@ -175,16 +179,146 @@ For the purposes of this lab, we will treat the node as if it were in the produc
 download a few modules from the Forge which we will consume to configure the node.
 
 When the Puppet Server was installed in Azure, it configured a folder for managing the production environment
-in the following path:
-
-```
-/etc/puppetlabs/puppet/environment/production
-```
+in `/etc/puppetlabs/puppet/environments/production`.
 
 On the SSH terminal to the Puppet Master, cd to that folder now:
 
 ```
-cd /etc/puppetlabs/puppet/environment/production
+cd /etc/puppetlabs/puppet/environments/production
 ```
 
-If you run `ls` you will see two folders: `manifests` and `modules`.
+If you run `ls` you will see two folders: `manifests` and `modules`. The `manifests` folder contains descriptions
+of machines that we will later apply to nodes. The `modules` folder contains any modules that are referenced
+within the manifests.
+
+We will now install some modules from the Puppet Forge that we will need to configure the `partsmrp` node. Run
+the following 4 commands:
+
+```
+sudo puppet module install puppetlabs-apt --modulepath /etc/puppetlabs/puppet/environments/production/modules/
+sudo puppet module install puppetlabs-mongodb --modulepath /etc/puppetlabs/puppet/environments/production/modules/
+sudo puppet module install puppetlabs-tomcat --modulepath /etc/puppetlabs/puppet/environments/production/modules/
+sudo puppet module install maestrodev-wget --modulepath /etc/puppetlabs/puppet/environments/production/modules/
+```
+
+>**Note:** We need to specify the `modulepath` since by default the modules are installed to the "site" modules
+folder and not the environments module folder.
+
+![](<media/14.jpg>)
+
+>**Note:** The `apt`, `mongodb` and `tomcat` modules are supported modules from the Forge. The `wget` module is
+a user module and so is not officially supported.
+
+We will now create a custom module that will configure the Parts Unlimited MRP app. Run the following commands
+to template a module:
+
+```
+cd /etc/puppetlabs/puppet/environments/production/modules
+sudo puppet module generate partsunlimited-mrpapp --environment production
+```
+
+This will start a wizard that will ask a series of questions as it scaffolds the module. Simply press `enter`
+for each question (accepting blank or default) until the wizard completes.
+
+When generating the module, you need to supply an author and module name (that's why we passed
+`partsunlimited-mrpapp` as the name of the module). However, to use the module, the name must simply be the
+module name without the author, so rename the folder from `partsunlimited-mrpapp` to `mrpapp`:
+
+```
+sudo mv partsunlimited-mrpapp mrpapp
+```
+
+Running `ls -la` should list the modules available so far, including `mrpapp`:
+
+![](<media/15.jpg>)
+
+We are going to define the node's configuration in the `mrpapp` module. The configuration of the nodes in the
+production environment is defined in a `site.pp` file in the production `manifests` folder (the `.pp` extension
+is short for "puppet program"). Let's edit the `site.pp` file and define the configuration for our node:
+
+```
+sudo nano /etc/puppetlabs/puppet/environments/production/manifests/site.pp
+```
+
+Open the Puppet console and go to the nodes page. Copy the FQDN of the partsmrp node (which will be something
+like `partsmrp.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net`. This is the _nodeFQDN_.
+
+Scroll to the bottom of the file and delete the `node default` section. Add the following code, substituting
+the node FQDN you just copied for _nodeFQDN_:
+
+```
+node 'nodeFQDN' {
+  class { 'mrpapp': }
+}
+```
+
+Press `cntrl-X`, then `y` then `enter` to save the changes to the file.
+
+This instructs Puppet to configure the node with FQDN `nodeFQDN` with the `mrpapp` module. The module (though
+currently empty) is in the `modules` folder of the production environment, so Puppet will know where to find
+it.
+
+## Task 5: Test the Production Environment Configuration
+Before we fully describe the MRP app for the node, let's test that everything is hooked up correctly by 
+configuring a "dummy" file in the `mrpapp` module. If Puppet executes and creates the dummy file, then we can
+flesh out the rest of the module properly.
+
+Let's edit the `init.pp` file of the `mrpapp` module (this is the entry point for the module):
+
+```
+sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
+```
+
+You can either delete all the boiler-plate comments or just ignore them. Scroll down to the `class mrpapp`
+declaration and make it look as follows:
+
+```
+class mrpapp {
+  file { '/tmp/dummy.txt':
+    ensure => 'present',
+    content => 'Puppet rules!',
+  }
+}
+
+```
+
+Press `cntrl-X`, then `y` then `enter` to save the changes to the file.
+
+>**Note:** Classes in Puppet programs are not like classes in Object Oriented Programming. They simply define
+a group of settings that are applied to a node. In the `mrpapp` class (or group), we have just instructed 
+Puppet to ensure that a file exists at the path `/tmp/dummy.txt` that has the content "Puppet rules!". We 
+will define more advanced resources within the `mrpapp` class as we progress.
+
+Let's test our setup. Switch to the `partsmrp` SSH terminal and enter the following command:
+
+```
+sudo puppet agent --test
+```
+
+By default, the Puppet agents will query the Puppet Master for their configuration every 30 minutes. The
+command you just entered forces the agent to ask the Puppet Master for its configuration. It then tests
+itself against the configuration, and does whatever it needs to do in order to make itself match that
+configuration. In this case, the configuration requires the `/tmp/dummy.txt` file, so the node creates
+the file accordingly.
+
+You should see a successful run on the node. `cat` the `/tmp/dummy.txt` file to inspect its contents:
+
+```
+cat /tmp/dummy.txt
+```
+
+![](<media/16.jpg>)
+
+Let's delete the file and then re-run the test:
+
+```
+sudo rm /tmp/dummy.txt
+sudo puppet agent --test
+cat /tmp/dummy.txt
+```
+
+You should see the run complete successfully and the file should exist again.
+
+![](<media/17.jpg>)
+
+## Task 6: Create a Puppet Program to Describe the Environment for the MRP Application

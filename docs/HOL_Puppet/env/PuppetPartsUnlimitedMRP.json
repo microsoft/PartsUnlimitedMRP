@@ -62,7 +62,7 @@
     "vhdStorageContainerName": "vhds",
     "pmNsgName": "pmNSG",
     "mrpNsgName": "mrpNSG",
-    "pmVmSize": "Standard_A2",
+    "pmVmSize": "Standard_D2_V2",
     "mrpVmSize": "Standard_A2",
     "pmVmName": "[toLower(parameters('pmDnsNameForPublicIP'))]",
     "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
