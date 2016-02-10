@@ -317,8 +317,65 @@ sudo puppet agent --test
 cat /tmp/dummy.txt
 ```
 
-You should see the run complete successfully and the file should exist again.
+You should see the run complete successfully and the file should exist again. 
 
 ![](<media/17.jpg>)
 
+You can also try to edit the contents of the file and re-run the `sudo puppet agent --test` command to see the 
+contents update.
+
 ## Task 6: Create a Puppet Program to Describe the Environment for the MRP Application
+Now that we have hooked up the node (partsmrp) to the Puppet Master, we can begin to write the Puppet Program
+that will describe the environment for the Parts Unlimited MRP application.
+
+>**Note:** For simplicity, we will describe the entire configuration in a single Puppet Program (init.pp from 
+the mrpapp module we created earlier). However, the parts of the configuration could be split into multiple 
+manifests or modules as they grow.
+
+The first step is to describe the Java install for the app. Since our target node is an Ubuntu 12.04 machine,
+we would need to package the Oracle JDK/JRE if we wish to use the [PuppetLabs Java module](https://forge.puppetlabs.com/puppetlabs/java).
+However, rather than do that, we are going to install Java using the built-in Puppet `package` keyword.
+
+When you use `package` in Puppet, Puppet is smart enough to figure out which package manager you need, be
+it `apt`, `yum`, `rpm` or `sun`. Puppet has multiple _providers_ for the same module and will try to guess
+the correct provider. Since our target node is an Ubuntu machine, `package` will use `apt` when configuring
+packages we describe.
+
+There is a snag though - the Java 8 packages that we require are part of a non-standard package source (known
+as a Personal Package Archive, or PPA). We will use the [PuppetLabs apt module](https://forge.puppetlabs.com/puppetlabs/apt)
+to add the PPA so that when `apt` is invoked (via our `package` definition) it will be able to find the correct
+packages.
+
+On the Puppet Master, Edit the init.pp file of the mrpapp module:
+```
+sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
+```
+
+Add the following class:
+```
+class configurejava {
+  include apt
+
+  $packages = ['openjdk-8-jdk', 'openjdk-8-jre']
+
+  apt::ppa { 'ppa:openjdk-r/ppa': }->
+  package { $packages:
+     ensure => 'installed',
+  }
+}
+```
+
+Let's examine this class in detail:
+- Line 1: We are creating a class (configuration group) called `configurejava`
+- Line 2: We are including the `apt` module (which we installed earlier)
+- Line 4: We define a variable, `$packages` that we initiate to an array of the packages we need to install
+- Line 6: We configure the PPA by "calling" the `ppa` resource of the `apt` class
+- Line 7: We use the Puppet `package` keyword, setting the property `ensure` to `installed`. This instructs
+Puppet to install the package if it is not present. Note that the `package` resource will be invoked twice
+since the name that we provided (`$packages`) is an array which Puppet will expand. 
+
+>**Note**: The `->` notation on Line 6 is an "ordering arrow": it tells Puppet that it must apply the
+`apt::ppa` resource before invoking the following resource (`package`).
+
+
+
