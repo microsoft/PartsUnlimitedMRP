@@ -90,7 +90,7 @@ the "Reset Password" link in the upper right:
 
 In the SSH console, enter the following command to make a note of the internal IP address of the Pupper Master:
 
-```
+```sh
 hostname -i
 ```
 
@@ -115,7 +115,7 @@ the resource group was created.
 
 Once you have logged in, enter the following command to edit the hosts file:
 
-```
+```sh
 sudo nano /etc/hosts
 ```
 
@@ -129,7 +129,7 @@ _IP-of-puppet-master_ puppetmaster _internal-name-of-puppet-master_. For example
 
 
 Then press `cntrl-X`, `y` and `enter` to save the changes. Test your edits by entering the following command:
-```
+```sh
 ping partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
 ```
 
@@ -183,7 +183,7 @@ in `/etc/puppetlabs/puppet/environments/production`.
 
 On the SSH terminal to the Puppet Master, cd to that folder now:
 
-```
+```sh
 cd /etc/puppetlabs/puppet/environments/production
 ```
 
@@ -194,7 +194,7 @@ within the manifests.
 We will now install some modules from the Puppet Forge that we will need to configure the `partsmrp` node. Run
 the following 4 commands:
 
-```
+```sh
 sudo puppet module install puppetlabs-apt --modulepath /etc/puppetlabs/puppet/environments/production/modules/
 sudo puppet module install puppetlabs-mongodb --modulepath /etc/puppetlabs/puppet/environments/production/modules/
 sudo puppet module install puppetlabs-tomcat --modulepath /etc/puppetlabs/puppet/environments/production/modules/
@@ -212,7 +212,7 @@ a user module and so is not officially supported.
 We will now create a custom module that will configure the Parts Unlimited MRP app. Run the following commands
 to template a module:
 
-```
+```sh
 cd /etc/puppetlabs/puppet/environments/production/modules
 sudo puppet module generate partsunlimited-mrpapp --environment production
 ```
@@ -224,7 +224,7 @@ When generating the module, you need to supply an author and module name (that's
 `partsunlimited-mrpapp` as the name of the module). However, to use the module, the name must simply be the
 module name without the author, so rename the folder from `partsunlimited-mrpapp` to `mrpapp`:
 
-```
+```sh
 sudo mv partsunlimited-mrpapp mrpapp
 ```
 
@@ -236,7 +236,7 @@ We are going to define the node's configuration in the `mrpapp` module. The conf
 production environment is defined in a `site.pp` file in the production `manifests` folder (the `.pp` extension
 is short for "puppet program"). Let's edit the `site.pp` file and define the configuration for our node:
 
-```
+```sh
 sudo nano /etc/puppetlabs/puppet/environments/production/manifests/site.pp
 ```
 
@@ -246,7 +246,7 @@ like `partsmrp.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net`. This is the
 Scroll to the bottom of the file and delete the `node default` section. Add the following code, substituting
 the node FQDN you just copied for _nodeFQDN_:
 
-```
+```puppet
 node 'nodeFQDN' {
   class { 'mrpapp': }
 }
@@ -265,33 +265,32 @@ flesh out the rest of the module properly.
 
 Let's edit the `init.pp` file of the `mrpapp` module (this is the entry point for the module):
 
-```
+```sh
 sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
 ```
 
 You can either delete all the boiler-plate comments or just ignore them. Scroll down to the `class mrpapp`
 declaration and make it look as follows:
 
-```
+```puppet
 class mrpapp {
   file { '/tmp/dummy.txt':
     ensure => 'present',
     content => 'Puppet rules!',
   }
 }
-
 ```
 
 Press `cntrl-X`, then `y` then `enter` to save the changes to the file.
 
 >**Note:** Classes in Puppet programs are not like classes in Object Oriented Programming. They simply define
-a group of settings that are applied to a node. In the `mrpapp` class (or group), we have just instructed 
+a "resource" that is conifgured on a node. In the `mrpapp` class (or resource), we have just instructed 
 Puppet to ensure that a file exists at the path `/tmp/dummy.txt` that has the content "Puppet rules!". We 
 will define more advanced resources within the `mrpapp` class as we progress.
 
 Let's test our setup. Switch to the `partsmrp` SSH terminal and enter the following command:
 
-```
+```sh
 sudo puppet agent --test
 ```
 
@@ -303,7 +302,7 @@ the file accordingly.
 
 You should see a successful run on the node. `cat` the `/tmp/dummy.txt` file to inspect its contents:
 
-```
+```sh
 cat /tmp/dummy.txt
 ```
 
@@ -311,7 +310,7 @@ cat /tmp/dummy.txt
 
 Let's delete the file and then re-run the test:
 
-```
+```sh
 sudo rm /tmp/dummy.txt
 sudo puppet agent --test
 cat /tmp/dummy.txt
@@ -347,12 +346,12 @@ to add the PPA so that when `apt` is invoked (via our `package` definition) it w
 packages.
 
 On the Puppet Master, Edit the init.pp file of the mrpapp module:
-```
+```sh
 sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
 ```
 
-Add the following class:
-```
+Add the following class at the bottom of the file:
+```puppet
 class configurejava {
   include apt
 
@@ -366,7 +365,7 @@ class configurejava {
 ```
 
 Let's examine this class in detail:
-- Line 1: We are creating a class (configuration group) called `configurejava`
+- Line 1: We are creating a class (resource) called `configurejava`
 - Line 2: We are including the `apt` module (which we installed earlier)
 - Line 4: We define a variable, `$packages` that we initiate to an array of the packages we need to install
 - Line 6: We configure the PPA by "calling" the `ppa` resource of the `apt` class
@@ -377,5 +376,63 @@ since the name that we provided (`$packages`) is an array which Puppet will expa
 >**Note**: The `->` notation on Line 6 is an "ordering arrow": it tells Puppet that it must apply the
 `apt::ppa` resource before invoking the following resource (`package`).
 
+In order to include this resource in our mrpapp module, we need to tell the mrpapp class to invoke it.
 
+Scroll to the top of the init.pp file and change the mrpapp class to look as follows:
+```puppet
+class mrpapp {
+  class { 'configurejava': }
+}
+```
 
+We are instructing Puppet to include the resource (class) called `configurejava` which we just defined.
+
+Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+Now in the SSH terminal to the partsmrp node, tell Puppet to configure the node:
+```sh
+sudo puppet agent --test
+```
+
+You should see Puppet adding the PPA and then invoking `apt` to install the Java packages. This may take a few
+minutes.
+
+![](<media/18.jpg>)
+
+Let's add a class to configure mongodb. Once mongodb is configured, we want Puppet to donwload a mongo script
+that contains some data for our application's database. We'll include this as part of the mongodb setup.
+
+Go back to the Puppet Master SSH terminal, and open the init.pp file
+(if it is not open). Add the following class at the bottom of the file:
+
+```puppet
+class configuremongodb {
+  include wget
+  class { 'mongodb': }
+
+  wget::fetch { 'mongorecords':
+    source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/MongoRecords.js',
+    destination => '/tmp/MongoRecords.js',
+    timeout => 0,
+  }->
+  exec { 'insertrecords':
+    command => 'mongo ordering /tmp/MongoRecords.js',
+    path => '/usr/bin:/usr/sbin',
+    unless => "test -f /tmp/initcomplete"
+  }->
+  file { '/tmp/initcomplete':
+    ensure => 'present',
+  }
+}
+```
+
+Let's examine this class:
+- Line 1: We create a class (resource) called `configuremongodb`
+- Line 2: We include the `wget` [module](https://forge.puppetlabs.com/maestrodev/wget) so that we can 
+download files via `wget`
+- Line 3: We invoke the `mondodb` resource (from the `mongodb` module we downloaded earlier). This installs
+mongodb using defaults defined in the [Puppet mongodb module](https://forge.puppetlabs.com/puppetlabs/mongodb).
+- Line 5: We invoke the `fetch` resource from the `wget` module.
+
+partspuppetmaster.eastus2.cloudapp.azure.com
+partsmrp.eastus2.cloudapp.azure.com
