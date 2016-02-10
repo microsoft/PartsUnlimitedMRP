@@ -63,6 +63,10 @@ sign in page:
 
 ![](<media/4.jpg>)
 
+>**Note:** The lab requires several ports to be open, such as the Puppet Server port, the Puppet console port, SSH
+ports and the Parts Unlimited MRP app port on the partsmrp machine. The ARM template opens these ports on the
+machines for you.
+
 ## Task 2: Retrieve the Puppet Master admin password
 The Puppet Master VM is created from an image that PuppetLabs maintiains in the Azure MarketPlace. When a VM is created 
 from the image, it installs and configures Puppet Server from an answerfile. One of the fields in the answerfile is the 
@@ -192,10 +196,9 @@ of machines that we will later apply to nodes. The `modules` folder contains any
 within the manifests.
 
 We will now install some modules from the Puppet Forge that we will need to configure the `partsmrp` node. Run
-the following 4 commands:
+the following 3 commands:
 
 ```sh
-sudo puppet module install puppetlabs-apt --modulepath /etc/puppetlabs/puppet/environments/production/modules/
 sudo puppet module install puppetlabs-mongodb --modulepath /etc/puppetlabs/puppet/environments/production/modules/
 sudo puppet module install puppetlabs-tomcat --modulepath /etc/puppetlabs/puppet/environments/production/modules/
 sudo puppet module install maestrodev-wget --modulepath /etc/puppetlabs/puppet/environments/production/modules/
@@ -206,7 +209,7 @@ folder and not the environments module folder.
 
 ![](<media/14.jpg>)
 
->**Note:** The `apt`, `mongodb` and `tomcat` modules are supported modules from the Forge. The `wget` module is
+>**Note:** The `mongodb` and `tomcat` modules are supported modules from the Forge. The `wget` module is
 a user module and so is not officially supported.
 
 We will now create a custom module that will configure the Parts Unlimited MRP app. Run the following commands
@@ -331,84 +334,20 @@ that will describe the environment for the Parts Unlimited MRP application.
 the mrpapp module we created earlier). However, the parts of the configuration could be split into multiple 
 manifests or modules as they grow.
 
-The first step is to describe the Java install for the app. Since our target node is an Ubuntu 12.04 machine,
-we would need to package the Oracle JDK/JRE if we wish to use the [PuppetLabs Java module](https://forge.puppetlabs.com/puppetlabs/java).
-However, rather than do that, we are going to install Java using the built-in Puppet `package` keyword.
+Let's add a class to configure mongodb. Once mongodb is configured, we want Puppet to donwload a mongo script
+that contains some data for our application's database. We'll include this as part of the mongodb setup.
 
-When you use `package` in Puppet, Puppet is smart enough to figure out which package manager you need, be
-it `apt`, `yum`, `rpm` or `sun`. Puppet has multiple _providers_ for the same module and will try to guess
-the correct provider. Since our target node is an Ubuntu machine, `package` will use `apt` when configuring
-packages we describe.
-
-There is a snag though - the Java 8 packages that we require are part of a non-standard package source (known
-as a Personal Package Archive, or PPA). We will use the [PuppetLabs apt module](https://forge.puppetlabs.com/puppetlabs/apt)
-to add the PPA so that when `apt` is invoked (via our `package` definition) it will be able to find the correct
-packages.
-
-On the Puppet Master, Edit the init.pp file of the mrpapp module:
+On the Puppet Master, edit the init.pp file of the mrpapp module:
 ```sh
 sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
 ```
 
 Add the following class at the bottom of the file:
-```puppet
-class configurejava {
-  include apt
-
-  $packages = ['openjdk-8-jdk', 'openjdk-8-jre']
-
-  apt::ppa { 'ppa:openjdk-r/ppa': }->
-  package { $packages:
-     ensure => 'installed',
-  }
-}
-```
-
-Let's examine this class in detail:
-- Line 1: We are creating a class (resource) called `configurejava`
-- Line 2: We are including the `apt` module (which we installed earlier)
-- Line 4: We define a variable, `$packages` that we initiate to an array of the packages we need to install
-- Line 6: We configure the PPA by "calling" the `ppa` resource of the `apt` class
-- Line 7: We use the Puppet `package` keyword, setting the property `ensure` to `installed`. This instructs
-Puppet to install the package if it is not present. Note that the `package` resource will be invoked twice
-since the name that we provided (`$packages`) is an array which Puppet will expand. 
-
->**Note**: The `->` notation on Line 6 is an "ordering arrow": it tells Puppet that it must apply the
-`apt::ppa` resource before invoking the following resource (`package`).
-
-In order to include this resource in our mrpapp module, we need to tell the mrpapp class to invoke it.
-
-Scroll to the top of the init.pp file and change the mrpapp class to look as follows:
-```puppet
-class mrpapp {
-  class { 'configurejava': }
-}
-```
-
-We are instructing Puppet to include the resource (class) called `configurejava` which we just defined.
-
-Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
-
-Now in the SSH terminal to the partsmrp node, tell Puppet to configure the node:
-```sh
-sudo puppet agent --test
-```
-
-You should see Puppet adding the PPA and then invoking `apt` to install the Java packages. This may take a few
-minutes.
-
-![](<media/18.jpg>)
-
-Let's add a class to configure mongodb. Once mongodb is configured, we want Puppet to donwload a mongo script
-that contains some data for our application's database. We'll include this as part of the mongodb setup.
-
-Go back to the Puppet Master SSH terminal, and open the init.pp file
-(if it is not open). Add the following class at the bottom of the file:
 
 ```puppet
 class configuremongodb {
   include wget
-  class { 'mongodb': }
+  class { 'mongodb': }->
 
   wget::fetch { 'mongorecords':
     source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/MongoRecords.js',
@@ -432,7 +371,143 @@ Let's examine this class:
 download files via `wget`
 - Line 3: We invoke the `mondodb` resource (from the `mongodb` module we downloaded earlier). This installs
 mongodb using defaults defined in the [Puppet mongodb module](https://forge.puppetlabs.com/puppetlabs/mongodb).
-- Line 5: We invoke the `fetch` resource from the `wget` module.
+Believe it or not, that's all we have to do to install mondodb!
+- Line 5: We invoke the `fetch` resource from the `wget` module, calling this resource `mongorecords`
+- Line 6: We set the source of the file we need to download
+- Line 7: We set the destination where the file must be downloaded to
+- Line 10: We use the built-in Puppet resource `exec` to execute a command
+- Line 11: We specify the command to execute
+- Line 12: We set the path for the command invocation
+- Line 13: We specify a condition using the keyword `unless`: we only want this command to execute once, so we
+create a tmp file once we have inserted the records (Line 15). If this file exists, we don't execute the
+command again.
 
-partspuppetmaster.eastus2.cloudapp.azure.com
-partsmrp.eastus2.cloudapp.azure.com
+>**Note**: The `->` notation on Lines 3, 8 and 13 is an "ordering arrow": it tells Puppet that it must apply the
+"left" resource before invoking the "right" resource. This allows us to specify order when necessary.
+
+Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+Now we can specify resources for the war file and ordering service components of the application. Back on 
+the Puppet Master, open the init.pp file (if it is not open) and add the following two classes at the bottom
+of the file:
+
+```puppet
+class deploywar {
+  tomcat::war { 'mrp.war':
+    catalina_base => '/var/lib/tomcat7',
+    war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
+  }
+}
+
+class orderingservice {
+  package { 'openjdk-7-jre':
+    ensure => 'installed'
+  }
+  
+  file { '/opt/mrp':
+    ensure => 'directory'
+  }->
+  wget::fetch { 'orderingsvc':
+    source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/ordering-service-0.1.0.jar',
+    destination => '/opt/mrp/ordering-service.jar',
+    cache_dir => '/var/cache/wget',
+    timeout => 0,
+  }->
+  exec { 'orderservice':
+    command => 'java -jar /opt/mrp/ordering-service.jar &',
+    path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
+  }->
+  exec { 'wait':
+    command => 'sleep 30',
+    path => '/bin',
+  }
+}
+```
+
+Let's examine these classes:
+- Line 1: We create a class (resource) called `deploywar`
+- Lines 2 - 4: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
+`catalina_base` directory
+- Line 8: We create a class (resource) called `orderingservice`
+- Lines 9 - 11: We install the Java JRE required to run the application using Puppet's `package` resource
+- Lines 13 - 15: We ensure that the directory `/opt/mrp` exists
+- Lines 16 - 20: We use `wget` to fetch the ordering service jar file. We configure a cache directory to 
+prevent downloading the file multiple times. The `wget` class uses timestamping (-N) and prefix (-P) `wget`
+options to only re-download if the soruce has been updated.
+- Lines 22 - 24: We use `exec` to start the ordering service
+- Lines 26 - 28: We use `exec` to wait for 30 seconds
+
+>**Note:** We need to wait after running the `java` command since this service needs to be running before we
+start Tomcat.
+
+Let's add a class below the `orderingservice` class to configure `tomcat`:
+```puppet
+class configuretomcat {
+  class { 'tomcat': }
+
+  tomcat::instance { 'default':
+    package_name => 'tomcat7',
+    install_from_source => false,
+  }
+  tomcat::config::server::connector { 'tomcat7-http':
+    catalina_base => '/var/lib/tomcat7',
+    port => '9080',
+    protocol => 'HTTP/1.1',
+    connector_ensure => 'present',
+    server_config => '/etc/tomcat7/server.xml',
+  }
+  tomcat::service { 'default':
+    use_jsvc => false,
+    use_init => true,
+    service_name => 'tomcat7',
+  }
+}
+```
+
+Let's examine this class:
+- Line 1: We create a class (resource) called `configuretomcat`
+- Line 2: We invoke the `tomcat` resource (from the [tomcat module](https://forge.puppetlabs.com/puppetlabs/mongodb)
+we downloaded earlier)
+- Line 4: We need to override some default properties for the tomcat instance. We specify the tomcat package we
+need (Line 5) and tell the `tomcat` class not to install from source (Line 6).
+- Line 8: We need to configure a connector for the Parts Unlimited MRP application. In Lines 9 - 13, we specify
+the connector properties for Puppet to write to the tomcat server.xml file.
+- Lines 15 - 18: We configure the Tomcat service
+
+Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+In order to include the classes (resources) in our mrpapp module, we need to tell the mrpapp class to invoke 
+them.
+
+Go back to the top of the file and change the `mrpapp` class to look as follows:
+```puppet
+class mrpapp {
+  class { 'configuremongodb': }->
+  class { 'deploywar': }->
+  class { 'orderingservice': }->
+  class { 'configuretomcat': }
+}
+```
+
+>**Note:** We use the `->` ordering arrow to specify the order in which Puppet should configure the resources. 
+
+Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+On the partsmrp SSH session, force Puppet to update the node's configuration to our completed description:
+```sh
+sudo puppet agent --test
+```
+
+Now you can test the configuration by opening up a browser to the Parts Unlimited MRP application. The address
+will be http://partsmrp-public-ip:9080/mrp where _partsmrp-public-ip_ is the public ip or DNS name of the
+partsmrp VM (you can get it by clicking on the VM in the resource group in the Azure Portal).
+
+![](<media/18.jpg>)
+
+If you click on the Orders button, you should see the orders page:
+
+![](<media/19.jpg>)
+
+#Congratulations!
+You've now completed this lab. Remember to delete the resource group you created when you are done in the Azure
+Portal so that you are not charged for the resources.
