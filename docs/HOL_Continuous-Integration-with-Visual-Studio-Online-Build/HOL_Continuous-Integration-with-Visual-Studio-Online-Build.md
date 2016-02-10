@@ -147,7 +147,7 @@ Press [ENTER] to continue when asked after the first command.
 	export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
 	
 	# Install node and npm
-	curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
 **9.** Our build server is ready to install a build agent on it, but first we
