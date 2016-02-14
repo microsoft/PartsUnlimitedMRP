@@ -1,4 +1,4 @@
-# HOL - Parts Unlimited MRP App Continuous Integration with Visual Studio Online Build #
+# HOL - Parts Unlimited MRP App Continuous Integration with Visual Studio Team Services #
 
 In this lab you will learn how to deploy the Parts Unlimited MRP App in an automated fashion. After this lab, you will have a working, automated build in Visual Studio Online that will build, test, and deploy the Parts Unlimited MRP app to a Virtual Machine in Azure.
 
@@ -12,7 +12,7 @@ In this lab you will learn how to deploy the Parts Unlimited MRP App in an autom
 
 ###Tasks Overview###
 
-**Set up infrastructure in Azure to deploy to:** This step helps you set up a machine that you will be able to deploy to from an automated build in Visual Studio Online.
+**Set up infrastructure in Azure to deploy to:** This step helps you set up a machine that you will be able to deploy to from an automated build in Visual Studio Team Services.
 
 **Add build step to deploy:** You will add another task to your continuous integration build that will deploy the Parts Unlimited MRP to a virtual machine in Azure 
 
@@ -24,7 +24,7 @@ The first thing we need to do is set up a virtual machine with all of the necess
 
 **2.** **Open** the publish settings file with a text editor and **copy the contents**.
 
-**3.** **SSH** into the Azure Virtual Machine that you turned into a Visual Studio Online Build Agent.
+**3.** **SSH** into the Azure Virtual Machine that you turned into a Visual Studio Team Services Build Agent.
 
 **4.** Create a **new file** by running the following command: 
 
@@ -86,7 +86,7 @@ You should now have a cloud service, a virtual machine, a virtual network, and a
 
 ###2. Modify build to deploy after compilation###
 
-**1.** Navigate to your Visual Studio Online account located here:
+**1.** Navigate to your Visual Studio Team Services account located here:
 
     https://<account>.visualstudio.com
 
