@@ -393,6 +393,9 @@ of the file:
 
 ```puppet
 class deploywar {
+  file { '/var/lib/tomcat7/webapps':
+      ensure => 'directory',
+  }
   tomcat::war { 'mrp.war':
     catalina_base => '/var/lib/tomcat7',
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
@@ -426,16 +429,17 @@ class orderingservice {
 
 Let's examine these classes:
 - Line 1: We create a class (resource) called `deploywar`
-- Lines 2 - 4: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
+- Lines 2 - 4: We ensure that the '/var/lib/tomcat7/webapps' directory exists
+- Lines 5 - 7: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
 `catalina_base` directory
-- Line 8: We create a class (resource) called `orderingservice`
-- Lines 9 - 11: We install the Java JRE required to run the application using Puppet's `package` resource
-- Lines 13 - 15: We ensure that the directory `/opt/mrp` exists
-- Lines 16 - 20: We use `wget` to fetch the ordering service jar file. We configure a cache directory to 
+- Line 11: We create a class (resource) called `orderingservice`
+- Lines 12 - 14: We install the Java JRE required to run the application using Puppet's `package` resource
+- Lines 16 - 18: We ensure that the directory `/opt/mrp` exists
+- Lines 19 - 23: We use `wget` to fetch the ordering service jar file. We configure a cache directory to 
 prevent downloading the file multiple times. The `wget` class uses timestamping (-N) and prefix (-P) `wget`
 options to only re-download if the soruce has been updated.
-- Lines 22 - 24: We use `exec` to start the ordering service
-- Lines 26 - 28: We use `exec` to wait for 30 seconds
+- Lines 25 - 27: We use `exec` to start the ordering service
+- Lines 29 - 31: We use `exec` to wait for 30 seconds
 
 >**Note:** We need to wait after running the `java` command since this service needs to be running before we
 start Tomcat.

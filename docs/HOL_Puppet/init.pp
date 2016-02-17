@@ -46,6 +46,9 @@ class configuretomcat {
 }
 
 class deploywar {
+  file { '/var/lib/tomcat7/webapps':
+      ensure => 'directory',
+  }
   tomcat::war { 'mrp.war':
     catalina_base => '/var/lib/tomcat7',
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
