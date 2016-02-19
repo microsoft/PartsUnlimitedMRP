@@ -1,8 +1,9 @@
 class mrpapp {
-  class { 'configuremongodb': }->
-  class { 'deploywar': }->
-  class { 'orderingservice': }->
+  class { 'configuremongodb': }
+  class { 'configurejava': }
   class { 'configuretomcat': }
+  class { 'deploywar': }
+  class { 'orderingservice': }
 }
 
 class configuremongodb {
@@ -24,12 +25,27 @@ class configuremongodb {
   }
 }
 
+class configurejava {
+  include apt
+  $packages = ['openjdk-8-jdk', 'openjdk-8-jre']
+
+  apt::ppa { 'ppa:openjdk-r/ppa': }->
+  package { $packages:
+     ensure => 'installed',
+  }
+}
+
 class configuretomcat {
   class { 'tomcat': }
 
   tomcat::instance { 'default':
     package_name => 'tomcat7',
     install_from_source => false,
+  }
+  tomcat::service { 'default':
+    use_jsvc => false,
+    use_init => true,
+    service_name => 'tomcat7',
   }
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
@@ -38,17 +54,9 @@ class configuretomcat {
     connector_ensure => 'present',
     server_config => '/etc/tomcat7/server.xml',
   }
-  tomcat::service { 'default':
-    use_jsvc => false,
-    use_init => true,
-    service_name => 'tomcat7',
-  }
 }
 
 class deploywar {
-  file { '/var/lib/tomcat7/webapps':
-      ensure => 'directory',
-  }
   tomcat::war { 'mrp.war':
     catalina_base => '/var/lib/tomcat7',
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
@@ -69,12 +77,23 @@ class orderingservice {
     cache_dir => '/var/cache/wget',
     timeout => 0,
   }->
+  exec { 'stoporderingservice':
+    command => "pkill -f ordering-service",
+    path => '/bin:/usr/bin:/usr/sbin',
+    onlyif => "pgrep -f ordering-service"
+  }->
+  exec { 'stoptomcat':
+    command => 'service tomcat7 stop',
+    path => '/usr/bin:/usr/sbin',
+    onlyif => "test -f /etc/init.d/tomcat7",
+  }->
   exec { 'orderservice':
     command => 'java -jar /opt/mrp/ordering-service.jar &',
     path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
   }->
   exec { 'wait':
-    command => 'sleep 30',
+    command => 'sleep 20',
     path => '/bin',
+    notify => Tomcat::Service['default']
   }
 }

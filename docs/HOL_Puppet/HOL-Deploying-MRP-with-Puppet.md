@@ -387,64 +387,33 @@ command again.
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
-Now we can specify resources for the war file and ordering service components of the application. Back on 
-the Puppet Master, open the init.pp file (if it is not open) and add the following two classes at the bottom
-of the file:
+Next we'll configure Java for the application. Add the following class below the `configuremongodb` class:
 
 ```puppet
-class deploywar {
-  file { '/var/lib/tomcat7/webapps':
-      ensure => 'directory',
-  }
-  tomcat::war { 'mrp.war':
-    catalina_base => '/var/lib/tomcat7',
-    war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
-  }
-}
+class configurejava {
+  include apt
+  $packages = ['openjdk-8-jdk', 'openjdk-8-jre']
 
-class orderingservice {
-  package { 'openjdk-7-jre':
-    ensure => 'installed'
-  }
-  
-  file { '/opt/mrp':
-    ensure => 'directory'
-  }->
-  wget::fetch { 'orderingsvc':
-    source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/ordering-service-0.1.0.jar',
-    destination => '/opt/mrp/ordering-service.jar',
-    cache_dir => '/var/cache/wget',
-    timeout => 0,
-  }->
-  exec { 'orderservice':
-    command => 'java -jar /opt/mrp/ordering-service.jar &',
-    path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
-  }->
-  exec { 'wait':
-    command => 'sleep 30',
-    path => '/bin',
+  apt::ppa { 'ppa:openjdk-r/ppa': }->
+  package { $packages:
+     ensure => 'installed',
   }
 }
 ```
 
-Let's examine these classes:
-- Line 1: We create a class (resource) called `deploywar`
-- Lines 2 - 4: We ensure that the '/var/lib/tomcat7/webapps' directory exists
-- Lines 5 - 7: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
-`catalina_base` directory
-- Line 11: We create a class (resource) called `orderingservice`
-- Lines 12 - 14: We install the Java JRE required to run the application using Puppet's `package` resource
-- Lines 16 - 18: We ensure that the directory `/opt/mrp` exists
-- Lines 19 - 23: We use `wget` to fetch the ordering service jar file. We configure a cache directory to 
-prevent downloading the file multiple times. The `wget` class uses timestamping (-N) and prefix (-P) `wget`
-options to only re-download if the soruce has been updated.
-- Lines 25 - 27: We use `exec` to start the ordering service
-- Lines 29 - 31: We use `exec` to wait for 30 seconds
+Let's examine this class:
+- Line 2: We include the `apt` module, which will allow us to configure new Personal Package Archives (PPAs)
+- Line 3: We create an array of packages that we need to install 
+- Line 5: We add a PPA
+- Lines 6 - 8: We tell Puppet to ensure that the package are installed. Puppet expands the array and essentially
+does a for-each, installing each package in the array.
 
->**Note:** We need to wait after running the `java` command since this service needs to be running before we
-start Tomcat.
+>**Note:** We can't use the Puppet `package` target to install Java since this will only install Java 7. That's
+why we needed to add the PPA using the `apt` module.
 
-Let's add a class below the `orderingservice` class to configure `tomcat`:
+Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+Let's add a class below the `configurejava` class to configure `tomcat`:
 ```puppet
 class configuretomcat {
   class { 'tomcat': }
@@ -453,17 +422,17 @@ class configuretomcat {
     package_name => 'tomcat7',
     install_from_source => false,
   }
+  tomcat::service { 'default':
+    use_jsvc => false,
+    use_init => true,
+    service_name => 'tomcat7',
+  }
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
     port => '9080',
     protocol => 'HTTP/1.1',
     connector_ensure => 'present',
     server_config => '/etc/tomcat7/server.xml',
-  }
-  tomcat::service { 'default':
-    use_jsvc => false,
-    use_init => true,
-    service_name => 'tomcat7',
   }
 }
 ```
@@ -474,11 +443,81 @@ Let's examine this class:
 we downloaded earlier)
 - Line 4: We need to override some default properties for the tomcat instance. We specify the tomcat package we
 need (Line 5) and tell the `tomcat` class not to install from source (Line 6).
-- Line 8: We need to configure a connector for the Parts Unlimited MRP application. In Lines 9 - 13, we specify
+- Lines 8 - 12: We configure the Tomcat service
+- Lines 13 - 19: We need to configure a connector for the Parts Unlimited MRP application. In Lines 9 - 13, we specify
 the connector properties for Puppet to write to the tomcat server.xml file.
-- Lines 15 - 18: We configure the Tomcat service
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
+
+Now we can specify a resource to deploy the site war file:
+
+```puppet
+class deploywar {
+  tomcat::war { 'mrp.war':
+    catalina_base => '/var/lib/tomcat7',
+    war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
+  }
+}
+```
+
+Let's examine this class:
+- Line 1: We create a class (resource) called `deploywar`
+- Lines 2 - 4: We ensure that the '/var/lib/tomcat7/webapps' directory exists
+- Lines 5 - 7: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
+`catalina_base` directory
+
+Finally, we need to make sure that the ordering service is running:
+
+```puppet
+class orderingservice {
+  package { 'openjdk-7-jre':
+    ensure => 'installed',
+  }
+
+  file { '/opt/mrp':
+    ensure => 'directory'
+  }->
+  wget::fetch { 'orderingsvc':
+    source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/ordering-service-0.1.0.jar',
+    destination => '/opt/mrp/ordering-service.jar',
+    cache_dir => '/var/cache/wget',
+    timeout => 0,
+  }->
+  exec { 'stoporderingservice':
+    command => "pkill -f ordering-service",
+    path => '/bin:/usr/bin:/usr/sbin',
+    onlyif => "pgrep -f ordering-service"
+  }->
+  exec { 'stoptomcat':
+    command => 'service tomcat7 stop',
+    path => '/usr/bin:/usr/sbin',
+    onlyif => "test -f /etc/init.d/tomcat7",
+  }->
+  exec { 'orderservice':
+    command => 'java -jar /opt/mrp/ordering-service.jar &',
+    path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
+  }->
+  exec { 'wait':
+    command => 'sleep 20',
+    path => '/bin',
+    notify => Tomcat::Service['default']
+  }
+}
+```
+
+Let's examine this class:
+- Line 1: We create a class (resource) called `orderingservice`
+- Lines 2 - 4: We install the Java JRE required to run the application using Puppet's `package` resource
+- Lines 6 - 8: We ensure that the directory `/opt/mrp` exists (Puppet creates it if it doesnt)
+- Lines 15 - 18: We stop the `orderingservice`, but only if it is running
+- Lines 20 - 23: We stop the `tomcat7` service, but only if it is running
+- Lines 25 - 27: We start the ordering service
+- Lines 29 - 32: We sleep for 20 seconds to give the ordering service time to start up before notifying
+the `tomcat` service, which triggers a refresh on the service - Puppet will re-apply the state we defined
+for the service (i.e. start it if it is not running)
+
+>**Note:** We need to wait after running the `java` command since this service needs to be running before we
+start Tomcat.
 
 In order to include the classes (resources) in our mrpapp module, we need to tell the mrpapp class to invoke 
 them.
@@ -486,14 +525,13 @@ them.
 Go back to the top of the file and change the `mrpapp` class to look as follows:
 ```puppet
 class mrpapp {
-  class { 'configuremongodb': }->
-  class { 'deploywar': }->
-  class { 'orderingservice': }->
+  class { 'configuremongodb': }
+  class { 'configurejava': }
   class { 'configuretomcat': }
+  class { 'deploywar': }
+  class { 'orderingservice': }
 }
 ```
-
->**Note:** We use the `->` ordering arrow to specify the order in which Puppet should configure the resources. 
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
