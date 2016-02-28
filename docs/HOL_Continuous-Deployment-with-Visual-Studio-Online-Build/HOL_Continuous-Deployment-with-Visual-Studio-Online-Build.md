@@ -36,9 +36,9 @@ This will create the new file and open it in the text editor called `vi`.
 
 **6.** Press the `Esc` key, then press the key combination `Shift+:`, type `wq`, and then press `Enter`. This will write the contents to the file and then quit out of `vi`. 
 
-**7.** Now that we have the publish settings file on the Linux machine, we need to **install the Azure CLI** using the following command:
+**7.** Now that we have the publish settings file on the Linux machine, we need to **install the Azure CLI** using the following command (-g for global):
 
-    npm install azure-cli
+    sudo npm install azure-cli -g
 
 You should now be able to run `azure` and get the following output:
 
