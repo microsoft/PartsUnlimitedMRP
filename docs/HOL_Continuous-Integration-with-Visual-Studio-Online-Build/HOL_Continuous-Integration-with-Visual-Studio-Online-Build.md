@@ -177,25 +177,21 @@ add your **Alternate authentication credentials** (created earlier, step 3 - Set
 
 **13.** We are now ready to install the agent installer. This doesn't install an agent, it simply pulls down the agent
 installer. Go back to the ssh session, and **enter these commands** to install
-the Visual Studio Online agent installer:
+the Visual Studio Team Services agent installer:
 
-**NOTE:** Do not change $USER with your user, keep it as $USER.
-
-	sudo npm install vsoagent-installer -g
-	sudo chown -R $USER ~/.npm
 
 **14.** Create an agent by running the following commands:
 
 	cd ~/
 	mkdir myagent
     cd myagent
-	vsoagent-installer
+	curl -skSL http://aka.ms/xplatagent | bash
 
 This installs the agent to the directory **~/myagent**.
 
 **15.** The first time we run the agent, it will be configured. Run the agent with the following command:
 
-	node agent/vsoagent
+	./run.sh
 
 **16.** Enter the following information when prompted:
 
@@ -203,11 +199,13 @@ This installs the agent to the directory **~/myagent**.
 
 -   Alternate password
 
--   Server URL (Visual Studio Online URL)
+-   Server URL (Visual Studio Team Services URL e.g. https://yourname.visualstudio.com)
 
 -   Agent name (press enter for default)
 
 -   Agent pool (enter in **linux** - the pool created earlier in this lab)
+
+-	Enter force basic (press enter)
 
 ![](<media/start_agent.png>)
 
