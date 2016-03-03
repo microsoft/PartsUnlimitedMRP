@@ -244,6 +244,20 @@
               "priority": 1100,
               "direction": "Inbound"
             }
+          },
+          {
+            "name": "OrderingService",
+            "properties": {
+              "description": "OrderingService port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8080",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1200,
+              "direction": "Inbound"
+            }
           }
         ]
       }
