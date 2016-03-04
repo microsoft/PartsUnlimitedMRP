@@ -481,7 +481,7 @@ Open a browser and browse to port `9080` of the partsmrp machine. You can get th
 resource for the machine in Azure (just like you did to get the url of the puppet master earlier). Once you open the browser, you 
 should see the following Tomcat confirmation page:
 
-![](media\20.jpg)
+![](<media/20.jpg>)
 
 ## Task 7: Add Puppet Configuration to Deploy the Application
 So far we have created the MongoDb database (and inserted some data) and configured Java and Tomcat. We'll now deploy the
