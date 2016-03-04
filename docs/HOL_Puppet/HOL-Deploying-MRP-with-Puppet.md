@@ -550,7 +550,7 @@ If you click on the Orders button, you should see the orders page:
 
 ![](<media/19.jpg>)
 
->**Note:** You can see the complete `init.pp` file [here](init.pp).
+>**Note:** You can see the complete `init.pp` file [here](final/init.pp).
 
 #Congratulations!
 You've now completed this lab. Remember to delete the resource group you created when you are done in the Azure
