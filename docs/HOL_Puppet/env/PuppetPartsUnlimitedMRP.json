@@ -246,7 +246,7 @@
             }
           },
           {
-            "name": "OrderingService",
+            "name": "OrderingSvc",
             "properties": {
               "description": "OrderingService port",
               "protocol": "Tcp",
