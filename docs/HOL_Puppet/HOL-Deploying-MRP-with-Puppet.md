@@ -82,9 +82,13 @@ sudo cat /etc/puppetlabs/installer/database_info.install
 
 ![](<media/5.jpg>)
 
-Make a note of the password with the key `q_puppet_enterpriseconsole_auth_password`. Then go back to the Puppet Console
-in your browser and enter the username `admin` and the password you just retrieved. When you log in, you should see
-a page like this:
+Make a note of the password with the key `q_puppet_enterpriseconsole_auth_password`. 
+
+>**Note:** If this key isn't in the dump, then wait a few more moments for the Puppet Console install to complete and 
+rerun the command.  
+
+Now go back to the Puppet Console in your browser and enter the username `admin` and the password you just retrieved. 
+When you log in, you should see a page like this:
 
 ![](<media/6.jpg>)
 
