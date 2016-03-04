@@ -357,7 +357,7 @@ class configuremongodb {
   exec { 'insertrecords':
     command => 'mongo ordering /tmp/MongoRecords.js',
     path => '/usr/bin:/usr/sbin',
-    unless => "test -f /tmp/initcomplete"
+    unless => 'test -f /tmp/initcomplete'
   }->
   file { '/tmp/initcomplete':
     ensure => 'present',
