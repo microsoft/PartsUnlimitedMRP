@@ -246,18 +246,17 @@ sudo nano /etc/puppetlabs/puppet/environments/production/manifests/site.pp
 Open the Puppet console and go to the nodes page. Copy the FQDN of the partsmrp node (which will be something
 like `partsmrp.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net`. This is the _nodeFQDN_.
 
-Scroll to the bottom of the file and delete the `node default` section. Add the following code, substituting
-the node FQDN you just copied for _nodeFQDN_:
+Scroll to the bottom of the file and edit the `node default` section. Edit it to look as follows:
 
 ```puppet
-node 'nodeFQDN' {
+node default {
   class { 'mrpapp': }
 }
 ```
 
 Press `cntrl-X`, then `y` then `enter` to save the changes to the file.
 
-This instructs Puppet to configure the node with FQDN `nodeFQDN` with the `mrpapp` module. The module (though
+This instructs Puppet to configure the `default` (that is, all nodes) with the `mrpapp` module. The module (though
 currently empty) is in the `modules` folder of the production environment, so Puppet will know where to find
 it.
 
@@ -326,14 +325,15 @@ You should see the run complete successfully and the file should exist again.
 You can also try to edit the contents of the file and re-run the `sudo puppet agent --test` command to see the 
 contents update.
 
-## Task 6: Create a Puppet Program to Describe the Environment for the MRP Application
+## Task 6: Create a Puppet Program to Describe the Prerequisites for the MRP Application
 Now that we have hooked up the node (partsmrp) to the Puppet Master, we can begin to write the Puppet Program
-that will describe the environment for the Parts Unlimited MRP application.
+that will describe the prerequisites for the Parts Unlimited MRP application.
 
 >**Note:** For simplicity, we will describe the entire configuration in a single Puppet Program (init.pp from 
 the mrpapp module we created earlier). However, the parts of the configuration could be split into multiple 
-manifests or modules as they grow.
+manifests or modules as they grow. This would promote reuse - just as in any good programming language.
 
+### 6.1 Configure MongoDb ###
 Let's add a class to configure mongodb. Once mongodb is configured, we want Puppet to donwload a mongo script
 that contains some data for our application's database. We'll include this as part of the mongodb setup.
 
@@ -387,6 +387,7 @@ command again.
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
+### 6.2 Configure Java ###
 Next we'll configure Java for the application. Add the following class below the `configuremongodb` class:
 
 ```puppet
@@ -421,12 +422,12 @@ class configuretomcat {
   tomcat::instance { 'default':
     package_name => 'tomcat7',
     install_from_source => false,
-  }
+  }->
   tomcat::service { 'default':
     use_jsvc => false,
     use_init => true,
     service_name => 'tomcat7',
-  }
+  }->
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
     port => '9080',
@@ -449,7 +450,50 @@ the connector properties for Puppet to write to the tomcat server.xml file.
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
-Now we can specify a resource to deploy the site war file:
+Go back to the top of the file and change the `mrpapp` class to look as follows:
+```puppet
+class mrpapp {
+  class { 'configuremongodb': }
+  class { 'configurejava': }
+  class { 'configuretomcat': }
+}
+```
+
+This tells Puppet to configure our node with the 3 classes (resources) we just defined to configure MongoDb, Java and Tomcat.
+
+### 6.3 Run the Puppet Program ###
+At this point we have configured the prerequisites for the MRP app. Let's run the puppet program on the agent to make
+sure that everything is configured correctly so far.
+
+On the partsmrp SSH session, force Puppet to update the node's configuration:
+```sh
+sudo puppet agent --test
+```
+
+This first run will take a few moments - there is lots to download and install for the first run! Next time the Puppet agent runs,
+it will verify that the existing environment is correctly configured - that should be much quicker since the services will already
+be installed and configured.
+
+Once the run has completed, you can continue.
+
+### 6.4 Verify that Tomcat is running ###
+Open a browser and browse to port `9080` of the partsmrp machine. You can get the name of the machine by clicking on the Public IP
+resource for the machine in Azure (just like you did to get the url of the puppet master earlier). Once you open the browser, you 
+should see the following Tomcat confirmation page:
+
+![](media\20.jpg)
+
+## Task 7: Add Puppet Configuration to Deploy the Application
+So far we have created the MongoDb database (and inserted some data) and configured Java and Tomcat. We'll now deploy the
+application - not by copying manually, but by specifying the steps to deploy the applicaiton in our Puppet Program.
+
+The Tomcat server serves pages from a Java application. The application is compiled to a war file that we need to deploy into
+Tomcat. This sever then makes calls to an Ordering Service, which is a REST API managing orders. This service is compiled to a 
+jar file. We'll need to copy the jar file to our node and then run it in the background so that it can listen for requests.
+ 
+### 7.1 Deploy a WAR File
+Let's specify a resource to deploy the war file for the site. Go back to the Puppet SSH session and edit the `init.pp` file. 
+Add the following class at the bottom of the file:
 
 ```puppet
 class deploywar {
@@ -462,11 +506,11 @@ class deploywar {
 
 Let's examine this class:
 - Line 1: We create a class (resource) called `deploywar`
-- Lines 2 - 4: We ensure that the '/var/lib/tomcat7/webapps' directory exists
-- Lines 5 - 7: We use the tomcat module's `war` resource to deploy a war from the `war_source` to the correct
-`catalina_base` directory
+- Line 3: We set the `catalina base` directory so that Puppet deploys the war to our Tomcat service
+- Line 4: We use the tomcat module's `war` resource to deploy our war from the `war_source`
 
-Finally, we need to make sure that the ordering service is running:
+### 7.2 Start the Ordering Service
+Now we need to make sure that the ordering service is running. Again we'll add a new class at the bottom of the `init.pp` file:
 
 ```puppet
 class orderingservice {
@@ -519,10 +563,8 @@ for the service (i.e. start it if it is not running)
 >**Note:** We need to wait after running the `java` command since this service needs to be running before we
 start Tomcat.
 
-In order to include the classes (resources) in our mrpapp module, we need to tell the mrpapp class to invoke 
-them.
-
-Go back to the top of the file and change the `mrpapp` class to look as follows:
+### 7.3 Complete the mrpapp Resource ###
+Go back to the top of the file and change the `mrpapp` class to look as follows to run all our resources:
 ```puppet
 class mrpapp {
   class { 'configuremongodb': }
@@ -535,7 +577,8 @@ class mrpapp {
 
 Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
-On the partsmrp SSH session, force Puppet to update the node's configuration to our completed description:
+### 7.4 Run the Puppet Configuration on the Node ###
+On the partsmrp SSH session, again force Puppet to update the node's configuration:
 ```sh
 sudo puppet agent --test
 ```

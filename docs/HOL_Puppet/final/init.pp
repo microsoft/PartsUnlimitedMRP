@@ -41,12 +41,12 @@ class configuretomcat {
   tomcat::instance { 'default':
     package_name => 'tomcat7',
     install_from_source => false,
-  }
+  }->
   tomcat::service { 'default':
     use_jsvc => false,
     use_init => true,
     service_name => 'tomcat7',
-  }
+  }->
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
     port => '9080',
