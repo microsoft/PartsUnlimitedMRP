@@ -39,10 +39,10 @@ will be a Standard A2.
 Make sure you make a note of the region as well as the usernames and passwords for the machines. Allow
 about 10 minutes for deployment and then another 10 minutes for the Puppet Master to configure Puppet. 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2FA%2FAraw.githubusercontent.com%2FAcolindembovsky%2FAPartsUnlimitedMRP%2FAa10629e79974ed278ce50552d007acfdeb8c074d%2FAdocs%2FAHOL_Puppet%2FAenv%2FAPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fpuppet%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2FA%2FAraw.githubusercontent.com%2FAcolindembovsky%2FAPartsUnlimitedMRP%2FAa10629e79974ed278ce50552d007acfdeb8c074d%2FAdocs%2FAHOL_Puppet%2FAenv%2FAPuppetPartsUnlimitedMRP.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
