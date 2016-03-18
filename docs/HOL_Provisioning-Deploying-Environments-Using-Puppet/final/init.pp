@@ -42,21 +42,23 @@ class configuretomcat {
     package_name => 'tomcat7',
     install_from_source => false,
   }->
-  tomcat::service { 'default':
-    use_jsvc => false,
-    use_init => true,
-    service_name => 'tomcat7',
-  }->
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
     port => '9080',
     protocol => 'HTTP/1.1',
     connector_ensure => 'present',
     server_config => '/etc/tomcat7/server.xml',
+  }->
+  tomcat::service { 'default':
+    use_jsvc => false,
+    use_init => true,
+    service_name => 'tomcat7',
   }
 }
 
 class deploywar {
+  require configuretomcat
+
   tomcat::war { 'mrp.war':
     catalina_base => '/var/lib/tomcat7',
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
@@ -88,7 +90,7 @@ class orderingservice {
     onlyif => "test -f /etc/init.d/tomcat7",
   }->
   exec { 'orderservice':
-    command => 'java -jar /opt/mrp/ordering-service.jar &',
+    command => 'java -jar /opt/mrp/ordering-service.jar >> /tmp/log.txt &',
     path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
   }->
   exec { 'wait':
