@@ -289,7 +289,7 @@ in `/etc/puppetlabs/puppet/environments/production`.
 
     ```puppet
     node default {
-    class { 'mrpapp': }
+      class { 'mrpapp': }
     }
     ```
 
