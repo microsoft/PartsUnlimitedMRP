@@ -34,11 +34,11 @@ though _puppet programs_ on the Puppet Master.
     
     Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines. You will need
     to log in to the Azure Portal.
-    
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fa10629e79974ed278ce50552d007acfdeb8c074d%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+                                                                     
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fdca8d339f00369accfb0777d70e11013152ad5e7%2Fdocs%2FHOL_Provisioning-Deploying-Environments-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
     </a>
-    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcolindembovsky%2FPartsUnlimitedMRP%2Fa10629e79974ed278ce50552d007acfdeb8c074d%2Fdocs%2FHOL_Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fdca8d339f00369accfb0777d70e11013152ad5e7%2Fdocs%2FHOL_Provisioning-Deploying-Environments-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
         <img src="http://armviz.io/visualizebutton.png"/>
     </a>
 
