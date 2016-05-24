@@ -42,7 +42,7 @@ azure network vnet create --location "$AzureLocation" --address-space 172.16.0.0
 azure storage account set $StorageAccountName
 
 # Create VM with defaults using Ubuntu 14.10 image. Use --help to get information about available parameters ex: azure vm create --help
-azure vm create $LinuxVMName --location "$AzureLocation" --vm-size Medium --ssh 22 --virtual-network-name $VirtualNetwork --subnet-names $VSubNet b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-15_04-amd64-server-20150818-en-us-30GB $LocalAdmin $LocalPass
+azure vm create $LinuxVMName --location "$AzureLocation" --vm-size Medium --ssh 22 --virtual-network-name $VirtualNetwork --subnet-names $VSubNet b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-16_04-LTS-amd64-server-20160516.1-en-us-30GB $LocalAdmin $LocalPass
 
 # Open port 9080 & 8080 on the VM for the client app running on Tomcat
 azure vm endpoint create $LinuxVMName 9080 9080
