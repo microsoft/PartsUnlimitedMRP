@@ -12,7 +12,7 @@ In this lab, you will learn how to set up Application Insights telemetry, and dr
 
 - Application Insights created in the same Azure Resource Group as the PartsUnlimitedMRP virtual machine (see [link](https://azure.microsoft.com/en-us/documentation/articles/app-insights-create-new-resource/))
 
-- Continuous Integration build with Gradle to the PartsUnlimitedMRP virtual machine (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment-with-Visual-Studio-Online-Build))
+- Continuous Integration build with Gradle to the PartsUnlimitedMRP virtual machine (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment))
 
 **Tasks Overview**
 
