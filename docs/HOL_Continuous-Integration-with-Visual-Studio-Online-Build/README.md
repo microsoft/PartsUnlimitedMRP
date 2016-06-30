@@ -21,7 +21,7 @@ pushed to Visual Studio Team Services.
 
 **Set up your Visual Studio Team Services account:** This step helps you download the source code, and then push it to your own Visual Studio Team Services account.
 
-**Set up Linux virtual machine in Azure as the Build Agent:** In this step, you will create a new Linux machine, install all the dependencies required to be a build machine, and then configure a build agent on it.
+**Set up Linux virtual machine in Azure to be used as the Build Agent:** In this step, you will create a new Linux machine, install all the dependencies required to be a build machine, and then configure a build agent on it.
 
 **Create Continuous Integration Build:** In this step, you will create a build definition in Visual Studio Team Services that will be triggered every time a commit is pushed to your repository in Visual Studio Team Services. 
 
