@@ -66,7 +66,7 @@ your Visual Studio Team Services account. While pushing, use the user name (seco
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
 repository.
 
-**6.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
+**4.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
 application:
 
 ![](<media/mrp_in_vsts.png>)
@@ -148,7 +148,7 @@ page
 
 ![](<media/agent_pool_details.png>)
 
-**12.1.** Go to the newly created pool “**linux**”, Choose the Roles link and select the pool to see the details. Choose Add, and search for the user or group you want to add. You can view the contact card for users and groups.
+**13.** Go to the newly created pool “**linux**”, Choose the Roles link and select the pool to see the details. Choose Add, and search for the user or group you want to add. You can view the contact card for users and groups.
 ![](<media/vsts_agent_pool.png>)
 
 **NOTE:** By default, the two built-in security groups Agent Pool Administrators and Agent Pool Service Accounts are associated with each agent pool. Members of the first group have permission to register new agents into the pool. Members of the second group have permission to list to queued jobs in the agent pool. You can view, add, and remove security groups and users independently for each agent pool. However, you cannot add groups that are part of a project collection, project, or team.
@@ -188,7 +188,7 @@ Enter work folder (press enter for _work) >
 Enter run agent as service? (Y/N) (press enter for N) >
 ```
 
-**15.**  Run the agent with the following command:
+**16.**  Run the agent with the following command:
 
 	./run.sh
 
@@ -228,7 +228,7 @@ three Gradle** tasks to the script
 
 ![](<media/build_add_gradle.png>)
 
-**6.** Select the first Gradle task and **edit the task name** to say
+**7.** Select the first Gradle task and **edit the task name** to say
 *IntegrationService* and set the **Gradle Wrapper** to the following location:
 
 	src/Backend/IntegrationService/gradlew 
@@ -239,7 +239,7 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_integration.png>)
 
-**7.** Select the second Gradle task and **edit the task name** to say
+**8.** Select the second Gradle task and **edit the task name** to say
 *OrderService* and set the **Gradle Wrapper** to the following location:
 (NOTE: set the Options to **-x text** as the test have external dependencies on a mongo database.)
 
@@ -253,7 +253,7 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_order.png>)
 
-**8.** Select the third Gradle task and **edit the task name** to say *Clients*
+**9.** Select the third Gradle task and **edit the task name** to say *Clients*
 and set the **Gradle Wrapper** to the following location:
 
 	src/Clients/gradlew
@@ -264,12 +264,12 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_clients.png>)
 
-**9.** Click **Add build step...** and add a **Publish Build Artifacts** task
+**10.** Click **Add build step...** and add a **Publish Build Artifacts** task
 
 
 ![](<media/build_add_pub_step.png>)
 
-**10.** Select the Publish Build Artifacts task, and fill in the input values
+**11.** Select the Publish Build Artifacts task, and fill in the input values
 with the following:
 
 	Copy Root: $(build.sourcedirectory)
@@ -281,29 +281,29 @@ with the following:
 
 **NOTE:** The Content field supports minimatch patterns. You can find more information here: [https://github.com/Microsoft/vso-agent-tasks](https://github.com/Microsoft/vso-agent-tasks "https://github.com/Microsoft/vso-agent-tasks")
 
-**11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**
+**12.** Go to the **Triggers** tab and **select Continuous Integration (CI)**
 
 ![](<media/build_ci_trigger.png>)
 
-**12.** Click **General**, set the default queue to the previously created queue (**linux**)
+**13.** Click **General**, set the default queue to the previously created queue (**linux**)
 
 ![](<media/build_general.png>)
 
-**13.** Click **Save**, give the build definition a name (i.e.
+**14.** Click **Save**, give the build definition a name (i.e.
 *PartsUnlimitedMRP.CI*), and then click **Ok**
 
 ![](<media/build_save.png>)
 
-**14.** Go to the **Code** tab, select the **index.html** file located at
+**15.** Go to the **Code** tab, select the **index.html** file located at
 src/Clients/Web, and click **Edit**
 
 ![](<media/edit_index_web.png>)
 
-**15.** Change the **Parts Unlimited MRP** and then
+**16.** Change the **Parts Unlimited MRP** and then
 click the **save button**.
 ![](<media/save_index.png>)
 
-**16.** This should have triggered the build definition we previously created,
+**17.** This should have triggered the build definition we previously created,
 and you should get a build summary similar to this, which includes test results:
 
 ![](<media/build_summary.png>)
