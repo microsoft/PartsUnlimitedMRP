@@ -57,7 +57,9 @@ command line. Make sure you copy the token now. Visual Studio Team Services does
 your Visual Studio Team Services account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
 	cd PartsUnlimitedMRP/
+
 	git remote add vsts <url_to_repository>
+
 	git push -u vsts --all
 	
 ![](<media/push_to_vsts.png>)
@@ -113,6 +115,7 @@ this step**:
 Press [ENTER] to continue when asked after the first command.
 
 	sudo add-apt-repository ppa:openjdk-r/ppa
+
 	sudo apt-get update
 
 **8.** Copy and paste the following snippet to **run these commands**:
@@ -158,8 +161,10 @@ We are now ready to configure the Visual Studio Team Services Build and Release 
 **14.** First we will download the agent and extract it:
 
 	mkdir myagent && cd myagent
+
 	wget https://github.com/Microsoft/vsts-agent/releases/download/v2.102.1/vsts-agent-ubuntu.14.04-x64-2.102.1.tar.gz
-	tar xzf ~/Downloads/vsts-agent-ubuntu.14.04-x64-2.102.1.tar.gz
+
+	tar xzf vsts-agent-ubuntu.14.04-x64-2.102.1.tar.gz
 
 **15.** The first time we run the agent, it will be configured.
 ```bash
