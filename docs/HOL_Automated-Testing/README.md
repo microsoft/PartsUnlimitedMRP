@@ -1,12 +1,12 @@
-# HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Online Build #
+# HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Team Services Build #
 
-In this lab you will learn how to create new JUnit tests to the Parts Unlimited MRP App using the Eclipse IDE, and then get them to run in an automated build in Visual Studio Online. After finishing this lab, you will have added unit tests to the Parts Unlimited MRP App and have those tests running during build time.
-
+In this lab you will learn how to create new JUnit tests to the Parts Unlimited MRP App using the Eclipse IDE, and then get them to run in an automated build in Visual Studio Team Services. After finishing this lab, you will have added unit tests to the Parts Unlimited MRP App and have those tests running during build time.
+https://github.com/OguzPastirmaci/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration
 ###Pre-requisites###
 
-- Active Visual Studio Online Account
+- Active Visual Studio Team Services Account
 - Eclipse ([http://www.eclipse.org/](http://www.eclipse.org/ "http://www.eclipse.org/"))
-- HOL Continuous Integration with Parts Unlimited MRP
+- [HOL Continuous Integration](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration)
 
 
 ###Tasks Overview###
@@ -203,7 +203,7 @@ The Push Results window should pop up after you have successfully pushed:
 
 ![](media/push_results.png)
 
-**5.** Navigate to the **BUILD** hub in your Visual Studio Online Team Project, and then click the **Queued** tab. You should see that your continuous integration build was triggered, and is running.
+**5.** Navigate to the **BUILD** hub in your Visual Studio Team Services Team Project, and then click the **Queued** tab. You should see that your continuous integration build was triggered, and is running.
 
 ![](media/build_triggered.png)
 
@@ -218,11 +218,4 @@ The Push Results window should pop up after you have successfully pushed:
 ![](media/build_test_results.png)
 
 
-Next steps
-----------
-
-In this lab, you set up your development environment to work with Gradle, you added a new JUnit test to the Parts Unlimited MRP App, and you were able to see that reflected in the automated build process (automatically!). Try out these labs for next steps:
-
- - HOL Parts Unlimited MRP Continuous Delivery with Visual Studio Online Build
- - HOL Parts Unlimited MRP Application Performance Monitoring
- - HOL PArts Unlimited MRP User Telemetry
+In this lab, you set up your development environment to work with Gradle, you added a new JUnit test to the Parts Unlimited MRP App, and you were able to see that reflected in the automated build process (automatically!).
