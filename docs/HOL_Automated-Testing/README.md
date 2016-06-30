@@ -1,7 +1,7 @@
 # HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Team Services Build #
 
 In this lab you will learn how to create new JUnit tests to the Parts Unlimited MRP App using the Eclipse IDE, and then get them to run in an automated build in Visual Studio Team Services. After finishing this lab, you will have added unit tests to the Parts Unlimited MRP App and have those tests running during build time.
-https://github.com/OguzPastirmaci/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration
+
 ###Pre-requisites###
 
 - Active Visual Studio Team Services Account
