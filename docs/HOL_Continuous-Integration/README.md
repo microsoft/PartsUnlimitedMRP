@@ -58,9 +58,9 @@ your Visual Studio Team Services account. While pushing, use the user name (seco
 
 	cd PartsUnlimitedMRP/
 	git remote add vsts <url_to_repository>
-	git push -u vso --all
+	git push -u vsts --all
 	
-![](<media/push_to_vso.png>)
+![](<media/push_to_vsts.png>)
 
 **NOTE:** we added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
@@ -78,7 +78,7 @@ application:
 The application is written in Java, so we are going to use a Linux machine to
 build it.
 
-HINT: You can use OSX, Ubuntu, or a RedHat VM. This guide is based on an Ubuntu VM.
+HINT: You can use OSX, Ubuntu, or a RedHat VM to run the agent. This guide is based on an Ubuntu VM.
 
 **1.** Go to <https://portal.azure.com>
 

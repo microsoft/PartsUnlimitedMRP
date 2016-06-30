@@ -6,7 +6,7 @@ The application uses entirely open source software including Linux, Java, Apache
 
 To read more about this project, please view the [docs folder](docs).
 
-You may watch [demo in Channel 9](https://channel9.msdn.com/Blogs/TalkDevOps/TalkDevOps--Deploying-a-Java-application-with-VSTS) which walks through some of the steps.
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Blogs/TalkDevOps/TalkDevOps--Deploying-a-Java-application-with-VSTS) that walks through many of the steps in the document.
 
 ## Key Features##
 - Front end service - runs Apache Tomcat and talks to order service
