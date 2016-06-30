@@ -12,3 +12,6 @@ To read more about this project, please view the [docs folder](docs).
 - Integration service - present to integrate with Parts Unlimited Website
 - Includes a Dockerfile and sample publishing profile to publish to a Docker container
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
+
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
