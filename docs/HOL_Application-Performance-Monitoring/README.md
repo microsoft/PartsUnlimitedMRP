@@ -151,13 +151,6 @@ of server response time by operation name** section under the timeline. Click on
 In this lab, you learned how to set up Application Insights telemetry, and drill down into performance
 monitoring data through Application Insights in the new Azure Portal.
 
-Try these labs out for next steps:
-
-- Automated Testing hands-on lab
-- Load Testing and Autoscaling hands-on lab
-- Automated Recovery hands-on lab
-- HDD: User Telemetry hands-on lab
-
 **Further Resources**
 
 [Get started with Application Insights in a Java web project](https://azure.microsoft.com/en-us/documentation/articles/app-insights-java-get-started/)
