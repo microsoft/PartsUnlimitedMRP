@@ -318,15 +318,15 @@ In this section you will use the MRP REST API to update stock levels and lead ti
 
 
 <!--Image references-->
-[1]: ./hol-integration-services/config_shot.png
-[2]: ./hol-integration-services/order_build.png
-[3]: ./hol-integration-services/inventory_build.png
-[5]: ./hol-integration-services/postman_get.png
-[6]: ./hol-integration-services/isolated.png
-[7]: ./hol-integration-services/communicating.png
-[8]: ./hol-integration-services/java_integration.png
-[9]: ./hol-integration-services/pre_inventory_update.png
-[10]: ./hol-integration-services/post_inventory_update.png
+[1]: ./media/config_shot.png
+[2]: ./media/order_build.png
+[3]: ./media/inventory_build.png
+[5]: ./media/postman_get.png
+[6]: ./media/isolated.png
+[7]: ./media/communicating.png
+[8]: ./media/java_integration.png
+[9]: ./media/pre_inventory_update.png
+[10]: ./media/post_inventory_update.png
 
 
 <!--Reference style links - using these makes the source content way more readable than using inline links-->  
