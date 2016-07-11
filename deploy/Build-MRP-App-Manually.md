@@ -1,5 +1,7 @@
 #Build MRP App for Linux#
-This document explains how to build and manually install the MRP Application
+As part of the Continous Integration Hands-on Labs, you will be building the MRP application using Visual Studio Team Services.
+
+In case you want to build the MRP app manually, you may use the following steps:
 
 To be able to run through this walkthrough there is a dependency on Java 8 SDK and JRE8. These can be found at the link below:
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html

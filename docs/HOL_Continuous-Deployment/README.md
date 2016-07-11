@@ -145,11 +145,4 @@ This is what the app should look like once you're done:
 ![](media/parts-unlimited-mrp.png)
 
 
-Next steps
-----------
-
-In this lab, you created a virtual machine to deploy to and you took the continuous integration built in that HOL and added a deployment task to the end of it. The full build process, that is triggered every time a commit is pushed to the master branch, will now get new sources, compile them, run unit tests, upload to a drop folder in Azure Blob Storage, and deploy to a target virtual machine. This is the first step to creating a continuous deployment pipeline. Try out these labs for the next steps:
-
- - HOL Parts Unlimited MRP Automated Testing
- - HOL Parts Unlimited MRP Application Performance Monitoring
- - HOL PArts Unlimited MRP User Telemetry
+In this lab, you created a virtual machine to deploy to and you took the continuous integration built in that HOL and added a deployment task to the end of it. The full build process, that is triggered every time a commit is pushed to the master branch, will now get new sources, compile them, run unit tests, upload to a drop folder in Azure Blob Storage, and deploy to a target virtual machine. This is the first step to creating a continuous deployment pipeline.

@@ -12,17 +12,16 @@ In this lab, you will learn how to perform load testing against an endpoint for 
 
 **Tasks**
 
-1. Setting up and running a load test in Visual Studio Online
+1. Setting up and running a load test in Visual Studio Team Services
 2. Creating virtual machines with Azure CLI
-3. Configuring 
-4.  with availability groups in Azure Management Portal
+3. Configuring with availability groups in Azure Management Portal
 4. Running a load test to verify auto-scaling
 
-###Task 1: Setting up and running a load test in Visual Studio Online
+###Task 1: Setting up and running a load test in Visual Studio Team Services
 
-Performing a load test can be done either in Visual Studio or in a browser in Visual Studio Online. For simplicity, we will run a load test in a browser in Visual Studio Online. 
+Performing a load test can be done either in Visual Studio or in a browser in Visual Studio Team Services. For simplicity, we will run a load test in a browser in Visual Studio Team Services. 
 
-**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Online account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
+**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
 ![](<media/step1.png>)
 
@@ -136,7 +135,7 @@ It may take a few minutes for the virtual machine to be created.
 
 We now have two virtual machines in an availability set that scales by CPU so that whenever the CPU percentage for PartsUnlimitedMRP is over the threshold of 80%, Azure will automatically add an instance to the virtual machine. We can now run a load test again to compare the results. 
 
-**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Online account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
+**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
 ![](<media/step1.png>)
 
@@ -156,19 +155,4 @@ We now have two virtual machines in an availability set that scales by CPU so th
 
 ![](<media/task3-step5.png>)
 
-In this lab, you learned how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you created a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services. 
-
-Try these labs out for next steps:
-
-- Automated Testing hands-on lab
-- Provisioning and Deploying Environments using Chef hands-on lab
-- Automated Recovery hands-on lab
-- HDD: User Telemetry hands-on lab
-
-**Further Resources**
-
-[Install the Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/)
-
-[Install and Configure the Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/xplat-cli/)
-
-[Using the Azure CLI for Mac, Linux, and Windows with Azure Service Management ](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-command-line-tools/)
+In this lab, you learned how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you created a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services.

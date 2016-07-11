@@ -1,4 +1,4 @@
-# Docker-ization and Why #
+# Dockerizing the Parts Unlimited MRP application #
 
 We'll take a brief look at the thought process and mental model utilized in this example.  And specifically how we identified how to make it run within Docker containers. While this example is one way to *Docker-ize* an application, as with many solutions, there are probably numerous others.
 
@@ -109,7 +109,6 @@ docker run -d -p 8080:8080 --link mongodb:mongodb scicoria/orderservice:0.1
 ~~~
 
 Note that in the 'docker run' command for Order Service (2nd line) we specify the link using the container name and an alias.  That alias is then presented to the Order Service container as the hostname within the virtual networking support inside of Docker.  There are far more implications of networking that should be reviewed for more complex scenarios [Linking Containers Together](https://docs.docker.com/userguide/dockerlinks/).
-
 
 
 

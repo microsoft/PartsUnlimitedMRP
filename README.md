@@ -6,9 +6,14 @@ The application uses entirely open source software including Linux, Java, Apache
 
 To read more about this project, please view the [docs folder](docs).
 
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Blogs/TalkDevOps/TalkDevOps--Deploying-a-Java-application-with-VSTS) that walks through many of the steps in the document.
+
 ## Key Features##
 - Front end service - runs Apache Tomcat and talks to order service
 - Order and Integration service - runs Java and calls MongoDB
 - Integration service - present to integrate with Parts Unlimited Website
 - Includes a Dockerfile and sample publishing profile to publish to a Docker container
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
+
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
