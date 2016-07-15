@@ -454,11 +454,9 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-		"https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Puppet/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
-          ]
-        },
-        "protectedSettings": {
-          "commandToExecute": "[concat('sh install_puppetenterprise.sh ', variables('pmVersion'), ' ', parameters('pmConsolePassword'))]"
+            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Puppet/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
+          ],
+        "commandToExecute": "[concat('sh install_puppetenterprise.sh ', variables('pmVersion'), ' ', parameters('pmConsolePassword'))]"
         }
       }
     }
