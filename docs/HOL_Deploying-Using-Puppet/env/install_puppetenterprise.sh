@@ -25,7 +25,7 @@ pe_tar=${pe_url##*/}
 pe_folder=${pe_tar%%.tar.gz}
 
 # Get installation package
-cd /tmp; wget ${pe_url}
+cd /tmp; wget -q ${pe_url}
 
 # Unpack installation package
 tar -xf ${pe_tar}
@@ -37,3 +37,5 @@ sed '/console_admin_password/c \
 
 # Start the installation
 sudo ./puppet-enterprise-installer -c conf.d/azure-pe.conf
+
+exit 0
