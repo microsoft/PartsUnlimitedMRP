@@ -455,8 +455,10 @@
         "settings": {
           "fileUris": [
             "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Puppet/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
-          ],
-        "commandToExecute": "[concat('bash install_puppetenterprise.sh ', variables('pmVersion'), ' ', parameters('pmConsolePassword'))]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('bash install_puppetenterprise.sh ', variables('pmVersion'), ' ', parameters('pmConsolePassword'))]"
         }
       }
     }
