@@ -1,7 +1,7 @@
 HOL - Parts Unlimited MRP App Continuous Integration with Visual Studio Team Services Build
 ====================================================================================
 
-In this lab we have an application called Parts Unlimited MRP. We want to set up
+In this lab, we have an application called Parts Unlimited MRP. We want to set up
 Visual Studio Team Services to be able continuously integrate code into the master
 branch of code. This means that whenever code is committed and pushed to the
 master branch, we want to ensure that it integrates into our code correctly to
@@ -11,88 +11,25 @@ pushed to Visual Studio Team Services.
 
 ###Pre-requisites:###
 
--   An active Visual Studio Team Services account
+-   Completion of the "Set up Parts Unlimited MRP" lab
 
--   Project Admin rights to the Visual Studio Team Services account
+-   Project Administrator rights to the Visual Studio Team Services account
 
 ### Tasks Overview: ###
 
-**Set up your Visual Studio Team Services account:** This step helps you download the source code, and then push it to your own Visual Studio Team Services account.
-
 **Create a Continuous Integration Build:** In this step, you will create a build definition in Visual Studio Team Services that will be triggered every time a commit is pushed to your repository in Visual Studio Team Services. 
-
-### Pre-requisite: Set up your Visual Studio Team Services account
-
-We want to push the application code to your Visual Studio Team Services account in
-order to use Team Build.
-
-
-
-**1.** First, we need to enable secondary credentials. Go to your **account home
-page**:
-
-	https://<account>.visualstudio.com
-
-**2. Click on your name** in the top right, and then click **My security**
-
-![](<media/my_profile.png>)
-
-**3.** This takes you to your profile's security page. Complete the following actions:
-
--   Click **Alternate authentication credentials**
-
--   Click the check box labeled **Enable alternate authentication credentials**
-
--   Enter **secondary user name** and a **password**
-
--   Click **Save**
-
-![](<media/alternate_credentials.png>)
-
-These credentials will be used when interacting with the git repository from the
-command line.
-
-
-**4.** Clone the **PartsUnlimitedMRP** git repository located in GitHub
-
-Open a command prompt, go to the directory that will store your code, and type:
-
-    git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
-
-![](<media/clone_mrp.png>)
-
-**NOTE:** To install git on Linux:
-
-    sudo apt-get install git
-	
-**NOTE:** To install git on Windows, download the latest git distribution and follow the installation directions:
-
-	http://git-scm.com/download
-
-**5.** Add your Visual Studio Team Services repository as a new remote called **vsts** and push to it
-your Visual Studio Team Services account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
-
-	cd PartsUnlimitedMRP/
-	git remote add vsts <url_to_repository>
-	git push -u vsts --all
-	
-![](<media/push_to_vsts.png>)
-
-**NOTE:** We added the Visual Studio Team Services repository as a remote named **vsts**, so we need to push to that remote in the future for our changes to appear in our Visual Studio Team Services repository.
-
-**6.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
-application:
-
-![](<media/mrp_in_vsts.png>)
-
  
-### 1. Create Continuous Integration Build
+### 1. Create a Continuous Integration Build
 
->NOTE: In this lab, we will be using the Hosted agent located in Visual Studio Team Services. If you would like to use an on-premises cross-platform agent (Azure subscription needed), you can follow instructions for setting an agent up [with this link](https://github.com/Microsoft/vsts-agent/blob/master/README.md). 
+>NOTE: Ensure that you have an existing PartsUnlimitedMRP team project that also contains the Git repository cloned from GitHub. If not, complete the "Set up Parts Unlimited MRP" lab before going through this lab. 
+
+>In this lab, we will be using the Hosted agent located in Visual Studio Team Services. If you would like to use an on-premises cross-platform agent (Azure subscription needed), you can follow instructions for setting an agent up [with this link](https://github.com/Microsoft/vsts-agent/blob/master/README.md). 
 
 A continuous integration build will give us the ability to automate whether the code
 we checked in can compile and will successfully pass any automated tests that we
 have created against it. By using an automated build pipeline, we can quickly validate if our code changes have "broken the build" and fix code before it gets to production. 
+
+Ensure that you have an existing PartsUnlimitedMRP team project that also contains the Git repository cloned from GitHub. If not, complete the "Set up Parts Unlimited MRP" lab before going through this lab. 
 
 **1.** Go to your **account’s homepage**: 
 
@@ -204,15 +141,10 @@ Once complete, you should see build summary similar to this, which includes test
 Next steps
 ----------
 
-In this lab, you learned how to push new code to Visual Studio Team Services, create a Virtual Machine
-in Azure, install a Visual Studio Team Services Build Agent to an Ubuntu server, and create a Continuous
-Integration build that runs when new commits are pushed to the master branch.
-This allows you to get feedback as to whether your changes made breaking syntax
-changes, or if they broke one or more automated tests, or if your changes are a
-okay. Try these labs out for next steps:
+In this lab, you learned how to create a Continuous Integration build that runs when new commits are pushed to the master branch. This allows you to get feedback as to whether your changes made breaking syntax changes, or if they broke one or more automated tests, or if your changes are okay. Try these labs out for next steps:
 
--   HOL Parts Unlimited MRP Continuous Delivery
+-   [HOL Parts Unlimited MRP Continuous Deployment ](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment)
 
--   HOL Parts Unlimited MRP Automated Testing
+-   [HOL Parts Unlimited MRP Automated Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing)
 
--   HOL Parts Unlimited MRP Application Performance Monitoring
+-   [HOL Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
