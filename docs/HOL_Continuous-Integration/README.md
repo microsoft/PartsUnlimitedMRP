@@ -5,7 +5,7 @@ In this lab we have an application called Parts Unlimited MRP. We want to set up
 Visual Studio Team Services to be able continuously integrate code into the master
 branch of code. This means that whenever code is committed and pushed to the
 master branch, we want to ensure that it integrates into our code correctly to
-get fast feedback. To do so, we are going to be setting up a build agent that
+get fast feedback. To do so, we are going to be creating a build definition that
 will allow us to compile and run unit tests on our code every time a commit is
 pushed to Visual Studio Team Services.
 
@@ -13,22 +13,18 @@ pushed to Visual Studio Team Services.
 
 -   An active Visual Studio Team Services account
 
--   An active Azure subscription
-
 -   Project Admin rights to the Visual Studio Team Services account
 
 ### Tasks Overview: ###
 
 **Set up your Visual Studio Team Services account:** This step helps you download the source code, and then push it to your own Visual Studio Team Services account.
 
-**Set up Linux virtual machine in Azure as the Build Agent:** In this step, you will create a new Linux machine, install all the dependencies required to be a build machine, and then configure a build agent on it.
+**Create a Continuous Integration Build:** In this step, you will create a build definition in Visual Studio Team Services that will be triggered every time a commit is pushed to your repository in Visual Studio Team Services. 
 
-**Create Continuous Integration Build:** In this step, you will create a build definition in Visual Studio Team Services that will be triggered every time a commit is pushed to your repository in Visual Studio Team Services. 
-
-### Pre-Requisite: Set up your Visual Studio Team Services account
+### Pre-requisite: Set up your Visual Studio Team Services account
 
 We want to push the application code to your Visual Studio Team Services account in
-order to use Build.
+order to use Team Build.
 
 
 
@@ -82,9 +78,7 @@ your Visual Studio Team Services account. While pushing, use the user name (seco
 	
 ![](<media/push_to_vsts.png>)
 
-**NOTE:** we added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
-push to that remote in the future for our changes to appear in our Visual Studio Team Services
-repository.
+**NOTE:** We added the Visual Studio Team Services repository as a remote named **vsts**, so we need to push to that remote in the future for our changes to appear in our Visual Studio Team Services repository.
 
 **6.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
 application:
@@ -92,134 +86,13 @@ application:
 ![](<media/mrp_in_vsts.png>)
 
  
+### 1. Create Continuous Integration Build
 
-### 1. Set up Linux virtual machine in Azure as the Build Agent (or skip this step to use the Hosted agent)
+>NOTE: In this lab, we will be using the Hosted agent located in Visual Studio Team Services. If you would like to use an on-premises cross-platform agent (Azure subscription needed), you can follow instructions for setting an agent up [with this link](https://github.com/Microsoft/vsts-agent/blob/master/README.md). 
 
-The application is written in Java, so we can use either a Windows or a Linux machine to
-build it. In this step, we will use a Linux machine as our build agent. 
-
-**1.** Go to <https://portal.azure.com>
-
-**2.** Click the **New** button in the top left corner of the Azure portal then search for "Ubuntu Server 14.04 LTS". Then click on **Ubuntu Server 14.04 LTS** in the result set.
-
-![](<media/azure_new_resource.png>)
-
-**3.** Select **Classic** for a deployment model. Click **Create**.
-
-![](<media/new_ubuntu_vm.png>)
-
-**4.** Enter a **host name**, **user name**, **password**, and create a new **resource group**. Click **Next**.
-
-![](<media/create_vm_opts.png>)
-
-**5.** Select a virtual machine type. Click on **DS1_V2 Standard**. This will finish creating the machine.
-
-![](<media/create_vm_type.png>)
-
-**6.** Once the machine has been created select the **tile for the machine**, click **All settings**,
-click on **Endpoints**, and note the public **DNS name** and the **public port**
-that was chosen for SSH access.
-
-![](<media/ssh_details.png>)
-
-**7.** Connect via SSH to the new Linux machine using the **public DNS name** and **public port** from step six.
-
-	ssh <user>@<public_dns> -p <public_port>
-
-![](<media/create_ssh.png>)
-
-**8.** If you are on **Ubuntu 14.04**, run these commands; otherwise, **ignore
-this step**:
-
-Press [ENTER] to continue when asked after the first command.
-
-	sudo add-apt-repository ppa:openjdk-r/ppa
-	sudo apt-get update
-
-**9.** Run the following commands on the virtual machine.
-
-	# Install git client
-	sudo apt-get install git -y
-
-	# Install Gradle, Java, and MongoDB
-	sudo apt-get install gradle -y
-	sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
-
-	# Set environment variables for Java
-	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-	export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
-	
-	
-**10.** Our build server is ready to install a build agent on it, but first we
-need to create a new build agent pool. Go to your **account home page**:
-
-	https://<account>.visualstudio.com
-
-**11.** Click the **gear in the top right** of the page to go the administration
-page
-
-**12.** Go to the **Agent pools** tab and then click **New pool...**
-
-![](<media/new_agent_pool.png>)
-
-**13.** Enter **linux** for the name of the agent pool, and then click **OK**
-
-![](<media/agent_pool_details.png>)
-
-**13.1.** Go to the newly created pool “**linux**”, expand it, and
-add your **Alternate authentication credentials** (created earlier, step 3 - Set up your Visual Studio Team Services account)  to a groups **Agent Pool Service Accounts**  and **Agent Pool Administrators**
-
-![](<media/vsts_agent_pool.png>)
-
-**NOTE:** membership at "Agent Pool Administrators group" **allows adding agent to pool** while "Agent Pool Service Accounts" **allows the agent to listen to the build queue**.
-
-
-
-**14.** We are now ready to install the agent installer. This doesn't install an agent, it simply pulls down the agent
-installer. Go back to the ssh session, and **enter these commands** to install
-the Visual Studio Team Services agent installer:
-
-
-**15.** Create an agent by running the following commands:
-
-	cd ~/
-	mkdir myagent
-    cd myagent
-	curl -skSL http://aka.ms/xplatagent | bash
-
-This installs the agent to the directory **~/myagent**.
-
-**16.** The first time we run the agent, it will be configured. Run the agent with the following command:
-
-	./run.sh
-
-**17.** Enter the following information when prompted:
-
--   Alternate username
-
--   Alternate password
-
--   Server URL (Visual Studio Team Services URL e.g. https://yourname.visualstudio.com)
-
--   Agent name (press enter for default)
-
--   Agent pool (enter in **linux** - the pool created earlier in this lab)
-
--	Enter force basic (press enter)
-
-![](<media/start_agent.png>)
-
-And now, you have a build agent configured for Visual Studio Team Services.
-
- 
-
-### 2. Create Continuous Integration Build
-
->NOTE: You can use either a Linux agent created in the step above (if you chose to follow those steps), or the Hosted agent which works "out of the box".
-
-A continuous integration build will give us the ability check whether the code
+A continuous integration build will give us the ability to automate whether the code
 we checked in can compile and will successfully pass any automated tests that we
-have created against it.
+have created against it. By using an automated build pipeline, we can quickly validate if our code changes have "broken the build" and fix code before it gets to production. 
 
 **1.** Go to your **account’s homepage**: 
 
@@ -238,84 +111,87 @@ the page.
 
 ![](<media/new_empty_build.png>)
 
-**5.** Ensure the Team Project is selected as the **Repository source**, select the appropriate **Default agent queue** (either **Hosted** or **linux**), and click **Create**.
+**5.** Ensure the Team Project is selected as the **Repository source**, the appropriate repository (created in the previous step), and select "Hosted" as the **Default agent queue**, then click **Create**.
 
 ![](<media/build_select_repo.png>)
 
-**6.** Click on the **Build** tab, click **Add build step...**, and then click the Gradle **Add
-** button 3 times to add 3 Gradle tasks to the script
+**6.** Click on the **Build** tab, click **Add build step...**, and then click the **Add** button three times next to the Gradle task to add three Gradle tasks to the script. Gradle will be used to build the Integration Service, Order Service, and Clients components of the MRP app.
 
 ![](<media/build_add_gradle.png>)
 
-**6.** Select the first Gradle task and **click the pencil icon** to edit the task name. Name the task *IntegrationService* 
-and set the **Gradle Wrapper** to the following location (either type or browse using the **...** button):
+**6.** Select the first Gradle task and **click the pencil icon** to edit the task name. Name the task *IntegrationService* and set the **Gradle Wrapper** to the following location (either type or browse using the **...** button):
 
-	src/Backend/IntegrationService/gradlew 
-
-Expand the **Advanced** section, and set the **Working Directory** to the following location:
-
-	src/Backend/IntegrationService
+	src/Backend/IntegrationService/gradlew
 
 ![](<media/build_gradle_integration.png>)
 
-**7.** Select the second Gradle task and and **click the pencil icon** to edit the task name. Name the task
-*OrderService* and set the **Gradle Wrapper** to the following location and set the Options to **-x text** as the tests have external dependencies on a mongo database.)
+**7.** Uncheck the checkbox in **JUnit Test Results** to Publish to VSO/TFS since we will not be running automated tests in the Integration Service. Expand the **Advanced** section, and set the **Working Directory** to the following location:
+
+	src/Backend/IntegrationService
+
+![](<media/build_working_directory_integration.png>)
+
+**8.** Select the second Gradle task and **click the pencil icon** to edit the task name. Name the task *OrderService* and set the **Gradle Wrapper** to the following location:
 
 	src/Backend/OrderService/gradlew
-	-x test
+
+![](<media/build_gradle_order.png>)
 	
+**9.** Since Order Service does have unit tests in the project, we can automate running the tests as part of the build by adding in `test` in the **Gradle tasks** field. Keep the **JUnit Test Results** checkbox to "Publish to VSO/TFS" checked, and set the **Test Results Files** field to `**/TEST-*.xml`. 
 
 Expand the **Advanced** section, and set the **Working Directory** to the following location:
 
 	src/Backend/OrderService
 
-![](<media/build_gradle_order.png>)
+![](<media/build_working_directory_order.png>)
 
-**8.** Select the third Gradle task and **click the pencil icon** to edit the task name. Name the task *Clients*
-and set the **Gradle Wrapper** to the following location:
+**10.** Select the third Gradle task and **click the pencil icon** to edit the task name. Name the task *Clients* and set the **Gradle Wrapper** to the following location:
 
 	src/Clients/gradlew
 
-Expand the **Advanced** section, and set the **Working Directory** to the following location:
+![](<media/build_gradle_clients.png>)
+
+**11.** Uncheck the checkbox in **JUnit Test Results** to Publish to VSO/TFS since we will not be running automated tests in Clients. Expand the **Advanced** section, and set the **Working Directory** to the following location:
 
 	src/Clients
 
-![](<media/build_gradle_clients.png>)
+![](<media/build_working_directory_clients.png>)
 
-**9.** Click **Add build step...**, select the **Utility** tab and add a **Publish Build Artifacts** task
-
+**9.** Click **Add build step...**, select the **Utility** tab, and add a **Copy and Publish Build Artifacts** task.
 
 ![](<media/build_add_pub_step.png>)
 
 **10.** Select the Publish Build Artifacts task, and fill in the input values
 with the following:
 
-	Path to Publish: $(Build.SourcesDirectory)
+	Copy Root: $(Build.SourcesDirectory)
+    Contents: **/build/libs/!(buildSrc)*.?ar
+              **/deploy
 	Artifact Name: drop
 	Artifact Type: Server
 
 ![](<media/build_pub_step_details.png>)
 
-**11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**
+**11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**.
 
 ![](<media/build_ci_trigger.png>)
 
-**12.** Click **General**, set the default queue to the apprpriate queue. Leave as **linux** if you did not create a **linux** queue in the prior steps.
+**12.** Click **General**, set the default queue to the apprpriate queue. Leave as the **Hosted** queue from the previous steps.
 
 ![](<media/build_general.png>)
 
 **13.** Click **Save**, give the build definition a name (i.e.
-*PartsUnlimitedMRP.CI*), and then click **Ok**
+*PartsUnlimitedMRP.CI*), and then click **OK**.
 
 ![](<media/build_save.png>)
 
 **14.** Go to the **Code** tab, select the **index.html** file located at
-src/Clients/Web, and click **Edit**
+src/Clients/Web, and click **Edit**.
 
 ![](<media/edit_index_web.png>)
 
 **15.** Change the &lt;title&gt; on line 5 to **Parts Unlimited MRP** and 
-click the **save button**.
+click the **Save button**.
 ![](<media/save_index.png>)
 
 **16.** This should have triggered the build definition we previously created. Click the **Build** tab to see the build in action.
@@ -323,7 +199,7 @@ Once complete, you should see build summary similar to this, which includes test
 
 ![](<media/build_summary.png>)
 
- 
+![](<media/build_summary_2.png>)
 
 Next steps
 ----------
