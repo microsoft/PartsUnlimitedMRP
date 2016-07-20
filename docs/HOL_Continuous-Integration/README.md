@@ -29,8 +29,6 @@ A continuous integration build will give us the ability to automate whether the 
 we checked in can compile and will successfully pass any automated tests that we
 have created against it. By using an automated build pipeline, we can quickly validate if our code changes have "broken the build" and fix code before it gets to production. 
 
-Ensure that you have an existing PartsUnlimitedMRP team project that also contains the Git repository cloned from GitHub. If not, complete the "Set up Parts Unlimited MRP" lab before going through this lab. 
-
 **1.** Go to your **account’s homepage**: 
 
 	https://<account>.visualstudio.com
