@@ -45,11 +45,11 @@ sudo tar xzf /tmp/${agent_tar}
 
 
 # Configure agent
-./config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
+${agent_folder}/config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
 
 # Configure agent to run as a service
-sudo ./svc.sh install
-sudo ./svc.sh start
+sudo ${agent_folder}/svc.sh install
+sudo ${agent_folder}/svc.sh start
 q
 
 

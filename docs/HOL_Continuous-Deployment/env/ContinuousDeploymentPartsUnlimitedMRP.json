@@ -281,10 +281,10 @@
         "settings": {
           "fileUris": [
             "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Continuous-Deployment/docs/HOL_Continuous-Deployment/env/install_vsts_agent_and_mrp_dependencies.sh"
-          ]
+          ],
+          "commandToExecute": "[concat('bash install_vsts_agent_and_mrp_dependencies.sh ', parameters('vstsAccountName'), ' ', parameters('vstsPersonalAccessToken'), ' ', parameters('vstsAgentName'), ' ', parameters('vstsAgentPoolName'))]"
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('bash install_vsts_agent_and_mrp_dependencies.sh ', parameters('vstsAccountName'), ' ', parameters('vstsPersonalAccessToken'), ' ', parameters('vstsAgentName'), ' ', parameters('vstsAgentPoolName'))]"
         }
       }
     }
