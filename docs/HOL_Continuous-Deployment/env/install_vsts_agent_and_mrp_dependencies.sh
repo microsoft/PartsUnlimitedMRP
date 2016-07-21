@@ -45,12 +45,12 @@ sudo tar xzf /tmp/${agent_tar}
 
 
 # Configure agent
-${agent_folder}/config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
+echo "Running agent configuration"
+bash ${agent_folder}/config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
 
 # Configure agent to run as a service
-sudo ${agent_folder}/svc.sh install
-sudo ${agent_folder}/svc.sh start
-q
+sudo bash ${agent_folder}/svc.sh install
+sudo bash ${agent_folder}/svc.sh start
 
 
 ## Install PartsUnlimitedMRP dependencies ##
