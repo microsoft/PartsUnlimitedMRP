@@ -56,7 +56,7 @@
   "variables": {
     "mrpImagePublisher": "Canonical",
     "mrpImageOffer": "UbuntuServer",
-    "mrpImageSku": "16.04.4-LTS",
+    "mrpImageSku": "16.04.0-LTS",
     "mrpOSDiskName": "mrpOsdisk",
     "mrpNicName": "mrpNic",
     "addressPrefix": "10.0.0.0/16",
@@ -68,7 +68,7 @@
     "mrpNsgName": "mrpNSG",
     "mrpVmSize": "Standard_A2",
     "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
-    "virtualNetworkName": "puppetVNET",
+    "virtualNetworkName": "mrpVNET",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
     "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]"
