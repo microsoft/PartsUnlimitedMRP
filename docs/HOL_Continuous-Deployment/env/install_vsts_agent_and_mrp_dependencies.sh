@@ -22,17 +22,17 @@ sudo apt-get install git -y
 
 # Install dotnet core
 sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-sudo apt-get update
+sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893 -y
+sudo apt-get update -y
 
 sudo apt-get install dotnet-dev-1.0.0-preview2-003121 -y
 
 
 
 # Set up variables
+agent_url=https://github.com/Microsoft/vsts-agent/releases/download/v2.103.1/vsts-agent-ubuntu.16.04-x64-2.103.1.tar.gz
 agent_tar=${agent_url##*/}
 agent_folder=/opt/vstsagent
-agent_url=https://github.com/Microsoft/vsts-agent/releases/download/v2.103.1/vsts-agent-ubuntu.16.04-x64-2.103.1.tar.gz
 
 # Get installation package
 cd /tmp ; wget -q ${agent_url}
@@ -54,8 +54,8 @@ q
 
 
 ## Install PartsUnlimitedMRP dependencies ##
-sudo add-apt-repository ppa:openjdk-r/ppa
-sudo apt-get update
+sudo add-apt-repository ppa:openjdk-r/ppa -y
+sudo apt-get update -y
 
 # Install libunwind, libcurl, and libicu
 sudo apt-get install -y libunwind8 libcurl3 libicu52 
