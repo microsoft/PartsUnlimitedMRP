@@ -1,13 +1,13 @@
 # Create deployment directory
-sudo mkdir /var/lib/partsunlimited
+mkdir /var/lib/partsunlimited
 
 # Kill java to stop current website
-sudo pkill -9 'java'
+pkill -9 'java'
 
 # Remove old artifacts
-sudo rm -f /var/lib/partsunlimited/MongoRecords.js*
-sudo rm -f /var/lib/partsunlimited/mrp.war*
-sudo rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
+rm -f /var/lib/partsunlimited/MongoRecords.js*
+rm -f /var/lib/partsunlimited/mrp.war*
+rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
 
 # Copy files from deployment package
 find ../ -iname '*.?ar' -exec cp -t /var/lib/partsunlimited {} +;
@@ -26,6 +26,6 @@ cp /var/lib/partsunlimited/mrp.war /var/lib/tomcat7/webapps
 /etc/init.d/tomcat7 restart
 
 # Run Ordering Service app
-java -jar /var/lib/partsunlimited/ordering-service-0.1.0.jar &
+java -jar /var/lib/partsunlimited/ordering-service-0.1.0.jar &>/dev/null &
 
 echo "MRP application successfully deployed. Go to http://$HOSTNAME.<azureregion>.cloudapp.azure.com:9080/mrp"
