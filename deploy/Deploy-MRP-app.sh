@@ -1,3 +1,6 @@
+# Create deployment directory
+sudo mkdir /var/lib/partsunlimited
+
 # Kill java to stop current website
 sudo pkill -9 'java'
 
@@ -7,7 +10,7 @@ sudo rm -f /var/lib/partsunlimited/mrp.war*
 sudo rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
 
 # Copy files from deployment package
-find . -iname '*.?ar' -exec cp -t /var/lib/partsunlimited {} +;
+find ../ -iname '*.?ar' -exec cp -t /var/lib/partsunlimited {} +;
 find . -iname 'MongoRecords.js' -exec cp -t /var/lib/partsunlimited {} +;
 
 # Add the records to ordering database on MongoDB
@@ -25,4 +28,4 @@ cp /var/lib/partsunlimited/mrp.war /var/lib/tomcat7/webapps
 # Run Ordering Service app
 java -jar /var/lib/partsunlimited/ordering-service-0.1.0.jar &
 
-echo "MRP application successfully deployed. Go to http://$HOSTNAME.cloudapp.net:9080/mrp"
+echo "MRP application successfully deployed. Go to http://$HOSTNAME.<azureregion>.cloudapp.azure.com:9080/mrp"
