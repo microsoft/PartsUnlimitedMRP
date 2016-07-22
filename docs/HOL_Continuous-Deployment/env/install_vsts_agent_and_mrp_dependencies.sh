@@ -54,17 +54,14 @@ sudo bash ${agent_folder}/svc.sh install
 sudo bash ${agent_folder}/svc.sh start
 
 
-## Install PartsUnlimitedMRP dependencies ##
-sudo add-apt-repository ppa:openjdk-r/ppa -y
-sudo apt-get update -y
+# Install PartsUnlimitedMRP dependencies
+apt-get update
+apt-get install openjdk-8-jdk -y
+apt-get install openjdk-8-jre -y
+apt-get install mongodb -y
+apt-get install tomcat7 -y
+apt-get install wget -y
 
-# Install libunwind, libcurl, and libicu
-sudo apt-get install -y libunwind8 libcurl3 libicu52 
-
-# Install Gradle, Java, and MongoDB
-sudo apt-get install gradle -y
-sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
-
-# Set environment variables for Java
+# Set Java environment variables
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
