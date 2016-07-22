@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Validate input parameters
-if [[ !("$#" -eq 4) ]]; 
+if [[ !("$#" -eq 5) ]]; 
     then echo "Parameters missing for vsts agent configuration." >&2
     exit 1
 fi
@@ -11,6 +11,7 @@ vsts_account_name=$1
 vsts_personal_access_token=$2
 vsts_agent_name=$3
 vsts_agent_pool_name=$4
+user_account=$5
 
 # Set up variables
 vsts_url=https://$vsts_account_name.visualstudio.com
@@ -46,7 +47,7 @@ sudo tar xzf /tmp/${agent_tar}
 
 # Configure agent
 echo "Running agent configuration"
-bash ${agent_folder}/config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
+sudo -u ${user_account} bash ${agent_folder}/config.sh configure --url $vsts_url --agent $vsts_agent_name --pool $vsts_agent_pool_name --nostart --acceptteeeula --auth PAT --token $vsts_personal_access_token --unattended
 
 # Configure agent to run as a service
 sudo bash ${agent_folder}/svc.sh install
