@@ -45,7 +45,7 @@
       }
     },
     "vstsAgentPoolName": {
-      "defaultValue": "default",
+      "defaultValue": "MRP",
       "type": "string",
       "minLength": 1,
       "metadata": {
