@@ -19,7 +19,8 @@ mongo ordering /var/lib/partsunlimited/MongoRecords.js
 # Change Tomcat listening port from 8080 to 9080
 sed -i s/8080/9080/g /etc/tomcat7/server.xml
 
-# Copy WAR file to Tomcat directory for auto-deployment
+# Remove existing MRP directory and copy WAR file to Tomcat directory for auto-deployment
+sudo rm -rf /var/lib/tomcat7/webapps/mrp
 cp /var/lib/partsunlimited/mrp.war /var/lib/tomcat7/webapps
 
 # Restart Tomcat
