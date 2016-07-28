@@ -1,0 +1,442 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "chefServerAdminUsername": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "User name for the Chef Server Virtual Machine."
+      }
+    },
+    "chefServerAdminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Chef Server Virtual Machine."
+      }
+    },
+    "chefServerDnsNameForPublicIP": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Globally unique DNS Name for the Public IP used to access the Chef Server Virtual Machine."
+      }
+    },
+    "chefWorkstationUsername": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "User name for the Chef Workstation Virtual Machine."
+      }
+    },
+    "chefWorkstationPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Chef Workstation Virtual Machine."
+      }
+    },
+    "chefWorkstationDnsNameForPublicIP": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Globally unique DNS Name for the Public IP used to access the Chef Workstation Virtual Machine."
+      }
+    }
+  },
+  "variables": {
+    "chefServerImagePublisher": "chef-software",
+    "chefServerImageOffer": "chef-server",
+    "chefServerImageSku": "chefbyol",
+    "chefServerOSDiskName": "chefServerOsDisk",
+    "chefServerNicName": "chefServerNic",
+    "chefServerNsgName": "chefServerNSG",
+    "chefServerVmSize": "Standard_D1_V2",
+    "chefServerVmName": "[toLower(parameters('chefServerDnsNameForPublicIP'))]",
+    "chefWorkstationImagePublisher": "MicrosoftWindowsServer",
+    "chefWorkstationImageOffer": "WindowsServer",
+    "chefWorkstationImageSku": "2012-R2-Datacenter",
+    "chefWorkstationOSDiskName": "chefWorkstationOsDisk",
+    "chefWorkstationNicName": "chefWorkstationNic",
+    "chefWorkstationNsgName": "chefWorkstationNSG",
+    "chefWorkstationVmSize": "Standard_D1_V2",
+    "chefWorkstationVmName": "[toLower(parameters('chefWorkstationDnsNameForPublicIP'))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnetName": "Subnet",
+    "subnetPrefix": "10.0.0.0/24",
+    "storageType": "Standard_LRS",
+    "publicIPAddressType": "Dynamic",
+    "vhdStorageContainerName": "vhds",
+    "virtualNetworkName": "chefVNET",
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+    "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "StorageAccount"
+      },
+      "properties": {
+        "accountType": "[variables('storageType')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "VirtualNetwork"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('chefServerDnsNameForPublicIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "PublicIPAddress-chefserver"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('chefServerDnsNameForPublicIP')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('chefServerNsgName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NSG-chefserver"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SSH",
+            "properties": {
+              "description": "SSH port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTP",
+            "properties": {
+              "description": "HTTP port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTPS",
+            "properties": {
+              "description": "HTTPS port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1200,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "https8443",
+            "properties": {
+              "description": "https8443",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1300,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('chefServerNicName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NIC-chef"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('chefServerDnsNameForPublicIP'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('chefServerNSGName'))]"
+      ],
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('chefServerNSGName'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('chefServerDnsNameForPublicIP'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('chefServerVmName')]",
+      "location": "[resourceGroup().location]",
+      "plan": {
+        "name": "[variables('chefServerImageSku')]",
+        "product": "[variables('chefServerImageOffer')]",
+        "publisher": "[variables('chefServerImagePublisher')]"
+      },
+      "tags": {
+        "displayName": "VM-Chef"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('chefServerNicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('chefServerVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('chefServerVmName')]",
+          "adminUsername": "[parameters('chefServerAdminUsername')]",
+          "adminPassword": "[parameters('chefServerAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('chefServerImagePublisher')]",
+            "offer": "[variables('chefServerImageOffer')]",
+            "sku": "[variables('chefServerImageSku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('storageName'), '.blob.core.windows.net/', variables('vhdStorageContainerName'), '/', variables('chefServerOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('chefServerNicName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[concat('http://', variables('storageName'), '.blob.core.windows.net')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('chefServerVmName'),'/chefserverconfig')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('chefServerVmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/env/configure_chefserver.sh"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('bash configure_chefserver.sh ', concat(parameters('chefServerDnsNameForPublicIP'),'.',resourceGroup().location,'.cloudapp.azure.com'), ' ', parameters('chefServerAdminUsername'), ' ', parameters('chefServerAdminPassword'))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('chefWorkstationDnsNameForPublicIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "PublicIPAddress-chefWorkstation"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('chefWorkstationDnsNameForPublicIP')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('chefWorkstationNsgName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NSG-chefWorkstation"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "RDP",
+            "properties": {
+              "description": "RDP port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('chefWorkstationNicName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NIC-chefWorkstation"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('chefWorkstationDnsNameForPublicIP'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('chefWorkstationNSGName'))]"
+      ],
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('chefWorkstationNSGName'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('chefWorkstationDnsNameForPublicIP'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('chefWorkstationVmName')]",
+      "location": "[resourceGroup().location]",
+      "plan": {
+        "name": "[variables('chefWorkstationImageSku')]",
+        "product": "[variables('chefWorkstationImageOffer')]",
+        "publisher": "[variables('chefWorkstationImagePublisher')]"
+      },
+      "tags": {
+        "displayName": "VM-ChefWorkstation"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('chefWorkstationNicName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('chefServerVmName'),'/chefserverconfig')]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('chefWorkstationVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('chefWorkstationVmName')]",
+          "adminUsername": "[parameters('chefWorkstationUsername')]",
+          "adminPassword": "[parameters('chefWorkstationPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('chefWorkstationImagePublisher')]",
+            "offer": "[variables('chefWorkstationImageOffer')]",
+            "sku": "[variables('chefWorkstationImageSku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('storageName'), '.blob.core.windows.net/', variables('vhdStorageContainerName'), '/', variables('chefWorkstationOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('chefWorkstationNicName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[concat('http://', variables('storageName'), '.blob.core.windows.net')]"
+          }
+        }
+      }
+    }
+  ]
+}
