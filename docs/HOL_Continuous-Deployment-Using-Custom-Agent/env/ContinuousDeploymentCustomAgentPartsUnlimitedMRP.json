@@ -21,6 +21,36 @@
       "metadata": {
         "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
       }
+    },
+    "vstsAccountName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "VSTS Account Name."
+      }
+    },
+    "vstsPersonalAccessToken": {
+      "type": "securestring",
+      "minLength": 1,
+      "metadata": {
+        "description": "VSTS Personal Access Token."
+      }
+    },
+    "vstsAgentName": {
+      "defaultValue": "PartsUnlimitedMRPLab",
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "VSTS agent name."
+      }
+    },
+    "vstsAgentPoolName": {
+      "defaultValue": "MRP",
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "VSTS agent pool name."
+      }
     }
   },
   "variables": {
@@ -36,7 +66,7 @@
     "publicIPAddressType": "Dynamic",
     "vhdStorageContainerName": "vhds",
     "mrpNsgName": "mrpNSG",
-    "mrpVmSize": "D1_V2",
+    "mrpVmSize": "Standard_A2",
     "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
     "virtualNetworkName": "mrpVNET",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
@@ -250,11 +280,11 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Continuous-Deployment/docs/HOL_Continuous-Deployment/env/install_mrp_dependencies.sh"
-          ],
-          "commandToExecute": "bash install_mrp_dependencies.sh"
+            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Continuous-Deployment/docs/HOL_Continuous-Deployment-Using-Custom-Agent/env/install_vsts_agent_and_mrp_dependencies.sh"
+          ]
         },
         "protectedSettings": {
+          "commandToExecute": "[concat('bash install_vsts_agent_and_mrp_dependencies.sh ', parameters('vstsAccountName'), ' ', parameters('vstsPersonalAccessToken'), ' ', parameters('vstsAgentName'), ' ', parameters('vstsAgentPoolName'), ' ', parameters('mrpAdminUsername'))]"
         }
       }
     }
