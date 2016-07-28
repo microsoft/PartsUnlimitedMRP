@@ -66,7 +66,7 @@
     "publicIPAddressType": "Dynamic",
     "vhdStorageContainerName": "vhds",
     "mrpNsgName": "mrpNSG",
-    "mrpVmSize": "Standard_A2",
+    "mrpVmSize": "Standard_D1_V2",
     "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
     "virtualNetworkName": "mrpVNET",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
