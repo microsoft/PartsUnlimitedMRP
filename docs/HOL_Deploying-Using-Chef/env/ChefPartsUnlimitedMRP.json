@@ -434,6 +434,29 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('chefWorkstationVmName'),'/chefworkstationconfig')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('chefWorkstationVmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/env/Configure-Chef-Workstation.ps1"
+          ],
+          "commandToExecute": "powershell Configure-Chef-Workstation.ps1"
+        },
+        "protectedSettings": {
+        }
+      }
     }
   ]
 }
