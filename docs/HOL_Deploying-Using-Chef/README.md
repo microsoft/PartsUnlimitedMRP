@@ -2,61 +2,77 @@
 In this hands-on lab you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
 
 **Prerequisites**
-
-- An SSH client such as PuTTY
-
 - PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine (see [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md))
 
 **Tasks**
 
-1. Provisioning a Chef Server
-2. Configuring the Chef Server
-3. Configuring the Chef Workstation
-4. Create a Cookbook
-5. Create a Role
-6. Configure Chef-Provisioning Azure
-7. Provision and Deploy the Application
-8. Remediating Configuration Changes
+1. Provision the Lab (Chef Server and Chef Workstation)
+2. Configure Chef Workstation
+3. Create a Cookbook
+4. Create a Role
+5. Configure Chef-Provisioning Azure
+6. Provision and Deploy the Application
+7. Remediating Configuration Changes
 
-###Task 1: Provisioning a Chef Server
-In this exercise, you will provision a new Chef Server in Azure from a template image.
+## Task 1: Provision the Lab
 
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
-        <img src="http://azuredeploy.net/deploybutton.png"/>
-    </a>
-    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
-        <img src="http://armviz.io/visualizebutton.png"/>
-    </a>
+1. Provision the Lab machines using an Azure Resource Manager (ARM) Template
 
-###Task 2: Configuring the Chef Server
-In this exercise, you will connect to the Chef Server via SSH and configure it.
+    This lab initally calls for the use of two machines. The Chef server must be a Linux machine, but the Chef
+    Workstation can run on Linux, Windows, or Mac. For this lab, the Chef Workstation will be on a Windows machine.
 
-**Step 1.** Start PuTTY.exe or an SSH client.
+    Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.
+    
+1. Click on the "Deploy to Azure" button
+    
+    Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines. You will need
+    to log in to the Azure Portal.
+                                                                     
+	<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+		<img src="http://azuredeploy.net/deploybutton.png"/>
+	</a>
+	<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+		<img src="http://armviz.io/visualizebutton.png"/>
+	</a>
 
-**Step 2.** Enter the Cloud Service name created in task 1, step 4 (e.g. *myhostname.cloudapp.net*). Then click **Open**.
+    The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
+    delete the resource group in order to remove all the created resources at any time.
 
-**Step 3.** When prompted for a username, enter the username that you chose in exercise 1 (default is *labuser*)and press **Enter**.
+1. Specify settings for the deployment
+    
+    You will need to select a subscription and region to deploy the Resource Group to and to supply an admin username 
+    and password and unique name for both machines.
 
-**Step 4.** When prompted for a password, enter the password you chose during the VM creation in exercise 1 (default is *labPassw0rd*) and press **Enter**.
+    ![](<media/1.jpg>)
 
-**Step 5.** Wait for the command prompt to appear.
+    Make sure you make a note of the region as well as the usernames and passwords for the machines. Allow
+    about 10 minutes for deployment and then another 10 minutes for the Chef configuration. 
 
-**Step 6.** From the command prompt run the **chef-setup** utility to create a user account in the Chef Server. 
+1. Check the Resource Group in the Azure Portal
+    When the deployment completes, you should see the following resources in the Azure Portal:
 
-    sudo chef-setup -u labuser -p labPassw0rd
+    ![](<media/2.jpg>)
 
-**Step 7.** 2.	It will ask you if you agree to the license terms. If you agree, type: `Yes`. This will create a new user with the account name of *labuser* and the password of *labPassw0rd*.
+    Click on the "chefserver" Public IP Address. Then make a note of the DNS name:
 
-**Step 8.** From the command prompt, run the **chef-server-ctl** command to create an organization named *fabrikam* and add your *labuser* account as a member. 
-This will also generate a new SSH key for the organization, which you will capture to a file for later use.
+    ![](<media/3.jpg>)
 
-    sudo chef-server-ctl org-create fabrikam fabrikam -a labuser > fabrikam-validator.pem
- 	
-If you decide you want to name your organization something other than *fabrikam*, you’ll need to make sure the name matches regular expression `/^[a-z0-9\-_]+$/`.
+    The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
+    (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
+    ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Chef web page:
 
-**Step 9.** Open a web browser and navigate to the Chef Server URL (the same as the cloud service name) such as [http://yourname.cloudapp.net](http://yourname.cloudapp.net). 
+    ![](<media/4.jpg>)
 
-**Step 10.** Enter *labuser* as the user name. Enter *labPassw0rd* as the password. Click **Sign In**. Confirm that you are successfully logged in and taken to the Chef Manage console.
+    >**Note:** The lab requires several ports to be open, such as the Chef Server port, the Chef web page port, and SSH
+    ports. The ARM template opens these ports on the machines for you.
+
+1. Log in to the Chef Web Page
+
+    Now go back to the Chef web page in your browser and enter the username and the password you set. 
+    When you log in, you should see a page like this:
+
+    ![](<media/6.jpg>)
+
 
 ###Task 3: Configuring the Chef Workstation
 In this exercise, you will configure your Chef Server as a Chef Workstation.
