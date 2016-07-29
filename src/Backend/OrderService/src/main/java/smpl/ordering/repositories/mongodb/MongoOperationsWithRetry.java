@@ -2,6 +2,7 @@ package smpl.ordering.repositories.mongodb;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.channel.TelemetryChannel;
+import com.microsoft.applicationinsights.telemetry.Duration;
 import com.microsoft.applicationinsights.telemetry.RemoteDependencyTelemetry;
 import com.microsoft.applicationinsights.internal.schemav2.DependencyKind;
 import com.microsoft.applicationinsights.internal.schemav2.DependencySourceType;
@@ -177,9 +178,10 @@ public class MongoOperationsWithRetry
         if (client != null)
         {
             RemoteDependencyTelemetry rdt = new RemoteDependencyTelemetry(String.format("MongoDB.%s", operation));
-            rdt.setValue((double) (end.getTime() - start.getTime()));
+			Duration duration = new Duration(end.getTime() - start.getTime());
+            rdt.setDuration(duration);
             rdt.setCount(1);
-            rdt.setDependencyKind(DependencyKind.Undefined);
+            rdt.setDependencyKind(DependencyKind.Other);
             rdt.setSuccess(success);
             client.track(rdt);
         }
