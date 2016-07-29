@@ -21,17 +21,12 @@ In this hands-on lab you will explore some of the new features and capabilities 
 ###Task 1: Provisioning a Chef Server
 In this exercise, you will provision a new Chef Server in Azure from a template image.
 
-**Step 1.** Navigate to [http://portal.azure.com](http://portal.azure.com) and log in. 
-
-**Step 2.** To create a new Chef server, click on the **New** tile, followed by **Marketplace**. In the Marketplace panel, choose **Everything** and click on the **Chef Server 12** tile. If the Chef tile doesn't appear, search for it in the search text field. 
-
-![](<media/task1-step2.png>)
-
-**Step 3.** After clicking on the Chef Server tile, choose the Classic deployment model. 
-
-**Step 4.** When prompted for the host name, enter a globally unique name (which will also be used as your cloud service name). Enter *labuser* for the username and *labPassw0rd* (or other secure password) for the password. Choose A3 Standard (4 cores, 7 GB memory) for the VM size. Lastly, click **Create** and **buy** to start provisioning your Chef Server.
-
-![](<media/task1-step4.png>) 
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+        <img src="http://azuredeploy.net/deploybutton.png"/>
+    </a>
+    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fnwcadence%2FPartsUnlimitedMRP%2FHOL_Deploying-Using-Chef%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+        <img src="http://armviz.io/visualizebutton.png"/>
+    </a>
 
 ###Task 2: Configuring the Chef Server
 In this exercise, you will connect to the Chef Server via SSH and configure it.
