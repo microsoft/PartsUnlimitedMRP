@@ -11,6 +11,7 @@
     },
     "chefServerAdminPassword": {
       "type": "securestring",
+      "minLength": 8,
       "metadata": {
         "description": "Password for the Chef Server Virtual Machine."
       }
@@ -31,6 +32,7 @@
     },
     "chefWorkstationPassword": {
       "type": "securestring",
+      "minLength": 8,
       "metadata": {
         "description": "Password for the Chef Workstation Virtual Machine."
       }
@@ -38,6 +40,7 @@
     "chefWorkstationDnsNameForPublicIP": {
       "type": "string",
       "minLength": 1,
+      "maxLength": 15,
       "metadata": {
         "description": "Globally unique DNS Name for the Public IP used to access the Chef Workstation Virtual Machine."
       }
@@ -385,18 +388,12 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('chefWorkstationVmName')]",
       "location": "[resourceGroup().location]",
-      "plan": {
-        "name": "[variables('chefWorkstationImageSku')]",
-        "product": "[variables('chefWorkstationImageOffer')]",
-        "publisher": "[variables('chefWorkstationImagePublisher')]"
-      },
       "tags": {
         "displayName": "VM-ChefWorkstation"
       },
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('chefWorkstationNicName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('chefServerVmName'),'/chefserverconfig')]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('chefWorkstationNicName'))]"
       ],
       "properties": {
         "hardwareProfile": {

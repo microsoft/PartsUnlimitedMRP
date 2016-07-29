@@ -42,7 +42,7 @@ sudo opscode-analytics-ctl reconfigure
 
 
 ## Configure user and organization
-
+sleep 5
 # Create user
 sudo chef-server-ctl user-create ${chef_user} ${chef_user} HOL ${chef_user}@partsunlimited.local ${chef_password} --filename /home/${chef_user}/${chef_user}.pem
 
