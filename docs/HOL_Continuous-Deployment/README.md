@@ -73,7 +73,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 5. Click on the **Add tasks** button and add a shell script task (under the Utility category). 
 
-	 ![](<media/add_shell_script.png>)
+	 ![](<media/add_powershell_script.png>)
 
 6. Point to the **Deploy-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
 
