@@ -452,7 +452,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/env/Configure-Chef-Workstation.ps1"
           ],
-          "commandToExecute": "powershell -File Configure-Chef-Workstation.ps1"
+          "commandToExecute": "[concat('powershell -File Configure-Chef-Workstation.ps1 -chefUserName ', parameters('chefWorkstationUsername'))]"
         },
         "protectedSettings": {
         }
