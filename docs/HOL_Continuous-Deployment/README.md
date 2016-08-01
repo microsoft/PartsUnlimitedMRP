@@ -71,13 +71,25 @@ In this lab, you will work with one machine which will serve as both the deploym
 
      ![](<media/change_environment_name.png>)
 
-5. Click on the **Add tasks** button and add a shell script task (under the Utility category). 
+5. Click on the **Add tasks** button and add a PowerShell script task (under the Utility category). 
 
 	 ![](<media/add_powershell_script.png>)
 
-6. Point to the **Deploy-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
+6. Point to the **SSH-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
 
 	 ![](<media/add_script_path.png>)
+
+7. In the environment box, click on the ellipses ("...") and select **Configure variables...** option. 
+
+     ![](<media/configure_variables.png>)
+
+8. Create three variables: `sshUser`, `sshPassword`, and `sshTarget`. Fill in the values of the virtual machine that you created previously. `sshTarget` should be the public DNS name of the virtual machine, such as "mylinuxvm.westus.cloudapp.azure.com."
+
+     ![](<media/fill_in_variable_values.png>)
+
+9. In the PowerShell script task, add in the arguments with a hyphen and the variable name, followed by $(*variablename*). The arguments should look like `-sshUser $(sshUser) -sshPassword $(sshPassword) -sshTarget $(sshTarget)`. Click on the **pencil icon** above the task to rename it. 
+
+     ![](<media/fill_in_arguments.png>)
  
 ### Task 3: Continuous Deployment ###
 
