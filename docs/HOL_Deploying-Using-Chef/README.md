@@ -75,100 +75,52 @@ In this hands-on lab you will explore some of the new features and capabilities 
 
 
 ###Task 3: Configuring the Chef Workstation
-In this exercise, you will configure your Chef Server as a Chef Workstation.
+In this exercise, you will configure your Chef Workstation.
 
-**Step 1.** Use the apt-get command to install the Git client tools. 
+**Step 1.** Verify the Chef Development Kit install
+	Open the Chef Development Kit console (you should have a desktop shortcut for it)
+	Run the command:  chef verify
 
-    sudo apt-get -y install git
+**Step 2.** Download the Chef Starter Kit
 
-**Step 2.** Use the wget command to download the ChefDK package.
+    Login to the Chef Web Site
+	Go to the Administration tab
+	Select the "partsunlimited" organization
+	Click Starter Kit on the left hand side
+	Click Download Starter Kit
 
-    wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.4.0-1_amd64.deb
+**Step 3.** Extract the Chef Starter Kit
 
-The ChefDK can be installed on any workstation across a variety of operating systems and configured to work with a Chef server. For this lab, we are using the Chef Server as our workstation to make things easier and faster for a lab.
+	Extract the Chef starter kit files to a directory like C:\Users\<username>\chef\
 
-**Step 3.** Use the dpkg command to install the ChefDK. This may take a few minutes to install.
+**Step 4.** Fix the Chef Server URL
+	
+	Open the knife.rb file in chef-repo\.chef
+	Change the chef_server_url to the external FQDN (i.e. https://<chef-server-dns-name>.<region>.cloudapp.azure.com)
+	Save and close the file
 
-    sudo dpkg --install ./chefdk_0.4.0-1_amd64.deb
-
-**Step 4.** Remove the downloaded ChefDK installer.
-
-    sudo rm ./chefdk_0.4.0-1_amd64.deb
-
-**Step 5.** Once finished, verify the ChefDK installation. You should see that all of the components succeeded.
-
-    chef verify
-
-**Step 6.** Set your shell environment to reference the ChefDK
-
-    eval "$(chef shell-init bash)" && echo $PATH
-
-**Step 7.** The Chef Repo is a Git repository used to store your Chef artifacts, such as cookbooks and recipes. This repo can be automatically created for you by using the **chef generate repo** command:
-
-    chef generate repo chef-repo
-
-This creates a chef repo in the chef-repo directory.
-
-**Step 8.** Configure your global git variables with your actual name and email address
-    
-    git config --global user.name “YourName”
-    git config --global user.email “you@yourdomain.com”
-
-**Step 9.** Initialize Git and add the initial files. 
-
-    cd chef-repo
+**Step 5.** Initialize Git and add the initial files. 
+	Change directories to the chef-repo directory (i.e. cd chef-repo)
     git init
     git add .
     git commit –m 'initial commit'
     cd ..
 
-**Step 10.** Create a directory called .chef and copy the key files to both the .chef directory and the /etc/chef directory.
-
-    sudo cp *.pem /etc/chef/ && mkdir ~/.chef && cp *.pem ~/.chef
-
- Chef uses RSA keys to encrypt all communication between the Chef workstation and the Chef server. When we configured our Chef server, we created a file called labuser.pem, which contains the key for the labuser account. When we created our fabrikam organization, we saved the organization key into a file called yourname-validator.pem in our home directory. Now we must move these key files to the correct location for later use.
-
-**Step 11.** Run the knife configure command:
+**Step 6.** Run the knife ssl fetch command:
     
-    knife configure
-
- Knife is a command-line tool that provides an interface between your local chef repo and the Chef server.
-
-**Step 12.** Knife will ask you “Where should I put the config file?” with a default value in square brackets *[/home/labuser/.chef/knife.rb]*. Press **Enter** to continue with the default value.
-
-**Step 13.** Knife will ask you “Please enter the chef server URL” with a default value in square brackets. This value is incorrect. Enter (with *yourcloudservicename* replaced by your cloud service name): 
-
-    https://yourcloudservicename.cloudapp.net:443/organizations/fabrikam
-
-**Step 14.** Knife will ask you “Please enter an existing username or clientname for the API:” with a default value in square brackets *[labuser]*. Press **Enter** to continue with the default value.
-
-**Step 15.** Knife will ask you “Please enter the validation clientname::” with a default value in square brackets *[chef-validator]*. This value is incorrect. Enter: 
-
-    fabrikam-validator
-
-**Step 16.** Knife will ask you “Please enter the location of the validation key:” with a default value in square brackets *[/etc/chef-server/chef-validator.pem]*. This value is incorrect. Enter: 
-
-    /etc/chef/fabrikam-validator.pem
-
-**Step 17.** Knife will ask you “Please enter the path to a chef repository (or leave blank):” Enter: 
-
-    /home/labuser/chef-repo
-
-**Step 18.** Run the knife ssl fetch command:
-    
-    sudo knife ssl fetch
+    knife ssl fetch
 
  Our Chef server has an SSL certificate that is not trusted. As a result, we have to manually trust the SSL certificate in order to have our workstation communicate with the Chef server. This can also be addressed by importing a valid SSL certificate for Chef to use.
 
-**Step 19.** View the current chef-repo contents.
+**Step 7.** View the current chef-repo contents.
 
     ls chef-repo
 
-**Step 20.** Synchronize the Chef repo.
+**Step 8.** Synchronize the Chef repo.
 
     knife download /
 
-**Step 21.** Run the **ls** command from Step 1 again, and observe that additional files and folders have been created in the chef-repo directory. 
+**Step 9.** Run the **ls** command from Step 1 again, and observe that additional files and folders have been created in the chef-repo directory. 
 
 ###Task 4: Create a Cookbook
 In this exercise, you will create a cookbook to automate the installation of the MRP application and upload it to the Chef server.
@@ -183,7 +135,7 @@ This creates an “mrpapp” directory in the chef-repo/cookbooks/ directory tha
 
 **Step 2.** Edit the metadata.rb file in our cookbook directory.
    
-    nano chef-repo/cookbooks/mrpapp/metadata.rb
+    Open chef-repo/cookbooks/mrpapp/metadata.rb for edit
  
 Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook will use a pre-existing recipe for managing APT repositories.
 
@@ -202,7 +154,7 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
     version  '0.1.0'
     depends 'apt'
 
-**Step 5.** Save the file with `Ctrl-o` then **Enter**. Exit nano with `Ctrl-x`.
+**Step 5.** Save and close the file.
 
 **Step 6.** Install the apt cookbook. 
 
@@ -214,13 +166,11 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
 
     knife cookbook site install chef-client
 
-**Step 8.** We will first open up a full copy of the recipe on the host machine where you are connected to the Chef Server, found at [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
+**Step 8.** Copy the full contents of the recipe from here: [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
 
-**Step 9.** Copy all of the contents of this page to your host machine clipboard with `Ctrl-a` and `Ctrl-c`. 
+**Step 9.** Open recipe in text editor. 
 
-**Step 10.** Go back to your Chef Server SSH session (i.e. Putty) and then edit recipe.rb with nano. 
-
-    nano chef-repo/cookbooks/mrpapp/recipes/default.rb
+    Open chef-repo/cookbooks/mrpapp/recipes/default.rb for edit
 
 **Step 11.** The file should look like this to start: 
 
@@ -233,11 +183,9 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
     ↪	# All rights reserved - Do Not Redistribute
     ↪	#
     
-**Step 12.** Paste the contents of the recipe into the mrpapp recipe file such as right-clicking inside the Putty session.
+**Step 12.** Paste the contents of the recipe into the mrpapp recipe file.
 
-**Step 13.** In all of the instances where `https://chefdemowus.blob.core.windows.net/mrpbuild/` exist in the *default.rb* file, replace them with `https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/`. For *MongoRecords.js*, change the source directory to be `https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/deploy/MongoRecords.js`. 
-
-**Step 14.** Save the file with `Ctrl-o` then **Enter**.
+**Step 13.** Save the and close the file.
 
 **Step 15.** *The following explains what the recipe is doing to provision the application.*
 
