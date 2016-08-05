@@ -18,8 +18,10 @@ In this hands-on lab you will explore some of the new features and capabilities 
 
 1. Provision the Lab machines using an Azure Resource Manager (ARM) Template
 
-    This lab initally calls for the use of two machines. The Chef server must be a Linux machine, but the Chef
-    Workstation can run on Linux, Windows, or Mac. For this lab, the Chef Workstation will be on a Windows machine.
+    This lab calls for the use of three machines:
+		The Chef server must be a Linux machine. 
+		The Chef workstation can run on Linux, Windows, or Mac. For this lab, the Chef Workstation will be on a Windows machine.
+		The MRP app server will be a Linux machine.  This machine will be configured and deployed to by Chef.
 
     Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.
     
@@ -41,7 +43,7 @@ In this hands-on lab you will explore some of the new features and capabilities 
 1. Specify settings for the deployment
     
     You will need to select a subscription and region to deploy the Resource Group to and to supply an admin username 
-    and password and unique name for both machines.
+    and password and unique DNS name for all machines.
 
     ![](<media/1.jpg>)
 
@@ -53,20 +55,34 @@ In this hands-on lab you will explore some of the new features and capabilities 
 
     ![](<media/2.jpg>)
 
+    >**Note:** The lab requires several ports to be open, such as the Chef Server port, the Chef web page port, and SSH
+    ports. The ARM template opens these ports on the machines for you.
+
+1. RDP (Remote Desktop) into the Chef Workstation
+	The Chef Workstation machine will be used to create cookbooks and trigger deployments.  It is a Windows machine so you can connect using Remote Desktop.
+
+    Click on the "chefworkstation" Public IP Address. Then make a note of the DNS name:
+
+    ![](<media/3.jpg>)
+
+    The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com.
+
+    ![](<media/4.jpg>)
+
+	Connect to the machine with Remote Desktop and the username and password you set.
+
+1. Log in to the Chef Web Page
+	From the Chef Workstation machine, log in to the Chef Manage web site (Please use Firefox or Chrome which are already installed on the machine).
+
     Click on the "chefserver" Public IP Address. Then make a note of the DNS name:
 
     ![](<media/3.jpg>)
 
     The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
     (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
-    ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Chef web page:
+    ignore this for the purposes of this lab. If the Chef configuration has succeeded, you should see the Chef web page:
 
     ![](<media/4.jpg>)
-
-    >**Note:** The lab requires several ports to be open, such as the Chef Server port, the Chef web page port, and SSH
-    ports. The ARM template opens these ports on the machines for you.
-
-1. Log in to the Chef Web Page
 
     Now go back to the Chef web page in your browser and enter the username and the password you set. 
     When you log in, you should see a page like this:
@@ -78,33 +94,42 @@ In this hands-on lab you will explore some of the new features and capabilities 
 In this exercise, you will configure your Chef Workstation.
 
 **Step 1.** Verify the Chef Development Kit install
-	Open the Chef Development Kit console (you should have a desktop shortcut for it)
+	Open the Chef Development Kit shell (you should have a desktop shortcut for it)
 	Run the command:  chef verify
 
-**Step 2.** Download the Chef Starter Kit
+	The chef verify command returned errors that git was not configured with your identity information.
+	Proceed with step 2 to configure your identify information in git.
 
-    Login to the Chef Web Site
+**Step 2.** Configure your global git variables with your name and email address
+
+    git config --global user.name “YourName”
+    git config --global user.email “you@yourdomain.com”
+
+	Run "chef verify" again to ensure no further errors exist.
+
+**Step 3.** Download the Chef Starter Kit
+
+    Go back to the Chef Manage Web Site
 	Go to the Administration tab
 	Select the "partsunlimited" organization
 	Click Starter Kit on the left hand side
 	Click Download Starter Kit
 
-**Step 3.** Extract the Chef Starter Kit
+**Step 4.** Extract the Chef Starter Kit
 
 	Extract the Chef starter kit files to a directory like C:\Users\<username>\chef\
 
-**Step 4.** Fix the Chef Server URL
+**Step 5.** Fix the Chef Server URL
 	
 	Open the knife.rb file in chef-repo\.chef
-	Change the chef_server_url to the external FQDN (i.e. https://<chef-server-dns-name>.<region>.cloudapp.azure.com)
+	Change the chef_server_url to the external FQDN (i.e. https://<chef-server-dns-name>.<region>.cloudapp.azure.com/organizations/partsunlimited)
 	Save and close the file
 
-**Step 5.** Initialize Git and add the initial files. 
-	Change directories to the chef-repo directory (i.e. cd chef-repo)
+**Step 6.** Initialize Git and add the initial files. 
+	Change directories to the chef-repo directory in the Chef DK shell (i.e. cd C:\Users\<username>\chef\chef-repo)
     git init
     git add .
-    git commit –m 'initial commit'
-    cd ..
+    git commit -m "starter kit commit"
 
 **Step 6.** Run the knife ssl fetch command:
     
@@ -114,13 +139,17 @@ In this exercise, you will configure your Chef Workstation.
 
 **Step 7.** View the current chef-repo contents.
 
-    ls chef-repo
+	dir
 
 **Step 8.** Synchronize the Chef repo.
 
     knife download /
 
-**Step 9.** Run the **ls** command from Step 1 again, and observe that additional files and folders have been created in the chef-repo directory. 
+**Step 9.** Run the **dir** command from Step 7 again, and observe that additional files and folders have been created in the chef-repo directory. 
+
+**Step 10.** Commit the added files into the git repository
+    git add .
+    git commit -m "knife download commit"
 
 ###Task 4: Create a Cookbook
 In this exercise, you will create a cookbook to automate the installation of the MRP application and upload it to the Chef server.
@@ -156,36 +185,43 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
 
 **Step 5.** Save and close the file.
 
+ We need to install three dependencies for our recipe: the apt cookbook, the windows cookbook, and the chef-client cookbook. This can be accomplished using the knife cookbook site command, which will download the cookbooks from the official Chef cookbook repository, [https://supermarket.chef.io/cookbooks](https://supermarket.chef.io/cookbooks).
+
 **Step 6.** Install the apt cookbook. 
 
     knife cookbook site install apt
 
- We need to install two dependencies for our recipe: the apt cookbook, and the chef-client cookbook. This can be accomplished using the knife cookbook site command, which will download the cookbooks from the official Chef cookbook repository, [https://supermarket.chef.io/cookbooks](https://supermarket.chef.io/cookbooks).
+**Step 7.** Install the windows cookbook. 
 
-**Step 7.** Install the chef-client cookbook.
+    knife cookbook site install windows
+
+**Step 8.** Install the chef-client cookbook.
 
     knife cookbook site install chef-client
 
-**Step 8.** Copy the full contents of the recipe from here: [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
+**Step 9.** Switch back to the master branch (this should happen automatically but may fail).
+	git checkout master
 
-**Step 9.** Open recipe in text editor. 
+**Step 10.** Copy the full contents of the recipe from here: [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
+
+**Step 11.** Open recipe in text editor. 
 
     Open chef-repo/cookbooks/mrpapp/recipes/default.rb for edit
 
-**Step 11.** The file should look like this to start: 
+**Step 12.** The file should look like this to start: 
 
     ↪	#
     ↪	# Cookbook Name:: mrpapp
     ↪	# Recipe:: default
     ↪	Cd site insta#
-    ↪	# Copyright 2015, YOUR_COMPANY_NAME
+    ↪	# Copyright 2016, YOUR_COMPANY_NAME
     ↪	#
     ↪	# All rights reserved - Do Not Redistribute
     ↪	#
     
-**Step 12.** Paste the contents of the recipe into the mrpapp recipe file.
+**Step 13.** Paste the contents of the recipe into the mrpapp recipe file.
 
-**Step 13.** Save the and close the file.
+**Step 14.** Save the and close the file.
 
 **Step 15.** *The following explains what the recipe is doing to provision the application.*
 
@@ -313,7 +349,11 @@ Finally, we can make sure the ordering service is running. This uses a combinati
     ↪		not_if "pgrep -f ordering-service"
     ↪	end
 
-**Step 16.** Now that the recipe is written, we can upload the cookbooks to the Chef server. From the command line, run: 
+**Step 16.** Commit the added files into the git repository
+    git add .
+    git commit -m "mrp cookbook commit"
+
+**Step 17.** Now that the recipe is written, we can upload the cookbooks to the Chef server. From the command line, run: 
 
     knife cookbook upload mrpapp --include-dependencies
     knife cookbook upload chef-client --include-dependencies
@@ -321,9 +361,9 @@ Finally, we can make sure the ordering service is running. This uses a combinati
 Now that we have a recipe created and all of the dependencies installed, we can upload our cookbooks and recipes to the Chef server with the knife upload command.
 
 ###Task 5: Create a Role
-In this exercise, you will use the Chef Console to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers. 
+In this exercise, you will use the Chef Manage web site to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers. 
 
-At the start of this task, you should be logged in to the Chef Console in a web browser. 
+At the start of this task, you should be logged in to the Chef Manage web site. 
 
 **Step 1.** Click on the "Policy" tab.
 
@@ -375,126 +415,21 @@ The second recipe we added to the run list was chef-client:: service. This recip
 
 **Step 14.** Click **Create Role**.
 
-###Task 6: Configure Chef-Provisioning Azure
-In this exercise, you will configure your Chef Workstation to use the Chef Provisioning Azure tool in order to automatically create and bootstrap a virtual machine running the MRP application.
+###Task 6: Bootstrap the MRP App Server and Deploy the Application
+In this exercise, you will run the knife command to bootstrap the MRP app server and assign the MRP application role.
 
-**Step 1.** Install chef-provisioning-azure: 
+**Step 1.** Use knife to boostrap the vm: 
 
-    chef gem install chef-provisioning-azure
-
-The next goal is to set our Chef workstation up so that we can run a script that will provision a new Azure virtual machine, register the VM with Chef, assign a role to the VM, and automatically run the recipes assigned to that role. To do that, we'll use a Chef tool called chef-provisioning-azure
-
-**Step 2.** Open a web browser to this link: [https://manage.windowsazure.com/publishsettings/index?client=xplat](https://manage.windowsazure.com/publishsettings/index?client=xplat) and login with your Azure Microsoft ID credentials.
-
-For this task, we'll use the Azure cross-platform command line in order to download an Azure Publish Settings file to our local workstation. We'll need the contents of this in order to set up chef-provisioning-azure. 
-
-**Step 3.** Save the *.publishsettings file to your local hard drive.
-
-**Step 4.** Open the publishsettings file you saved in the previous step and do not close it. 
-It should look like this:
-    
-    ↪	<?xml version="1.0" encoding="utf-8"?>
-    ↪	<PublishData>
-    ↪	  <PublishProfile
-    ↪		SchemaVersion="2.0"
-    ↪		PublishMethod="AzureServiceManagementAPI">
-    ↪		<Subscription>
-    ↪	  		ServiceManagementUrl="https://management.core.windows.net"
-    ↪	  		Id="00000000-1111-2222-3333-444444444444"
-    ↪	  		Name="Visual Studio Ultimate with MSDN"
-    ↪	  		ManagementCertificate="MIIverylongstring=="/>
-	↪		</Subscription>
-    ↪	  </PublishProfile>
-    ↪	</PublishData>
-
-**Step 6.** Make note of the values of the *Id* and *ManagementCertificate* values – you'll need both of them for the next task.
-
-**Step 7.** Make a directory named *.azure*:
-
-    mkdir .azure
-
-**Step 8.** Create a new file called *cert.pfx* in the *.azure* directory: 
-
-    nano ~/.azure/cert.pfx
-
-**Step 9.** On your workstation: Copy just the contents of the certificate characters of the *ManagementCertificate* element from the publish settings file:
-
-![](<media/task6-step9.png>)
-
-**Step 10.** On your workstation: paste the contents into the Putty/SSH window where you have the *cert.pfx* open. Save the file with `Ctrl-o` and **Enter**.
-
-**Step 11.** Exit nano with `Ctrl-x`.
-
-**Step 12.** Create a new file called *config* in the *.azure* directory: 
-
-    nano ~/.azure/config
-
-**Step 13.** Copy these contents into the *config* file with your own subscription ID (which should be the value of the *Id* element from the publishsettings file):
-
-    [default]
-    management_certificate = "/home/labuser/.azure/cert.pfx"
-    subscription_id = "{subscription id}"
-
-**Step 14.** Save the file with `Ctrl-o` and **Enter** and exit nano with `Ctrl-x`.
-
-###Task 7: Provision and Deploy the Application
-In this exercise, you will create a script to automatically provision your Azure server and assign the MRP application role to that server.
-
-**Step 1.** Use nano to create a new file called *provision.rb*.
-
-    nano provision.rb
-
-We will write a Ruby script to provision the environment, install the Chef client, and assign the mrp role.
-
-**Step 2.** Paste the following code into *provision.rb*: 
-
-    require 'chef/provisioning/azure_driver'
-    
-    with_chef_server "https://{chef server name}.cloudapp.net/organizations/fabrikam",
-    :client_name => Chef::Config[:node_name],
-    :signing_key_filename => Chef::Config[:client_key]
-    with_driver 'azure'
-    
-    machine_options = {
-     :bootstrap_options => {
-     :cloud_service_name => '{cloud service name}',
-     :storage_account_name => '{storage account name}',
-     :vm_size => "Medium",
-     :location => 'West US',
-     :tcp_endpoints => '9080:9080,8080:8080'
-    
-     },
-     :image_id => 'b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_2_LTS-amd64-server-20150309-en-us-30GB',
-     :password => "mrpPassw0rd",
-     :convergence_options => { ssl_verify_mode: :verify_none }
-    
-    }
-    
-    machine '{machine name}' do
-     machine_options machine_options
-     role 'mrp'
-    end
-
-Fill in the following values:
-
--	 *{chef server name}* – the name of your Chef server
--	*{cloud service name}* – This must be unique. This will be the URL that you navigate to in order to look at the running MRP application. For example, if you name it "mycloudservice", you the MRP application will run under mycloudservice.cloudapp.net. If it does not exist, it will be created.
--	*{storage account name}* – An all lowercase, alphanumeric name for the storage account to use for this VM. If it does not exist, it will be created.
--	*{machine name}* – Any name for your virtual machine. If the VM does not exist, it will be created.
-This script represents a desired state for your Azure environment: You are declaring that you want a specific configuration of Cloud Services, storage accounts, TCP endpoints, and that you want a machine to exist that has the role of "mrp".
-
-**Step 3.** Use chef-client to invoke the provisioning script: 
-
-    ↪	chef-client –z provision.rb
+	knife bootstrap <FQDN-for-MRP-App-VM> --ssh-user <mrp-app-admin-username> --ssh-password <mrp-app-admin-password> --node-name mrp-app --sudo --verbose
 
 **Step 4.** The script will take approximately 15 minutes to run. You will see it do the following things:
--	Create the Azure requirements (cloud service, storage account, VM)
+-	Create the Azure resources (vNet, storage account, VM)
 -	Install Chef on the VM
 -	Assign the *mrp* Chef role to the VM and execute the *mrpapp* recipe.
 
 Once the deployment is complete, you should be able to navigate to the MRP application website and use it normally.
 
-**Step 5.** Open the URL you chose for your cloud service name in a browser. The URL should be something like [http://mycloudservice.cloudapp.net:9080/mrp](http://mycloudservice.cloudapp.net:9080/mrp). 
+**Step 5.** Open the URL you chose for your public DNS name in a browser. The URL should be something like http://<mrp-dns-name>.<region>.cloudapp.azure.com/. 
 
 ![](<media/task7-step5.png>)
 
@@ -520,7 +455,7 @@ In this exercise, you will make a change to the configuration of your MRP applic
 
 **Step 7.** On your workstation, go to the URL of the MRP website on your Private browser session and observe that it is no longer accessible. 
 
-**Step 8.** Go to the Chef Console in your web browser on your workstation and click on the **Reports** tab. 
+**Step 8.** Go to the Chef Manage web site on your workstation and click on the **Reports** tab. 
 This will take you to the dashboard where you can see statistics about your deployments.
 
 **Step 9.** Click **Run History**.

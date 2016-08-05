@@ -44,6 +44,26 @@
       "metadata": {
         "description": "Globally unique DNS Name for the Public IP used to access the Chef Workstation Virtual Machine."
       }
+    },
+    "mrpAdminUsername": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "User name for the MRP Virtual Machine."
+      }
+    },
+    "mrpAdminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the MRP Virtual Machine."
+      }
+    },
+    "mrpDnsNameForPublicIP": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
+      }
     }
   },
   "variables": {
@@ -63,15 +83,26 @@
     "chefWorkstationNsgName": "chefWorkstationNSG",
     "chefWorkstationVmSize": "Standard_D1_V2",
     "chefWorkstationVmName": "[toLower(parameters('chefWorkstationDnsNameForPublicIP'))]",
+    "mrpImagePublisher": "Canonical",
+    "mrpImageOffer": "UbuntuServer",
+    "mrpImageSku": "16.04.0-LTS",
+    "mrpOSDiskName": "mrpOsdisk",
+    "mrpNicName": "mrpNic",
+    "mrpNsgName": "mrpNSG",
+    "mrpVmSize": "Standard_D1_V2",
+    "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
     "addressPrefix": "10.0.0.0/16",
-    "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
+    "chefSubnetName": "ChefSubnet",
+    "chefSubnetPrefix": "10.0.0.0/24",
+    "mrpSubnetName": "MRPSubnet",
+    "mrpSubnetPrefix": "10.0.1.0/24",
     "storageType": "Standard_LRS",
     "publicIPAddressType": "Dynamic",
     "vhdStorageContainerName": "vhds",
     "virtualNetworkName": "chefVNET",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+    "chefSubnetRef": "[concat(variables('vnetId'), '/subnets/', variables('chefSubnetName'))]",
+    "mrpSubnetRef": "[concat(variables('vnetId'), '/subnets/', variables('mrpSubnetName'))]",
     "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]"
   },
   "resources": [
@@ -103,9 +134,15 @@
         },
         "subnets": [
           {
-            "name": "[variables('subnetName')]",
+            "name": "[variables('chefSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
+              "addressPrefix": "[variables('chefSubnetPrefix')]"
+            }
+          },
+          {
+            "name": "[variables('mrpSubnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('mrpSubnetPrefix')]"
             }
           }
         ]
@@ -221,7 +258,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('chefServerDnsNameForPublicIP'))]"
               },
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[variables('chefSubnetRef')]"
               }
             }
           }
@@ -376,7 +413,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('chefWorkstationDnsNameForPublicIP'))]"
               },
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[variables('chefSubnetRef')]"
               }
             }
           }
@@ -455,6 +492,161 @@
           "commandToExecute": "powershell -File Configure-Chef-Workstation.ps1"
         },
         "protectedSettings": {
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('mrpDnsNameForPublicIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "PublicIPAddress-mrp"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('mrpDnsNameForPublicIP')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('mrpNsgName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NSG-mrp"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SSH",
+            "properties": {
+              "description": "SSH port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "MRP",
+            "properties": {
+              "description": "MRP port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "9080",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "OrderingSvc",
+            "properties": {
+              "description": "OrderingService port",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8080",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1200,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('mrpNicName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NIC-mrp"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('mrpDnsNameForPublicIP'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('mrpNSGName'))]"
+      ],
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('mrpNSGName'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('mrpDnsNameForPublicIP'))]"
+              },
+              "subnet": {
+                "id": "[variables('mrpSubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('mrpVmName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "VM-mrp"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('mrpNicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('mrpVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('mrpVmName')]",
+          "adminUsername": "[parameters('mrpAdminUsername')]",
+          "adminPassword": "[parameters('mrpAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('mrpImagePublisher')]",
+            "offer": "[variables('mrpImageOffer')]",
+            "sku": "[variables('mrpImageSku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('storageName'), '.blob.core.windows.net/', variables('vhdStorageContainerName'), '/', variables('mrpOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('mrpNicName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[concat('http://', variables('storageName'), '.blob.core.windows.net')]"
+          }
         }
       }
     }
