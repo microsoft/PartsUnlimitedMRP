@@ -1,18 +1,14 @@
 
 In this hands-on lab you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
 
-**Prerequisites**
-- PartsUnlimitedMRP deployed to an Azure Linux Virtual Machine (see [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/Build-MRP-App-Linux.md))
-
 **Tasks**
 
-1. Provision the Lab (Chef Server and Chef Workstation)
-2. Configure Chef Workstation
+1. Provision the Lab
+2. Configure the Chef Workstation
 3. Create a Cookbook
 4. Create a Role
-5. Configure Chef-Provisioning Azure
-6. Provision and Deploy the Application
-7. Remediating Configuration Changes
+5. Bootstrap the MRP App Server and Deploy the Application
+6. Remediating Configuration Changes
 
 ## Task 1: Provision the Lab
 
@@ -90,7 +86,7 @@ In this hands-on lab you will explore some of the new features and capabilities 
     ![](<media/6.jpg>)
 
 
-###Task 3: Configuring the Chef Workstation
+###Task 2: Configure the Chef Workstation
 In this exercise, you will configure your Chef Workstation.
 
 **Step 1.** Verify the Chef Development Kit install
@@ -151,7 +147,7 @@ In this exercise, you will configure your Chef Workstation.
     git add .
     git commit -m "knife download commit"
 
-###Task 4: Create a Cookbook
+###Task 3: Create a Cookbook
 In this exercise, you will create a cookbook to automate the installation of the MRP application and upload it to the Chef server.
 
 **Step 1.** Use the knife tool to generate a cookbook template. 
@@ -202,7 +198,7 @@ Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook wil
 **Step 9.** Switch back to the master branch (this should happen automatically but may fail).
 	git checkout master
 
-**Step 10.** Copy the full contents of the recipe from here: [https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/Chef/cookbooks/mrpapp-idempotent/recipes/default.rb).
+**Step 10.** Copy the full contents of the recipe from here: [https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/final/default.rb](https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/final/default.rb).
 
 **Step 11.** Open recipe in text editor. 
 
@@ -360,7 +356,7 @@ Finally, we can make sure the ordering service is running. This uses a combinati
 
 Now that we have a recipe created and all of the dependencies installed, we can upload our cookbooks and recipes to the Chef server with the knife upload command.
 
-###Task 5: Create a Role
+###Task 4: Create a Role
 In this exercise, you will use the Chef Manage web site to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers. 
 
 At the start of this task, you should be logged in to the Chef Manage web site. 
@@ -415,53 +411,54 @@ The second recipe we added to the run list was chef-client:: service. This recip
 
 **Step 14.** Click **Create Role**.
 
-###Task 6: Bootstrap the MRP App Server and Deploy the Application
+###Task 5: Bootstrap the MRP App Server and Deploy the Application
 In this exercise, you will run the knife command to bootstrap the MRP app server and assign the MRP application role.
 
 **Step 1.** Use knife to boostrap the vm: 
 
-	knife bootstrap <FQDN-for-MRP-App-VM> --ssh-user <mrp-app-admin-username> --ssh-password <mrp-app-admin-password> --node-name mrp-app --sudo --verbose
+	knife bootstrap <FQDN-for-MRP-App-VM> --ssh-user <mrp-app-admin-username> --ssh-password <mrp-app-admin-password> --node-name mrp-app --run-list role[mrp] --sudo --verbose
 
-**Step 4.** The script will take approximately 15 minutes to run. You will see it do the following things:
--	Create the Azure resources (vNet, storage account, VM)
+**Step 2.** The script will take approximately 15 minutes to run. You will see it do the following things:
 -	Install Chef on the VM
 -	Assign the *mrp* Chef role to the VM and execute the *mrpapp* recipe.
 
 Once the deployment is complete, you should be able to navigate to the MRP application website and use it normally.
 
-**Step 5.** Open the URL you chose for your public DNS name in a browser. The URL should be something like http://<mrp-dns-name>.<region>.cloudapp.azure.com/. 
+**Step 3.** Open the URL you chose for your public DNS name in a browser. The URL should be something like http://<mrp-dns-name>.<region>.cloudapp.azure.com:9080/mrp. 
 
 ![](<media/task7-step5.png>)
 
-**Step 6.** Click around the site and observe that it functions normally.
+**Step 4.** Click around the site and observe that it functions normally.
 
-###Task 8: Remediating Configuration Changes
+###Task 6: Remediating Configuration Changes
 
 In this exercise, you will make a change to the configuration of your MRP application server, then observe as Chef automatically corrects the issue.
 
-**Step 1.** Start PuTTY.exe (or other SSH client) and enter the host name of the Cloud Service created in Exercise 7 (which website you also just visited) under **Host Name (or IP address)**. Then click **Open**. 
+**Step 1.** Start PuTTY.exe (which has already been installed on the Chef workstation) and enter the host name of the MRP application server. Then click **Open**. 
 
-**Step 2.** When prompted for a user name, enter the user name *ubuntu* and press **Enter**.
+**Step 2.** Click Yes to cache the server host key.
 
-**Step 3.** When prompted for a password, enter the *mrpPassw0rd* and press **Enter**.
+**Step 3.** When prompted for a user name, enter the MRP admin username and press **Enter**.
 
-**Step 4.** Wait for the command prompt to appear.
+**Step 4.** When prompted for a password, enter the MRP admin password and press **Enter**.
 
-**Step 5.** On your workstation, open a new In Private / In Cognito browser session.
+**Step 5.** Wait for the command prompt to appear.
 
 **Step 6.** In PuTTY on the MRP Server, execute the following command to stop the Tomcat service:
 
     ↪	sudo service tomcat7 stop
 
-**Step 7.** On your workstation, go to the URL of the MRP website on your Private browser session and observe that it is no longer accessible. 
+**Step 7.** In your browser, refresh the MRP app tab and observe that it is no longer accessible. 
 
-**Step 8.** Go to the Chef Manage web site on your workstation and click on the **Reports** tab. 
+**Step 8.** Go to the Chef Manage web site and click on the **Reports** tab. 
 This will take you to the dashboard where you can see statistics about your deployments.
 
 **Step 9.** Click **Run History**.
 
-**Step 10.** Observe that the node has a first successful run that executed 24/43 resources, and possibly additional runs that executed 0/37 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. You should see a run occur within a minute that shows 1/35 resources executed. 
+**Step 10.** Observe that the node has a first successful run that executed 25/51 resources, and possibly additional runs that executed 0/35 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
 
-**Step 11.** Reload the MRP application site, and you should see the site successfully load.
+**Step 11.** Click on the run that shows 1/35 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
+
+**Step 12.** Reload the MRP application site, and you should see the site successfully load.
 
 In this hands-on lab you explored some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab was designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.

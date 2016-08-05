@@ -44,7 +44,7 @@ sudo opscode-analytics-ctl reconfigure
 ## Configure user and organization
 sleep 5
 # Create user
-sudo chef-server-ctl user-create ${chef_user} ${chef_user} HOL ${chef_user}@partsunlimited.local ${chef_password} --filename /home/${chef_user}/${chef_user}.pem
+sudo chef-server-ctl user-create ${chef_user} ${chef_user} LabUser ${chef_user}@partsunlimited.local ${chef_password} --filename /home/${chef_user}/${chef_user}.pem
 
 # Create organization
 sudo chef-server-ctl org-create partsunlimited 'Parts Unlimited, Inc.' --association_user ${chef_user} --filename /home/${chef_user}/partsunlimited-validator.pem
