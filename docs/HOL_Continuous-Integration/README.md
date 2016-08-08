@@ -9,7 +9,7 @@ get fast feedback. To do so, we are going to be setting up a build agent that
 will allow us to compile and run unit tests on our code every time a commit is
 pushed to Visual Studio Team Services.
 
-###Pre-requisites:###
+## Pre-requisites: ##
 
 -   An active Visual Studio Team Services (VSTS) account
 
@@ -17,7 +17,7 @@ pushed to Visual Studio Team Services.
 
 -   Project Admin rights to the Visual Studio Team Services account
 
-### Tasks Overview: ###
+## Tasks Overview: ##
 
 **Set up your Visual Studio Team Services account:** This step helps you download the source code, and then push it to your own Visual Studio Team Services account.
 
@@ -25,12 +25,10 @@ pushed to Visual Studio Team Services.
 
 **Create Continuous Integration Build:** In this step, you will create a build definition in Visual Studio Team Services that will be triggered every time a commit is pushed to your repository in Visual Studio Team Services. 
 
-### Pre-Requisite: Set up your Visual Studio Team Services account
+## Pre-Requisite: Set up your Visual Studio Team Services account ##
 
 We want to push the application code to your Visual Studio Team Services account in
 order to use Build.
-
-
 
 **1.** First, we need to authenticate access to Visual Studio Team Services secondary credentials. Follow the steps in this [link](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/use-personal-access-tokens-to-authenticate) 
  to create a personal access token (PAT).
@@ -53,29 +51,36 @@ command line. Make sure you copy the token now. Visual Studio Team Services does
 
 	http://git-scm.com/download
 
-**3.** Add your Visual Studio Team Services repository as a new remote called **vso** and push to it
+**NOTE:** If you don't have created a project in your VSTS subscription yet, just click on the **New** button in the Home page
+
+![](<media/vsts_create_project.png>)
+
+**3.** Add your Visual Studio Team Services repository as a new remote called **vsts** and push to it
 your Visual Studio Team Services account. While pushing, use the user name (secondary) and password you have created when enabling alternate authentication credentials earlier in the lab.
 
-	cd PartsUnlimitedMRP/
+```bash
+cd PartsUnlimitedMRP/
 
-	git remote add vsts <url_to_repository>
+git remote add vsts <url_to_repository>
 
-	git push -u vsts --all
-	
+git push -u vsts --all
+```	
 ![](<media/push_to_vsts.png>)
+
+**NOTE:** if you want to know the URL of your repository in your VSTS subscription, you can have this information from the **CODE** tab :
+
+![](<media/vsts_infos.png>)
 
 **NOTE:** we added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
 repository.
 
 **4.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
-application:
+application (you may need to refresh you page to see the result) :
 
 ![](<media/mrp_in_vsts.png>)
 
- 
-
-### 1. Set up Linux virtual machine in Azure as the Build Agent
+## 1. Set up Linux virtual machine in Azure as the Build Agent ##
 
 The application is written in Java, so we are going to use a Linux machine to
 build it.
@@ -88,53 +93,48 @@ HINT: You can use OSX, Ubuntu, or a RedHat VM to run the agent. This guide is ba
 
 ![](<media/azure_new_resource.png>)
 
-**3.** Select **Compute**, then **Ubuntu Server 14.04 LTS**, and click
+**3.** Select **Compute**, search for **Ubuntu**, click on **Ubuntu Server 16.04 LTS** and then
 **Create**
 
 ![](<media/new_ubuntu_vm.png>)
 
-**4.** Enter a **host name**, **user name**, and **password**. Click **Create**
+**4.a.** Fill the basics informations such as **host name**, **user name**, and **password**. Click **Create**
 
 ![](<media/create_vm_opts.png>)
 
-**5.** Once the machine has been created select the **tile for the machine**,
-click on **Endpoints**, and note the public **DNS name** and the **public port**
-that was chosen for SSH access.
+**4.b.** For the others options, you can keep the default one. For the size, one machine with around 1 CPU and 2 Go of RAM is enough.
+
+![](<media/create_vm_opts2.png>)
+
+**5.** Once the machine has been created select the **Public IP of the machine**,
+click on **Configuration**, and add a  **DNS name label**. Finnaly save the Configuration.
 
 ![](<media/ssh_details.png>)
 
-**6.** Connect via SSH to the new Linux machine using the **public DNS name** and **public port** from step five.
+**6.** Connect via SSH to the new Linux machine using the **username** previously selected on step 4.a and the **DNS name label** from step five.
 
-	ssh <user>@<public_dns> -p <public_port>
+	ssh <user>@<public_dns>
 
 ![](<media/create_ssh.png>)
 
-**7.** If you are on **Ubuntu 14.04**, run these commands; otherwise, **ignore
-this step**:
-
-Press [ENTER] to continue when asked after the first command.
-
-	sudo add-apt-repository ppa:openjdk-r/ppa
-
-	sudo apt-get update
-
+**7.** First step is to update the repository list and upgrade the current packages installed thanks to :
+```bash
+# Update repository list and Upgrade the current packages already installed
+sudo apt-get update && sudo apt-get upgrade
+```
 **8.** Copy and paste the following snippet to **run these commands**:
+```bash
+# Prerequisites for VSTS Agent
+sudo apt-get install -y libunwind8 libcurl3 libcurl4-openssl-dev
 
-	# Install git client
-	sudo apt-get install git -y
+# Install Gradle, Java, and MongoDB
+sudo apt-get install gradle -y
+sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
 
-	# Install libunwind, libcurl, and libicu
-	sudo apt-get install -y libunwind8 libcurl3 libicu52 
-
-	# Install Gradle, Java, and MongoDB
-	sudo apt-get install gradle -y
-	sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb -y
-
-	# Set environment variables for Java
-	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-	export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
-	
-	
+# Set environment variables for Java
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
+```	
 **9.** Our build server is ready to install a build agent on it, but first we
 need to create a new build agent pool. Go to your **account home page (not the PartsUnlimitedMRP code page)**:
 
@@ -147,50 +147,57 @@ page
 
 ![](<media/new_agent_pool.png>)
 
-**12.** Enter **linux** for the name of the agent pool, and then click **OK**
+**12.** Enter **Linux-PartsUnlimitedMRP** for the name of the agent pool, and then click **OK**
 
 ![](<media/agent_pool_details.png>)
-
-**13.** Go to the newly created pool “**linux**”, Choose the Roles link and select the pool to see the details. Choose Add, and search for the user or group you want to add. You can view the contact card for users and groups.
-![](<media/vsts_agent_pool.png>)
-
-**NOTE:** By default, the two built-in security groups Agent Pool Administrators and Agent Pool Service Accounts are associated with each agent pool. Members of the first group have permission to register new agents into the pool. Members of the second group have permission to list to queued jobs in the agent pool. You can view, add, and remove security groups and users independently for each agent pool. However, you cannot add groups that are part of a project collection, project, or team.
 
 We are now ready to configure the Visual Studio Team Services Build and Release Agent. This guide is based on Ubuntu but you may run the agent in Ubuntu, OSX, and RedHat. For information you may visit this [link](https://github.com/Microsoft/vsts-agent/blob/master/README.md).
 
 **14.** First we will download the agent and extract it:
+```bash
+mkdir myagent && cd myagent
 
-	mkdir myagent && cd myagent
+wget https://github.com/Microsoft/vsts-agent/releases/download/v2.104.1/vsts-agent-ubuntu.16.04-x64-2.104.1.tar.gz
 
-	wget https://github.com/Microsoft/vsts-agent/releases/download/v2.102.1/vsts-agent-ubuntu.14.04-x64-2.102.1.tar.gz
-
-	tar xzf vsts-agent-ubuntu.14.04-x64-2.102.1.tar.gz
-
+tar xzf vsts-agent-ubuntu.16.04-x64-2.104.1.tar.gz
+```
 **15.** The first time we run the agent, it will be configured.
 ```bash
 ./config.sh
 ```
-**NOTE:** You need to use your own VSTS account (https://<account\>.visualstudio.com) and the Personal Access Token (PAT).
+**NOTE:** You need to use your own VSTS account (https://<account\>.visualstudio.com) and the Personal Access Token (PAT). [Check this article to setup one PAT in VSTS](https://gist.github.com/julienstroheker/f452b27927337e97cf2ac9f7262cdadc)
 
+Example :
 ```bash
+Julien@PartsUnlimitedMRPAgent:~/myagent$ ./config.sh
+
+>> End User License Agreements:
+
+Building sources from a TFVC repository requires accepting the Team Explorer Everywhere End User License Agreement. 
+This step is not required for building sources from Git repositories.
+
+A copy of the Team Explorer Everywhere license agreement can be found at:
+  /home/Julien/myagent/externals/tee/license.html
+
+Enter accept the Team Explorer Everywhere license agreement now? (Y/N) (press enter for N) > Y
+
 >> Connect:
 
-Enter server URL > https://<account>.visualstudio.com
+Enter server URL > https://julienstroheker.visualstudio.com/
 Enter authentication type (press enter for PAT) >
 Enter personal access token > ****************************************************
 Connecting to server ...
-Saving credentials...
 
 >> Register Agent:
 
-Enter agent pool (press enter for default) > linux 
-Enter agent name (press enter for mymachine) > myAgentName
+Enter agent pool (press enter for default) > Linux-PartsUnlimitedMRP
+Enter agent name (press enter for PartsUnlimitedMRPAgent) > Linux-PartsUnlimitedMRP-Agent01
 Scanning for tool capabilities.
 Connecting to the server.
 Successfully added the agent
+Testing agent connection.
 Enter work folder (press enter for _work) >
-2016-05-27 11:03:33Z: Settings Saved.
-Enter run agent as service? (Y/N) (press enter for N) >
+2016-08-05 19:49:24Z: Settings Saved.
 ```
 
 **16.**  Run the agent with the following command:
@@ -199,13 +206,11 @@ Enter run agent as service? (Y/N) (press enter for N) >
 
 And now, you have a build agent configured for Visual Studio Team Services.
 
- 
+![](<media/run_agent.png>)
 
-### 2. Create Continuous Integration Build
+## 2. Create Continuous Integration Build ##
 
-A continuous integration build will give us the ability check whether the code
-we checked in can compile and will successfully pass any automated tests that we
-have created against it.
+A continuous integration build will give us the ability check whether the code we checked in can compile and will successfully pass any automated tests that we have created against it.
 
 **1.** Go to your **account’s homepage**: https://<account\>.visualstudio.com
 
@@ -219,21 +224,23 @@ the page.
 
 ![](<media/build_tab.png>)
 
-**4.** Click the **green “plus” sign**, select **Empty**, and then click **OK**.
+**4.** Click the **green “plus” sign**, select an **Empty** template, and then click **Next >**.
 
 ![](<media/new_empty_build.png>)
 
-**5.** Click on the **Repository** tab, and choose the git repository that
-PartsUnlimitedMRP source is in.
+**5.** Make sure, the repository and the branch are with the default option. Change the **Default agent queue** for the one previously created (Linux-PartsUnlimitedMRP) and then click on **Create**
 
 ![](<media/build_select_repo.png>)
 
-**6.** Click on the **Build** tab, click **Add build step...**, and then **add
-three Gradle** tasks to the script
+**6.** Click on **+ Add build step...** and search for the **Gradle** task, then click three time on **Add**
 
 ![](<media/build_add_gradle.png>)
 
-**7.** Select the first Gradle task and **edit the task name** to say
+**7.** Next, search for **Copy Publish Artifact** task and click on **Add** and **Close**
+
+![](<media/build_add_pub_step.png>)
+
+**8.** Select the first Gradle task and **edit the task name** to say
 *IntegrationService* and set the **Gradle Wrapper** to the following location:
 
 	src/Backend/IntegrationService/gradlew 
@@ -244,13 +251,10 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_integration.png>)
 
-**8.** Select the second Gradle task and **edit the task name** to say
+**9.** Select the second Gradle task and **edit the task name** to say
 *OrderService* and set the **Gradle Wrapper** to the following location:
-(NOTE: set the Options to **-x text** as the test have external dependencies on a mongo database.)
 
-	src/Backend/OrderService/gradlew
-	-x test
-	
+	src/Backend/OrderService/gradlew	
 
 Set the **Working Directory** to the following location:
 
@@ -258,7 +262,7 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_order.png>)
 
-**9.** Select the third Gradle task and **edit the task name** to say *Clients*
+**10.** Select the third Gradle task and **edit the task name** to say *Clients*
 and set the **Gradle Wrapper** to the following location:
 
 	src/Clients/gradlew
@@ -269,15 +273,9 @@ Set the **Working Directory** to the following location:
 
 ![](<media/build_gradle_clients.png>)
 
-**10.** Click **Add build step...** and add a **Publish Build Artifacts** task
+**11.** Select the **Copy and Publish Artifact** task, and fill in the input values with the following:
 
-
-![](<media/build_add_pub_step.png>)
-
-**11.** Select the Publish Build Artifacts task, and fill in the input values
-with the following:
-
-	Copy Root: $(build.sourcedirectory)
+	Copy Root: 
 	Contents: **/build/libs/!(buildSrc)*.?ar
 	Artifact Name: drop
 	Artifact Type: Server
@@ -290,7 +288,7 @@ with the following:
 
 ![](<media/build_ci_trigger.png>)
 
-**13.** Click **General**, set the default queue to the previously created queue (**linux**)
+**13.** Click **General**, check if the default queue is correctly setted to the previously created queue (**Linux-PartsUnlimitedMRP**)
 
 ![](<media/build_general.png>)
 
@@ -299,22 +297,29 @@ with the following:
 
 ![](<media/build_save.png>)
 
+**NOTE:** We just configured our **Build** and activated the **Continuous Integration** trigger. Now let's test if everything works well !
+
 **15.** Go to the **Code** tab, select the **index.html** file located at
 src/Clients/Web, and click **Edit**
 
 ![](<media/edit_index_web.png>)
 
-**16.** Change the **Parts Unlimited MRP** and then
-click the **save button**.
+**16.** Change the title for **Parts Unlimited MRP** and then click the **Commit button**.
+
 ![](<media/save_index.png>)
 
-**17.** This should have triggered the build definition we previously created,
-and you should get a build summary similar to this, which includes test results:
+**NOTE:** When you click on commit, you should see a blue notification appear on the top of your page, with the ID of your commit
+
+![](<media/build_commited.png>)
+
+**17.** This should have triggered the build definition we previously created, and you should get a build summary similar to this, which includes test results:
 
 ![](<media/build_summary.png>)
 
- 
+**NOTE:** To have access at all your build history, you have to go on **Build** section, and from there you should be able to see your history **Completed** or **Queued**, you just have to double click on it ahve details.
 
+![](<media/build_get_summary.png>)
+ 
 Next steps
 ----------
 
