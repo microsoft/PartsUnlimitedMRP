@@ -13,7 +13,7 @@ pushed to Visual Studio Team Services.
 
 Click on this image to see the Channel 9 video with the step by step about this HOL :
 
-![https://channel9.msdn.com/Blogs/TalkDevOps/Parts-Unlimited-MRP-HOL-Continuous-Integration](http://i.giphy.com/hCpRR7re6BR60.gif)
+[![](http://i.giphy.com/hCpRR7re6BR60.gif)](https://channel9.msdn.com/Blogs/TalkDevOps/Parts-Unlimited-MRP-HOL-Continuous-Integration)
 
 ## Pre-requisites: ##
 
