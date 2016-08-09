@@ -9,6 +9,12 @@ get fast feedback. To do so, we are going to be setting up a build agent that
 will allow us to compile and run unit tests on our code every time a commit is
 pushed to Visual Studio Team Services.
 
+## Video ##
+
+Click on this image to see the Channel 9 video with the step by step about this HOL :
+
+![https://channel9.msdn.com/Blogs/TalkDevOps/Parts-Unlimited-MRP-HOL-Continuous-Integration](http://i.giphy.com/hCpRR7re6BR60.gif)
+
 ## Pre-requisites: ##
 
 -   An active Visual Studio Team Services (VSTS) account
