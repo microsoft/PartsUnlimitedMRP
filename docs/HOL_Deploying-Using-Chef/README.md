@@ -420,7 +420,7 @@ In this exercise, you will run the knife command to bootstrap the MRP app server
 
 2. Open the URL you chose for your public DNS name in a browser. The URL should be something like `http://<mrp-dns-name>.<region>.cloudapp.azure.com:9080/mrp.`
 
-![](<media/mrp_webpage.png>)
+	![](<media/mrp_webpage.png>)
 
 3. Click around the site and observe that it functions normally.
 
