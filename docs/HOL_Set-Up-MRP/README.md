@@ -66,7 +66,7 @@ your Visual Studio Team Services account. While pushing, use any username withou
 	
 ![](<media/push_to_vsts.png>)
 
-**NOTE:** we added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
+**NOTE:** We added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
 repository.
 
