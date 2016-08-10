@@ -250,7 +250,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Continuous-Deployment/docs/HOL_Continuous-Deployment/env/install_mrp_dependencies.sh"
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Continuous-Deployment/env/install_mrp_dependencies.sh"
           ],
           "commandToExecute": "bash install_mrp_dependencies.sh"
         },
