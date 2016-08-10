@@ -103,7 +103,7 @@ In this exercise, you will configure your Chef Workstation.
 
 	![](<media/download_starter_kit.png>)
 
-4. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef\`
+4. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef\`.
 
 5. Open the knife.rb file in chef-repo\.chef and change the chef_server_url to the external FQDN (e.g. https://<chef-server-dns-name>.<region>.cloudapp.azure.com/organizations/partsunlimited). Then, save and close the file.
 
@@ -200,7 +200,7 @@ In this exercise, you will create a cookbook to automate the installation of the
     
 7. Paste the contents of the recipe into the default recipe file.
 
-	![](<media/edit_metadata.png>)
+	![](<media/edit_default.png>)
 
 	Save and close the file.
 
