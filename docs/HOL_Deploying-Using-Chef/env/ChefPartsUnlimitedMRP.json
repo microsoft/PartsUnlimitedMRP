@@ -337,7 +337,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/env/configure_chefserver.sh"
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Chef/env/configure_chefserver.sh"
           ]
         },
         "protectedSettings": {
@@ -487,7 +487,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/nwcadence/PartsUnlimitedMRP/HOL_Deploying-Using-Chef/docs/HOL_Deploying-Using-Chef/env/Configure-Chef-Workstation.ps1"
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Chef/env/Configure-Chef-Workstation.ps1"
           ],
           "commandToExecute": "powershell -File Configure-Chef-Workstation.ps1"
         },
