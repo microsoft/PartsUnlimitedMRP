@@ -43,7 +43,7 @@ sign in with your credentials.
 
 ![](<media/prereq-step5.png>)
 
-**Step 6.** In `PartsUnlimitedMRP/src/Backend/OrderService/build.gradle`, confirm that the build file is importing `com.microsoft.appinsights.*` and is also compiling `com.microsoft.azure:applicationinsights-core:0.9.0`.
+**Step 6.** In `PartsUnlimitedMRP/src/Backend/OrderService/build.gradle`, confirm that the build file is importing `com.microsoft.appinsights.*` and is also compiling `com.microsoft.azure:applicationinsights-core:1.n`.
 
 ![](<media/prereq-step6.png>)
 
@@ -51,7 +51,7 @@ sign in with your credentials.
 
 ![](<media/prereq-step7.png>)
 
-**Step 8.** Additionally, paste in the following telemetry modules and telemetry initializers in between the `<TelemetryModules>` and `<TelemetryIntializers>` tags and save the changes. 
+**Step 8.** Additionally, verify that the following telemetry modules and telemetry initializers exist in between the `<TelemetryModules>` and `<TelemetryIntializers>` tags. 
 
 Telemetry Modules:  
 
@@ -116,12 +116,12 @@ information.
 **Step 4.** In the performance tile of the Application Insights telemetry, note
 the timeline. The timeline data may not show up immediately, so you will want to wait for a few minutes for the telemetry to collect performance data. 
 
-![](<media/step4.png>)
+![](<media/view_dealers_app_insights.png>)
 
 **Step 5.** Once data shows in the timeline, view the operations listed under the **Average
 of server response time by operation name** section under the timeline. Click on the top operation in the list referring to the Dealers page to view details of that operation.
 
-**Step 6.** Drill down into the method that is affecting the slow performance. We now know where the slow performance is being caused in our code and that this is causing inefficient database calls. 
+**Step 6.** Drill down into the method that is affecting the slow performance. We now know that the slow performance is being caused by the DealersController in our code and that this is causing inefficient database calls. 
 
 **Step 7.** Navigate to the working folders of the PartsUnlimitedMRP repo in a code editor (such as VSCode). 
 
@@ -131,7 +131,7 @@ of server response time by operation name** section under the timeline. Click on
 
 ![](<media/step8.png>)
 
-**Step 9.** In the `getDealers()` method, notice that there is a database call 1000 times with the variable, `numMongoDBCalls`. Change the value of this variable to be 1 so that there is only one call to the database to populate the dealers list. 
+**Step 9.** In the `getDealers()` method, notice that there is a database call 100000 times with the variable, `numMongoDBCalls`. Change the value of this variable to be 1 so that there is only one call to the database to populate the dealers list. 
 
 ![](<media/step9.png>)
 
