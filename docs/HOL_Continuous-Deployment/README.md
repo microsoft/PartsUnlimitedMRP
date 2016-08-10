@@ -75,7 +75,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 	 ![](<media/add_powershell_script.png>)
 
-6. Point to the **SSH-MRP-Artifacts.ps1** build artifact as the script path in the task. Then save the release definition. 
+6. Point to the **SSH-MRP-Artifacts.ps1** build artifact as the script path in the task.
 
 	 ![](<media/add_script_path.png>)
 
@@ -91,6 +91,8 @@ In this lab, you will work with one machine which will serve as both the deploym
 
      ![](<media/fill_in_arguments.png>)
  
+10. Save the release definition. 
+
 ### Task 3: Continuous Deployment ###
 
 Now that our release definition is set up, let's test using Continuous Integration and Continuous Deployment. 
