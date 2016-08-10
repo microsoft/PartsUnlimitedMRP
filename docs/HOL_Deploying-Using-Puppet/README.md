@@ -1,5 +1,5 @@
 # Deploying the Parts Unlimited MRP App via Puppet in Azure
-In this hands-on lab you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration
+In this hands-on lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration
 management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure
 as code. Infrastructure as Code is an important pillar of good DevOps.
 
@@ -64,7 +64,7 @@ though _puppet programs_ on the Puppet Master.
 
     ![](<media/3.jpg>)
 
-    The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
+    The _dnsaddress_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
     (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
     ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console
     sign in page:
@@ -543,7 +543,7 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
 1. Verify that the PartsMRP Application is running correctly
 
-    Now you can ensure that the configuration is correct by opeing a browser to the Parts Unlimited MRP application. The address
+    Now you can ensure that the configuration is correct by opening a browser to the Parts Unlimited MRP application. The address
     will be http://partsmrp-public-ip:9080/mrp where _partsmrp-public-ip_ is the public ip or DNS name of the
     partsmrp VM (you can get it by clicking on the VM in the resource group in the Azure Portal).
 
@@ -555,6 +555,4 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
 >**Note:** You can see the complete `init.pp` file [here](final/init.pp).
 
-# Congratulations!
-You've now completed this lab. Remember to delete the resource group you created when you are done in the Azure
-Portal so that you are not charged for the resources.
+In this lab, you learned how to create the Puppet infrastructure and deploy the Parts Unlimited MRP app to the nodes while managing configuration drift.
