@@ -92,20 +92,29 @@ Expand the **Advanced** section, and set the **Working Directory** to the follow
 
 ![](<media/build_working_directory_clients.png>)
 
-**9.** Click **Add build step...**, select the **Utility** tab, and add a **Copy and Publish Build Artifacts** task.
+**9.** Click **Add build step...**, select the **Utility** tab, and add two **Copy and Publish Build Artifacts** tasks.
 
 ![](<media/build_add_pub_step.png>)
 
-**10.** Select the Publish Build Artifacts task, and fill in the input values
-with the following:
+**10.** Select the first Publish Build Artifacts task, and fill in the input values with the following:
 
 	Copy Root: $(Build.SourcesDirectory)
     Contents: **/build/libs/!(buildSrc)*.?ar
-              **/deploy
 	Artifact Name: drop
 	Artifact Type: Server
 
 ![](<media/build_pub_step_details.png>)
+
+**11.** Select the second Publish Build Artifacts task, and fill in the input values with the following:
+
+	Copy Root: $(Build.SourcesDirectory)
+    Contents: **/deploy/SSH-MRP-Artifacts.ps1
+			  **/deploy/deploy_mrp_app.sh
+              **/deploy/MongoRecords.js
+    Artifact Name: deploy
+    Artifact Type: Server
+
+![](<media/second_copy_publish.png>)
 
 **11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**.
 
