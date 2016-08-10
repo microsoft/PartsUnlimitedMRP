@@ -116,29 +116,29 @@ Expand the **Advanced** section, and set the **Working Directory** to the follow
 
 ![](<media/second_copy_publish.png>)
 
-**11.** Go to the **Triggers** tab and **select Continuous Integration (CI)**.
+**12.** Go to the **Triggers** tab and **select Continuous Integration (CI)**.
 
 ![](<media/build_ci_trigger.png>)
 
-**12.** Click **General**, set the default queue to the apprpriate queue. Leave as the **Hosted** queue from the previous steps.
+**13.** Click **General**, set the default queue to the apprpriate queue. Leave as the **Hosted** queue from the previous steps.
 
 ![](<media/build_general.png>)
 
-**13.** Click **Save**, give the build definition a name (i.e.
+**14.** Click **Save**, give the build definition a name (i.e.
 *PartsUnlimitedMRP.CI*), and then click **OK**.
 
 ![](<media/build_save.png>)
 
-**14.** Go to the **Code** tab, select the **index.html** file located at
+**15.** Go to the **Code** tab, select the **index.html** file located at
 src/Clients/Web, and click **Edit**.
 
 ![](<media/edit_index_web.png>)
 
-**15.** Change the &lt;title&gt; on line 5 to **Parts Unlimited MRP** and 
+**16.** Change the &lt;title&gt; on line 5 to **Parts Unlimited MRP** and 
 click the **Save button**.
 ![](<media/save_index.png>)
 
-**16.** This should have triggered the build definition we previously created. Click the **Build** tab to see the build in action.
+**17.** This should have triggered the build definition we previously created. Click the **Build** tab to see the build in action.
 Once complete, you should see build summary similar to this, which includes test results:
 
 ![](<media/build_summary.png>)
