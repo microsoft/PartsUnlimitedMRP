@@ -3,11 +3,13 @@ package smpl.ordering.repositories.mongodb.test;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import smpl.ordering.ConfigurationRule;
 import smpl.ordering.repositories.QuoteRepositoryTest;
 import smpl.ordering.repositories.RepositoryFactory;
 
 @SuppressWarnings("EmptyMethod")
+@Category(IntegrationTests.class)
 public class MongoQuoteRepositoryTest
         extends QuoteRepositoryTest
 {
