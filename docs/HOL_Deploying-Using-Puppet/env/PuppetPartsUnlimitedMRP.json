@@ -22,6 +22,12 @@
         "description": "Globally unique DNS Name for the Public IP used to access the Puppet Master Virtual Machine."
       }
     },
+    "pmConsolePassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Puppet Master console admin account."
+      }
+    },
     "mrpAdminUsername": {
       "type": "string",
       "minLength": 1,
@@ -44,9 +50,10 @@
     }
   },
   "variables": {
-    "pmImagePublisher": "PuppetLabs",
-    "pmImageOffer": "PuppetEnterprise",
-    "pmImageSku": "3.7",
+    "pmImagePublisher": "Canonical",
+    "pmImageOffer": "UbuntuServer",
+    "pmImageSku": "12.04.4-LTS",
+    "pmVersion": "2016.2.0",
     "mrpImagePublisher": "Canonical",
     "mrpImageOffer": "UbuntuServer",
     "mrpImageSku": "12.04.4-LTS",
@@ -429,6 +436,29 @@
             "enabled": "true",
             "storageUri": "[concat('http://', variables('storageName'), '.blob.core.windows.net')]"
           }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('pmVmName'),'/puppetenterpriseinstall')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('pmVmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('bash install_puppetenterprise.sh ', variables('pmVersion'), ' ', parameters('pmConsolePassword'))]"
         }
       }
     }

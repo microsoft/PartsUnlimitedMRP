@@ -1,5 +1,5 @@
 # Deploying the Parts Unlimited MRP App via Puppet in Azure
-In this hands-on lab you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration
+In this hands-on lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration
 management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure
 as code. Infrastructure as Code is an important pillar of good DevOps.
 
@@ -15,7 +15,6 @@ agent - the rest of the configuration will be applied by instructing Puppet how 
 though _puppet programs_ on the Puppet Master. 
 
 1. Provisioning a Puppet Master and node (both Ubuntu VMs) in Azure using ARM templates
-1. Retrieve the Puppet Master admin password
 1. Install Puppet Agent on the node
 1. Configure the Puppet Production Environment
 1. Test the Production Environment Configuration
@@ -35,10 +34,10 @@ though _puppet programs_ on the Puppet Master.
     Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines. You will need
     to log in to the Azure Portal.
                                                                      
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fdca8d339f00369accfb0777d70e11013152ad5e7%2Fdocs%2FHOL_Provisioning-Deploying-Environments-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Deploying-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
     </a>
-    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fdca8d339f00369accfb0777d70e11013152ad5e7%2Fdocs%2FHOL_Provisioning-Deploying-Environments-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
+    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Deploying-Using-Puppet%2Fenv%2FPuppetPartsUnlimitedMRP.json" target="_blank">
         <img src="http://armviz.io/visualizebutton.png"/>
     </a>
 
@@ -65,7 +64,7 @@ though _puppet programs_ on the Puppet Master.
 
     ![](<media/3.jpg>)
 
-    The _dnsaddres_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
+    The _dnsaddress_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
     (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
     ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console
     sign in page:
@@ -76,53 +75,13 @@ though _puppet programs_ on the Puppet Master.
     ports and the Parts Unlimited MRP app port on the partsmrp machine. The ARM template opens these ports on the
     machines for you.
 
-## Task 2: Retrieve the Puppet Master admin password
-
-The Puppet Master VM is created from an image that PuppetLabs maintiains in the Azure MarketPlace. When a VM is created 
-from the image, it installs and configures Puppet Server from an answerfile. One of the fields in the answerfile is the 
-admin password. We will now SSH into the Puppet Master and retrieve the password.
-
-1. SSH to the Puppet Master machine
-
-    SSH into the puppet master VM by opening PuTTY or some other SSH console and connecting to _dnsaddress_ you noted
-    earlier. Use the username and password you supplied when creating the resource group.
-    
-1. Retrieve the admin password
-
-    Enter in the username and password that you configured when creating the resource group earlier. Once you have logged
-    in, enter the following command:
-
-    ```sh
-    sudo cat /etc/puppetlabs/installer/database_info.install
-    ```
-
-    ![](<media/5.jpg>)
-
-    Make a note of the password with the key `q_puppet_enterpriseconsole_auth_password`. 
-
-    >**Note:** If this key isn't in the dump, then wait a few more moments for the Puppet Console install to complete and 
-    rerun the command.  
-
 1. Log in to the Puppet Console
 
-    Now go back to the Puppet Console in your browser and enter the username `admin` and the password you just retrieved. 
+    Now go back to the Puppet Console in your browser and enter the username `admin` and the password you set. 
     When you log in, you should see a page like this:
 
     ![](<media/6.jpg>)
 
-    >**Note:** It is recommended that you change the admin password. In the toolbar, click 'admin->My Account' and then click
-    the "Reset Password" link in the upper right:
-    
-    ![](<media/7.jpg>)
-
-1. Get the internal IP address of the Puppet Master machine
-    In the SSH console, enter the following command to make a note of the internal IP address of the Pupper Master:
-
-    ```sh
-    hostname -i
-    ```
-    
-    The IP address should be something like `10.0.0.4`.
 
 ## Task 3: Install Puppet Agent on the node
 
@@ -130,46 +89,13 @@ You are now ready to add the node to the Puppet Master. Once the node is added, 
 the node.
 
 1. Get the Puppet Master internal DNS name
-    Click on the "No Node Requests" button in the toolbar at the top of the console. The page that loads will show a command
-    that we need to run on the node. Make a note of the machine name (the internal VNet name of the puppet master), since we 
-    will have to add this address into the hosts file on the node so that the node will be able to resolve the IP address of 
-    the puppet master. In the example below, the puppet master machine name is:
+    Go to Nodes -> Unsigned Certificates. The page that loads will show a command
+    that we need to run on the node. In the example below, the puppet master machine name is:
 
     ```
     partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
     ```
     ![](<media/8.jpg>)
-
-1. Configure the node's hosts file
-
-    Now open another SSH terminal and this time log into the node using the 2nd username and password that you selected when
-    the resource group was created.
-
-    Once you have logged in, enter the following command to edit the hosts file:
-
-    ```sh
-    sudo nano /etc/hosts
-    ```
-
-    Enter a new line on line 2 with the following:
-
-    _IP-of-puppet-master_ puppetmaster _internal-name-of-puppet-master_. For example:
-    
-    ```
-    10.0.0.4 partspuppetmaster partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
-    ```
-    
-    ![](<media/9.jpg>)
-
-    Then press `cntrl-X`, `y` and `enter` to save the changes. Test your edits by entering the following command:
-    
-    ```sh
-    ping partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
-    ```
-
-    You should see a reply from the ping. Press cntrl-C to stop the ping.
-
-    ![](<media/10.jpg>)
 
 1. Run the "Add Node" command on the node
     
@@ -184,13 +110,13 @@ the node.
 
 1. Accept the Pending Node Request
     
-    Return to the Puppet Console and refresh the node requests page (where you previously go the node install command). You
+    Return to the Puppet Console and refresh the Unsigned Certificates page (where you previously got the node install command). You
     should see a pending request. This request has come from the node and will authorize the certificate between the puppet
     master and the node so that they can communicate securely. Press "Accept" to approve the node:
     ![](<media/12.jpg>)
 
-    Click on the "Nodes" tab in the Puppet Console to return to the nodes view. You should see 2 nodes listed: the puppet
-    master and the partsmrp node:
+    Click on the "Nodes" tab in the Puppet Console to return to the nodes view. You should see 2 nodes listed: 
+	the puppet master and the partsmrp node (it may take a few minutes for the mrp node to finish configuration before it appears)
 
     ![](<media/13.jpg>)
 
@@ -211,24 +137,22 @@ Programs. Users can create their own modules or consume modules from a marketpla
 as the [Forge](http://forge.puppetlabs.com). Some modules on the Forge are official modules that are supported - 
 others are open-source modules uploaded from the community.
 
-There are two major ways to organise Puppet Programs. One is by _site_, and the other is by _environment_. Organizing
-by site allows you to configure a group of nodes from a single catalog. Howeverm, it is better to organize by 
-environment, allowing you to manage different catalogs for different environments such as dev, test and production.
+Puppet Programs are organized by environment, allowing you to manage different catalogs for different environments such as dev, test and production.
 
 For the purposes of this lab, we will treat the node as if it were in the production environment. We will also need to 
 download a few modules from the Forge which we will consume to configure the node.
 
 When the Puppet Server was installed in Azure, it configured a folder for managing the production environment
-in `/etc/puppetlabs/puppet/environments/production`.
+in `/etc/puppetlabs/code/environments/production`.
 
-1. Inspec the Production modules
+1. Inspect the Production modules
     On the SSH terminal to the Puppet Master, cd to that folder now:
 
     ```sh
-    cd /etc/puppetlabs/puppet/environments/production
+    cd /etc/puppetlabs/code/environments/production
     ```
 
-    If you run `ls` you will see two folders: `manifests` and `modules`. The `manifests` folder contains descriptions
+    If you run `ls` you will see the `manifests` and `modules` folders. The `manifests` folder contains descriptions
     of machines that we will later apply to nodes. The `modules` folder contains any modules that are referenced
     within the manifests.
 
@@ -237,13 +161,10 @@ in `/etc/puppetlabs/puppet/environments/production`.
     the following 3 commands:
 
     ```sh
-    sudo puppet module install puppetlabs-mongodb --modulepath /etc/puppetlabs/puppet/environments/production/modules/
-    sudo puppet module install puppetlabs-tomcat --modulepath /etc/puppetlabs/puppet/environments/production/modules/
-    sudo puppet module install maestrodev-wget --modulepath /etc/puppetlabs/puppet/environments/production/modules/
+    sudo puppet module install puppetlabs-mongodb
+    sudo puppet module install puppetlabs-tomcat
+    sudo puppet module install maestrodev-wget
     ```
-
-    >**Note:** We need to specify the `modulepath` since by default the modules are installed to the "site" modules
-    folder and not the environments module folder.
 
     ![](<media/14.jpg>)
 
@@ -257,19 +178,11 @@ in `/etc/puppetlabs/puppet/environments/production`.
 
     ```sh
     cd /etc/puppetlabs/puppet/environments/production/modules
-    sudo puppet module generate partsunlimited-mrpapp --environment production
+    sudo puppet module generate partsunlimited-mrpapp
     ```
 
     This will start a wizard that will ask a series of questions as it scaffolds the module. Simply press `enter`
     for each question (accepting blank or default) until the wizard completes.
-
-    When generating the module, you need to supply an author and module name (that's why we passed
-    `partsunlimited-mrpapp` as the name of the module). However, to use the module, the name must simply be the
-    module name without the author, so rename the folder from `partsunlimited-mrpapp` to `mrpapp`:
-
-    ```sh
-    sudo mv partsunlimited-mrpapp mrpapp
-    ```
 
     Running `ls -la` should list the modules available so far, including `mrpapp`:
 
@@ -282,7 +195,7 @@ in `/etc/puppetlabs/puppet/environments/production`.
     is short for "puppet program"). Let's edit the `site.pp` file and define the configuration for our node:
 
     ```sh
-    sudo nano /etc/puppetlabs/puppet/environments/production/manifests/site.pp
+    sudo nano /etc/puppetlabs/code/environments/production/manifests/site.pp
     ```
 
     Scroll to the bottom of the file and edit the `node default` section. Edit it to look as follows:
@@ -310,7 +223,7 @@ flesh out the rest of the module properly.
     Let's edit the `init.pp` file of the `mrpapp` module (this is the entry point for the module):
 
     ```sh
-    sudo nano /etc/puppetlabs/puppet/environments/production/modules/mrpapp/manifests/init.pp
+    sudo nano /etc/puppetlabs/code/environments/production/modules/mrpapp/manifests/init.pp
     ```
 
     You can either delete all the boiler-plate comments or just ignore them. Scroll down to the `class mrpapp`
@@ -630,7 +543,7 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
 1. Verify that the PartsMRP Application is running correctly
 
-    Now you can ensure that the configuration is correct by opeing a browser to the Parts Unlimited MRP application. The address
+    Now you can ensure that the configuration is correct by opening a browser to the Parts Unlimited MRP application. The address
     will be http://partsmrp-public-ip:9080/mrp where _partsmrp-public-ip_ is the public ip or DNS name of the
     partsmrp VM (you can get it by clicking on the VM in the resource group in the Azure Portal).
 
@@ -642,6 +555,4 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
 
 >**Note:** You can see the complete `init.pp` file [here](final/init.pp).
 
-# Congratulations!
-You've now completed this lab. Remember to delete the resource group you created when you are done in the Azure
-Portal so that you are not charged for the resources.
+In this lab, you learned how to create the Puppet infrastructure and deploy the Parts Unlimited MRP app to the nodes while managing configuration drift.
