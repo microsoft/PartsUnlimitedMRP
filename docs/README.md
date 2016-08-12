@@ -19,6 +19,6 @@ There are also 2 labs that walk through the steps to deploy the MRP application 
 
 #### Issues / Questions about this HOL ??
 
-[If you are encounting some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
 
 Thanks
