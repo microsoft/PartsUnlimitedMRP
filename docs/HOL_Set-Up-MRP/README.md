@@ -3,7 +3,7 @@ HOL 0 - Set up Parts Unlimited MRP
 
 In this lab, we will set up the PartsUnlimited MRP VSTS team project as a pre-requisite for the Continuous Integration lab. You will need an active Visual Studio Team Services (VSTS) account already, or you will need to sign up for a free Visual Studio Team Services account by following [this link.](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services) Ensure that you are also a Project Collection Administrator for the Visual Studio Team Services account or follow [this link.](https://www.visualstudio.com/en-us/docs/setup-admin/add-administrator-tfs) 
 
-###Pre-requisites:###
+### Pre-requisites: ###
 
 -   An active Visual Studio Team Services (VSTS) account
 
@@ -34,14 +34,7 @@ order to use Team Build for the Continuous Integration HOL.
 
 ![](<media/copy_vsts_repo_url.png>)
 
-**5.** Now that we have the URL for the VSTS repo, we need to authenticate access to  a Visual Studio Team Services personal access token. Follow the steps in this [link](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/use-personal-access-tokens-to-authenticate) 
- to create a personal access token (PAT).
-
-**NOTE:** These Personal Access Token (PAT) will be used when interacting with the git repository from the
-command line. Make sure you copy the token now. Visual Studio Team Services does not store it and you won't be able to see it again. 
-
-
-**6.** Clone the **PartsUnlimitedMRP** git repository located in GitHub onto your local machine:
+**5.** Clone the **PartsUnlimitedMRP** git repository located in GitHub onto your local machine, open your command line tool and type :
 
     git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
 
@@ -51,12 +44,12 @@ command line. Make sure you copy the token now. Visual Studio Team Services does
 
     sudo apt-get install git
 	
-**NOTE:** If you are running Windows, you can install the git client from here:
+**NOTE:** If you are running Windows, you have to install the git client from here:
 
-	http://git-scm.com/download
+[http://git-scm.com/download](https://git-scm.com/download/win)
 
-**3.** Add the Clone URL of your Visual Studio Team Services repository as a new remote called **vsts** and push to it
-your Visual Studio Team Services account. While pushing, use any username without the "@" symbol and the PAT that you copied as the password.
+**6.** Add the Clone URL of your Visual Studio Team Services repository as a new remote called **vsts** (The URL previously copied at the step 4) and push to it
+your Visual Studio Team Services account. 
 
 	cd PartsUnlimitedMRP/
 
@@ -66,11 +59,15 @@ your Visual Studio Team Services account. While pushing, use any username withou
 	
 ![](<media/push_to_vsts.png>)
 
+**NOTE:** If it's the first time that you are using your Visual Studio Team Services subscription, it will ask you to be authenticated.
+
+![](<media/vsts_auth.png>)
+
 **NOTE:** We added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
 repository.
 
-**4.** Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
+**7.** If your refresh your **CODE** section page, Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
 application:
 
 ![](<media/mrp_in_vsts.png>)
@@ -88,3 +85,11 @@ In this lab, you learned how to set up the PartsUnlimitedMRP team project in Vis
 -   [Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
 
 -	[Parts Unlimited MRP Auto-Scaling and Load Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Autoscaling-Load-Testing)
+
+
+# Continuous Feedbacks
+
+## Issues / Feedbacks with this HOL ??
+
+### [If you are encounting some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+Thanks
