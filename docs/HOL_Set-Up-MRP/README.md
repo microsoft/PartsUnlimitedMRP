@@ -90,6 +90,6 @@ In this lab, you learned how to set up the PartsUnlimitedMRP team project in Vis
 
 #### Issues / Questions about this HOL ??
 
-[If you are encounting some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
 
 Thanks
