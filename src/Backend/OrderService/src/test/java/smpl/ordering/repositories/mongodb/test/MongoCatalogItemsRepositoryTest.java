@@ -3,11 +3,12 @@ package smpl.ordering.repositories.mongodb.test;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import smpl.ordering.ConfigurationRule;
 import smpl.ordering.repositories.CatalogItemsRepositoryTest;
 import smpl.ordering.repositories.RepositoryFactory;
 
-
+@Category(IntegrationTests.class)
 public class MongoCatalogItemsRepositoryTest extends CatalogItemsRepositoryTest
 {
     @Rule

@@ -9,7 +9,8 @@ import java.util.Date;
 import com.microsoft.applicationinsights.TelemetryClient;
 import com.microsoft.applicationinsights.telemetry.ExceptionHandledAt;
 import com.microsoft.applicationinsights.telemetry.ExceptionTelemetry;
-import com.microsoft.applicationinsights.telemetry.HttpRequestTelemetry;
+import com.microsoft.applicationinsights.telemetry.Duration;
+import com.microsoft.applicationinsights.telemetry.RequestTelemetry;
 import com.microsoft.applicationinsights.telemetry.TelemetryContext;
 
 import org.springframework.stereotype.Component;
@@ -39,7 +40,7 @@ public class AppInsightsFilter implements Filter
             String query = request.getQueryString();
             String session = request.getSession().getId();
 
-            HttpRequestTelemetry telemetry = new HttpRequestTelemetry(String.format("%s %s", method, rURI), startTime, 0L, "200", false);
+            RequestTelemetry telemetry = new RequestTelemetry(String.format("%s %s", method, rURI), startTime, 0L, "200", false);
             telemetry.setHttpMethod(method);
             telemetry.setTimestamp(startTime); // Doesn't work right now.
 
@@ -69,7 +70,8 @@ public class AppInsightsFilter implements Filter
 
                 HttpServletResponse response = (HttpServletResponse) res;
 
-                telemetry.setDuration(endTime.getTime() - startTime.getTime());
+				Duration duration = new Duration(endTime.getTime() - startTime.getTime());
+                telemetry.setDuration(duration);
                 telemetry.setResponseCode(((Integer) response.getStatus()).toString());
 
                 client.track(telemetry);
@@ -85,7 +87,8 @@ public class AppInsightsFilter implements Filter
                 ext.setExceptionHandledAt(ExceptionHandledAt.Platform);
                 client.track(ext);
 
-                telemetry.setDuration(endTime.getTime() - startTime.getTime());
+				Duration duration = new Duration(endTime.getTime() - startTime.getTime());
+                telemetry.setDuration(duration);
                 telemetry.setResponseCode("500");
                 telemetry.setSuccess(false);
 

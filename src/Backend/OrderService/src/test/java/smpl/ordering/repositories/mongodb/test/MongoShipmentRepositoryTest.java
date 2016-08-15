@@ -3,12 +3,14 @@ package smpl.ordering.repositories.mongodb.test;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import smpl.ordering.BadRequestException;
 import smpl.ordering.ConfigurationRule;
 import smpl.ordering.repositories.RepositoryFactory;
 import smpl.ordering.repositories.ShipmentRepositoryTest;
 
 @SuppressWarnings("EmptyMethod")
+@Category(IntegrationTests.class)
 public class MongoShipmentRepositoryTest extends ShipmentRepositoryTest
 {
     @Rule
