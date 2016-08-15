@@ -1,4 +1,4 @@
-# HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Team Services Build #
+# HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Team Services Build using the Eclipse IDE #
 
 In this lab, you will learn how to create new JUnit tests to the Parts Unlimited MRP App using the Eclipse IDE, and then get them to run in an automated build in Visual Studio Team Services. After finishing this lab, you will have added unit tests to the Parts Unlimited MRP App and have those tests running during build time.
 
@@ -41,7 +41,9 @@ This will open up the Git perspective in Eclipse.
 
 ![](media/clone_repo.png)
 
-In the Clone Git Repository, **paste the URL for your Visual Studio Team Services Git repo** into the URI text field, **enter your alternate credentials** in the Authentication section, and click **Next**.
+In the Clone Git Repository, **paste the URL for your Visual Studio Team Services Git repo** into the URI text field, **enter your alternate credentials** in the Authentication section , and click **Next**.
+
+>[Click here to setup your alternate credentials in your Visual Studio Team Services subscription](https://www.visualstudio.com/en-us/docs/integrate/get-started/auth/overview)
 
 ![](media/repo_uri.png)
 
@@ -216,8 +218,16 @@ Next steps
 
 In this lab, you set up your development environment to work with Gradle, you added a new JUnit test to the Parts Unlimited MRP App, and you were able to see that reflected in the automated build process.
 
+-   [HOL Parts Unlimited MRP Continuous Integration](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration)
+
 -   [HOL Parts Unlimited MRP Continuous Deployment](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment)
 
--   [HOL Parts Unlimited MRP Automated Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing)
-
 -   [HOL Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
+
+# Continuous Feedbacks
+
+#### Issues / Questions about this HOL ??
+
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+
+Thanks
