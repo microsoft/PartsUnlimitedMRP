@@ -9,9 +9,9 @@ get fast feedback. To do so, we are going to be creating a build definition that
 will allow us to compile and run unit tests on our code every time a commit is
 pushed to Visual Studio Team Services.
 
-###Pre-requisites:###
+### Pre-requisites: ###
 
--   Completion of the "Set up Parts Unlimited MRP" lab
+-   [Completion of the "Set up Parts Unlimited MRP" lab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md)
 
 -   Project Administrator rights to the Visual Studio Team Services account
 
@@ -21,9 +21,9 @@ pushed to Visual Studio Team Services.
  
 ### 1. Create a Continuous Integration Build
 
->NOTE: Ensure that you have an existing PartsUnlimitedMRP team project that also contains the Git repository cloned from GitHub. If not, complete the "Set up Parts Unlimited MRP" lab before going through this lab. 
+>NOTE: Ensure that you have an existing PartsUnlimitedMRP team project that also contains the Git repository cloned from GitHub. If not, complete the ["Set up Parts Unlimited MRP"](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md) lab before going through this lab. 
 
->In this lab, we will be using the Hosted agent located in Visual Studio Team Services. If you would like to use an on-premises cross-platform agent (Azure subscription needed), you can follow instructions for setting an agent up [with this link](https://github.com/Microsoft/vsts-agent/blob/master/README.md). 
+>In this lab, we will be using the Hosted agent located in Visual Studio Team Services. If you would like to use an on-premises cross-platform agent (Azure subscription needed), you can follow instructions for setting an agent up [with this link](https://www.visualstudio.com/en-us/docs/build/admin/index). 
 
 A continuous integration build will give us the ability to automate whether the code
 we checked in can compile and will successfully pass any automated tests that we
@@ -60,7 +60,7 @@ the page.
 
 ![](<media/build_gradle_integration.png>)
 
-**7.** Uncheck the checkbox in **JUnit Test Results** to Publish to VSO/TFS since we will not be running automated tests in the Integration Service. Expand the **Advanced** section, and set the **Working Directory** to the following location:
+**7.** Uncheck the checkbox in **JUnit Test Results** to Publish to TFS/Team Services since we will not be running automated tests in the Integration Service. Expand the **Advanced** section, and set the **Working Directory** to the following location:
 
 	src/Backend/IntegrationService
 
@@ -72,7 +72,7 @@ the page.
 
 ![](<media/build_gradle_order.png>)
 	
-**9.** Since Order Service does have unit tests in the project, we can automate running the tests as part of the build by adding in `test` in the **Gradle tasks** field. Keep the **JUnit Test Results** checkbox to "Publish to VSO/TFS" checked, and set the **Test Results Files** field to `**/TEST-*.xml`. 
+**9.** Since Order Service does have unit tests in the project, we can automate running the tests as part of the build by adding in `test` in the **Gradle tasks** field. Keep the **JUnit Test Results** checkbox to "Publish to TFS/Team Services" checked, and set the **Test Results Files** field to `**/TEST-*.xml`. 
 
 Expand the **Advanced** section, and set the **Working Directory** to the following location:
 
@@ -86,7 +86,7 @@ Expand the **Advanced** section, and set the **Working Directory** to the follow
 
 ![](<media/build_gradle_clients.png>)
 
-**11.** Uncheck the checkbox in **JUnit Test Results** to Publish to VSO/TFS since we will not be running automated tests in Clients. Expand the **Advanced** section, and set the **Working Directory** to the following location:
+**11.** Uncheck the checkbox in **JUnit Test Results** to Publish to TFS/Team Services since we will not be running automated tests in Clients. Expand the **Advanced** section, and set the **Working Directory** to the following location:
 
 	src/Clients
 
@@ -120,7 +120,7 @@ Expand the **Advanced** section, and set the **Working Directory** to the follow
 
 ![](<media/build_ci_trigger.png>)
 
-**13.** Click **General**, set the default queue to the apprpriate queue. Leave as the **Hosted** queue from the previous steps.
+**13.** Click **General**, set the default queue to the appropriate queue. Leave as the **Hosted** queue from the previous steps.
 
 ![](<media/build_general.png>)
 
@@ -155,3 +155,12 @@ In this lab, you learned how to create a Continuous Integration build that runs 
 -   [HOL Parts Unlimited MRP Automated Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing)
 
 -   [HOL Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
+
+
+# Continuous Feedbacks
+
+#### Issues / Questions about this HOL ??
+
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+
+Thanks
