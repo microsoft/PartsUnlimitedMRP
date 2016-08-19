@@ -1,8 +1,8 @@
-# HOL - Parts Unlimited MRP App Continuous Deployment with Visual Studio Team Services - Hosted #
+# HOL - Parts Unlimited MRP App Continuous Deployment with Visual Studio Team Services - Local Agent #
 
-In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM using a hosted agent. After this lab, you will have a working, automated build in Visual Studio Online that will build, test, and deploy the Parts Unlimited MRP app to a Virtual Machine in Azure.
+In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a local agent on a Linux VM. After this lab, you will have a working, automated build in Visual Studio Team Services that will build, test, and deploy the Parts Unlimited MRP app to a Virtual Machine in Azure.
 
->**Note:** If you would like to trigger continuous deployments using a local agent installed on the VM instead of a hosted agent, see [this lab](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment-Using-Custom-Agent).  
+>**Note:** If you would like to trigger continuous deployments using the hosted VSTS agent instead of a local agent, see [this lab](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment).  
 
 
 ###Pre-requisites###
@@ -16,7 +16,7 @@ In this lab, you will learn how to deploy the Parts Unlimited MRP App in an auto
 
 In this lab, you will work with one machine which will serve as both the deployment agent and the MRP server.
 
-**Provision the lab:** Provision an MRP machine (Ubuntu VM) in Azure using an ARM template.
+**Provision the lab:** Provision a VSTS agent and MRP machine (Ubuntu VM) in Azure using an ARM template.
 
 **Configure the release definition:** Configure a release definition in VSTS that picks up build artifacts and triggers whenever new artifacts are produced. 
 
@@ -24,29 +24,39 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 1: Provision the Lab ###
 
-1. Instead of manually creating the VM in Azure, we are going to use an Azure Resource Management (ARM) template. Simply click the **Deploy to Azure** button below and follow the wizard to deploy the machine. You will need to log in to the Azure Portal.
+1. Create the MRP agent pool in Visual Studio Team Services if you do not have one already. Go to the homepage of your VSTS account or the PartsUnlimitedMRP team project and clicking on the gear icon in the upper-right corner of the homepage.
+
+	![](<media/vsts_gear_icon.png>)
+
+2. Then, click on the **Agent Pool** tab and click on **New pool...** to create a pool called "MRP." Keep the checkbox to "Auto-provision Queues in all Projects" checked.
+
+    ![](<media/create_agent_pool.png>) 
+
+3. Instead of manually creating the VM in Azure, we are going to use an Azure Resource Management (ARM) template. Simply click the **Deploy to Azure** button below and follow the wizard to deploy the machine. You will need to log in to the Azure Portal.
                                                                     
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Continuous-Deployment%2Fenv%2FContinuousDeploymentPartsUnlimitedMRP.json" target="_blank">
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Continuous-Deployment-Using-Custom-Agent%2Fenv%2FContinuousDeploymentCustomAgentPartsUnlimitedMRP.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
     </a>
-    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Continuous-Deployment%2Fenv%2FContinuousDeploymentPartsUnlimitedMRP.json" target="_blank">
+    <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Continuous-Deployment-Using-Custom-Agent%2Fenv%2FContinuousDeploymentCustomAgentPartsUnlimitedMRP.json" target="_blank">
         <img src="http://armviz.io/visualizebutton.png"/>
     </a>
 
     The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
     delete the resource group in order to remove all the created resources at any time.
 
-2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard A2.
+4. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard A2.
 
     ![](<media/set_arm_parameters.png>)
 
     Make sure you make a note of the region as well as the username and password for the machine. Allow about 10 minutes for deployment and then another 10 minutes for the VSTS agent and MRP dependency configuration. 
 
-3. When the deployment completes, you should see the following resources in the Azure Portal:
+5. You will also need to specify the VSTS account to use (the DNS name before *visualstudio.com*) and a personal access token. If you don't have a personal access token, follow [this link](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/use-personal-access-tokens-to-authenticate) to create one.
+
+6. When the deployment completes, you should see the following resources in the Azure Portal:
 
     ![](<media/post_deployment_rg.png>)
 
-    Click on the Public IP Address for your deployment. Then make a note of the DNS name:
+    Click on the "partsmrp" Public IP Address. Then make a note of the DNS name:
 
     ![](<media/public_ip_dns.png>)
 
@@ -63,7 +73,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
     ![](<media/create_empty_definition.png>)
 
-3. Keep the artifacts as **Build**, select the CI build definition that you used in the previous lab (such as "PartsUnlimited.CI"), check the checkbox to enable the **Continuous Deployment trigger**, and choose "Hosted" as the  **agent queue**.
+3. Keep the artifacts as **Build**, select the CI build definition that you used in the previous lab (such as "PartsUnlimited.CI"), check the checkbox to enable the **Continuous Deployment trigger**, and choose "MRP" as the  **agent queue**.
 
     ![](<media/choose_source_queue_new_dialog.png>) 
 
@@ -71,28 +81,14 @@ In this lab, you will work with one machine which will serve as both the deploym
 
      ![](<media/change_environment_name.png>)
 
-5. Click on the **Add tasks** button and add a PowerShell script task (under the Utility category). 
+5. Click on the **Add tasks** button and add a shell script task (under the Utility category). 
 
-	 ![](<media/add_powershell_script.png>)
+	 ![](<media/add_shell_script.png>)
 
-6. Point to the **SSH-MRP-Artifacts.ps1** build artifact as the script path in the task.
+6. Point to the **Deploy-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
 
 	 ![](<media/add_script_path.png>)
-
-7. In the environment box, click on the ellipses ("...") and select **Configure variables...** option. 
-
-     ![](<media/configure_variables.png>)
-
-8. Create three variables: `sshUser`, `sshPassword`, and `sshTarget`. Fill in the values of the virtual machine that you created previously. `sshTarget` should be the public DNS name of the virtual machine, such as "mylinuxvm.westus.cloudapp.azure.com."
-
-     ![](<media/fill_in_variable_values.png>)
-
-9. In the PowerShell script task, add in the arguments with a hyphen and the variable name, followed by $(*variablename*). The arguments should look like `-sshUser $(sshUser) -sshPassword $(sshPassword) -sshTarget $(sshTarget)`. Click on the **pencil icon** above the task to rename it. 
-
-     ![](<media/fill_in_arguments.png>)
  
-10. Save the release definition. 
-
 ### Task 3: Continuous Deployment ###
 
 Now that our release definition is set up, let's test using Continuous Integration and Continuous Deployment. 
