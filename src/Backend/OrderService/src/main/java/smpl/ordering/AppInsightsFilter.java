@@ -39,10 +39,12 @@ public class AppInsightsFilter implements Filter
             String host = request.getHeader("Host");
             String query = request.getQueryString();
             String session = request.getSession().getId();
+            String name = request.getServletPath();
 
             RequestTelemetry telemetry = new RequestTelemetry(String.format("%s %s", method, rURI), startTime, 0L, "200", false);
             telemetry.setHttpMethod(method);
             telemetry.setTimestamp(startTime); // Doesn't work right now.
+            telemetry.setName(name);
 
             if (!Utility.isNullOrEmpty(query))
             {
@@ -61,6 +63,7 @@ public class AppInsightsFilter implements Filter
             }
 
             ctx.getOperation().setId(telemetry.getId());
+            ctx.getOperation().setName(telemetry.getName());
 
             try
             {
@@ -78,6 +81,7 @@ public class AppInsightsFilter implements Filter
 
                 // Clear the operation id.
                 ctx.getOperation().setId(null);
+                ctx.getOperation().setName(null);
             }
             catch (Exception exc)
             {
@@ -96,7 +100,8 @@ public class AppInsightsFilter implements Filter
 
                 // Clear the operation id.
                 ctx.getOperation().setId(null);
-
+                ctx.getOperation().setName(null);
+                
                 throw exc;
             }
         }
