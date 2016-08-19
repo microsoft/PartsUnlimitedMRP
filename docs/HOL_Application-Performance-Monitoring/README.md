@@ -1,4 +1,4 @@
-#Application Performance Monitoring
+# Application Performance Monitoring
 
 The DevOps team has noticed that the Dealers page is slow to load and shows performance spikes with database calls in the Application Insights telemetry. By viewing the details of performance monitoring through Application Insights, we will be able to drill down to the code that has affected the slow performance of the web application and fix the code.
 
@@ -8,11 +8,9 @@ In this lab, you will learn how to set up Application Insights telemetry, and dr
 
 - Code Editor (VSCode, Eclipse, etc.)
 
-- PartsUnlimitedMRP Linux Azure virtual machine set up and deployed with endpoint 9080 open (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md))
+- Continuous Integration build with Gradle to the PartsUnlimitedMRP virtual machine (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration))
 
-- Application Insights created in the same Azure Resource Group as the PartsUnlimitedMRP virtual machine (see [link](https://azure.microsoft.com/en-us/documentation/articles/app-insights-create-new-resource/))
-
-- Continuous Integration build with Gradle to the PartsUnlimitedMRP virtual machine (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment))
+- Continuous Deployment with hosted agent (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment))
 
 **Tasks Overview**
 
@@ -20,18 +18,27 @@ In this lab, you will learn how to set up Application Insights telemetry, and dr
 
 2. Using Application Performance Monitoring to resolve performance issues
 
-###Task 1: Set up Application Insights for PartsUnlimitedMRP
+### Task 1: Create the Application Insights Resource on Azure
 **Step 1.** In an Internet browser, navigate to <http://portal.azure.com> and
 sign in with your credentials.
 
 ![](<media/prereq-step1.png>)
 
-**Step 2.** Click on the “Browse All” tile on the left column, select
-“Application Insights,” and click on the name of the telemetry that you have created such as "PartsUnlimitedMRP-Insights."
+**Step 2.** Click on the “+ New” tile on the left column, Search for
+“Application Insights,” and click on the first result "Application Insights (preview)"
 
-![](<media/prereq-step2.png>)
+![](<media/creation_AppInsight.png>)
 
-**Step 3.** In the Application Insights telemetry for PartsUnlimitedMRP, select the Settings tile, followed by the Properties tile to find the Instrumentation key. 
+**Step 3.** Fill the information asked, choose the Application Type for "Java web application". We recommand to deploy this resource in the same Resource Group that you choose for the virtual machine in the previous HOL.
+
+![](<media/creation_AppInsight2.png>)
+
+### Task 2: Set up Application Insights for PartsUnlimitedMRP
+**Step 1.** Still from the Azure Portal : <http://portal.azure.com> 
+
+![](<media/prereq-step1.png>)
+
+**Step 3.** Open you Application Insights telemetry service previsously created for PartsUnlimitedMRP, select the Settings tile, followed by the Properties tile to find the Instrumentation key. 
 
 ![](<media/prereq-step3.png>)
 
@@ -95,7 +102,7 @@ Telemetry Initializers:
 
 ![](<media/prereq-step12.png>)
 
-###Task 2: Using Application Performance Monitoring to resolve performance issues
+### Task 3: Using Application Performance Monitoring to resolve performance issues
 
 **Step 1.** In an Internet browser, navigate to the PartsUnlimitedMRP website that you previously deployed and go to the Dealers page. You'll notice immediately that the page takes a while for the dealers to load on the left-hand side. 
 
@@ -147,7 +154,6 @@ of server response time by operation name** section under the timeline. Click on
 
 **Step 12.** Return to the Application Insights performance monitoring view in the Azure Preview Portal and refresh the page. The **Average of server response time by operation name** overview should not be showing the `getDealers()` method.
 
-
 In this lab, you learned how to set up Application Insights telemetry, and drill down into performance
 monitoring data through Application Insights in the new Azure Portal.
 
@@ -158,3 +164,11 @@ monitoring data through Application Insights in the new Azure Portal.
 [Unix performance metrics in Application Insights](https://azure.microsoft.com/en-us/documentation/articles/app-insights-java-collectd/)
 
 [Application Insights API for custom events and metrics](https://azure.microsoft.com/en-us/documentation/articles/app-insights-web-track-usage-custom-events-metrics/)
+
+# Continuous Feedbacks
+
+#### Issues / Questions about this HOL ??
+
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+
+Thanks
