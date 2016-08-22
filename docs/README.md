@@ -4,7 +4,7 @@ You may use following order for walking through the labs:
 
 0. [Prerequisites / Set up](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Set-Up-MRP)
 1. [Continuous Integration](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration)
-2. [Continuous Deployment](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment) [DEPRECATED WORKING ON IT]
+2. [Continuous Deployment](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment)
 3. [Automated Testing using Eclipse](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing)
 4. [Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
 5. ~~[Autoscaling & Load Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Autoscaling-Load-Testing)~~ [DEPRECATED WORKING ON IT]

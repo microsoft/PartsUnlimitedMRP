@@ -1,14 +1,13 @@
 # Update current packages
 sudo apt-get update
 
-# Install Git, Gradle, Java, and MongoDB
-sudo apt-get install git
+# Install Gradle, Java, and MongoDB
 sudo apt-get install gradle
 sudo apt-get install openjdk-8-jdk openjdk-8-jre mongodb
 
 # Install Node and npm
-curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
-sudo apt-get install nodejs -y
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
 sudo apt-get install npm -y
 
 # Set environment variables for Java
