@@ -1,12 +1,12 @@
-#Auto-Scaling and Load Testing
+#HOL - Auto-Scaling and Load Testing
 
 Your Linux Azure virtual machine has suffered significant performance degradation during Black Friday. The business unit responsible for the website’s functionality has complained to IT staff that users would intermittently lose access to the website, and that load times were significant for those who could access it.
 
 In this lab, you will learn how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you will create a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services. 
 
-**Prerequisites**
+**Pre-requisites**
 
-- PartsUnlimitedMRP Linux Azure virtual machine set up and deployed with endpoint 9080 open (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md))
+- The PartsUnlimitedMRP Linux Azure virtual machine set up and deployed with endpoint 9080 open (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md))
 
 - Visual Studio Ultimate license
 
@@ -19,65 +19,73 @@ In this lab, you will learn how to perform load testing against an endpoint for 
 
 ###Task 1: Setting up and running a load test in Visual Studio Team Services
 
-Performing a load test can be done either in Visual Studio or in a browser in Visual Studio Team Services. For simplicity, we will run a load test in a browser in Visual Studio Team Services. 
+Performing a load test can be done in Visual Studio, in a browser in Visual Studio Team Services, or in the new Azure Portal. For simplicity, we will run a load test in a browser in Visual Studio Team Services. 
 
-**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
+**1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account, such as:
 
-![](<media/step1.png>)
+    https://{VSTS instance}.visualstudio.com
 
-**Step 2.** In the load test tab, you can create a simple load test in the browser. Specify the home page URL, which should be the URL to MRP with your virtual machine name and port (such as [https://mycloudhostname.cloudapp.net:9080/mrp](https://mycloudhostname.cloudapp.net:9080/mrp)). Give the load test a friendly name and specify the load location. 
+On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
-![](<media/step2.png>)
+![](<media/navigate_to_load_test_tab.png>)
 
-**Step 3.** Select 100 users for load, 1 minute for the run duration, 1 second of think-time, and 100% IE for browser distribution. Click the **Test now** button to run your load test. 
+**2.** In the load test tab, create a simple load test in the browser. Click on the **New** button and select **URL-based test** to create a new URL-based test.
 
-![](<media/step3.png>)
+![](<media/select_url_test.png>)
 
-**Step 4.** The load test will start running and show metrics in real time. 
+**3.** Name the load test *PartsUnlimitedMRP Homepage Load Test*. Specify the home page URL, which should be the URL to MRP with your virtual machine name and port (such as *http://{mycloudhostname}.cloudapp.net:9080/mrp*).
 
-![](<media/step4.png>)
+![](<media/point_to_mrp_url.png>)
+
+**4.** Select the **Settings** tab and change the **Run duration** to 1 minute. You can optionally change the max virtual users, browser mix, and load location as well. Then click the **Save** button.
+
+![](<media/change_run_duration.png>)
+
+**Step 4.** Click on the **Run test** button to begin the test. The load test will start running and show metrics in real time. 
+
+![](<media/run_test.png>)
 
 **Step 5.** When the test has finished loading, it will show metrics, errors, and application performance. We should be able to solve this issue by creating an availability set for the virtual machines and configuring auto-scaling.
-![](<media/step5.png>)
+![](<media/view_test_results.png>)
 
 ###Task 2: Creating virtual machines with Azure CLI
 Before configuring auto-scaling, we need to create a virtual machine and add it to an availability set. We can use Azure Command Line tools on our Linux machine to create a virtual machine and availability set. 
 
-**Step 1.** Ensure that the PartsUnlimitedMRP machine is running. SSH into the machine with your credentials. 
+**1.** Ensure that the PartsUnlimitedMRP machine is running. SSH into the machine with your credentials. 
 
     ssh <login>@<dnsname>.cloudapp.net
 
-![](<media/task2-step1.png>)
+![](<media/ssh_virtual_machine.png>)
 
-**Step 2.** Before installing azure-cli tools, install nodejs-legacy and and npm: 
+**2.** Before installing azure-cli tools, install nodejs-legacy and and npm: 
 
     sudo apt-get install nodejs-legacy
 	sudo apt-get install npm
 
-![](<media/task2-step2a.png>)
+![](<media/apt_get_nodejs_legacy.png>)
 
-![](<media/task2-step2b.png>)
+![](<media/apt_get_npm.png>)
 
 
-**Step 3.** Now that nodejs-legacy and npm are installed, type the following to download azure-cli (globally): 
+**3.** Now that nodejs-legacy and npm are installed, type the following to download azure-cli: 
 
-    sudo npm install -g azure-cli
+    sudo npm install azure-cli
 
-![](<media/task2-step3.png>)
+![](<media/npm_install_azure_cli.png>)
 
-![](<media/task2-step3b.png>)
+Make sure that Azure Service Management is configured (default upon installation).
 
-**Step 4.** Log in to azure-cli with your organizational credentials:
+**4.** Log in to azure-cli with your organizational credentials:
 
     azure login
 
-![](<media/task2-step4.png>)
+![](<media/login_azure_cli.png>)
 
-**Step 5.** To use availability sets, more than one virtual machine must be in the set. We also will create a virtual machine in the same cloud service as the PartsUnlimitedMRP machine. Create a new virtual machine with the following: 
+**5.** To use availability sets, more than one virtual machine must be in the set. We also will create a virtual machine in the same cloud service as the PartsUnlimitedMRP machine. Create a new virtual machine with the following: 
 
 `{dnsname}.cloudapp.net` - Replace {dnsname} with the cloud service DNS name of the PartsUnlimitedMRP machine. 
 
-`"b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_3-LTS-amd64-server-20150805-en-us-30GB"` - The Linux 14.04 LTS latest VM image. Paste this value into the SSH client when running the command. 
+`"b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-16_04-LTS-amd64-server-20160627-en-us-30GB"` - The Linux 16.04 LTS latest VM image. Paste this value into the SSH client when running the command. 
 
 `-n "{vm name}"` - Replace {vm name} with the name of the new virtual machine.
 
@@ -89,70 +97,67 @@ Before configuring auto-scaling, we need to create a virtual machine and add it 
 
 `-c "{dnsname}"` - Replace {dnsname} with your cloud service name. It should match `{dnsname}.cloudapp.net`. 
 
-`-z "ExtraSmall"` - Set the size of the VM to be created as Extra Small (A0, 768 MB memory). This should match the size of the PartsUnlimitedMRP machine. 
+`-z "Medium"` - Set the size of the VM to be created as Extra Small (A2, 3.5 GB memory). This should match the size of the PartsUnlimitedMRP machine. 
 
-	azure vm create "{dnsname}.cloudapp.net" "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_3-LTS-amd64-server-20150805-en-us-30GB" -n "{vm name}" -g "{username}" -p "{password}" -A "{availset} -c "{dnsname}" -z "ExtraSmall"
+	azure vm create "{dnsname}.cloudapp.net" "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-16_04-LTS-amd64-server-20160627-en-us-30GB" -n "{vm name}" -g "{username}" -p "{password}" -A "{availset} -c "{dnsname}" -z "Medium"
 
 For example: 
 
-	azure vm create "pu-sachi.cloudapp.net" "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_3-LTS-amd64-server-20150805-en-us-30GB" -n "pu-sachi2" -g "sachi" -p "P2ssw0rd!" -A "mrp-availset" -c "pu-sachi" -z "ExtraSmall"
+	azure vm create "partsunlimiteddev.cloudapp.net" "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04_3-LTS-amd64-server-20150805-en-us-30GB" -n "partsunlimiteddev2" -g "azureuser" -p "P2ssw0rd!" -A "mrp-availset" -c "partsunlimiteddev" -z "Medium"
 
 It may take a few minutes for the virtual machine to be created. 
 
-![](<media/task2-step5.png>)
+![](<media/create_vm_azure_cli>)
 
-**Step 6.** Once the virtual machine has been created, open a web browser and log in to the Azure Management Portal, [https://manage.windowsazure.com](https://manage.windowsazure.com). 
+**6.** Once the virtual machine has been created, open a web browser and log in to the Azure Management Portal, [https://manage.windowsazure.com](https://manage.windowsazure.com). 
 
-![](<media/task2-step6.png>)
+**7.** Click on the **Virtual Machines** tile on the left-hand column. Note that the new virtual machine that you created now is listed with the same DNS name. Click on the name of the new machine that you just created for the availability set. 
 
-**Step 7.** Click on the **Virtual Machines** tile on the left-hand column. Note that the new virtual machine that you created now is listed with the same DNS name. Click on the name of the new machine that you just created for the availability set. 
-
-![](<media/task2-step7.png>)
+![](<media/select_vm_portal.png>)
 
 **Step 8.** In the new machine **Configure** tab, note that there is an important message that there needs to be at least two running virtual machine instances for the new availability set. We will add the PartsUnlimitedMRP machine into that availability set. Then click on the name of the PartsUnlimitedMRP machine on the left. 
 
-![](<media/task2-step8.png>)
+![](<media/view_second_vm_portal.png>)
 
-**Step 9.** In the PartsUnlimitedMRP **Configure** tab for the machine, click on the dropdown next to **Availability Set** and select the availability set that you created in azure-cli. Then click on the Save tile at the bottom of the page. We are able to add this machine to the availability set because it is in the same cloud service as the other machine. 
+**Step 9.** In the PartsUnlimitedMRP **Configure** tab for the machine, click on the dropdown next to **Availability Set** and select the availability set that you created in azure-cli. Then click on the **Save** tile at the bottom of the page. We are able to add this machine to the availability set because it is in the same cloud service as the other machine. 
 
-![](<media/task2-step9.png>)
+![](<media/view_first_vm_portal.png>)
 
-![](<media/task2-step9b.png>)
+![](<media/view_availability_set.png>)
 
 **Step 10.** Click on the large back button on the upper-left area of the page and click on the **Cloud Services** tile on the left column. Click on the name of the cloud service for the PartsUnlimitedMRP machine. 
 
-![](<media/task2-step10.png>)
+![](<media/view_cloud_services_portal.png>)
 
-**Step 11.** In the PartsUnlimitedMRP cloud service, click on the **Scale** tab. Note that both of the virtual machines are listed under **Instances**. Since both machines are in the availability set, we can set auto-scaling so that Azure will automatically scale up and down the virtual machines in the availability group based on CPU. 
+**Step 11.** In the PartsUnlimitedMRP cloud service, click on the **Scale** tab. Note that both of the virtual machines are listed under **Instances**. Since both machines are in the availability set, we can set auto-scaling so that Azure will automatically scale up and down the virtual machines in the availability group based on CPU. Select **CPU** next to **Scale by metric**. The instance range will cover both instances and the target CPU default is 60 - 80%. Click the Save button at the bottom of the page to save the auto-scaling configuration settings for the availability set.
 
-![](<media/task2-step11.png>)
-
-**Step 12.** In the availability set, select **CPU** next to **Scale by metric**. The instance range will cover both instances and the target CPU default is 60 - 80%. Additionally, keep the scale up and down by settings. Click the Save button at the bottom of the page to save the auto-scaling configuration settings for the availability set. 
-
-![](<media/task2-step12.png>)
+![](<media/scale_cloud_service_portal.png>)
 
 ###Task 3: Running a load test to verify auto-scaling
 
 We now have two virtual machines in an availability set that scales by CPU so that whenever the CPU percentage for PartsUnlimitedMRP is over the threshold of 80%, Azure will automatically add an instance to the virtual machine. We can now run a load test again to compare the results. 
 
-**Step 1.** Open a web browser and navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account. On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
+**1.** Navigate to the Team Project Collection ("DefaultCollection") of your Visual Studio Team Services account, such as:
 
-![](<media/step1.png>)
+    https://{VSTS instance}.visualstudio.com
 
-**Step 2.** In the load test tab, specify the home page URL, which should be the URL to MRP with your virtual machine name and port (such as [https://mycloudhostname.cloudapp.net:9080/mrp](https://mycloudhostname.cloudapp.net:9080/mrp)). Give the load test a friendly name and specify the load location. 
+On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
-![](<media/task3-step2.png>)
+![](<media/navigate_to_load_test_tab.png>)
 
-**Step 3.** Select 100 users for load, 1 minute for the run duration, 1 second of think-time, and 100% IE for browser distribution. Click the **Test now** button to run your load test. 
+**2.** Select the Load Test previously created in Task 1, then click on the **Run test** button to begin the test. The load test will start running and show metrics in real time. 
 
-![](<media/task3-step3.png>)
+![](<media/second_load_test_summary.png>)
 
-**Step 4.** The load test will start running and show metrics in real time. 
-
-![](<media/task3-step4.png>)
-
-**Step 5.** When the test has finished loading, it will show metrics, errors, and application performance. We can compare these results with the previous load test's results and note that there has been an improvement in average response time and failed requests. 
-
-![](<media/task3-step5.png>)
+The average response time has improved by autoscaling multiple virtual machines in Azure based on CPU load. 
 
 In this lab, you learned how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you created a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services.
+
+Next steps
+----------
+
+-   [HOL Parts Unlimited MRP Continuous Integration ](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration)
+
+-   [HOL Parts Unlimited MRP Automated Testing](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing)
+
+-   [HOL Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
