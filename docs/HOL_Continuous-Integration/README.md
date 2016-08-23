@@ -12,7 +12,6 @@ pushed to Visual Studio Team Services.
 ### Pre-requisites: ###
 
 -   [Completion of the "Set up Parts Unlimited MRP" lab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md)
-
 -   Project Administrator rights to the Visual Studio Team Services account
 
 ### Tasks Overview: ###

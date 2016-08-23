@@ -4,13 +4,12 @@ In this lab, you will learn how to deploy the Parts Unlimited MRP App in an auto
 
 >**Note:** If you would like to trigger continuous deployments using the hosted VSTS agent instead of a local agent, see [this lab](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment).  
 
-
 ### Pre-requisites ###
 
-- Completion of the Continuous Integration with Parts Unlimited MRP HOL
+- [Completion of the "Set up Parts Unlimited MRP" lab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md)
+- [Completion of the Continuous Integration with Parts Unlimited MRP HOL](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Continuous-Integration/README.md)
 - An active Azure Subscription
 - An active Visual Studio Team Services Account
-
 
 ### Tasks Overview ###
 
@@ -24,7 +23,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 1: Provision the Lab ###
 
-1. Create the MRP agent pool in Visual Studio Team Services if you do not have one already. Go to the homepage of your VSTS account or the PartsUnlimitedMRP team project and clicking on the gear icon in the upper-right corner of the homepage.
+1. Create the MRP agent pool in Visual Studio Team Services if you do not have one already. Go to the homepage of your VSTS account and clicking on the gear icon in the upper-right corner of the homepage.
 
 	![](<media/vsts_gear_icon.png>)
 
@@ -44,7 +43,7 @@ In this lab, you will work with one machine which will serve as both the deploym
     The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
     delete the resource group in order to remove all the created resources at any time.
 
-4. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard A2.
+4. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard D1_V2.
 
     ![](<media/set_arm_parameters.png>)
 
@@ -65,9 +64,9 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 2: Create release definition ###
 
-1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **+** button on the left and choose **Create new release definition**.
+1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **New definition** button on the home page.
 
-    ![](<media/create_release_definition.png>)
+    ![](<media/new_release.png>)
 
 2. In the **Create new release definition** dialog, choose an empty template then the OK button. 
 
@@ -86,8 +85,19 @@ In this lab, you will work with one machine which will serve as both the deploym
 	 ![](<media/add_shell_script.png>)
 
 6. Point to the **Deploy-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
-
+     
 	 ![](<media/add_script_path.png>)
+
+**Note** : Click on the **"..."** to navigate in the folder and find the shell script :
+
+![](<media/CD_deploy.png>)
+
+7. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
+
+    ![](<media/vsts_trig.png>)
+    ![](<media/vsts_CD.png>)
+
+8. Click on **Save**
  
 ### Task 3: Continuous Deployment ###
 
@@ -114,7 +124,7 @@ In this lab, you learned how to create deployments automatically after committin
 
 -   [Parts Unlimited MRP Continuous Deployment - Hosted](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment)
 
--   [Deploying Parts Unlimited MRP with Chef to Azure]
+-   [Deploying Parts Unlimited MRP with Chef to Azure](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Deploying-Using-Chef)
 
 -   [Parts Unlimited MRP Application Performance Monitoring](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring)
 
