@@ -1,5 +1,5 @@
 # Create deployment directory
-sudo mkdir /var/lib/partsunlimited
+sudo mkdir -p /var/lib/partsunlimited
 
 # Kill java to stop current website
 sudo pkill -9 'java'

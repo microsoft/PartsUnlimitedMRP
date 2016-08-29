@@ -34,8 +34,11 @@ put ./ARTIFACT_DIRECTORY/deploy/MongoRecords.js
 put ./ARTIFACT_DIRECTORY/deploy/deploy_mrp_app.sh
 chmod 755 deploy_mrp_app.sh
 cd ..
-put -r ./ARTIFACT_DIRECTORY/drop
+mkdir drop
 cd drop
+put -r ./ARTIFACT_DIRECTORY/drop/Backend/IntegrationService/build/libs/
+put -r ./ARTIFACT_DIRECTORY/drop/Backend/OrderService/build/libs/
+put -r ./ARTIFACT_DIRECTORY/drop/Clients/build/libs/
 chmod 755 ./*
 '@
 $sftpContent = $sftpContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
