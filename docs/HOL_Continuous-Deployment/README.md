@@ -55,9 +55,9 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 2: Create release definition ###
 
-1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **+** button on the left and choose **Create new release definition**.
+1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **New definition** button on the home page.
 
-    ![](<media/create_release_definition.png>)
+    ![](<media/new_release.png>)
 
 2. In the **Create new release definition** dialog, choose an empty template then the OK button. 
 
