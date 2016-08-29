@@ -29,8 +29,8 @@ mkdir ROOT_DEPLOY_DIRECTORY
 cd ROOT_DEPLOY_DIRECTORY
 mkdir deploy
 cd deploy
-put MongoRecords.js
-put deploy_mrp_app.sh
+put ../deploy/MongoRecords.js
+put ../deploy/deploy_mrp_app.sh
 chmod 755 deploy_mrp_app.sh
 cd ..
 put -r ../drop
