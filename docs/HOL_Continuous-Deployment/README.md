@@ -67,7 +67,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
     ![](<media/choose_source_queue_new_dialog.png>) 
 
-4. Click on the **Environment** keyword and rename the environment to be "Dev." Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
+4. Click on the **Environment** keyword and rename the environment to be **"Dev"**. Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
 
      ![](<media/change_environment_name.png>)
 
@@ -90,8 +90,12 @@ In this lab, you will work with one machine which will serve as both the deploym
 9. In the PowerShell script task, add in the arguments with a hyphen and the variable name, followed by $(*variablename*). The arguments should look like `-sshUser $(sshUser) -sshPassword $(sshPassword) -sshTarget $(sshTarget)`. Click on the **pencil icon** above the task to rename it. 
 
      ![](<media/fill_in_arguments.png>)
+
+10. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
+
+    ![](<media/vsts_CD.png>)
  
-10. Save the release definition. 
+11. Save the release definition. 
 
 ### Task 3: Continuous Deployment ###
 
