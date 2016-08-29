@@ -36,7 +36,7 @@ In this lab, you will work with one machine which will serve as both the deploym
     The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
     delete the resource group in order to remove all the created resources at any time.
 
-2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard A2.
+2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard D1_V2.
 
     ![](<media/set_arm_parameters.png>)
 
