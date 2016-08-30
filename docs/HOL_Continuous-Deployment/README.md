@@ -91,11 +91,15 @@ In this lab, you will work with one machine which will serve as both the deploym
 
      ![](<media/fill_in_arguments.png>)
 
-10. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
+11. Click on **Advanced** to extand the panel and untick the option : **Fail on Standard Error** to avoid some garbage warning.
+
+    ![](<media/ssh_errors.png>)    
+
+12. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
 
     ![](<media/vsts_CD.png>)
  
-11. Save the release definition. 
+13. Save the release definition. 
 
 ### Task 3: Continuous Deployment ###
 
