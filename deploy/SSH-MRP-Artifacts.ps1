@@ -21,7 +21,8 @@ if (-not (Test-Path plink.exe)) {
 
 # Set deploy directory on target server
 $deployDirectory = "/tmp/mrpdeploy_" + [System.Guid]::NewGuid().toString()
-
+$buildName = $($env:BUILD_DEFINITIONNAME)
+$buildName = $buildName.Replace(".","")
 # Save sftp command text to file
 $sftpFile = "sftp.txt"
 $sftpContent = @'
@@ -29,17 +30,19 @@ mkdir ROOT_DEPLOY_DIRECTORY
 cd ROOT_DEPLOY_DIRECTORY
 mkdir deploy
 cd deploy
-put MongoRecords.js
-put deploy_mrp_app.sh
+put ./ARTIFACT_DIRECTORY/deploy/MongoRecords.js
+put ./ARTIFACT_DIRECTORY/deploy/deploy_mrp_app.sh
 chmod 755 deploy_mrp_app.sh
 cd ..
-put -r ../drop
+mkdir drop
 cd drop
-chmod 755 integration-service-0.1.0.jar
-chmod 755 ordering-service-0.1.0.jar
-chmod 755 mrp.war
+put -r ./ARTIFACT_DIRECTORY/drop/Backend/IntegrationService/build/libs/
+put -r ./ARTIFACT_DIRECTORY/drop/Backend/OrderService/build/libs/
+put -r ./ARTIFACT_DIRECTORY/drop/Clients/build/libs/
+chmod 755 ./*
 '@
 $sftpContent = $sftpContent.Replace('ROOT_DEPLOY_DIRECTORY',$deployDirectory)
+$sftpContent = $sftpContent.Replace('ARTIFACT_DIRECTORY',$buildName)
 Set-Content -Path $sftpFile -Value $sftpContent
 
 

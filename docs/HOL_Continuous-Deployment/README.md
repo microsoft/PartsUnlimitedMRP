@@ -36,7 +36,7 @@ In this lab, you will work with one machine which will serve as both the deploym
     The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
     delete the resource group in order to remove all the created resources at any time.
 
-2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard A2.
+2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard D1_V2.
 
     ![](<media/set_arm_parameters.png>)
 
@@ -55,9 +55,9 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 2: Create release definition ###
 
-1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **+** button on the left and choose **Create new release definition**.
+1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **New definition** button on the home page.
 
-    ![](<media/create_release_definition.png>)
+    ![](<media/new_release.png>)
 
 2. In the **Create new release definition** dialog, choose an empty template then the OK button. 
 
@@ -67,7 +67,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
     ![](<media/choose_source_queue_new_dialog.png>) 
 
-4. Click on the **Environment** keyword and rename the environment to be "Dev." Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
+4. Click on the **Environment** keyword and rename the environment to be **"Dev"**. Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
 
      ![](<media/change_environment_name.png>)
 
@@ -90,8 +90,16 @@ In this lab, you will work with one machine which will serve as both the deploym
 9. In the PowerShell script task, add in the arguments with a hyphen and the variable name, followed by $(*variablename*). The arguments should look like `-sshUser $(sshUser) -sshPassword $(sshPassword) -sshTarget $(sshTarget)`. Click on the **pencil icon** above the task to rename it. 
 
      ![](<media/fill_in_arguments.png>)
+
+11. Click on **Advanced** to extand the panel and untick the option : **Fail on Standard Error** to avoid some garbage warning.
+
+    ![](<media/ssh_errors.png>)    
+
+12. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
+
+    ![](<media/vsts_CD.png>)
  
-10. Save the release definition. 
+13. Save the release definition. 
 
 ### Task 3: Continuous Deployment ###
 
