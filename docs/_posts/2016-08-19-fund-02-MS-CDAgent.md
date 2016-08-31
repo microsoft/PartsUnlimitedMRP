@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Continuous Deployment - Agent
+title: Continuous Deployment with Remote Agent
 category: FundVSTS
 order: 4
 ---
