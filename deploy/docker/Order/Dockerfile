@@ -6,7 +6,6 @@ RUN mkdir -p /usr/local/app
 
 WORKDIR /usr/local/app
 
-ADD run.sh /usr/local/app/
 ADD drop/* /usr/local/app/
 
 EXPOSE 8080
