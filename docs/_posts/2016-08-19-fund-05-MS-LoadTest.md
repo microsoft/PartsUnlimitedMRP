@@ -33,26 +33,26 @@ Performing a load test can be done in Visual Studio, in a browser in Visual Stud
 
 On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
-![](</assets/ASloadtests/navigate_to_load_test_tab.png>)
+![](<../assets/ASloadtests/navigate_to_load_test_tab.png>)
 
 **2.** In the load test tab, create a simple load test in the browser. Click on the **New** button and select **URL-based test** to create a new URL-based test.
 
-![](</assets/ASloadtests/select_url_test.png>)
+![](<../assets/ASloadtests/select_url_test.png>)
 
 **3.** Name the load test *PartsUnlimitedMRP Homepage Load Test*. Specify the home page URL, which should be the URL to MRP with your virtual machine name and port (such as *http://{mycloudhostname}.cloudapp.net:9080/mrp*).
 
-![](</assets/ASloadtests/point_to_mrp_url.png>)
+![](<../assets/ASloadtests/point_to_mrp_url.png>)
 
 **4.** Select the **Settings** tab and change the **Run duration** to 1 minute. You can optionally change the max virtual users, browser mix, and load location as well. Then click the **Save** button.
 
-![](</assets/ASloadtests/change_run_duration.png>)
+![](<../assets/ASloadtests/change_run_duration.png>)
 
 **Step 4.** Click on the **Run test** button to begin the test. The load test will start running and show metrics in real time. 
 
-![](</assets/ASloadtests/run_test.png>)
+![](<../assets/ASloadtests/run_test.png>)
 
 **Step 5.** When the test has finished loading, it will show metrics, errors, and application performance. We should be able to solve this issue by creating an availability set for the virtual machines and configuring auto-scaling.
-![](</assets/ASloadtests/view_test_results.png>)
+![](<../assets/ASloadtests/view_test_results.png>)
 
 ### Task 2: Auto-Scaling with Microsoft Azure ###
 
@@ -68,11 +68,11 @@ We now have two virtual machines in an availability set that scales by CPU so th
 
 On the upper-left set of tabs, click on "Load test" to open up load test options in the browser. 
 
-![](</assets/ASloadtests/navigate_to_load_test_tab.png>)
+![](<../assets/ASloadtests/navigate_to_load_test_tab.png>)
 
 **2.** Select the Load Test previously created in Task 1, then click on the **Run test** button to begin the test. The load test will start running and show metrics in real time. 
 
-![](</assets/ASloadtests/second_load_test_summary.png>)
+![](<../assets/ASloadtests/second_load_test_summary.png>)
 
 The average response time has improved by autoscaling multiple virtual machines in Azure based on CPU load. 
 

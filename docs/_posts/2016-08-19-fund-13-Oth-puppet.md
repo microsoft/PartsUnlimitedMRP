@@ -57,7 +57,7 @@ though _puppet programs_ on the Puppet Master.
     and password and unique name for both machines. The Puppet Master will be a Standard D2_V2 while the partsmrp machine
     will be a Standard A2.
 
-    ![](</assets/puppet/1.jpg>)
+    ![](<../assets/puppet/1.jpg>)
 
     Make sure you make a note of the region as well as the usernames and passwords for the machines. Allow
     about 10 minutes for deployment and then another 10 minutes for the Puppet Master to configure Puppet. 
@@ -65,18 +65,18 @@ though _puppet programs_ on the Puppet Master.
 1. Check the Resource Group in the Azure Portal
     When the deployment completes, you should see the following resources in the Azure Portal:
 
-    ![](</assets/puppet/2.jpg>)
+    ![](<../assets/puppet/2.jpg>)
 
     Click on the "partspuppetmaster" Public IP Address. Then make a note of the DNS name:
 
-    ![](</assets/puppet/3.jpg>)
+    ![](<../assets/puppet/3.jpg>)
 
     The _dnsaddress_ will be of the form _machinename_._region_.cloudapp.azure.com. Open a browser to https://_dnsaddress_.
     (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
     ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console
     sign in page:
 
-    ![](</assets/puppet/4.jpg>)
+    ![](<../assets/puppet/4.jpg>)
 
     >**Note:** The lab requires several ports to be open, such as the Puppet Server port, the Puppet console port, SSH
     ports and the Parts Unlimited MRP app port on the partsmrp machine. The ARM template opens these ports on the
@@ -87,7 +87,7 @@ though _puppet programs_ on the Puppet Master.
     Now go back to the Puppet Console in your browser and enter the username `admin` and the password you set. 
     When you log in, you should see a page like this:
 
-    ![](</assets/puppet/6.jpg>)
+    ![](<../assets/puppet/6.jpg>)
 
 
 ## Task 3: Install Puppet Agent on the node
@@ -102,13 +102,13 @@ the node.
     ```
     partspuppetmaster.nqkkrckzqwwu1p5pu4ntvzrona.cx.internal.cloudapp.net
     ```
-    ![](</assets/puppet/8.jpg>)
+    ![](<../assets/puppet/8.jpg>)
 
 1. Run the "Add Node" command on the node
     
     Copy the "Add Node" command from the Puppet Console (the one that starts with `curl...`) and go to the SSH terminal of
     the node. Run the command.
-    ![](</assets/puppet/11.jpg>)
+    ![](<../assets/puppet/11.jpg>)
 
     The command will take a few moments to complete.
 
@@ -120,12 +120,12 @@ the node.
     Return to the Puppet Console and refresh the Unsigned Certificates page (where you previously got the node install command). You
     should see a pending request. This request has come from the node and will authorize the certificate between the puppet
     master and the node so that they can communicate securely. Press "Accept" to approve the node:
-    ![](</assets/puppet/12.jpg>)
+    ![](<../assets/puppet/12.jpg>)
 
     Click on the "Nodes" tab in the Puppet Console to return to the nodes view. You should see 2 nodes listed: 
 	the puppet master and the partsmrp node (it may take a few minutes for the mrp node to finish configuration before it appears)
 
-    ![](</assets/puppet/13.jpg>)
+    ![](<../assets/puppet/13.jpg>)
 
     >**Note:** It is possible to automate the install and configuration of the Puppet agent onto an Azure VM using the
     [Puppet Agent extension](https://github.com/Azure/azure-quickstart-templates/tree/master/puppet-agent-windows) from the 
@@ -173,7 +173,7 @@ in `/etc/puppetlabs/code/environments/production`.
     sudo puppet module install maestrodev-wget
     ```
 
-    ![](</assets/puppet/14.jpg>)
+    ![](<../assets/puppet/14.jpg>)
 
     >**Note:** The `mongodb` and `tomcat` modules are supported modules from the Forge. The `wget` module is
     a user module and so is not officially supported.
@@ -193,7 +193,7 @@ in `/etc/puppetlabs/code/environments/production`.
 
     Running `ls -la` should list the modules available so far, including `mrpapp`:
 
-    ![](</assets/puppet/15.jpg>)
+    ![](<../assets/puppet/15.jpg>)
 
 1. Configure the default node in the site.pp file
     
@@ -272,7 +272,7 @@ flesh out the rest of the module properly.
     cat /tmp/dummy.txt
     ```
 
-    ![](</assets/puppet/16.jpg>)
+    ![](<../assets/puppet/16.jpg>)
 
 1. Correct configuration drift
 
@@ -290,7 +290,7 @@ flesh out the rest of the module properly.
 
     You should see the run complete successfully and the file should exist again. 
 
-    ![](</assets/puppet/17.jpg>)
+    ![](<../assets/puppet/17.jpg>)
 
     You can also try to edit the contents of the file and re-run the `sudo puppet agent --test` command to see the 
     contents update.
@@ -546,7 +546,7 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
     resource for the machine in Azure (just like you did to get the url of the puppet master earlier). Once you open the browser, you 
     should see the following Tomcat confirmation page:
 
-    ![](</assets/puppet/20.jpg>)
+    ![](<../assets/puppet/20.jpg>)
 
 1. Verify that the PartsMRP Application is running correctly
 
@@ -554,11 +554,11 @@ Press `cntrl-O`, then `enter` to save the changes to the file without exiting.
     will be http://partsmrp-public-ip:9080/mrp where _partsmrp-public-ip_ is the public ip or DNS name of the
     partsmrp VM (you can get it by clicking on the VM in the resource group in the Azure Portal).
 
-    ![](</assets/puppet/18.jpg>)
+    ![](<../assets/puppet/18.jpg>)
 
     If you click on the Orders button, you should see the orders page:
 
-    ![](</assets/puppet/19.jpg>)
+    ![](<../assets/puppet/19.jpg>)
 
 >**Note:** You can see the complete `init.pp` file [here](final/init.pp).
 

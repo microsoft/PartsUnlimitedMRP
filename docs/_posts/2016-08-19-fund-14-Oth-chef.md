@@ -31,13 +31,13 @@ In this exercise, you will provision a new Chef Server in Azure from a template 
 
 **Step 2.** To create a new Chef server, click on the **New** tile, followed by **Marketplace**. In the Marketplace panel, choose **Everything** and click on the **Chef Server 12** tile. If the Chef tile doesn't appear, search for it in the search text field. 
 
-![](</assets/chef/task1-step2.png>)
+![](<../assets/chef/task1-step2.png>)
 
 **Step 3.** After clicking on the Chef Server tile, choose the Classic deployment model. 
 
 **Step 4.** When prompted for the host name, enter a globally unique name (which will also be used as your cloud service name). Enter *labuser* for the username and *labPassw0rd* (or other secure password) for the password. Choose A3 Standard (4 cores, 7 GB memory) for the VM size. Lastly, click **Create** and **buy** to start provisioning your Chef Server.
 
-![](</assets/chef/task1-step4.png>) 
+![](<../assets/chef/task1-step4.png>) 
 
 ### Task 2: Configuring the Chef Server ###
 In this exercise, you will connect to the Chef Server via SSH and configure it.
@@ -466,7 +466,7 @@ It should look like this:
 
 **Step 9.** On your workstation: Copy just the contents of the certificate characters of the *ManagementCertificate* element from the publish settings file:
 
-![](</assets/chef/task6-step9.png>)
+![](<../assets/chef/task6-step9.png>)
 
 **Step 10.** On your workstation: paste the contents into the Putty/SSH window where you have the *cert.pfx* open. Save the file with `Ctrl-o` and **Enter**.
 
@@ -543,7 +543,7 @@ Once the deployment is complete, you should be able to navigate to the MRP appli
 
 **Step 5.** Open the URL you chose for your cloud service name in a browser. The URL should be something like [http://mycloudservice.cloudapp.net:9080/mrp](http://mycloudservice.cloudapp.net:9080/mrp). 
 
-![](</assets/chef/task7-step5.png>)
+![](<../assets/chef/task7-step5.png>)
 
 **Step 6.** Click around the site and observe that it functions normally.
 

@@ -32,60 +32,60 @@ First, we need to set up Eclipse in order to work on the Parts Unlimited MRP App
 
 **2.** Navigate to the application toolbar and select `Help -> Eclipse Marketplace`. Search for the [Gradle Buildship plugin](https://projects.eclipse.org/projects/tools.buildship). If the plugin is not installed already, install it and restart Eclipse. If the plugin is installed already, click on the **Installed** tab and select **Update** on the plugin if possible.
 
-![](</assets/test/find_buildship_plugin.png>)
+![](<../assets/test/find_buildship_plugin.png>)
 
 **3.** From the menu of Eclipse, select **Window -> Perspective -> Open Perspective -> Other...** to select the perspective that we want. 
 
-![](</assets/test/open_other_perspective.png>)
+![](<../assets/test/open_other_perspective.png>)
 
 **6.** Select **Git** and click **OK**.
 
-![](</assets/test/git_perspective.png>)
+![](<../assets/test/git_perspective.png>)
 
 
 This will open up the Git perspective in Eclipse.
 
 **7.** If the Visual Studio Team Services Git repository already exists on your local machine, **skip to step 8**. Otherwise, click the **Clone a Git repository** from the Git Repositories Window:
 
-![](</assets/test/clone_repo.png>)
+![](<../assets/test/clone_repo.png>)
 
 In the Clone Git Repository, **paste the URL for your Visual Studio Team Services Git repo** into the URI text field, **enter your alternate credentials** in the Authentication section , and click **Next**.
 
 >[Click here to setup your alternate credentials in your Visual Studio Team Services subscription](https://www.visualstudio.com/en-us/docs/integrate/get-started/auth/overview)
 
-![](</assets/test/repo_uri.png>)
+![](<../assets/test/repo_uri.png>)
 
 Select any branch that you want, and click **Next**.
 
-![](</assets/test/select_branches.png>)
+![](<../assets/test/select_branches.png>)
 
 On the next page, leave the defaults and click **Finish**.
 
-![](</assets/test/repo_clone_finish.png>)
+![](<../assets/test/repo_clone_finish.png>)
 
 This will clone the repository to your local machine. You should be able to see the repository in the Git Repositories window.
 
-![](</assets/test/local_repo.png>)
+![](<../assets/test/local_repo.png>)
 
 **8.** If you already have the Visual Studio Team Services Git repo on your machine, select the option to **Add an existing local Git repository**, then navigate to the folder of the Git repo and check the box next to it to add the repo reference into Eclipse. 
 
-![](</assets/test/add_existing_git_repo.png>)
+![](<../assets/test/add_existing_git_repo.png>)
 
 **9.** Open the **Java perspective** by clicking the shortcut in the top right corner of Eclipse.
 
-![](</assets/test/java_perspective.png>)
+![](<../assets/test/java_perspective.png>)
 
 **12.** In the top left, click the **New** drop down and select **Java project**.
 
-![](</assets/test/new_java_project.png>)
+![](<../assets/test/new_java_project.png>)
 
 **13.** In the New Java Project dialog name the project **IntegrationService**, uncheck the **Use default location**, choose the **IntegrationService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
-![](</assets/test/new_integration_service.png>)
+![](<../assets/test/new_integration_service.png>)
 
 **14.** In the Package Explorer window, **right-click on IntegrationService** and then select **Configure -> Add Gradle Nature**.
  
-![](</assets/test/integration_to_gradle.png>)
+![](<../assets/test/integration_to_gradle.png>)
 
 Note: at this point, you should see the errors disappear from the project.
 
@@ -93,7 +93,7 @@ Note: at this point, you should see the errors disappear from the project.
 
 **16.** In the New Java Project dialog name the project **OrderService**, uncheck the **Use default location**, choose the **OrderService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
-![](</assets/test/new_order_service.png>)
+![](<../assets/test/new_order_service.png>)
 
 **17.** In the Package Explorer window, **right-click on OrderService** and then select **Configure -> Add Gradle Nature**.
 
@@ -101,29 +101,29 @@ Note: at this point, you should see the errors disappear from the project.
 
 **19.** In the New Java Project dialog name the project **Clients**, uncheck the **Use default location**, choose the **Clients** folder located in `src/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
-![](</assets/test/new_clients.png>)
+![](<../assets/test/new_clients.png>)
 
 **20.** In the Package Explorer window, **right-click on Clients** and then select **Configure -> Add Gradle Nature**.
 
 You should now have 3 projects in Eclipse that are all Gradle projects (signified by the `G` in the glyph of the projects in the Package Explorer window).
 
-![](</assets/test/gradle_projects.png>)
+![](<../assets/test/gradle_projects.png>)
 
 **21.** In Eclipse's menu select **Window -> Show View -> Other...**
 
-![](</assets/test/other_view.png>)
+![](<../assets/test/other_view.png>)
 
 **22.** Type `gradle` in the filter box, and select "Gradle Tasks."
 
-![](</assets/test/show_gradle_view.png>)
+![](<../assets/test/show_gradle_view.png>)
 
 You can now select one of the three projects that were created, and be able to view all of the Gradle tasks in each on via the Gradle Tasks window.
 
-![](</assets/test/integration_gradle_tasks.png>)
+![](<../assets/test/integration_gradle_tasks.png>)
 
 The development environment is now set up, and you should be ready to make write some automated tests. Go ahead and look over the different tasks - you may even want to try out the `build` task.
 
-![](</assets/test/gradle_build_console.png>)
+![](<../assets/test/gradle_build_console.png>)
 
 ### 2. Add JUnit tests to Parts Unlimited MRP App ###
 
@@ -133,15 +133,15 @@ This task will focus on creating a unit test to test a part of the Parts Unlimit
 
      src/test/java/smpl.ordering.controllers/CatalogControllerTest.java
 
-![](</assets/test/open_catalog_tests.png>)
+![](<../assets/test/open_catalog_tests.png>)
 
 **2.** Lets go ahead and run these tests. In the menu select **Run -> Run As -> JUnit Test**.
 
-![](</assets/test/run_default_tests.png>)
+![](<../assets/test/run_default_tests.png>)
 
 This should open up the JUnit window and give you a summary of the test run.
 
-![](</assets/test/default_test_run.png>)
+![](<../assets/test/default_test_run.png>)
 
 **3.** Paste the following code on **line 31** of the `CatalogControllerTest.java` file :
 
@@ -173,11 +173,11 @@ This should open up the JUnit window and give you a summary of the test run.
 
 The final result should look something like this:
 
-![](</assets/test/new_test_method.png>)
+![](<../assets/test/new_test_method.png>)
 
 **4.** Go ahead and re-run the JUnit tests from the menu **Run -> Run As -> JUnit Test**.
 
-![](</assets/test/new_test_result.png>)
+![](<../assets/test/new_test_result.png>)
 
 You should now be able to see that the test in the JUnit Window.
 
@@ -187,15 +187,15 @@ Now that we have the automated tests written, and successfully running, it's imp
 
 **1.** In Eclipse, **switch to the Git perspective** in the top right of the screen.
 
-![](</assets/test/switch_to_git_perspective.png>)
+![](<../assets/test/switch_to_git_perspective.png>)
 
 **2.** In the Git Repositories window, select the `PartsUnlimitedMRP` git repository. 
 
-![](</assets/test/select_pum_repo.png>)
+![](<../assets/test/select_pum_repo.png>)
 
 **3.** Select the **Git Staging** window. **Highlight** all of the Unstaged Changes and **drag and drop them into Stage Changes**.
 
-![](</assets/test/stage_changes.png>)
+![](<../assets/test/stage_changes.png>)
 
 Note: Three `.gitignore` flies have changed. Eclipse automatically added the `bin/` folder here, so any binaries that are built locally will not be tracked. You can choose not to stage these.
 
@@ -203,11 +203,11 @@ Note: Three `.gitignore` flies have changed. Eclipse automatically added the `bi
 
     Add new test to CatalogControllerTest.java
 
-![](</assets/test/commit_and_push.png>)
+![](<../assets/test/commit_and_push.png>)
 
 The Push Results window should pop up after you have successfully pushed:
 
-![](</assets/test/push_results.png>)
+![](<../assets/test/push_results.png>)
 
 **5.** Navigate to the **BUILD** hub in your Visual Studio Team Services Team Project, and then click the **Queued** tab. You should see that your continuous integration build was triggered, and is running.
 
@@ -215,11 +215,11 @@ Once the build is done, **open up the build summary page** by double-clicking on
 
 **7.** On the build summary page, note that 54 tests have run successfully. Click on the **Tests** tab to view the list of automated tests.
 
-![](</assets/test/build_test_summary.png>)
+![](<../assets/test/build_test_summary.png>)
 
 **8.** In the **Tests** tab, select the **Passed** outcome in the dropdown area, and you should now see that your new automated test is a part of the Continuous Integration Build.
 
-![](</assets/test/build_test_results.png>)
+![](<../assets/test/build_test_results.png>)
 
 Next steps
 ----------

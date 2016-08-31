@@ -32,11 +32,11 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 1. Create the MRP agent pool in Visual Studio Team Services if you do not have one already. Go to the homepage of your VSTS account and clicking on the gear icon in the upper-right corner of the homepage.
 
-	![](</assets/cd-agent/vsts_gear_icon.png>)
+	![](<../assets/cd-agent/vsts_gear_icon.png>)
 
 2. Then, click on the **Agent Pool** tab and click on **New pool...** to create a pool called "MRP." Keep the checkbox to "Auto-provision Queues in all Projects" checked.
 
-    ![](</assets/cd-agent/create_agent_pool.png>) 
+    ![](<../assets/cd-agent/create_agent_pool.png>) 
 
 3. Instead of manually creating the VM in Azure, we are going to use an Azure Resource Management (ARM) template. Simply click the **Deploy to Azure** button below and follow the wizard to deploy the machine. You will need to log in to the Azure Portal.
                                                                     
@@ -52,7 +52,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 4. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard D1_V2.
 
-    ![](</assets/cd-agent/set_arm_parameters.png>)
+    ![](<../assets/cd-agent/set_arm_parameters.png>)
 
     Make sure you make a note of the region as well as the username and password for the machine. Allow about 10 minutes for deployment and then another 10 minutes for the VSTS agent and MRP dependency configuration. 
 
@@ -60,11 +60,11 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 6. When the deployment completes, you should see the following resources in the Azure Portal:
 
-    ![](</assets/cd-agent/post_deployment_rg.png>)
+    ![](<../assets/cd-agent/post_deployment_rg.png>)
 
     Click on the "partsmrp" Public IP Address. Then make a note of the DNS name:
 
-    ![](</assets/cd-agent/public_ip_dns.png>)
+    ![](<../assets/cd-agent/public_ip_dns.png>)
 
     >**Note:** The lab requires several ports to be open, such as SSH ports and the Parts Unlimited MRP app port on the partsmrp machine. 
 	The ARM template opens these ports on the machine for you.
@@ -73,36 +73,36 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 1. At the homepage of the PartsUnlimitedMRP team project in Visual Studio Team Services, click on the **Release** tab in the upper-left corner of the page. Then, click the **New definition** button on the home page.
 
-    ![](</assets/cd-agent/new_release.png>)
+    ![](<../assets/cd-agent/new_release.png>)
 
 2. In the **Create new release definition** dialog, choose an empty template then the OK button. 
 
-    ![](</assets/cd-agent/create_empty_definition.png>)
+    ![](<../assets/cd-agent/create_empty_definition.png>)
 
 3. Keep the artifacts as **Build**, select the CI build definition that you used in the previous lab (such as "PartsUnlimited.CI"), check the checkbox to enable the **Continuous Deployment trigger**, and choose "MRP" as the  **agent queue**.
 
-    ![](</assets/cd-agent/choose_source_queue_new_dialog.png>) 
+    ![](<../assets/cd-agent/choose_source_queue_new_dialog.png>) 
 
 4. Click on the **Environment** keyword and rename the environment to be "Dev." Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
 
-     ![](</assets/cd-agent/change_environment_name.png>)
+     ![](<../assets/cd-agent/change_environment_name.png>)
 
 5. Click on the **Add tasks** button and add a shell script task (under the Utility category). 
 
-	 ![](</assets/cd-agent/add_shell_script.png>)
+	 ![](<../assets/cd-agent/add_shell_script.png>)
 
 6. Point to the **Deploy-MRP-App.sh** build artifact as the script path in the task. Then save the release definition. 
      
-	 ![](</assets/cd-agent/add_script_path.png>)
+	 ![](<../assets/cd-agent/add_script_path.png>)
 
 **Note** : Click on the **"..."** to navigate in the folder and find the shell script :
 
-![](</assets/cd-agent/CD_deploy.png>)
+![](<../assets/cd-agent/CD_deploy.png>)
 
 7. Click on the **Triggers** tab and set the artifact source by selecting the Build definition that you are created previously.
 
-    ![](</assets/cd-agent/vsts_trig.png>)
-    ![](</assets/cd-agent/vsts_CD.png>)
+    ![](<../assets/cd-agent/vsts_trig.png>)
+    ![](<../assets/cd-agent/vsts_CD.png>)
 
 8. Click on **Save**
  
@@ -112,15 +112,15 @@ Now that our release definition is set up, let's test using Continuous Integrati
 
 1. Navigate to the code tab and find the index.html page in src/Clients/Web/index.html. Make a change by clicking on the **Edit** button, then commit the change. 
 
-	 ![](</assets/cd-agent/commit_edited_code.png>)
+	 ![](<../assets/cd-agent/commit_edited_code.png>)
 
 2. Go to the **Build** tab and note the running build that was queued by the Continuous Integration trigger. 
 
-	 ![](</assets/cd-agent/completed_build.png>)
+	 ![](<../assets/cd-agent/completed_build.png>)
 
 3. Return to the **Release** tab and note the running deployment that was queued by the Continuous Deployment trigger. 
 
-	 ![](</assets/cd-agent/completed_deployment.png>)
+	 ![](<../assets/cd-agent/completed_deployment.png>)
 
 4. Verify your code change by navigating to the VM's public IP DNS name, such as `http://mylinuxvm.westus.cloudapp.azure.com:9080/mrp`.
 

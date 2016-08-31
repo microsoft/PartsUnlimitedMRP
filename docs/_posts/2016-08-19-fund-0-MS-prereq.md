@@ -30,21 +30,21 @@ order to use Team Build for the Continuous Integration HOL.
 
 **2.** Once at your Visual Studio Team Services account, create a new PartsUnlimitedMRP team project by clicking on the **New** button under **Recent projects & teams**. Type in the project name as *PartsUnlimitedMRP* and select *Git* as the version control, then click on **Create project**.
 
-![](</assets/prereq/create_team_project.png>)
+![](<../assets/prereq/create_team_project.png>)
 
 **3.** After the wizard creates your new team project, navigate to the PartsUnlimitedMRP team project and click on the **Code** tab on the upper-left. 
 
-![](</assets/prereq/navigate_to_code.png>)
+![](<../assets/prereq/navigate_to_code.png>)
 
 **4.** The PartsUnlimitedMRP Git repository will be empty, so copy the Clone URL of the VSTS repository to your clipboard and paste it into a text document for use later. 
 
-![](</assets/prereq/copy_vsts_repo_url.png>)
+![](<../assets/prereq/copy_vsts_repo_url.png>)
 
 **5.** Clone the **PartsUnlimitedMRP** git repository located in GitHub onto your local machine, open your command line tool and type :
 
     git clone https://github.com/Microsoft/PartsUnlimitedMRP.git
 
-![](</assets/prereq/clone_mrp.png>)
+![](<../assets/prereq/clone_mrp.png>)
 
 **NOTE:** If you are running Linux on your local workstation, install git:
 
@@ -63,11 +63,11 @@ your Visual Studio Team Services account.
 
 	git push -u vsts --all
 	
-![](</assets/prereq/push_to_vsts.png>)
+![](<../assets/prereq/push_to_vsts.png>)
 
 **NOTE:** If it's the first time that you are using your Visual Studio Team Services subscription, it will ask you to be authenticated.
 
-![](</assets/prereq/vsts_auth.png>)
+![](<../assets/prereq/vsts_auth.png>)
 
 **NOTE:** We added the Visual Studio Team Services repository as a remote named **vsts**, so we need to
 push to that remote in the future for our changes to appear in our Visual Studio Team Services
@@ -76,7 +76,7 @@ repository.
 **7.** If your refresh your **CODE** section page, Your Visual Studio Team Services account should now have a copy of the PartsUnlimitedMRP
 application:
 
-![](</assets/prereq/mrp_in_vsts.png>)
+![](<../assets/prereq/mrp_in_vsts.png>)
  
 
 Next steps
