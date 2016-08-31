@@ -6,7 +6,7 @@ RUN mkdir -p /usr/local/app
 
 WORKDIR /usr/local/app
 
-ADD drop/* /usr/local/app/
+COPY drop/* /usr/local/app/
 
 EXPOSE 8080
 
