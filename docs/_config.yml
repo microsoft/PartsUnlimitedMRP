@@ -18,8 +18,8 @@ codeurl: 'https://github.com/Microsoft/PartsUnlimitedMRP'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['FundVSTS', 'Fundamentals using VSTS'],
-    ['FundOth', 'Fundamentals using Others Tools'],
+    ['FundVSTS', 'Fundamentals using Visual Studio Team Services'],
+    ['FundOth', 'Fundamentals using Other Tools'],
     ['Misc', 'Miscellaneous'],
     ['Adv', 'Advanced']
 ]
