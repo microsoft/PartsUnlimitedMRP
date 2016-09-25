@@ -124,7 +124,7 @@ Expand the **Advanced** section, and set the **Working Directory** to the follow
 ![](<media/build_general.png>)
 
 **14.** Click **Save**, give the build definition a name (i.e.
-*PartsUnlimitedMRP.CI*), and then click **OK**.
+*PartsUnlimitedMRPCI*), and then click **OK**.
 
 ![](<media/build_save.png>)
 
