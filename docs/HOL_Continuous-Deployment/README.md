@@ -67,7 +67,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
     ![](<media/choose_source_queue_new_dialog.png>) 
 
-4. Click on the **Environment** keyword and rename the environment to be **"Dev"**. Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRP.CD. 
+4. Click on the **Environment** keyword and rename the environment to be **"Dev"**. Click on the pencil icon on the top of the definition and rename it to be PartsUnlimitedMRPCD. 
 
      ![](<media/change_environment_name.png>)
 
