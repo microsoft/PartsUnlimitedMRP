@@ -1,5 +1,7 @@
 # Dockerizing the Parts Unlimited MRP application #
 
+# Introduction #
+
 We'll take a brief look at the thought process and mental model utilized in this example.  And specifically how we identified how to make it run within Docker containers. While this example is one way to *Docker-ize* an application, as with many solutions, there are probably numerous others.
 
 The decision process generally is driven from the immediate Use Case or Scenarios to be leveraged by running the Solution within Docker.
@@ -49,7 +51,7 @@ Those steps are provided in the demonstration script.
 
 The following diagram illustrates the deployment of the Order Service application.
 
-![order service app deployment](./images/orderserviceprestate.png)
+![order service app deployment](./media/orderserviceprestate.png)
 
 #### Important Deployment Points ####
 
@@ -104,12 +106,114 @@ By default Docker does not allow communication between containers. All intra-con
 The linking is demonstrated in the following 'docker run' commands via the '--link' switch.
 
 ~~~
-docker run -d -p 27017:27017 --name mongodb -v /data/db:/data/db scicoria/mongoseed:0.1
-docker run -d -p 8080:8080 --link mongodb:mongodb scicoria/orderservice:0.1
+docker run -d -p 27017:27017 --name mongodb -v /data/db:/data/db mongodb
+docker run -d -p 8080:8080 --link mongodb:mongodb partsunlimitedmrp/orderservice
 ~~~
 
 Note that in the 'docker run' command for Order Service (2nd line) we specify the link using the container name and an alias.  That alias is then presented to the Order Service container as the hostname within the virtual networking support inside of Docker.  There are far more implications of networking that should be reviewed for more complex scenarios [Linking Containers Together](https://docs.docker.com/userguide/dockerlinks/).
 
+#### Web Front End ####
+We are using tomcat in that case, we just have to use the official repository from them and map the port 8080 of our host on the port 8080 in the container.
 
+~~~
+docker run -it -d --name web -p 80:8080 mypartsunlimitedmrp/web
+~~~
 
+# HOL - Build the containers locally #
 
+We explained the concepts and basics around Docker for Parts Unlimited MRP with the three differents pieces that we need to run to have our application up :
+- The Database : Mongo DB
+- Backend Service : Java
+- Web Server : Tomcat 
+
+So we created three differents Dockerfile which contains the settings and the application ready to be deployed in a docker environnement.
+
+### Dockerfile for the database using MongoDB ###
+
+- We will use the official mongo image from the Docker Hub, we will use as first instruction : `FROM mongo`
+- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, I will copy all the contains inside the drop folder on my local machine, to the directory tmp inside the container. It could be necessary to copy some artifacts or dependences for example. I will use the command : `COPY drop/* /tmp/`
+- Finally, I will tell the command line that I want to run everytime I will start this container. You can start Mongo using multiple ways, in my case I will specify that we want to use the REST API and the smallfiles options, to do that I am using the command : `CMD ["mongod", "--smallfiles", "--rest"]`
+
+Here is the final result of my simple Dockerfile :
+
+~~~
+FROM mongo
+
+MAINTAINER juliens@microsoft.com
+
+COPY drop/* /tmp/
+
+CMD ["mongod", "--smallfiles", "--rest"]
+~~~
+
+I will create an empty folder, create an empty file named Dockerfile and paste this 4 command lines in it. I will also create a "drop" folder, and put all the files that I want to transfer in this container.
+
+### Dockerfile for the ordering service using JAVA ###
+
+- We will use the official openjdk 8-jre image from the Docker Hub, we will use as first instruction : `FROM openjdk:8-jre`
+- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, I will create a new folder inside the container with the following command : `RUN mkdir -p /usr/local/app`
+- Next, I will specify this folder as Work folder, it means from where we want to launch the next command : `WORKDIR /usr/local/app`
+- Like the mongo container, we will copy all the contains inside the drop folder on my local machine, to the directory that we just created inside the container, in our case we will copy the artifact .jar file : `COPY drop/* /usr/local/app/`
+- Next, we will expose the port 8080 of this container thanks to the command : `EXPOSE 8080`
+- Finally, when this container will start we will call a custom script that we wrote inside the drop folder called run.sh with the command : `ENTRYPOINT sh run.sh`
+
+Here is the final result of this simple Dockerfile :
+
+~~~
+FROM openjdk:8-jre
+
+MAINTAINER juliens@microsoft.com
+
+RUN mkdir -p /usr/local/app
+
+WORKDIR /usr/local/app
+
+COPY drop/* /usr/local/app/
+
+EXPOSE 8080
+
+ENTRYPOINT sh run.sh
+~~~
+
+I will create an empty folder, create an empty file named Dockerfile and paste this 7 command lines in it. 
+I will also create a "drop" folder, this is where we are supposing to put the artifact (.jar) and the run.sh script.
+
+** Note, the run.sh is a custom script. It will check if we already have a mongo instance responsing on the port 27017 before to launch the java application. 
+Here is the full script inside the run.sh file : **
+~~~
+while ! curl http://mongo:27017/
+do
+  echo "$(date) - still trying"
+  sleep 1
+done
+echo "$(date) - connected successfully"
+
+java -jar ordering-*.jar
+~~~
+
+### Dockerfile for the web server using Tomcat ###
+
+- We will use the official tomcat 7 running on JavaRE8 image from the Docker Hub, we will use as first instruction : `FROM tomcat:7-jre8`
+- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, we will copy all the contains inside the drop folder of our local machine, to the directory `/usr/local/tomcat/webapps/` inside the container. I will use the command : `COPY drop/* /usr/local/tomcat/webapps/`
+- Next, we will expose the port 8080 of this container thanks to the command : `EXPOSE 8080` 
+- Finally, when this container will start we will call a the tomcat script called `catalina.sh` to launch our web server : `ENTRYPOINT catalina.sh run`
+
+Here is the final result of this simple Dockerfile :
+
+~~~
+FROM tomcat:7-jre8
+
+MAINTAINER juliens@microsoft.com
+
+COPY drop/* /usr/local/tomcat/webapps/
+
+EXPOSE 8080
+
+ENTRYPOINT catalina.sh run
+~~~
+
+I will create an empty folder, create an empty file named Dockerfile and paste this 5 command lines in it. 
+I will also create a "drop" folder, this is where we are supposing to put the artifact (.war)
