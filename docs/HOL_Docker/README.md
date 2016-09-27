@@ -130,7 +130,7 @@ We explained the concepts and basics around Docker for Parts Unlimited MRP with 
 
 So we will create three differents Dockerfile which contains the settings of our application, ready to be deployed in a docker environnement.
 
-### Dockerfile for the database using MongoDB ###
+### Step 1 : Dockerfile for the database using MongoDB ###
 
 We will create an empty folder named Database, create an empty file named Dockerfile and paste this 4 command lines in it. 
 
@@ -156,7 +156,7 @@ CMD ["mongod", "--smallfiles", "--rest"]
 We will also create a "drop" folder inside the Database folder, and put all the files that we want to transfer in this container. 
 For example, a Javascript file named MongoRecords.js with the data that we want to import in the mongo database at each deployment.
 
-### Dockerfile for the ordering service using JAVA ###
+###  Step 2 : Dockerfile for the ordering service using JAVA ###
 
 We will create an other empty folder, create an empty file named Dockerfile and paste this 7 command lines in it.
 
@@ -201,7 +201,7 @@ echo "$(date) - connected successfully"
 java -jar ordering-*.jar
 ~~~
 
-### Dockerfile for the web server using Tomcat ###
+###  Step 3 : Dockerfile for the web server using Tomcat ###
 
 We will create a third empty folder, create an empty file named Dockerfile and paste this 5 command lines in it. 
 
@@ -227,7 +227,7 @@ ENTRYPOINT catalina.sh run
 
 We will also create a "drop" folder, this is where we are supposing to put the artifact (.war)
 
-### Build, run and ship our containers ###
+### Step 4 : Build, run and ship our containers ###
 
 We have now three different folders who contains one Dockerfile each, you should have a folder structure like this :
 

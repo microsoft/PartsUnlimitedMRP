@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>PartsUnlimitedMRP : Auto-Scale & Load Tests</title>
+        <meta name="description" content="DevOps Hands On Labs">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/PartsUnlimitedMRP/css/syntax.css">
+        <link rel="stylesheet" href="/PartsUnlimitedMRP/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div id="header" class="col-sm-12">
+                    <img class="logo" src="http://julienstroheker.github.io/PartsUnlimitedMRP/assets/logo-ms-dark.png" alt="Microsoft">
+<h4><a class="brand" href="/PartsUnlimitedMRP/">PartsUnlimitedMRP</a>
+    <small>DevOps Hands On Labs</small>
+</h4>
+
+                </div>
+            </div>
+
+            <div class="row">
+                
+                
+                    <div id="navigation" class="col-sm-3">
+                        <ul class="nav nav-list">
+    
+        <li><a href="/PartsUnlimitedMRP/">Welcome</a></li>
+    
+
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Fundamentals using Visual Studio Team Services</li>
+            
+
+            
+                <li data-order="7"><a class="nav-active" href="/PartsUnlimitedMRP/fundvsts/fund-05-MS-LoadTest.html">Auto-Scale & Load Tests</a></li>  
+            
+        
+            
+
+            
+                <li data-order="6"><a href="/PartsUnlimitedMRP/fundvsts/fund-04-MS-tests.html">Testing with VSTS and Eclipse</a></li>
+            
+        
+            
+
+            
+                <li data-order="5"><a href="/PartsUnlimitedMRP/fundvsts/fund-03-MS-APM.html">Application Performance Monitoring</a></li>
+            
+        
+            
+
+            
+                <li data-order="4"><a href="/PartsUnlimitedMRP/fundvsts/fund-02-MS-CDAgent.html">Continuous Deployment with Remote Agent</a></li>
+            
+        
+            
+
+            
+                <li data-order="3"><a href="/PartsUnlimitedMRP/fundvsts/fund-02-MS-CD.html">Continuous Deployment with Hosted agent</a></li>
+            
+        
+            
+
+            
+                <li data-order="2"><a href="/PartsUnlimitedMRP/fundvsts/fund-01-MS-CI.html">Continuous Integration</a></li>
+            
+        
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/fundvsts/fund-0-MS-prereq.html">Set up Parts Unlimited MRP</a></li>
+            
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Fundamentals using Other Tools</li>
+            
+
+            
+                <li data-order="5"><a href="/PartsUnlimitedMRP/fundoth/fund-14-Oth-chef.html">Continuous Deployment with Chef</a></li>
+            
+        
+            
+
+            
+                <li data-order="4"><a href="/PartsUnlimitedMRP/fundoth/fund-13-Oth-puppet.html">Continuous Deployment with Puppet</a></li>
+            
+        
+            
+
+            
+                <li data-order="3"><a href="/PartsUnlimitedMRP/fundoth/fund-12-Oth-CD.html">Continuous Deployment with Jenkins</a></li>
+            
+        
+            
+
+            
+                <li data-order="2"><a href="/PartsUnlimitedMRP/fundoth/fund-11-Oth-CI.html">Continuous Integration with Jenkins</a></li>
+            
+        
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/fundoth/fund-10-Oth-prereq.html">Set up Parts Unlimited MRP</a></li>
+            
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Advanced</li>
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/adv/adv-21-Docker.html">Microservices with Docker</a></li>
+            
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class="divider"></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id="content" class="col-sm-9">
+                        <div class="page-header">
+    <h2>Auto-Scale & Load Tests
+        
+    </h2>
+</div>
+
+<h3 id="auto-scaling-and-load-testing">Auto-Scaling and Load Testing</h3>
+
+<p>Your Linux Azure virtual machine has suffered significant performance degradation during Black Friday. The business unit responsible for the website’s functionality has complained to IT staff that users would intermittently lose access to the website, and that load times were significant for those who could access it.</p>
+
+<p>In this lab, you will learn how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you will create a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services.</p>
+
+<p><strong>Pre-requisites</strong></p>
+
+<ul>
+  <li>
+    <p>The PartsUnlimitedMRP Linux Azure virtual machine set up and deployed with endpoint 9080 open (see <a href="https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md">link</a>)</p>
+  </li>
+  <li>
+    <p>Visual Studio Ultimate license</p>
+  </li>
+</ul>
+
+<p><strong>Tasks</strong></p>
+
+<ol>
+  <li>Setting up and running a load test in Visual Studio Team Services</li>
+  <li>Auto-Scaling - WORKING ON IT</li>
+  <li>Running a load test to verify auto-scaling</li>
+</ol>
+
+<h3 id="task-1-setting-up-and-running-a-load-test-in-visual-studio-team-services">Task 1: Setting up and running a load test in Visual Studio Team Services</h3>
+
+<p>Performing a load test can be done in Visual Studio, in a browser in Visual Studio Team Services, or in the new Azure Portal. For simplicity, we will run a load test in a browser in Visual Studio Team Services.</p>
+
+<p><strong>1.</strong> Open a web browser and navigate to the Team Project Collection (“DefaultCollection”) of your Visual Studio Team Services account, such as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://{VSTS instance}.visualstudio.com
+</code></pre>
+</div>
+
+<p>On the upper-left set of tabs, click on “Load test” to open up load test options in the browser.</p>
+
+<p><img src="../assets/ASloadtests/navigate_to_load_test_tab.png" alt="" /></p>
+
+<p><strong>2.</strong> In the load test tab, create a simple load test in the browser. Click on the <strong>New</strong> button and select <strong>URL-based test</strong> to create a new URL-based test.</p>
+
+<p><img src="../assets/ASloadtests/select_url_test.png" alt="" /></p>
+
+<p><strong>3.</strong> Name the load test <em>PartsUnlimitedMRP Homepage Load Test</em>. Specify the home page URL, which should be the URL to MRP with your virtual machine name and port (such as <em>http://{mycloudhostname}.cloudapp.net:9080/mrp</em>).</p>
+
+<p><img src="../assets/ASloadtests/point_to_mrp_url.png" alt="" /></p>
+
+<p><strong>4.</strong> Select the <strong>Settings</strong> tab and change the <strong>Run duration</strong> to 1 minute. You can optionally change the max virtual users, browser mix, and load location as well. Then click the <strong>Save</strong> button.</p>
+
+<p><img src="../assets/ASloadtests/change_run_duration.png" alt="" /></p>
+
+<p><strong>Step 4.</strong> Click on the <strong>Run test</strong> button to begin the test. The load test will start running and show metrics in real time.</p>
+
+<p><img src="../assets/ASloadtests/run_test.png" alt="" /></p>
+
+<p><strong>Step 5.</strong> When the test has finished loading, it will show metrics, errors, and application performance. We should be able to solve this issue by creating an availability set for the virtual machines and configuring auto-scaling.
+<img src="../assets/ASloadtests/view_test_results.png" alt="" /></p>
+
+<h3 id="task-2-auto-scaling-with-microsoft-azure">Task 2: Auto-Scaling with Microsoft Azure</h3>
+
+<p><strong>Working on it</strong></p>
+
+<h3 id="task-3-running-a-load-test-to-verify-auto-scaling">Task 3: Running a load test to verify auto-scaling</h3>
+
+<p>We now have two virtual machines in an availability set that scales by CPU so that whenever the CPU percentage for PartsUnlimitedMRP is over the threshold of 80%, Azure will automatically add an instance to the virtual machine. We can now run a load test again to compare the results.</p>
+
+<p><strong>1.</strong> Navigate to the Team Project Collection (“DefaultCollection”) of your Visual Studio Team Services account, such as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://{VSTS instance}.visualstudio.com
+</code></pre>
+</div>
+
+<p>On the upper-left set of tabs, click on “Load test” to open up load test options in the browser.</p>
+
+<p><img src="../assets/ASloadtests/navigate_to_load_test_tab.png" alt="" /></p>
+
+<p><strong>2.</strong> Select the Load Test previously created in Task 1, then click on the <strong>Run test</strong> button to begin the test. The load test will start running and show metrics in real time.</p>
+
+<p><img src="../assets/ASloadtests/second_load_test_summary.png" alt="" /></p>
+
+<p>The average response time has improved by autoscaling multiple virtual machines in Azure based on CPU load.</p>
+
+<p>In this lab, you learned how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you created a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services.</p>
+
+<h2 id="next-steps">Next steps</h2>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration">HOL Parts Unlimited MRP Continuous Integration </a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Automated-Testing">HOL Parts Unlimited MRP Automated Testing</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Application-Performance-Monitoring">HOL Parts Unlimited MRP Application Performance Monitoring</a></p>
+  </li>
+</ul>
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class="row">
+                <div id="footer" class="col-sm-12">
+                    Documentation for <a href="https://github.com/Microsoft/PartsUnlimitedMRP">PartsUnlimitedMRP</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li');
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+            }
+
+            if (document.querySelectorAll) orderNav();
+        </script>
+        
+    </body>
+</html>

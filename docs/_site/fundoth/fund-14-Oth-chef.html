@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>PartsUnlimitedMRP : Continuous Deployment with Chef</title>
+        <meta name="description" content="DevOps Hands On Labs">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/PartsUnlimitedMRP/css/syntax.css">
+        <link rel="stylesheet" href="/PartsUnlimitedMRP/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div id="header" class="col-sm-12">
+                    <img class="logo" src="http://julienstroheker.github.io/PartsUnlimitedMRP/assets/logo-ms-dark.png" alt="Microsoft">
+<h4><a class="brand" href="/PartsUnlimitedMRP/">PartsUnlimitedMRP</a>
+    <small>DevOps Hands On Labs</small>
+</h4>
+
+                </div>
+            </div>
+
+            <div class="row">
+                
+                
+                    <div id="navigation" class="col-sm-3">
+                        <ul class="nav nav-list">
+    
+        <li><a href="/PartsUnlimitedMRP/">Welcome</a></li>
+    
+
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Fundamentals using Visual Studio Team Services</li>
+            
+
+            
+                <li data-order="7"><a href="/PartsUnlimitedMRP/fundvsts/fund-05-MS-LoadTest.html">Auto-Scale & Load Tests</a></li>
+            
+        
+            
+
+            
+                <li data-order="6"><a href="/PartsUnlimitedMRP/fundvsts/fund-04-MS-tests.html">Testing with VSTS and Eclipse</a></li>
+            
+        
+            
+
+            
+                <li data-order="5"><a href="/PartsUnlimitedMRP/fundvsts/fund-03-MS-APM.html">Application Performance Monitoring</a></li>
+            
+        
+            
+
+            
+                <li data-order="4"><a href="/PartsUnlimitedMRP/fundvsts/fund-02-MS-CDAgent.html">Continuous Deployment with Remote Agent</a></li>
+            
+        
+            
+
+            
+                <li data-order="3"><a href="/PartsUnlimitedMRP/fundvsts/fund-02-MS-CD.html">Continuous Deployment with Hosted agent</a></li>
+            
+        
+            
+
+            
+                <li data-order="2"><a href="/PartsUnlimitedMRP/fundvsts/fund-01-MS-CI.html">Continuous Integration</a></li>
+            
+        
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/fundvsts/fund-0-MS-prereq.html">Set up Parts Unlimited MRP</a></li>
+            
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Fundamentals using Other Tools</li>
+            
+
+            
+                <li data-order="5"><a class="nav-active" href="/PartsUnlimitedMRP/fundoth/fund-14-Oth-chef.html">Continuous Deployment with Chef</a></li>  
+            
+        
+            
+
+            
+                <li data-order="4"><a href="/PartsUnlimitedMRP/fundoth/fund-13-Oth-puppet.html">Continuous Deployment with Puppet</a></li>
+            
+        
+            
+
+            
+                <li data-order="3"><a href="/PartsUnlimitedMRP/fundoth/fund-12-Oth-CD.html">Continuous Deployment with Jenkins</a></li>
+            
+        
+            
+
+            
+                <li data-order="2"><a href="/PartsUnlimitedMRP/fundoth/fund-11-Oth-CI.html">Continuous Integration with Jenkins</a></li>
+            
+        
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/fundoth/fund-10-Oth-prereq.html">Set up Parts Unlimited MRP</a></li>
+            
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Advanced</li>
+            
+
+            
+                <li data-order="1"><a href="/PartsUnlimitedMRP/adv/adv-21-Docker.html">Microservices with Docker</a></li>
+            
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class="divider"></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id="content" class="col-sm-9">
+                        <div class="page-header">
+    <h2>Continuous Deployment with Chef
+        
+    </h2>
+</div>
+
+<h3 id="parts-unlimited-mrp-app-continuous-deployment-with-chef">Parts Unlimited MRP App Continuous Deployment with Chef</h3>
+
+<p>In this hands-on lab, you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.</p>
+
+<h3 id="pre-requisites">Pre-requisites</h3>
+
+<ul>
+  <li>Active Azure Subscription</li>
+</ul>
+
+<h3 id="tasks-overview">Tasks Overview</h3>
+
+<p><strong>Provision the Lab:</strong> This step walks you through how to set up the Chef set of machines with an ARM template.</p>
+
+<p><strong>Configure the Chef Workstation:</strong> You will learn how to set up the Chef Starter Kit on the workstation.</p>
+
+<p><strong>Create a Cookbook:</strong> You will create an MRP cookbook and create a recipe for the MRP app’s dependencies.</p>
+
+<p><strong>Create a Role:</strong> This step will show you how to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers.</p>
+
+<p><strong>Bootstrap the MRP App Server and Deploy the Application:</strong> You will bootstrap the MRP app and use the role that you previously created to deploy the app.</p>
+
+<p><strong>Remediating Configuration Changes:</strong> You will see how Chef reacts when changes happen to the configuration and how Chef resolves issues.</p>
+
+<h2 id="task-1-provision-the-lab">Task 1: Provision the Lab</h2>
+
+<ol>
+  <li>
+    <p>This lab calls for the use of three machines:</p>
+
+    <ul>
+      <li>The Chef server must be a Linux machine.</li>
+      <li>The Chef workstation can run on Linux, Windows, or Mac. For this lab, the Chef Workstation will be on a Windows machine.</li>
+      <li>The MRP app server will be a Linux machine.  This machine will be configured and deployed to by Chef.</li>
+    </ul>
+
+    <p>Instead of manually creating the VMs in Azure, we are going to use an Azure Resource Management (ARM) template.</p>
+  </li>
+  <li>
+    <p>Simply click the Deploy to Azure button below and follow the wizard to deploy the two machines.</p>
+
+    <p>You will need to log in to the Azure Portal.</p>
+
+    <p><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+     <img src="http://azuredeploy.net/deploybutton.png" />
+ </a>
+ <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2FHOL_Deploying-Using-Chef%2Fenv%2FChefPartsUnlimitedMRP.json" target="_blank">
+     <img src="http://armviz.io/visualizebutton.png" />
+ </a></p>
+
+    <p>The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
+ delete the resource group in order to remove all the created resources at any time.</p>
+  </li>
+  <li>
+    <p>You will need to select a subscription and region to deploy the Resource Group to and to supply an admin username 
+ and password and unique DNS name for all machines :</p>
+
+    <p><img src="../assets/chef/specify_arm_settings.png" alt="" /></p>
+
+    <p>Make sure you make a note of the region as well as the usernames and passwords for the machines.</p>
+
+    <p>Allow about 10 minutes for deployment and then another 10 minutes for the Chef configuration.</p>
+  </li>
+  <li>
+    <p>When the deployment completes, you should see the following resources in the Azure Portal :</p>
+
+    <p><img src="../assets/chef/resources_portal.png" alt="" /></p>
+
+    <blockquote>
+      <p><strong>Note:</strong> The lab requires several ports to be open, such as the Chef Server port, the Chef web page port, and SSH
+ ports. The ARM template opens these ports on the machines for you.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>The Chef Workstation machine will be used to create cookbooks and trigger deployments.</p>
+
+    <p>It is a Windows machine so you can connect using Remote Desktop.</p>
+
+    <p>Click on the “chefworkstation” Public IP Address. Then make a note of the DNS name:</p>
+
+    <p><img src="../assets/chef/workstation_dns_portal.png" alt="" /></p>
+
+    <p>Connect to the machine with Remote Desktop and the username and password you set :</p>
+
+    <p><img src="../assets/chef/remote_desktop.png" alt="" /></p>
+  </li>
+  <li>
+    <p>From the Chef Workstation machine, log in to the Chef Manage web site (Please use Firefox or Chrome which are already installed on the machine).</p>
+
+    <p>The <em>dnsaddress</em> will be of the form <em>machinename</em>.<em>region</em>.cloudapp.azure.com.</p>
+
+    <p>Open a browser to https://<em>dnsaddress</em>. (Make sure you’re going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to
+ ignore this for the purposes of this lab.</p>
+
+    <p>If the Chef configuration has succeeded, you should see the Chef web page and enter the VM name:</p>
+
+    <p><img src="../assets/chef/enter_vm_manage_workstation.png" alt="" /></p>
+
+    <p>Now go back to the Chef web page in your browser and enter the username and the password you set.</p>
+
+    <p>When you log in, you should see a page like this:</p>
+
+    <p><img src="../assets/chef/log_in_manage_site.png" alt="" /></p>
+  </li>
+</ol>
+
+<h2 id="task-2-configure-the-chef-workstation">Task 2: Configure the Chef Workstation</h2>
+<p>In this exercise, you will configure your Chef Workstation.</p>
+
+<ul>
+  <li>
+    <p>Open the Chef Development Kit shell (you should have a desktop shortcut for it) and run <code class="highlighter-rouge">chef verify</code> :</p>
+
+    <p><img src="../assets/chef/chef_verify.png" alt="" /></p>
+
+    <p>The chef verify command returned errors that git was not configured with your identity information.</p>
+
+    <p>Proceed with step 2 to configure your identify information in git.</p>
+  </li>
+  <li>
+    <p>Configure your global git variables with your name and email address :</p>
+
+    <p><code class="highlighter-rouge">git config --global user.name “YourName”</code></p>
+
+    <p><code class="highlighter-rouge">git config --global user.email “you@yourdomain.com”</code></p>
+
+    <p><img src="../assets/chef/git_config.png" alt="" /></p>
+
+    <p>Run <code class="highlighter-rouge">chef verify</code> again to ensure no further errors exist.</p>
+  </li>
+  <li>
+    <p>Go back to the Chef Manage website, go to the Administration tab, then select the partsunlimited organization. Click on the Starter Kit on the left, then <strong>Download Starter Kit</strong>.</p>
+
+    <p><img src="../assets/chef/download_starter_kit.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Extract the Chef starter kit files to a directory like <code class="highlighter-rouge">C:\Users\&lt;username&gt;\chef\</code>.</p>
+  </li>
+  <li>
+    <p>Open the knife.rb file in chef-repo.chef and change the chef_server_url to the external FQDN (e.g. https://<chef-server-dns-name>.<region>.cloudapp.azure.com/organizations/partsunlimited). Then, save and close the file.</region></chef-server-dns-name></p>
+
+    <p><img src="../assets/chef/change_chef_url.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Change directories to the chef-repo directory in the Chef DK shell (i.e. <code class="highlighter-rouge">cd C:\Users\&lt;username&gt;\chef\chef-repo</code>). Run the following git commands:</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    git init
+    git add -A
+    git commit -m <span class="s2">"starter kit commit"</span></code></pre></figure>
+
+<ul>
+  <li>Our Chef server has an SSL certificate that is not trusted. As a result, we have to manually trust the SSL certificate in order to have our workstation communicate with the Chef server. This can also be addressed by importing a valid SSL certificate for Chef to use. Run the knife ssl fetch command:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    knife ssl fetch</code></pre></figure>
+
+<ul>
+  <li>View the current chef-repo contents :</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    dir</code></pre></figure>
+
+<ul>
+  <li>Synchronize the Chef repo :</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    knife download /</code></pre></figure>
+
+<ul>
+  <li>
+    <p>Run the <code class="highlighter-rouge">dir</code> command from Step 8 again, and observe that additional files and folders have been created in the chef-repo directory :</p>
+
+    <p><img src="../assets/chef/view_post_knife_download.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Commit the added files into the git repository :</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    git add -A
+    git commit -m <span class="s2">"knife download commit"</span></code></pre></figure>
+
+<h2 id="task-3-create-a-cookbook">Task 3: Create a Cookbook</h2>
+<p>In this exercise, you will create a cookbook to automate the installation of the MRP application and upload it to the Chef server.</p>
+
+<ul>
+  <li>Use the knife tool to generate a cookbook template :</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    knife cookbook create mrpapp</code></pre></figure>
+
+<p>A cookbook is a set of tasks for configuring an application or feature. It defines a scenario and everything required to support that scenario. Within a cookbook, there are a series of recipes that define a set of actions to perform. Cookbooks and recipes are written in the Ruby language.</p>
+
+<p>This creates an “mrpapp” directory in the chef-repo/cookbooks/ directory that contains all of the boilerplate code that defines a cookbook and a default recipe.</p>
+
+<p><img src="../assets/chef/view_mrp_cookbook.png" alt="" /></p>
+
+<ul>
+  <li>Edit the metadata.rb file in our cookbook directory :</li>
+</ul>
+
+<p>Open chef-repo/cookbooks/mrpapp/metadata.rb for edit</p>
+
+<p>Cookbooks and recipes can leverage other cookbooks and recipes. Our cookbook will use a pre-existing recipe for managing APT repositories.</p>
+
+<p>Add the following line at the end of the file :</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    	<span class="n">depends</span> <span class="s1">'apt'</span></code></pre></figure>
+
+<p><img src="../assets/chef/edit_metadata.png" alt="" /></p>
+
+<p>Save and close the file.</p>
+
+<ul>
+  <li>
+    <p>We need to install three dependencies for our recipe: the apt cookbook, the windows cookbook, and the chef-client cookbook. This can be accomplished using the knife cookbook site command, which will download the cookbooks from the official Chef cookbook repository, <a href="https://supermarket.chef.io/cookbooks">https://supermarket.chef.io/cookbooks</a>.</p>
+
+    <ul>
+      <li>Install the apt cookbook : <code class="highlighter-rouge">knife cookbook site install apt</code></li>
+      <li>Install the windows cookbook : <code class="highlighter-rouge">knife cookbook site install windows</code></li>
+      <li>Install the chef-client cookbook : <code class="highlighter-rouge">knife cookbook site install chef-client</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Switch back to the master branch (this should happen automatically but may fail).</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>  git checkout master
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Copy the full contents of the recipe from here: <a href="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Chef/final/default.rb">https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Chef/final/default.rb</a>.</p>
+  </li>
+  <li>
+    <p>Open chef-repo/cookbooks/mrpapp/recipes/default.rb for edit.</p>
+
+    <p>The file should look like this to start:</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1">#</span>
+    <span class="c1"># Cookbook Name:: mrpapp</span>
+    <span class="c1"># Recipe:: default</span>
+    <span class="no">Cd</span> <span class="n">site</span> <span class="n">insta</span><span class="c1">#</span>
+    <span class="c1"># Copyright 2016, YOUR_COMPANY_NAME</span>
+    <span class="c1">#</span>
+    <span class="c1"># All rights reserved - Do Not Redistribute</span>
+    <span class="c1">#</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>Paste the contents of the recipe into the default recipe file.</p>
+
+    <p><img src="../assets/chef/edit_default.png" alt="" /></p>
+
+    <p>Save and close the file.</p>
+  </li>
+  <li>
+    <p>The following explains what the recipe is doing to provision the application.*</p>
+
+    <p>The first thing the recipe will do will be to run the ‘apt’ resource – this will cause our recipe to execute ‘apt-get update’ prior to running, to make sure the package sources on the machine are up-to-date.</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Runs apt-get update</span>
+    <span class="n">include_recipe</span> <span class="s2">"apt"</span></code></pre></figure>
+
+<p>Now we add an apt_repository resource to make sure that the OpenJDK repository is part of our apt repository list and up-to-date.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Add the Open JDK apt repo</span>
+    <span class="n">apt_repository</span> <span class="s1">'openJDK'</span> <span class="k">do</span>
+    	<span class="n">uri</span> <span class="s1">'ppa:openjdk-r/ppa'</span>
+    	<span class="n">distribution</span> <span class="s1">'trusty'</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Next, we will use the apt-package recipe to ensure that the OpenJDK and OpenJRE are installed.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Install JDK and JRE</span>
+    <span class="n">apt_package</span> <span class="s1">'openjdk-8-jdk'</span> <span class="k">do</span>
+    	<span class="n">action</span> <span class="ss">:install</span>
+    <span class="k">end</span>
+    
+    <span class="n">apt_package</span> <span class="s1">'openjdk-8-jre'</span> <span class="k">do</span>
+    	<span class="n">action</span> <span class="ss">:install</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Next, we set the JAVA_HOME and PATH environment variables to reference OpenJDK.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Set Java environment variables</span>
+    <span class="no">ENV</span><span class="p">[</span><span class="s1">'JAVA_HOME'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/usr/lib/jvm/java-8-openjdk-amd64"</span>
+    <span class="no">ENV</span><span class="p">[</span><span class="s1">'PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'PATH'</span><span class="p">]</span><span class="si">}</span><span class="s2">:/usr/lib/jvm/java-8-openjdk-amd64/bin"</span></code></pre></figure>
+
+<p>Next, we’ll install the MongoDB database engine and Tomcat web server.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Install MongoDB</span>
+    <span class="n">apt_package</span> <span class="s1">'mongodb'</span> <span class="k">do</span>
+    	<span class="n">action</span> <span class="ss">:install</span>
+    <span class="k">end</span>
+    
+    <span class="c1"># Install Tomcat 7</span>
+    <span class="n">apt_package</span> <span class="s1">'tomcat7'</span> <span class="k">do</span>
+    	<span class="n">action</span> <span class="ss">:install</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>At this point, all of our dependencies will be installed, so we can start configuring the applications. First, we need to ensure that our MongoDB database has some baseline data in it. The remote_file resource will download a file to a specified location. It’s idempotent – if the file on the server has the same checksum as the local file, it won’t take any action! This also uses the “notifies” command – if the resource runs (e.g. there’s a new version of the file), it sends a notification to the specified resource, telling it to run.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Load MongoDB data </span>
+    <span class="n">remote_file</span> <span class="s1">'mongodb_data'</span> <span class="k">do</span>
+    	<span class="n">source</span> <span class="s1">'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/deploy/MongoRecords.js'</span>
+    	<span class="n">path</span> <span class="s1">'./MongoRecords.js'</span>
+    	<span class="n">action</span> <span class="ss">:create</span>
+    	<span class="n">notifies</span> <span class="ss">:run</span><span class="p">,</span> <span class="s2">"script[mongodb_import]"</span><span class="p">,</span> <span class="ss">:immediately</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Now we use a “script” resource to define what command line script should be executed to load the MongoDB data we downloaded in the previous step. This resource has its “action” set to “nothing” – this means it won’t run on its own. The only time this resource will run is when it’s notified by the remote_file resource we used in the previous step. So every time a new version of the MongoRecord.js file is uploaded, the recipe will download it and import it. If the MongoRecords.js file doesn’t change, nothing is downloaded or imported!</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="n">script</span> <span class="s1">'mongodb_import'</span> <span class="k">do</span>
+    	<span class="n">interpreter</span> <span class="s2">"bash"</span>
+    	<span class="n">action</span> <span class="ss">:nothing</span>
+    	<span class="n">code</span> <span class="s2">"mongo ordering MongoRecords.js"</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Next, we need to set the port that Tomcat will run our MRP application on. This uses a script resource to invoke a regular expression to update the /etc/tomcat7/server.xml file.
+The “not_if” action is a guard statement – if the code in the “not_if” action returns true, the resource won’t execute. This lets us make sure the script will only run if it needs to run.
+Another thing to note: We are referencing an attribute called #{node[‘tomcat’][‘mrp_port’]}. We haven’t defined this value yet, but we will in the next exercise! With attributes, you can set variables, so the MRP application can run on one port on one server, or a different port on a different server.
+If the port changes, you see that it uses “notifies” to invoke a service restart.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Set tomcat port </span>
+    <span class="n">script</span> <span class="s1">'tomcat_port'</span> <span class="k">do</span> 
+    	<span class="n">interpreter</span> <span class="s2">"bash"</span>
+    	<span class="n">code</span> <span class="s2">"sed -i 's/Connector port=</span><span class="se">\"</span><span class="s2">.*</span><span class="se">\"</span><span class="s2"> protocol=</span><span class="se">\"</span><span class="s2">HTTP</span><span class="se">\\</span><span class="s2">/1.1</span><span class="se">\"</span><span class="s2">$/Connector port=</span><span class="se">\"</span><span class="si">#{</span><span class="n">node</span><span class="p">[</span><span class="s1">'tomcat'</span><span class="p">][</span><span class="s1">'mrp_port'</span><span class="p">]</span><span class="si">}</span><span class="se">\"</span><span class="s2"> protocol=</span><span class="se">\"</span><span class="s2">HTTP</span><span class="se">\\</span><span class="s2">/1.1</span><span class="se">\"</span><span class="s2">/g' /etc/tomcat7/server.xml"</span>
+    	<span class="n">not_if</span> <span class="s2">"grep 'Connector port=</span><span class="se">\"</span><span class="si">#{</span><span class="n">node</span><span class="p">[</span><span class="s1">'tomcat'</span><span class="p">][</span><span class="s1">'mrp_port'</span><span class="p">]</span><span class="si">}</span><span class="se">\"</span><span class="s2"> protocol=</span><span class="se">\"</span><span class="s2">HTTP/1.1</span><span class="se">\"</span><span class="s2">$' /etc/tomcat7/server.xml"</span>
+    	<span class="n">notifies</span> <span class="ss">:restart</span><span class="p">,</span> <span class="s2">"service[tomcat7]"</span><span class="p">,</span> <span class="ss">:immediately</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Now we can download the MRP application and start running it in Tomcat. If we get a new version, it signals the Tomcat service to restart.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">   	<span class="c1"># Install the MRP app, restart the Tomcat service if necessary</span>
+    <span class="n">remote_file</span> <span class="s1">'mrp_app'</span> <span class="k">do</span>
+    	<span class="n">source</span> <span class="s1">'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/mrp.war'</span>
+    	<span class="n">path</span> <span class="s1">'/var/lib/tomcat7/webapps/mrp.war'</span>
+    	<span class="n">action</span> <span class="ss">:create</span>
+    	<span class="n">notifies</span> <span class="ss">:restart</span><span class="p">,</span> <span class="s2">"service[tomcat7]"</span><span class="p">,</span> <span class="ss">:immediately</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>We can define the Tomcat servce’s desired state, which is “running”. This will cause the script to check the Tomcat service, and start it if it isn’t running. We can also signal this resource to “restart” with “notifies” (see above).</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="c1"># Ensure Tomcat is running</span>
+    <span class="n">service</span> <span class="s1">'tomcat7'</span> <span class="k">do</span>
+    	<span class="n">action</span> <span class="ss">:start</span>
+    <span class="k">end</span></code></pre></figure>
+
+<p>Finally, we can make sure the ordering service is running. This uses a combination of remote_file and script resources to check if the ordering service needs to be killed and restarted, or if it’s not running at all when it should be. The end result of this is that the ordering service will always be up and running.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">    <span class="n">remote_file</span> <span class="s1">'ordering_service'</span> <span class="k">do</span>
+    	<span class="n">source</span> <span class="s1">'https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds/ordering-service-0.1.0.jar'</span>
+    	<span class="n">path</span> <span class="s1">'./ordering-service-0.1.0.jar'</span>
+    	<span class="n">action</span> <span class="ss">:create</span>
+    	<span class="n">notifies</span> <span class="ss">:run</span><span class="p">,</span> <span class="s2">"script[stop_ordering_service]"</span><span class="p">,</span> <span class="ss">:immediately</span>
+    <span class="k">end</span>
+    
+    <span class="c1"># Kill the ordering service</span>
+    <span class="n">script</span> <span class="s1">'stop_ordering_service'</span> <span class="k">do</span>
+    	<span class="n">interpreter</span> <span class="s2">"bash"</span>
+    <span class="c1"># Only run when notifed</span>
+    	<span class="n">action</span> <span class="ss">:nothing</span>
+    	<span class="n">code</span> <span class="s2">"pkill -f ordering-service"</span>
+    	<span class="n">only_if</span> <span class="s2">"pgrep -f ordering-service"</span>
+    <span class="k">end</span>
+    
+    <span class="c1"># Start the ordering service. </span>
+    <span class="n">script</span> <span class="s1">'start_ordering_service'</span> <span class="k">do</span>
+    	<span class="n">interpreter</span> <span class="s2">"bash"</span>
+    	<span class="n">code</span> <span class="s2">"/usr/lib/jvm/java-8-openjdk-amd64/bin/java -jar ordering-service-0.1.0.jar &amp;"</span>
+    	<span class="n">not_if</span> <span class="s2">"pgrep -f ordering-service"</span>
+    <span class="k">end</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>Commit the added files into the git repository:</p>
+
+  	git add .
+  	git commit -m “mrp cookbook commit”
+  </li>
+  <li>
+    <p>Now that the recipe is written, we can upload the cookbooks to the Chef server. From the command line, run:</p>
+
+  	knife cookbook upload mrpapp –include-dependencies
+  	knife cookbook upload chef-client –include-dependencies
+
+    <p>Now that we have a recipe created and all of the dependencies installed, we can upload our cookbooks and recipes to the Chef server with the knife upload command.</p>
+  </li>
+</ul>
+
+<h2 id="task-4-create-a-role">Task 4: Create a Role</h2>
+<p>In this exercise, you will use the Chef Manage web site to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers.</p>
+
+<p>At the start of this task, you should be logged in to the Chef Manage web site.</p>
+
+<ul>
+  <li>
+    <p>Click on the “Policy” tab. Then, click on the “Roles” tab and then “Create.”</p>
+
+    <p><img src="../assets/chef/policy_tab.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Enter the role name <em>mrp</em> then the “Next” button.</p>
+
+    <p><img src="../assets/chef/enter_role_name.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Under <strong>Available Recipes</strong>, find the <em>mrpapp</em> recipe.</p>
+
+    <p>A run list is a series of recipes to apply. We’re defining a role that can be applied to as many servers as we want that will run the MRP application.</p>
+
+    <p>Drag the <em>mrpapp</em> recipe to the <strong>Current Run List</strong> box.</p>
+
+    <p><img src="../assets/chef/add_mrp_run_list.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Repeat for the <strong>chef-client::service</strong> recipe.</p>
+
+    <p><img src="../assets/chef/add_chefclient_run_list.png" alt="" /></p>
+
+    <p>The run list should be:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>  mrpapp
+  chef-client::service
+</code></pre>
+    </div>
+
+    <p>Click <strong>Next</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Default Attributes</strong> box, paste the text :</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="o">{</span>
+        <span class="s2">"tomcat"</span>: <span class="o">{</span>
+            <span class="s2">"mrp_port"</span>: 9080
+        <span class="o">}</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p><img src="../assets/chef/add_default_attributes.png" alt="" /></p>
+
+<p>In the previous exercise, we referenced an attribute called <code class="highlighter-rouge">['tomcat']['mrp_port']</code> in our recipe. This was referencing a JSON object. Now we can define default values to provide.</p>
+
+<p>Click <strong>Next</strong>.</p>
+
+<ul>
+  <li>Paste the following JSON in the <strong>Override Attributes</strong> box :</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="o">{</span>
+        <span class="s2">"chef_client"</span>: <span class="o">{</span>
+            <span class="s2">"interval"</span>: <span class="s2">"60"</span>,
+            <span class="s2">"splay"</span>: <span class="s2">"1"</span>
+        <span class="o">}</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p><img src="../assets/chef/add_override_attributes.png" alt="" /></p>
+
+<p>The second recipe we added to the run list was chef-client:: service. This recipe ensure that the Chef client will run on a regular basis to ensure that the environment is in sync with what is defined in our recipe. However, the default value for the chef client service is to sync every 30 minutes. We can override that value here and set it to a more frequent interval.</p>
+
+<p>Then, click <strong>Create Role</strong>.</p>
+
+<h3 id="task-5-bootstrap-the-mrp-app-server-and-deploy-the-application">Task 5: Bootstrap the MRP App Server and Deploy the Application</h3>
+<p>In this exercise, you will run the knife command to bootstrap the MRP app server and assign the MRP application role.</p>
+
+<ul>
+  <li>
+    <p>Use knife to boostrap the VM:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>  knife bootstrap &lt;FQDN-for-MRP-App-VM&gt; --ssh-user &lt;mrp-app-admin-username&gt; --ssh-password &lt;mrp-app-admin-password&gt; --node-name mrp-app --run-list role[mrp] --sudo --verbose
+</code></pre>
+    </div>
+
+    <p><img src="../assets/chef/knife_bootstrap.png" alt="" /></p>
+
+    <p>The script will take approximately 15 minutes to run. You will see it do the following things:
+  -	Install Chef on the VM
+  -	Assign the <em>mrp</em> Chef role to the VM and execute the <em>mrpapp</em> recipe.</p>
+
+    <p>Once the deployment is complete, you should be able to navigate to the MRP application website and use it normally.</p>
+  </li>
+  <li>
+    <p>Open the URL you chose for your public DNS name in a browser. The URL should be something like <code class="highlighter-rouge">http://&lt;mrp-dns-name&gt;.&lt;region&gt;.cloudapp.azure.com:9080/mrp.</code></p>
+
+    <p><img src="../assets/chef/mrp_webpage.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Click around the site and observe that it functions normally.</p>
+  </li>
+</ul>
+
+<h2 id="task-6-remediating-configuration-changes">Task 6: Remediating Configuration Changes</h2>
+
+<p>In this exercise, you will make a change to the configuration of your MRP application server, then observe as Chef automatically corrects the issue.</p>
+
+<ul>
+  <li>
+    <p>Start PuTTY.exe (which has already been installed on the Chef workstation) and enter the host name of the MRP application server. Then click <strong>Open</strong>.</p>
+
+    <p><img src="../assets/chef/start_putty.png" alt="" /></p>
+
+    <p>Click Yes to cache the server host key.</p>
+  </li>
+  <li>
+    <p>When prompted for a user name, enter the MRP admin username and press <strong>Enter</strong>.</p>
+
+    <p><img src="../assets/chef/login_through_putty.png" alt="" /></p>
+
+    <p>When prompted for a password, enter the MRP admin password and press <strong>Enter</strong>.</p>
+
+    <p>Wait for the command prompt to appear.</p>
+  </li>
+  <li>
+    <p>In PuTTY on the MRP Server, execute the following command to stop the Tomcat service: <code class="highlighter-rouge">sudo service tomcat7 stop</code></p>
+  </li>
+  <li>
+    <p>In your browser, refresh the MRP app tab and observe that it is no longer accessible.</p>
+  </li>
+  <li>
+    <p>Go to the Chef Manage web site and click on the <strong>Reports</strong> tab. 
+This will take you to the dashboard where you can see statistics about your deployments.</p>
+
+    <p>Click <strong>Run History</strong>.</p>
+
+    <p>Observe that the node has a first successful run that executed 25/51 resources, and possibly additional runs that executed 0/35 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies.</p>
+
+    <p><img src="../assets/chef/reports_tab.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Click on the run that shows 1/35 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.</p>
+
+    <p><img src="../assets/chef/report_details_tab.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Reload the MRP application site, and you should see the site successfully load.</p>
+  </li>
+</ul>
+
+<p>In this hands-on lab you explored some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab was designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.</p>
+
+<h1 id="continuous-feedbacks">Continuous Feedbacks</h1>
+
+<h4 id="issues--questions-about-this-hol-">Issues / Questions about this HOL ??</h4>
+
+<p><a href="https://github.com/Microsoft/PartsUnlimitedMRP/issues">If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here</a></p>
+
+<p>Thanks</p>
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class="row">
+                <div id="footer" class="col-sm-12">
+                    Documentation for <a href="https://github.com/Microsoft/PartsUnlimitedMRP">PartsUnlimitedMRP</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li');
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+            }
+
+            if (document.querySelectorAll) orderNav();
+        </script>
+        
+    </body>
+</html>
