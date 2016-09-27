@@ -119,23 +119,29 @@ We are using tomcat in that case, we just have to use the official repository fr
 docker run -it -d --name web -p 80:8080 mypartsunlimitedmrp/web
 ~~~
 
-# HOL - Build the containers locally #
+# HOL - Deploy Parts Unlimited MRP using Docker locally #
+
+As prerequisites of this HOL, you should have an environnement with the Docker engine installed on it. We will not talk about running docker containers in production using Mesos or Swarm here, but the simpliest way to start with docker and to run Parts Unlimited MRP on it.
 
 We explained the concepts and basics around Docker for Parts Unlimited MRP with the three differents pieces that we need to run to have our application up :
 - The Database : Mongo DB
 - Backend Service : Java
 - Web Server : Tomcat 
 
-So we created three differents Dockerfile which contains the settings and the application ready to be deployed in a docker environnement.
+So we will create three differents Dockerfile which contains the settings of our application, ready to be deployed in a docker environnement.
 
 ### Dockerfile for the database using MongoDB ###
 
-- We will use the official mongo image from the Docker Hub, we will use as first instruction : `FROM mongo`
-- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
-- As third option, I will copy all the contains inside the drop folder on my local machine, to the directory tmp inside the container. It could be necessary to copy some artifacts or dependences for example. I will use the command : `COPY drop/* /tmp/`
-- Finally, I will tell the command line that I want to run everytime I will start this container. You can start Mongo using multiple ways, in my case I will specify that we want to use the REST API and the smallfiles options, to do that I am using the command : `CMD ["mongod", "--smallfiles", "--rest"]`
+We will create an empty folder named Database, create an empty file named Dockerfile and paste this 4 command lines in it. 
 
-Here is the final result of my simple Dockerfile :
+- We will use the official mongo image from the Docker Hub, we will use as first instruction : `FROM mongo`
+- Next, we can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, we will copy all the contains inside the drop folder on my local machine, to the directory tmp inside the container. 
+It could be necessary to copy some artifacts or dependences for example. We will use the command : `COPY drop/* /tmp/`
+- Finally, we will tell to the command line that we want to start the mongo deamon everytime we will start this container. 
+We can start Mongo using different options, in our case, we will specify that we want to use the REST API and the smallfiles options, to do that we are using the command : `CMD ["mongod", "--smallfiles", "--rest"]`
+
+Here is the final result of our Dockerfile :
 
 ~~~
 FROM mongo
@@ -147,19 +153,22 @@ COPY drop/* /tmp/
 CMD ["mongod", "--smallfiles", "--rest"]
 ~~~
 
-I will create an empty folder, create an empty file named Dockerfile and paste this 4 command lines in it. I will also create a "drop" folder, and put all the files that I want to transfer in this container.
+We will also create a "drop" folder inside the Database folder, and put all the files that we want to transfer in this container. 
+For example, a Javascript file named MongoRecords.js with the data that we want to import in the mongo database at each deployment.
 
 ### Dockerfile for the ordering service using JAVA ###
 
+We will create an other empty folder, create an empty file named Dockerfile and paste this 7 command lines in it.
+
 - We will use the official openjdk 8-jre image from the Docker Hub, we will use as first instruction : `FROM openjdk:8-jre`
-- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
-- As third option, I will create a new folder inside the container with the following command : `RUN mkdir -p /usr/local/app`
-- Next, I will specify this folder as Work folder, it means from where we want to launch the next command : `WORKDIR /usr/local/app`
-- Like the mongo container, we will copy all the contains inside the drop folder on my local machine, to the directory that we just created inside the container, in our case we will copy the artifact .jar file : `COPY drop/* /usr/local/app/`
+- Next, we can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, we will create a new folder inside the container with the following command : `RUN mkdir -p /usr/local/app`
+- Next, we will specify this folder as Work folder, it means from where we want to launch the next command : `WORKDIR /usr/local/app`
+- Like the mongo container, we want to copy all the files inside the drop folder on our local machine, in the remote directory that we just created inside the container, in our case we will copy the artifact .jar file : `COPY drop/* /usr/local/app/`
 - Next, we will expose the port 8080 of this container thanks to the command : `EXPOSE 8080`
 - Finally, when this container will start we will call a custom script that we wrote inside the drop folder called run.sh with the command : `ENTRYPOINT sh run.sh`
 
-Here is the final result of this simple Dockerfile :
+Here is the final result of this Dockerfile :
 
 ~~~
 FROM openjdk:8-jre
@@ -177,8 +186,7 @@ EXPOSE 8080
 ENTRYPOINT sh run.sh
 ~~~
 
-I will create an empty folder, create an empty file named Dockerfile and paste this 7 command lines in it. 
-I will also create a "drop" folder, this is where we are supposing to put the artifact (.jar) and the run.sh script.
+We will also create a "drop" folder, this is where we are supposing to put the artifact (.jar) and the run.sh script.
 
 ** Note, the run.sh is a custom script. It will check if we already have a mongo instance responsing on the port 27017 before to launch the java application. 
 Here is the full script inside the run.sh file : **
@@ -195,13 +203,15 @@ java -jar ordering-*.jar
 
 ### Dockerfile for the web server using Tomcat ###
 
-- We will use the official tomcat 7 running on JavaRE8 image from the Docker Hub, we will use as first instruction : `FROM tomcat:7-jre8`
-- Next, you can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
-- As third option, we will copy all the contains inside the drop folder of our local machine, to the directory `/usr/local/tomcat/webapps/` inside the container. I will use the command : `COPY drop/* /usr/local/tomcat/webapps/`
-- Next, we will expose the port 8080 of this container thanks to the command : `EXPOSE 8080` 
-- Finally, when this container will start we will call a the tomcat script called `catalina.sh` to launch our web server : `ENTRYPOINT catalina.sh run`
+We will create a third empty folder, create an empty file named Dockerfile and paste this 5 command lines in it. 
 
-Here is the final result of this simple Dockerfile :
+- We will use the official tomcat 7 running on JRE-8 image from the Docker Hub, we will use as first instruction : `FROM tomcat:7-jre8`
+- Next, we can specify a maintainer using the command : `MAINTAINER YouEmailAddress` 
+- As third option, we will copy all the files inside the drop folder of our local machine, inside the remote directory `/usr/local/tomcat/webapps/` inside the container. We will use the command : `COPY drop/* /usr/local/tomcat/webapps/`
+- Next, we will expose the port 8080 of this container thanks to the command : `EXPOSE 8080` 
+- Finally, when this container will start we will call the tomcat script called `catalina.sh` to launch our web server : `ENTRYPOINT catalina.sh run`
+
+Here is the final result of this Dockerfile :
 
 ~~~
 FROM tomcat:7-jre8
@@ -215,5 +225,87 @@ EXPOSE 8080
 ENTRYPOINT catalina.sh run
 ~~~
 
-I will create an empty folder, create an empty file named Dockerfile and paste this 5 command lines in it. 
-I will also create a "drop" folder, this is where we are supposing to put the artifact (.war)
+We will also create a "drop" folder, this is where we are supposing to put the artifact (.war)
+
+### Build, run and ship our containers ###
+
+We have now three different folders who contains one Dockerfile each, you should have a folder structure like this :
+
+~~~
+.
+├── Database
+|   ├── Dockerfile
+|   └── drop
+|        └── #File that you want to copy in the container (Example MongoRecords.js)
+├── Order
+|   ├── Dockerfile
+|   └── drop
+|        ├── PUT YOUR JAR FILE HERE
+|        └── run.sh
+├── Clients
+|   ├── Dockerfile
+|   └── drop
+|        └── PUT YOUR WAR FILE HERE
+├── BuildAndRun.sh
+└── StopAndRemove.sh
+~~~
+
+Inside the drop folder, you can manually copy the .WAR and .JAR for now [(from Here)](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/builds), 
+We will explain how you can automatically generate and download it in this folder in an other HOL.
+Finally we also add two shell scripts at the root :
+* BuildAndRun.sh
+* StopAndRemove.sh
+
+The first one `BuildAndRun.sh` will simply build your containers using the `docker build` command and run it on the machine where you are running this script with the command `docker run` like explained in the previous section.
+
+Here is the contain of the script :
+
+~~~
+#!/bin/bash
+
+#Build your docker images manually on the server
+docker build -t mypartsunlimited/db ./Database
+docker build -t mypartsunlimitedmrp/order ./Order
+docker build -t mypartsunlimitedmrp/web ./Clients
+
+#Run your docker images manually on the server
+docker run -it -d --name db -p 27017:27017 -p 28017:28017 mypartsunlimitedmrp/db 
+docker run -it -d --name order -p 8080:8080 --link db:mongo mypartsunlimitedmrp/order
+docker run -it -d --name web -p 80:8080 mypartsunlimitedmrp/web
+
+#Feed the database
+docker exec db mongo ordering /tmp/MongoRecords.js
+~~~
+
+The second one `StopAndRemove.sh`, will stop the containers and remove the image that you built in the previous script :
+
+~~~
+#!/bin/bash
+
+#Stop your docker container and remove it manually on the server
+docker rm db --force
+docker rm order --force
+docker rm web --force
+
+#Remove the images manually on the server
+docker rmi mypartsunlimitedmrp/db
+docker rmi mypartsunlimitedmrp/order
+docker rmi mypartsunlimitedmrp/web
+~~~
+
+With this two simple scripts it will be much faster to stop and run your containers.
+
+You should be able to find all this scripts and folder structure inside the `deploy` folder, under the `docker` folder.
+
+# Conclusion #
+
+We just pass through the manual way to build, ship and run Parts Unlimited MRP using Docker. 
+The next step will be to add automation and make sure that we are deploying eveytime the lastest version of the application modified in our repo and hook an automatically deployment.
+
+# Continuous Feedbacks
+
+#### Issues / Questions about this HOL ??
+
+[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+
+Thanks
