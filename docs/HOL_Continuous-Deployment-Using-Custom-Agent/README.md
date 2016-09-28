@@ -1,3 +1,9 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+====================================================================================
+
+
 # HOL - Parts Unlimited MRP App Continuous Deployment with Visual Studio Team Services - Local Agent #
 
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a local agent on a Linux VM. After this lab, you will have a working, automated build in Visual Studio Team Services that will build, test, and deploy the Parts Unlimited MRP app to a Virtual Machine in Azure.

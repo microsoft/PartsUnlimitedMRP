@@ -1,3 +1,8 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+====================================================================================
+
 # HOL - Parts Unlimited MRP App Automated Testing with Visual Studio Team Services Build using the Eclipse IDE #
 
 In this lab, you will learn how to create new JUnit tests to the Parts Unlimited MRP App using the Eclipse IDE, and then get them to run in an automated build in Visual Studio Team Services. After finishing this lab, you will have added unit tests to the Parts Unlimited MRP App and have those tests running during build time.

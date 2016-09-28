@@ -1,3 +1,7 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+## We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
 # Learning Path
 
 You may use following order for walking through the labs:

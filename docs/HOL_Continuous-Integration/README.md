@@ -1,3 +1,8 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+====================================================================================
+
 HOL - Parts Unlimited MRP App Continuous Integration with Visual Studio Team Services Build
 ====================================================================================
 

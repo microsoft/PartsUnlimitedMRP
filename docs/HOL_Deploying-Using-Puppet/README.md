@@ -1,3 +1,8 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+====================================================================================
+
 # Deploying the Parts Unlimited MRP App via Puppet in Azure
 In this hands-on lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration
 management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure

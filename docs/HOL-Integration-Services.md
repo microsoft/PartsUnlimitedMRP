@@ -1,3 +1,9 @@
+# Please visit [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+
+We are now updating only the documentation here : [http://aka.ms/pumrplabs](http://aka.ms/pumrplabs)
+====================================================================================
+
+
 <properties
    pageTitle="Parts Unlimited Integration Services"
    description="Hands on lab to setup two way communication between the Parts Unlimited MRP outsourced application and the PartsUnlimited ASP.NET vNext e-commerce website."
