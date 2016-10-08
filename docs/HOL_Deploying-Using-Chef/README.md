@@ -11,6 +11,7 @@ In this hands-on lab, you will explore some of the new features and capabilities
 
 You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-App-Continuous-Deployment-with-Chef) that walks through many of the steps in the document.
 
+
 ###Pre-requisites###
 
 Active Azure Subscription
