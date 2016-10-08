@@ -9,6 +9,10 @@ The DevOps team has noticed that the Dealers page is slow to load and shows perf
 
 In this lab, you will learn how to set up Application Insights telemetry, and drill down into performance monitoring data through Application Insights in the new Azure Portal.
 
+### Video ###
+
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-Application-Performance-Monitoring) that walks through many of the steps in the document.
+
 **Prerequisites**
 
 - Code Editor (VSCode, Eclipse, etc.)

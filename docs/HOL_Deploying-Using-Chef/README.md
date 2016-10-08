@@ -5,7 +5,12 @@ We are now updating only the documentation here : [http://aka.ms/pumrplabs](http
 
 # HOL - Parts Unlimited MRP Deployment with Chef  #
 
-In this hands-on lab, you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
+In this hands-on lab, you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.
+
+### Video ###
+
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-App-Continuous-Deployment-with-Chef) that walks through many of the steps in the document.
+
 
 ###Pre-requisites###
 

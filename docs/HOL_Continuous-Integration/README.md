@@ -14,6 +14,10 @@ get fast feedback. To do so, we are going to be creating a build definition that
 will allow us to compile and run unit tests on our code every time a commit is
 pushed to Visual Studio Team Services.
 
+### Video ###
+
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-App-Continuous-Integration) that walks through many of the steps in the document.
+
 ### Pre-requisites: ###
 
 -   [Completion of the "Set up Parts Unlimited MRP" lab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md)

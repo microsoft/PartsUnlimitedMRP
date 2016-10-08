@@ -8,6 +8,10 @@ HOL 0 - Set up Parts Unlimited MRP
 
 In this lab, we will set up the PartsUnlimited MRP VSTS team project as a pre-requisite for the Continuous Integration lab. You will need an active Visual Studio Team Services (VSTS) account already, or you will need to sign up for a free Visual Studio Team Services account by following [this link.](https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services) Ensure that you are also a Project Collection Administrator for the Visual Studio Team Services account or follow [this link.](https://www.visualstudio.com/en-us/docs/setup-admin/add-administrator-tfs) 
 
+### Video ###
+
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Settting-up-Parts-Unlimited-MRP-with-Visual-Studio-Team-Services) that walks through many of the steps in the document.
+
 ### Pre-requisites: ###
 
 -   An active Visual Studio Team Services (VSTS) account
