@@ -11,6 +11,10 @@ Your Linux Azure virtual machine has suffered significant performance degradatio
 
 In this lab, you will learn how to perform load testing against an endpoint for the PartsUnlimitedMRP Linux Azure virtual machine. Additionally, you will create a virtual machine and availability set using Azure Command Line tools, as well as add both to a shared availability set to configure auto-scaling the set in cloud services. 
 
+### Video ###
+
+<iframe src="https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-Application-Performance-Monitoring/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
+
 **Pre-requisites**
 
 - The PartsUnlimitedMRP Linux Azure virtual machine set up and deployed with endpoint 9080 open (see [link](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/Build-MRP-App-Linux.md))

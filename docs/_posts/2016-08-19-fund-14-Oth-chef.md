@@ -8,6 +8,10 @@ order: 5
 
 In this hands-on lab, you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
 
+### Video ###
+
+<iframe src="https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-App-Continuous-Deployment-with-Chef/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
+
 ### Pre-requisites ###
 
 - Active Azure Subscription
