@@ -10,6 +10,10 @@ In this lab, you will learn how to deploy the Parts Unlimited MRP App in an auto
 
 >**Note:** If you would like to trigger continuous deployments using the hosted VSTS agent instead of a local agent, see [this lab](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment).  
 
+### Video ###
+
+You may watch a [demo in Channel 9](https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs/Parts-Unlimited-MRP-App-Continuous-Deployment-with-Visual-Studio-Team-Services-Remote-Agent) that walks through many of the steps in the document.
+
 ### Pre-requisites ###
 
 - [Completion of the "Set up Parts Unlimited MRP" lab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md)
