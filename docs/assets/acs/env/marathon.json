@@ -1,0 +1,93 @@
+{
+  "id": "pumrp",
+  "groups": [
+    {
+      "id": "database",
+      "apps": [
+         {
+          "id": "db",
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "partsunlimitedmrp/db",
+              "network": "BRIDGE",
+              "portMappings": [
+                { "hostPort": 27017, "containerPort": 27017, "servicePort": 10010 },
+                { "hostPort": 27018, "containerPort": 27018, "servicePort": 10011 }
+              ],
+              "forcePullImage":true
+            }
+          },
+          "instances": 1,
+          "cpus": 1,
+          "mem": 512,
+          "healthChecks": [],
+          "labels":{
+          }
+        }
+       ]
+    },{
+      "id": "api",
+      "dependencies": ["db"],
+      "apps": [
+         {
+          "id": "order",
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "partsunlimitedmrp/order",
+              "network": "BRIDGE",
+              "portMappings": [
+                { "hostPort": 0, "containerPort": 8080, "servicePort": 10001 },
+                { "hostPort": 0, "containerPort": 8081, "servicePort": 10012 }
+              ],
+              "forcePullImage":true
+            }
+          },
+          "instances": 1,
+          "cpus": 1,
+          "mem": 1024,
+          "healthChecks": [],
+          "labels":{
+            "HAPROXY_GROUP":"external",
+            "HAPROXY_0_VHOST":"YOURFQDN",
+            "HAPROXY_0_MODE":"http",
+            "HAPROXY_0_PORT":"8080"
+          },
+	  "env": {
+    		"MONGO_HOST": "db.database.pumrp.marathon.mesos"
+ 	  }
+        }
+      ]
+    },{
+      "id": "front",
+      "dependencies": ["order"],
+      "apps": [
+         {
+          "id": "web",
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "partsunlimitedmrp/web",
+              "network": "BRIDGE",
+              "portMappings": [
+                { "hostPort": 0, "containerPort": 8080, "servicePort": 10002 }
+              ],
+              "forcePullImage":true
+            }
+          },
+          "instances": 1,
+          "cpus": 1,
+          "mem": 512,
+          "healthChecks": [],
+          "labels":{
+            "HAPROXY_GROUP":"external",
+            "HAPROXY_0_VHOST":"YOURFQDN",
+            "HAPROXY_0_MODE":"http",
+            "HAPROXY_0_PATH": "/mrp"
+          }
+        }
+      ]
+    }
+  ]
+}
