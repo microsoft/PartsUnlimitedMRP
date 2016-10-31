@@ -1,5 +1,6 @@
 HOL - Fault Injection for Azure IaaS with OMS
-==================================================================================
+=============================================
+
 In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple VMs in Virtual Machine Scale Set (VMSS) for better reliability. Operations Management Suite(OMS) will be used to monitor how this environment handles VM failures under the load. Excepted number of user for this system is 1200 people.
 
 ## Pre-requisites:
@@ -10,13 +11,13 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
 
 ## Tasks Overview:
-**1. Setup OMS workspace**
+**1. Setup OMS workspace** This task will show you how to create OMS Workspace using Azure and then find WORKSPACE ID and PRIMARY KEY used to connect to OMS.
 
-**2. Deploy ARM template**
+**2. Deploy ARM template** In this task you will deploy an ARM template which creates a VMSS of Linux machines and then installs MRP environment on it.
 
-**3. Inject faults into VMSS**
+**3. Inject faults into VMSS** In this task you will configure a load test using VSTS and then inject faults during a load test run.
 
-**4. Analyze load test's results.**
+**4. Analyze load test's results.** In this task you will collect the information related to the load test and fault injection and then analyze it.
 
 
 
@@ -34,6 +35,7 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
 
 **Step 2.** Add "Log Analytics" to this resource group.
+
 1. Open the new resource group and click on "+ Add" button on the "Overview" page to add a new resource.
 
     ![](media/4.png)  
@@ -45,9 +47,10 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 3. Create an OMS workspace. Enter name, pick a subscription, location, current resource group and a pricing tier then click on "OK" button.
 
     ![](media/6.png)  
-
+    >**Note:** OMS Workspace name has to be unique across Azure.
 
 **Step 3.** Get "Workspace ID" and "Primary Key" from OMS Portal.
+
 1. Navigate to your resource group and click on "Log Analytics" you just created.
 
 2. Click on "OMS Portal".
@@ -79,7 +82,7 @@ This task will setup the required environment in Azure.
 
 **Step 2.** Select Azure Subscription and the resource group you created earlier. Fill in Settings section.
 
-  * "Vmss Name" should be a unique name across Azure.
+  * "Vmss Name" should be a unique alpha-numeric name across Azure.
   * Set "Instance Count" to 4.
   * Admin username and passwords are the credentials for your virtual machines.
   * Enter "Oms Workspace Id and the "Oms Primary Key" you took a note of in OMS Portal earlier.
