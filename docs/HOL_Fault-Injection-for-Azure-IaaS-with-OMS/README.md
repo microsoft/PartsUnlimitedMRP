@@ -25,6 +25,7 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 ###Task 1: Setup OMS workspace
 
 **Step 1.** Open Azure and create a new resource group for this HOL.
+
 1. Click on "Resource groups" icon, then on "+ Add".
 
     ![](media/2.png)
