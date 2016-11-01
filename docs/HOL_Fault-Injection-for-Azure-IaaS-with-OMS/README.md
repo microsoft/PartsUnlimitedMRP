@@ -199,7 +199,9 @@ This step can be done through Azure portal, PowerShell script ([Manage virtual m
     >**Note:** This PowerShell script will find all running VM in your VMSS and randomly shut them down at equal intervals until there is only one VM left.
 
 
+**Option 3.** Chaos-Dingo
 
+1. Download the tool
 
 
 ###Task 5: Analyze load test's results.

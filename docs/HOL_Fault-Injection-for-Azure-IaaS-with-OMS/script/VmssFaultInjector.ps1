@@ -50,16 +50,14 @@ Save-AzureRmProfile -Path $ProfilePath -Force
 # Sleep for a calculated preriod of time and then kill a new randomly selected VM.
 while($InstanceIdsOfRunningVMs.Count -ne 1)
 {
+    Write-Output "Waiting for $DurationBetweenKillingVmsInSeconds seconds"
     Start-Sleep -s $DurationBetweenKillingVmsInSeconds
     $IndexOfIntanceIdToRemove = Get-Random -Minimum 0 -Maximum $InstanceIdsOfRunningVMs.Count
     $IntanceIdToRemove = $InstanceIdsOfRunningVMs[$IndexOfIntanceIdToRemove]
     $InstanceIdsOfRunningVMs.RemoveAt($IndexOfIntanceIdToRemove)
+    Write-Output "Deaallocating $($AllVMs.Name[$AllVMs.InstanceId.IndexOf($IntanceIdToRemove.ToString())]) VM"
     # Kill VM on a background thread, so that it won't effect overall total run time of this script.
     $BackgroundJobs += Start-Job -scriptblock $KillScript -ArgumentList @($ProfilePath, $ResourceGroupName, $VmssName, $IntanceIdToRemove)
 }
 
-# Wait for all background jobs to finish.
-#foreach ($job in $BackgroundJobs) {
-Wait-Job -Jobs $BackgroundJobs
-#Receive-Job $job
-#}
+Wait-Job -Job $BackgroundJobs
