@@ -176,20 +176,28 @@ This step can be done through Azure portal, PowerShell script ([Manage virtual m
 
 **Option 2.** PowerShell script
 
-1. Download a [VMMS Fault Injector](
-https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Fault-Injection-for-Azure-IaaS-with-OMS/script/VmssFaultInjector.ps1) script.
+1. Download a [VMMS Fault Injector](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Fault-Injection-for-Azure-IaaS-with-OMS/script/VmssFaultInjector.ps1) script or alternatively create a `VmssFaultInjector.ps1` file and paste the content into it.
 
     ![](media/22.png)
 
 2. Open PowerShell command and run the following command to login into Azure:
-
-        Login-AzureRmAccount
+    ```
+    Login-AzureRmAccount
+    ```
 
 3. After you have logged-in, select you Azure subscription by running the following command:
+    ```
+    Get-AzureRmSubscription -SubscriptionName "{Subscription Name}" | Select-AzureRmSubscription
+    ```
 
-        Get-AzureRmSubscription -SubscriptionName "{Subscription Name}" | Select-AzureRmSubscription
+4. You should start the load test defined in the previous task now.
 
-4. 
+5. Run the script you downloaded/created in the following way:
+    ```
+     .\VmssFaultInjector.ps1 -ResourceGroupName "{}"  -DurationOfLoadtestInMinutes 20
+    ```
+    >**Note:** This PowerShell script will find all running VM in your VMSS and randomly shut them down at equal intervals until there is only one VM left.
+
 
 
 
