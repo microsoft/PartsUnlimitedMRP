@@ -15,9 +15,11 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
 **2. Deploy ARM template** In this task you will deploy an ARM template which creates a VMSS of Linux machines and then installs MRP environment on it.
 
-**3. Inject faults into VMSS** In this task you will configure a load test using VSTS and then inject faults during a load test run.
+**3. Set up Load Test** In this task you will configure a load test using VSTS.
 
-**4. Analyze load test's results.** In this task you will collect the information related to the load test and fault injection and then analyze it.
+**4. Inject faults into VMSS** In this task you will learn how to inject faults into VMSS using Azure Portal, PowerShell script or [Chaos-Dingo](https://github.com/jmspring/chaos-dingo).
+
+**5. Analyze load test's results.** In this task you will collect the information related to the load test and fault injection and then analyze it.
 
 
 
@@ -116,44 +118,47 @@ This task will setup the required environment in Azure.
 
 
 
-###Task 3: Inject faults into VMSS
+###Task 3: Set up Load Test
 
-**Step 1.** Creating a load test.
+**Step 1.** Open your project in VSTS. Click on "Test", "Load test", "New", then on "URL based test".
 
-1. Open your project in VSTS. Click on "Test", "Load test", "New", then on "URL based test".
+  ![](media/16.png)
 
-    ![](media/16.png)
+**Step 2.**  Enter a name for this load test and then enter the URL to MRP page hosted in your VMSS.
 
-2. Enter a name for this load test and then enter the URL to MRP page hosted in your VMSS.
-
-    ![](media/17.png)
+  ![](media/17.png)
 
 >**Note:** <br> 1) URL should be in the following format: `http://<name>.<region>.cloudapp.azure.com/mrp` <br> 2) DNS name of the VMSS can be found by navigating to your resource group and clicking on "public IP address" instance.
   ![](media/18.png)
 
-3. Add another request by clicking on "Add URL" and then entering URL in the following format:
+**Step 3.**  Add another request by clicking on "Add URL" and then entering URL in the following format:
 
-        http://<dns name>:8080/catalog
+    http://<dns name>:8080/catalog
 
-      ![](media/19.png)
+  ![](media/19.png)
 
-4. Switch to "Settings" tab, fill out fields as follows and then click on "Save":
+**Step 4.**  Switch to "Settings" tab, fill out fields as follows and then click on "Save":
 
-    * Run duration (minutes): 20
-    * Max v-users: 1200
-    * Warmup duration (seconds): 60
+  * Run duration (minutes): 20
+  * Max v-users: 1200
+  * Warmup duration (seconds): 60
 
-      ![](media/20.png)
+  ![](media/20.png)
 
-5. Click on "Run test".
+**Step 5.**  Familiarize yourself with the next task, set up a tool you are going to use for injecting faults, then click on "Run test".
 
-    ![](media/21.png)
+  ![](media/21.png)
 
 > **Note:** Make sure you familiarize yourself with the costs associated with load testing ([Visual Studio Team Services Pricing](https://azure.microsoft.com/en-us/pricing/details/visual-studio-team-services/)).
 
 
-**Step 2.** Injecting faults into VMSS.
-This step can be done through Azure portal or PowerShell ([Manage virtual machines in a virtual machine scale set](https://azure.microsoft.com/en-in/documentation/articles/virtual-machine-scale-sets-windows-manage/)). In this lab you will inject faults through the Azure portal.
+
+###Task 4: Inject faults into VMSS
+
+This step can be done through Azure portal, PowerShell script ([Manage virtual machines in a virtual machine scale set](https://azure.microsoft.com/en-in/documentation/articles/virtual-machine-scale-sets-windows-manage/)) or by using a tool like [Chaos-Dingo](https://github.com/jmspring/chaos-dingo). In this lab you will learn how yo use all three of these tools.
+>**Note:** Since PowerShell script and Chaos-Dingo require you to set them up first, we recommend to use only one of them to inject faults into VMSS.
+
+**Option 1.** Azure Portal
 
 1. Open resource group you created for this lab and click on VMSS instance.
 
@@ -169,8 +174,27 @@ This step can be done through Azure portal or PowerShell ([Manage virtual machin
     ![](media/24.png)
 
 
+**Option 2.** PowerShell script
 
-## Analyze load test's results.
+1. Download a [VMMS Fault Injector](
+https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Fault-Injection-for-Azure-IaaS-with-OMS/script/VmssFaultInjector.ps1) script.
+
+    ![](media/22.png)
+
+2. Open PowerShell command and run the following command to login into Azure:
+
+        Login-AzureRmAccount
+
+3. After you have logged-in, select you Azure subscription by running the following command:
+
+        Get-AzureRmSubscription -SubscriptionName "{Subscription Name}" | Select-AzureRmSubscription
+
+4. 
+
+
+
+
+###Task 5: Analyze load test's results.
 
 **Step 1.** Lets collect information related to how VMSS has performed during load test.
 
