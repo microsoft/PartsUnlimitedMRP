@@ -55,7 +55,7 @@ while($InstanceIdsOfRunningVMs.Count -ne 1)
     $IndexOfIntanceIdToRemove = Get-Random -Minimum 0 -Maximum $InstanceIdsOfRunningVMs.Count
     $IntanceIdToRemove = $InstanceIdsOfRunningVMs[$IndexOfIntanceIdToRemove]
     $InstanceIdsOfRunningVMs.RemoveAt($IndexOfIntanceIdToRemove)
-    Write-Output "Deaallocating $($AllVMs.Name[$AllVMs.InstanceId.IndexOf($IntanceIdToRemove.ToString())]) VM"
+    Write-Output "Deallocating $($AllVMs.Name[$AllVMs.InstanceId.IndexOf($IntanceIdToRemove.ToString())]) VM"
     # Kill VM on a background thread, so that it won't effect overall total run time of this script.
     $BackgroundJobs += Start-Job -scriptblock $KillScript -ArgumentList @($ProfilePath, $ResourceGroupName, $VmssName, $IntanceIdToRemove)
 }

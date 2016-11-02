@@ -203,6 +203,30 @@ This step can be done through Azure portal, PowerShell script ([Manage virtual m
 
 1. Download the tool
 
+```
+partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com
+
+$app = New-AzureRmADApplication -DisplayName "Chaos-Dingo" -HomePage "http://partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com/" -IdentifierUris "http://partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com/" -Password ""
+New-AzureRmADServicePrincipal -ApplicationId $app.ApplicationId
+New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $app.ApplicationId.Guid
+
+{
+    "tenantId": "5b9d8e2c-e638-4393-8f5c-5732e96d5a2a"
+    "subscriptionId": "d42e033f-4f52-437a-a8ff-be565d064950",
+    "clientId": "0381951a-c685-470d-9350-de525c8f4408",
+    "clientSecret": "Password1Password1",
+    "testDuration": "2",
+    "testDelay": "2",
+    "randomOrder": "false"
+    "jobs": [
+        { "type": "vmss", "operation": "restart", "resourceGroup": "PartsUnlimitedMRP-Fault-Injection", "resource": "partsunli", ["duration": "<duration>"] },
+        ...
+    ]
+}
+
+```
+
+
 
 ###Task 5: Analyze load test's results.
 
