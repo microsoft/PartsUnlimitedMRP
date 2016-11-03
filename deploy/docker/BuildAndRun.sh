@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Build your docker images manually on the server
-docker build -t mypartsunlimited/db ./Database
+docker build -t mypartsunlimitedmrp/db ./Database
 docker build -t mypartsunlimitedmrp/order ./Order
 docker build -t mypartsunlimitedmrp/web ./Clients
 

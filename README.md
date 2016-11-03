@@ -4,7 +4,7 @@ Parts Unlimited MRP is a fictional outsourced Manufacturing Resource Planning (M
 
 The application uses entirely open source software including Linux, Java, Apache, and MongoDB which creates a web front end, an order service, and an integration service. Click here for the related [Parts Unlimited Website application](http://github.com/microsoft/partsunlimited).
 
-To read and learn more about this project, please visit the [documentation website](aka.ms/pumrplabs).
+To read and learn more about this project, please visit the [documentation website](https://aka.ms/pumrplabs).
 
 You may watch a [demo in Channel 9](https://channel9.msdn.com/Blogs/TalkDevOps/TalkDevOps--Deploying-a-Java-application-with-VSTS) that walks through many of the steps in the document.
 
