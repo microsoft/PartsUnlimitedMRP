@@ -79,8 +79,8 @@ This task will setup the required environment in Azure.
 
 **Step 1.** Click on "Deploy to Azure" button below.
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://ms.portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FIntergen-NZ%2FPartsUnlimitedMRP%2Ffeature%2Ffault-injection-iaas%2Fdocs%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
-[<img src="http://armviz.io/visualizebutton.png"/>](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FIntergen-NZ%2FPartsUnlimitedMRP%2Ffeature%2Ffault-injection-iaas%2Fdocs%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://ms.portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
+[<img src="http://armviz.io/visualizebutton.png"/>](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
 
 
 **Step 2.** Select Azure Subscription and the resource group you created earlier. Fill in Settings section.
