@@ -201,30 +201,77 @@ This step can be done through Azure portal, PowerShell script ([Manage virtual m
 
 **Option 3.** Chaos-Dingo
 
-1. Download the tool
+This step requires you to have:
+* NodeJS installed
+* Admin rights on your Azure subscription.
 
-```
-partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com
+1. Open command line which supports git, navigate to the place where you want to clone the Chaos-Dingo repository and run the following command:
 
-$app = New-AzureRmADApplication -DisplayName "Chaos-Dingo" -HomePage "http://partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com/" -IdentifierUris "http://partsunlimitedmrpfaultinjection.uksouth.cloudapp.azure.com/" -Password ""
-New-AzureRmADServicePrincipal -ApplicationId $app.ApplicationId
-New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $app.ApplicationId.Guid
+    ```
+    git clone https://github.com/jmspring/chaos-dingo
+    ```
 
-{
-    "tenantId": "5b9d8e2c-e638-4393-8f5c-5732e96d5a2a"
-    "subscriptionId": "d42e033f-4f52-437a-a8ff-be565d064950",
-    "clientId": "0381951a-c685-470d-9350-de525c8f4408",
-    "clientSecret": "Password1Password1",
-    "testDuration": "2",
-    "testDelay": "2",
-    "randomOrder": "false"
-    "jobs": [
-        { "type": "vmss", "operation": "restart", "resourceGroup": "PartsUnlimitedMRP-Fault-Injection", "resource": "partsunli", ["duration": "<duration>"] },
-        ...
-    ]
-}
+2. Run the following command to restore packages:
 
-```
+    ```
+    npm install
+    ```
+
+3. Now, open PowerShell and run the following commands TO login and select correct subscription:
+
+    ```PowerShell
+    Login-AzureRmAccount
+    Get-AzureRmSubscription -SubscriptionName "{Subscription Name}" | Select-AzureRmSubscription
+    ```
+
+4. Note your `TenantId` and `SubscriptionId`, you will need it later during setup of Chaos-Dingo test file.
+
+    ![](media/25.png)
+
+5. Now execute the following commands to create a Service Principle in Azure for this application:
+
+    ```PowerShell
+    $app = New-AzureRmADApplication -DisplayName "Chaos-Dingo" -HomePage "{UrlToYourMRPSolution}" -IdentifierUris "{UrlToYourMRPSolution}" -Password "{SecretPasswordForApplication}"
+    New-AzureRmADServicePrincipal -ApplicationId $app.ApplicationId
+    New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $app.ApplicationId.Guid
+    ```
+
+6. You should see a similar output:
+
+    ![](media/26.png)
+
+7. Now lets define a test configuration file. Open folder with Chaos-Dingo repository in it, create a new file, name it `test.json` and copy the following into it:
+
+    ```JSON
+    {
+        "tenantId": "{TenantId}",
+        "subscriptionId": "{SubscriptionId}",
+        "clientId": "{clientId}",
+        "clientSecret": "{clientSecret}",
+        "testDuration": "1100",
+        "testDelay": "270",
+        "testRandom": "false",
+        "jobs": [
+         	  { "type": "vmss", "operation": "start", "resourceGroup": "{resourceGroupName}", "resource": "*" },
+            { "type": "vmss", "operation": "stop", "resourceGroup": "{resourceGroupName}", "resource": "{vmssName}:{InstanceId1}" },
+            { "type": "vmss", "operation": "stop", "resourceGroup": "{resourceGroupName}", "resource": "{vmssName}:{InstanceId2}" },
+            { "type": "vmss", "operation": "stop", "resourceGroup": "{resourceGroupName}", "resource": "{vmssName}:{InstanceId3}" }
+        ]
+    }
+    ```
+
+8. Replace `{SubscriptionId}` and `{SubscriptionId}` with your values. You should have noted them a few steps back. If you haven't done so, it can be found in Azure Portal or just run `Get-AzureRMSubscription` in PowerShell to get them.
+
+9. Enter `$app.ApplicationId` into PowerShell windows from before. Replace `{clientId}` with the output of this command. Replace `{clientSecret}` with the password you used for creating Service Principal.
+
+10. Replace the `{resourceGroupName}` with the name of your resource group. replace `{vmssName}` with the name of your VMSS resource and set the `{InstanceIdX}` to instance IDs of your VMs. You can find this information in Azure Portal. Save the test file.
+
+    ![](media/27.png)
+
+11. Chaos-Dingo is now configured. Run the load test you have configured in task 3 and execute the following command in the Chaos-Dingo folder to start the fault injection:
+    ```
+    node ./dingo.js -f test.json
+    ```
 
 
 
