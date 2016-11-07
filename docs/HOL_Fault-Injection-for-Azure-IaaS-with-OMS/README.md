@@ -260,7 +260,7 @@ This step requires you to have:
     }
     ```
 
-8. Replace `{SubscriptionId}` and `{SubscriptionId}` with your values. You should have noted them a few steps back. If you haven't done so, it can be found in Azure Portal or just run `Get-AzureRMSubscription` in PowerShell to get them.
+8. Replace `{TenantId}` and `{SubscriptionId}` with your values. You should have noted them a few steps back. If you haven't done so, it can be found in Azure Portal or just run `Get-AzureRMSubscription` in PowerShell to get them.
 
 9. Enter `$app.ApplicationId` into PowerShell windows from before. Replace `{clientId}` with the output of this command. Replace `{clientSecret}` with the password you used for creating Service Principal.
 
