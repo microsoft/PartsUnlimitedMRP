@@ -138,7 +138,7 @@ The new instance will be hosted on a different machine or on the same one with a
 
 2. In the body of your response, you will receive information about the instance that has been killed. At this point Marathon will create a new instance on a different machine or on the same one with a different port.
 
-    >**Note:** You might potentially get an 503 response back, but the instance should have been killed.
+    >**Note:** You might potentially get a 503 response back, but the instance should have been killed.
 
 **Step 5.** Similarly, repeat the previous step for IDs: `/pumrp/api/order` and `/pumrp/front/web`. Make sure to spread out fault injections across the 20 minute period of the load test. This will allow the system to stabilize in-between the fault injections.
 
