@@ -65,9 +65,7 @@ HOL - Fault injection for Azure Container Services (ACS)
 
 ### Task 2: Inject faults into ACS environment using UI
 
-**Step 1.** Open up DC/OS, navigate to "Services" page and open Marathon service.
-
-![](media/7.png)
+**Step 1.** Navigate to `http://localhost/marathon` to open up Marathon service.
 
 **Step 2.** Open "pumrp" folder and then "front".
 
@@ -93,9 +91,8 @@ The new instance will be hosted on a different machine or on the same one with a
 
 ### Task 3: Inject faults into ACS environment using API
 
-**Step 1.** Open up DC/OS, navigate to "Services" page and open Marathon service.
+**Step 1.** Open Marathon service again.
 
-![](media/7.png)
 
 **Step 2.** Open API reference. You can make all of the available API calls using this page.
 
@@ -106,9 +103,12 @@ The new instance will be hosted on a different machine or on the same one with a
 ![](media/17.png)
 
 1. Clear all query parameters, click "GET", then "Force GET".
+        
+    ![](media/19.png)
 
 2. Scroll down and find the applications' IDs in the "Body" of the response. You will need these IDs in the next step, so note them.
-    ```
+  
+    ```json
     ...
 
     "id": "/pumrp/database/db",
@@ -124,6 +124,11 @@ The new instance will be hosted on a different machine or on the same one with a
     ...
     ```
 
+3. Close this API section by clicking on "close" button.
+
+    ![](media/20.png)
+
+
 **Step 4.** Kill all tasks using `DELETE /v2/apps/{app_id}/tasks` API call in a particular app.
 >**Note:** You can kill a specific instance in the app by using `DELETE /v2/apps/{app_id}/tasks/{task_id}` call but because we currently have only one instance in each application, we wouldn't see a difference (except for making an additional call).
 
@@ -132,6 +137,8 @@ The new instance will be hosted on a different machine or on the same one with a
 1. Enter one of the IDs into the `app_id` field, e.g. `/pumrp/database/db`
 
 2. In the body of your response, you will receive information about the instance that has been killed. At this point Marathon will create a new instance on a different machine or on the same one with a different port.
+
+    >**Note:** You might potentially get an 503 response back, but the instance should have been killed.
 
 **Step 5.** Similarly, repeat the previous step for IDs: `/pumrp/api/order` and `/pumrp/front/web`. Make sure to spread out fault injections across the 20 minute period of the load test. This will allow the system to stabilize in-between the fault injections.
 
