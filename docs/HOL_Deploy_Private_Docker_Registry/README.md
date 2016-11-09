@@ -4,13 +4,13 @@ This document describes how to set up and secure your own private Docker registr
 
 **Prerequisites**
 
-- Dockerizing Parts Unlimited MRP (see [link](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html))
+- You know how to use [Ubuntu](https://www.ubuntu.com/), [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/) and [Docker](https://www.docker.com/whatisdocker)
 
-- You know how to use Docker (You don't? [Learn about Docker](https://www.docker.com/whatisdocker))
+- Complete the [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab
 
 - An active Visual Studio Team Services (VSTS) account
 
-- You know how to set up Continuous Integration (CI) with Visual Studio Team Services (VSTS) (You don't? [Learn about CI](https://github.com/Intergen-NZ/PartsUnlimited/tree/Develop/docs/HOL-Continuous_Integration))  
+- You know how to set up Continuous Integration (CI) with Visual Studio Team Services (You don't? [Learn about CI](https://github.com/Intergen-NZ/PartsUnlimited/tree/Develop/docs/HOL-Continuous_Integration))  
 
 **Tasks Overview**
 
@@ -23,17 +23,19 @@ This document describes how to set up and secure your own private Docker registr
 
 > **Note:** Latest Ubuntu OS version is recommended.
 
-**Step 2.** Install apache2-utils package. It contains the htpasswd utility which will be used to generate password hashes Nginx can understand:
+**Step 2.** Once deployed, SSH into the Ubuntu VM using [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/).
+
+**Step 3.** Install apache2-utils package. It contains the htpasswd utility which will be used to generate password hashes Nginx can understand:
 ```
 $ sudo apt-get -y install apache2-utils
 ```
-**Step 3.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor:
+**Step 4.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor:
 ```
 $ mkdir ~/docker-registry && cd $_
 $ nano docker-compose.yml
 ```
 
-**Step 4.** Set up a Docker registry container. Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your credentials:
+**Step 5.** Set up a Docker registry container. Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
 ```
 registry:
   image: registry:2
@@ -50,9 +52,7 @@ registry:
 
 By hosting your Docker Registry instance on Azure VM and storing your images on Azure Blob Storage, you can have several benefits, such as security, performance and reliability.   
 
-> **Note:** It is easier to just use the storage account created as part of Step 1.
-
-**Step 5.** Set up a Docker Nginx container, and link it up to Docker registry container. Nginx is used to handle security and communication in this lab. Create a directory to store Nginx data:
+**Step 6.** Set up a Docker Nginx container, and link it up to Docker registry container. Nginx is used to handle security and communication in this lab. Create a directory to store Nginx data:
 ```
 $ mkdir ~/docker-registry/nginx
 ```
@@ -62,7 +62,7 @@ Re-open the docker-compose.yml file in the ~/docker-registry directory:
 $ nano docker-compose.yml
 ```
 
-Create a new Docker Nginx container based on the official Nginx image. Paste the following contents into the top of docker-compose.yml file and save it:
+Create a new Docker Nginx container based on the official Nginx image. Paste the following contents at the beginning of docker-compose.yml file and save it:
 ```
 nginx:
   image: "nginx:1.9"
@@ -75,7 +75,7 @@ nginx:
 ```
 The interesting bit here is the **links** section. It automatically set up a "link" to the registry container. The **volumes** section provides a way to map files in Nginx container to the host machine.
 
-The modified docker-compose.yml file should look similar to the following:
+The final version of docker-compose.yml file should look similar to the following:
 
 ```
 nginx:
@@ -99,7 +99,7 @@ registry:
     - ./data:/data
 ```
 
-**Step 6.** Create a registry.conf file:
+**Step 7.** Create a registry.conf file:
 ```
 $ nano ~/docker-registry/nginx/registry.conf
 ```
@@ -147,13 +147,13 @@ server {
 }
 ```
 
-**Step 7.** Set up basic authentication. Let's create a file named registry.password using htpasswd utility for storing user credentials. Replace **user-name** with your user name, and enter your password when prompted:
+**Step 8.** Set up basic authentication. Let's create a file named registry.password using htpasswd utility for storing user credentials. Replace **user-name** with your user name, and enter your password when prompted:
 ```
 $ cd ~/docker-registry/nginx
 $ htpasswd -c registry.password <user-name>
 ```
 
-**Step 8.** Nginx container is configured to use SSL and will look for SSL certificate and key files in **/etc/nginx/conf.d** folder. Due to the mapping we configured earlier in docker-compose.yml file, the **/etc/nginx/conf.d** folder inside Nginx container is mapped to the folder **~/docker-registry/nginx** on your host machine. Let's drop your certificate and key files in that folder.
+**Step 9.** Nginx container is configured to use SSL and will look for SSL certificate and key files in **/etc/nginx/conf.d** folder. Due to the mapping we configured earlier in docker-compose.yml file, the **/etc/nginx/conf.d** folder inside Nginx container is mapped to the folder **~/docker-registry/nginx** on your host machine. Let's drop your certificate and key files in that folder.
 
 If you need to create a self-signed certificate, please follow this instruction. To begin, let's change to ~/docker-registry/nginx folder and get ready to create the certificate:
 ```
@@ -170,18 +170,18 @@ $ sudo cp domain.crt /usr/local/share/ca-certificates/docker-dev-cert
 $ sudo update-ca-certificates
 ```
 
-**Step 9.** Restart the Docker daemon so that it picks up the changes made in certificate store:
+**Step 10.** Restart the Docker daemon so that it picks up the changes made in certificate store:
 ```
 $ sudo service docker restart
 ```
 
-**Step 10.** It's time to start up an instance of your private Docker registry:
+**Step 11.** It's time to start up an instance of your private Docker registry:
 ```
 $ cd ~/docker-registry
 $ docker-compose up
 ```
 
-**Step 11.** Open up another terminal and verify that the private Docker registry is running by executing:
+**Step 12.** Open up another terminal and verify that the private Docker registry is running by executing:
 ```
 $ docker ps
 ```
@@ -193,18 +193,18 @@ d4b6fef0b4d1        nginx:1.9           "nginx -g 'daemon of   2 minutes ago    
 ```
 > **Note:** The names all start with dockerregistry_
 
-**Step 12.** Let's try another curl test using user credential and domain name:
+**Step 13.** Let's try another curl test using your credentials and domain name:
 ```
-$ curl https://<user-name>:<password>@<domain>/v2/
+$ curl https://<user-name>:<password>@<domain-name>/v2/
 ```
 As of this writing Docker returns an empty json object, so you should see:
 ```
 {}
 ```
 
-**Step 13.** Log in to Docker registry from a client machine by executing:
+**Step 14.** Log in to Docker registry from a client machine by executing:
 ```
-$ docker login https://<domain>
+$ docker login https://<domain-name>
 ```
 Enter the username and password you created earlier, and you should see the following message:
 ```
@@ -212,14 +212,14 @@ Login Succeeded
 ```
 > **Note:** If you use a self-signed certificate, please add the SSL certificate you created in Step 14 to this client machine.
 
-**Step 14.** You are now ready to publish images to private Docker registry. Create Docker images by following this [HOL on Docker](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab. Tag an image with your registry's domain (e.g., myregistrydomain.com/web) in order to push it:
+**Step 15.** You are now ready to publish images to the private Docker registry. Create Docker images by following this [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab. Tag an image with your registry's domain name (e.g., myregistrydomain.com/web) in order to push it:
 ```
-$ docker tag mypartsunlimitedmrp/web <domain>/web
+$ docker tag mypartsunlimitedmrp/web <domain-name>/web
 ```
 
-**Step 15.** Now we can push this image (e.g., myregistrydomain.com/web) to private registry:
+**Step 16.** Now we can push this image (e.g., myregistrydomain.com/web) to the private Docker registry:
 ```
-$ docker push <domain>/web
+$ docker push <domain-name>/web
 ```
 This will take a moment to upload to the registry server. You should see output that ends with something similar to the following:
 ```
@@ -229,9 +229,9 @@ New Docker image appears in your Azure Blob storage.
 
 ![](<media/repo.png>)
 
-**Step 16.** Pull this image (e.g., myregistrydomain.com/web) back from private Docker registry:
+**Step 17.** Pull this image (e.g., myregistrydomain.com/web) back from private Docker registry:
 ```
-$ docker pull <domain>/web
+$ docker pull <domain-name>/web
 ```
 
 ###Task 2: Set up Continuous Integration (CI) with Visual Studio Team Services (VSTS)  
@@ -337,7 +337,7 @@ Click the pencil icon to enter your preferred task name.
 
 ![](<media/edittaskname.png>)
 
-Configure the task as follows:
+Configure the task (e.g., Build Clients Image) as follows:
 
 ![](<media/configbuildclients.png>)
 
@@ -435,4 +435,4 @@ Select **Default** as **Queue**, **master** as **Branch**, and then click **OK**
 **Step 22.** Repeat the above steps for **Order** and **Database** components if you wish to practice more.
 
 ## Congratulations!
-You've completed this HOL! In this lab, you have learned how to set up a private Docker registry, and integrate with Visual Studio Team Services. 
+You've completed this HOL! In this lab, you have learned how to set up a private Docker registry, and integrate with Visual Studio Team Services.
