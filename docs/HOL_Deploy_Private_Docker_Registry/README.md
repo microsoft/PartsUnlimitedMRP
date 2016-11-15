@@ -23,7 +23,13 @@ This document describes how to set up and secure your own private Docker registr
 
 > **Note:** Latest Ubuntu OS version is recommended.
 
-**Step 2.** Once deployed, SSH into the Ubuntu VM using [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/).
+**Step 2.** Once deployed, SSH into the Ubuntu VM using [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/):
+
+![](<media/putty.png>)
+
+Enter your credentials to your VM:
+
+![](<media/entercredentials.png>)
 
 **Step 3.** Install apache2-utils package. It contains the htpasswd utility which will be used to generate password hashes Nginx can understand:
 ```
@@ -104,7 +110,7 @@ registry:
 $ nano ~/docker-registry/nginx/registry.conf
 ```
 
-Copy and save the following contents into registry.conf file, and change the value of **server_name** to your domain name (e.g., myregistrydomain.com):
+Copy and save the following contents into registry.conf file, and change the value of **server_name** to the DNS name or public IP of your Ubuntu VM (e.g., myregistrydomain.com):
 ```
 upstream docker-registry {
   server registry:5000;
@@ -147,7 +153,7 @@ server {
 }
 ```
 
-**Step 8.** Set up basic authentication. Let's create a file named registry.password using htpasswd utility for storing user credentials. Replace **user-name** with your user name, and enter your password when prompted:
+**Step 8.** Set up basic authentication. Let's create a file named registry.password using htpasswd utility for storing user credentials. Replace **user-name** with your preferred user name, and enter your preferred password when prompted. The user name and password will be used to log into your private Docker registry later.
 ```
 $ cd ~/docker-registry/nginx
 $ htpasswd -c registry.password <user-name>
@@ -159,10 +165,13 @@ If you need to create a self-signed certificate, please follow this instruction.
 ```
 $ cd ~/docker-registry/nginx
 ```
-Generate your own certificate and be sure to use the domain name (e.g., myregistrydomain.com) as CN:
+Generate your own certificate and be sure to use the DNS name of your Ubuntu VM (e.g., myregistrydomain.com) as CN:
 ```
 $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 365 -out domain.crt
 ```
+
+![](<media/generatecert.png>)
+
 Since the certificate we just generated isn't verified by any known certificate authority (e.g., VeriSign), we will need to tell **all the clients** that this is a legitimate certificate. Let's do this locally on the host machine so that we can use Docker from the Docker registry server itself:
 ```
 $ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert
@@ -348,7 +357,7 @@ Configure the task (e.g., Build Clients Image) as follows:
 * **Image Name**: Enter your preferred image name (e.g., **clients:$(Build.BuildId)**).
 * **Qualify Image Name**: Tick this checkbox. Qualify the image name with the Docker registry connection's hostname.
 
-**Step 12.** Add a build step to run the **Clinets** Docker image. Configure the Docker task (e.g., Run Clients Image) as follows:
+**Step 12.** Add a build step to run the **Clients** Docker image. Configure the Docker task (e.g., Run Clients Image) as follows:
 
 ![](<media/runclientimage.png>)
 
