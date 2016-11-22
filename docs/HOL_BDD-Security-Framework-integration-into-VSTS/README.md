@@ -6,9 +6,9 @@ BDD-Security is a security testing framework that uses Behavior Driven Developme
 
 ## Pre-requisites:
 
-* [HOL - Continuous Integration](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration)
+* [HOL - Continuous Integration](https://microsoft.github.io/PartsUnlimitedMRP/fundvsts/fund-01-MS-CI.html)
 
-* [HOL - Continuous Deployment](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Deployment)
+* [HOL - Continuous Deployment](https://microsoft.github.io/PartsUnlimitedMRP/fundvsts/fund-02-MS-CD.html)
 
 
 ## Tasks Overview:
@@ -67,7 +67,9 @@ To integrate BDD-Security with VSTS, you need to create a VM where all the tests
 **Step 3.** Open your preferred SSH client and connect to your Ubuntu machine.
 
 ![](media/6.png)
->**Note:** In this lab we use [PuTTY](http://www.putty.org/) ssh client.
+> **Note:**
+> 1) In this lab we use [PuTTY](http://www.putty.org/) ssh client because we are using a Windows machine.
+> 2) Run the following command to initiate the ssh connection if you are using a Unix machine: `ssh <User>@<PublicIp>`
 
 
 **Step 4.** When the security warning will pop up, note the fingerprint of the Ubuntu VM. This fingerprint is required for VSTS setup later on. Click on "Yes" to add fingerprint to your machine and connect to the machine.
@@ -88,7 +90,7 @@ sudo apt-get install default-jdk -y
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
 ```
->**Note:** Ubuntu 16.10 is shipped with java 8 by default.
+> **Note:** Ubuntu 16.10 is shipped with java 8 by default.
 
 
 **Step 7.** Clone [BDD-Security]( https://github.com/continuumsecurity/bdd-security) repository and navigate to it.
@@ -106,15 +108,21 @@ cd bdd-security/
     ```
 
 2. Update the following tags:
-  * baseUrl: URL to your MRP solution
-  * class: `net.continuumsecurity.CustomApplication`
+
+    * baseUrl: URL to your MRP solution
+
+        > **Note:** `baseUrl` tag is used to let BDD-Security know what website to run its tests against.
+
+    * class: `net.continuumsecurity.CustomApplication`
+
+        > **Note:** BDD-Security comes with a tool for automating actions in browsers called `Selenium`. It's primarily used for testing but can also be used for automating administration tasks. The `class` tag is used here to specify a java class with the navigation steps though the website.
 
     ![](media/8.png)
 
 3. Save the changes and exit the editor. Press `Ctrl+x` to indicate that you want to exit the editor. Press `Y` to save the changes and press `Enter` to confirm the file name.
 
 
-**Step 9.** Create `CustomApplication.java` .
+**Step 9.** Create `CustomApplication.java`.
 
 1. Run the following command to create the `CustomApplication.java` file
 
@@ -142,6 +150,7 @@ cd bdd-security/
         }
     }
     ```
+    > **Note:** You can use this class to navigate though the website using `Selenium` tool. `Selenium` allows an in-depth testing of the website's functionalities by simulating users' actions. We are going to leave this class empty but you can find out more about this here: [Github - BDD-Security ](https://github.com/continuumsecurity/bdd-security/wiki/3-Configuration).
 
 3. Press `Ctrl+d` to save the file with the content specified.
 
@@ -204,7 +213,7 @@ cd bdd-security/
 2.  Add `BDDSecurityUser` and `BDDSecurityPassword` variables, set their values to the credentials of the BDD-Security VM. Add `BDDSecurityIP` variable and set its value to the IP address or DNS name of the BDD-Security VM. Add `BDDSecurityKey` and set its value to fingerprint of your Ubuntu Machine. Click on "OK".
 
     ![](media/17.png)
-    >**Note:** if you haven't noted the fingerprint of your Ubuntu machine before, you can connect to it using SSH and run the following command: `ssh-keygen -l -E md5 -f /etc/ssh/ssh_host_rsa_key.pub`
+    > **Note:** To get the fingerprint of your Ubuntu machine, connect to it using SSH again and run the following command: `ssh-keygen -l -E md5 -f /etc/ssh/ssh_host_rsa_key.pub`
 
 
 **Step 7.** Add a new task by clicking on “Add tasks”, in "Test" category click on “Add” next to "Publish Test Results", then click on "Close".
@@ -255,6 +264,7 @@ cd bdd-security/
  ```
  ./gradlew -Dcucumber.options="--tags @app_scan,@host_config --tags ~@skip"
  ```
+ > **Note:** The `@host_config` adds another group of tests to be run by BDD-Security. By default this group contains one test that makes sure that only ports 80 and 443 are open on the machine. To find out more about tags, please refer to this [link](https://github.com/cucumber/cucumber/wiki/Tags)
 
 
 **Step 3.** At this stage you should also address a possibility of insecure website being promoted to production environment. Add the following code at the end of the script to fail the release if there were errors in test results:
@@ -262,8 +272,10 @@ cd bdd-security/
 # If file with results contains "failed" then returning non-zero value will indicate error and fail the build.
 return @(Get-Content all_tests.xml | Where-Object { $_.Contains("failed") }).Count
 ```
->**Note:** This is not required to fail the build if you have "Fail on Standard Error" ticked (by default) on "BDD-Security" task.
-    ![](media/30.png)
+![](media/35.png)
+
+> **Note:** This step is not required to fail the build if you have "Fail on Standard Error" ticked (by default) on "BDD-Security" task
+> ![](media/30.png)
 
 
 **Step 4.** Save `SSH-MRP-BDD-Security.ps1`. Open command line (which supports git) and navigate to your PartsUnlimitedMRP repository location. Run the following commands to add these changes to the remote repo and trigger automatic build and release.
@@ -280,16 +292,16 @@ git push
   ![](media/31.png)
 
 
-**Step 6.** You should see the summary indicating that one test has failed. To investigate the reason of failure, download the attachment `all_tests.xml` by clicking on it.
+**Step 6.** Click on "Test results", then double click on failing test to see more information.
 
   ![](media/32.png)
 
 
-**Step 7.** Open downloaded `all_tests.xml` in text editor and find which test has failed. Based on the stack trace, a port test has failed by finding open ports other than 80 and 443. To fix this issue, you will need to modify the test to expect 22 to be open and run tests again.
+**Step 7.** Based on the stack trace, a port test has failed by finding open ports other than 80 and 443. To fix this issue, you will need to modify the test to expect the right ports to be open.
 
   ![](media/33.png)
 
->**Note:** Do not close port 22 on the Ubuntu VM. It's the port used by SSH to connect to the machine.
+> **Note:** Do not close port 22 on the Ubuntu VM. It's the port used by SSH to connect to the machine.
 
 
 **Step 8.** Run the following command on the Ubuntu machine to open file with the failing test in nano editor:
@@ -298,7 +310,7 @@ nano bdd-security/src/test/resources/features/host_config.feature
 ```
 
 
-**Step 9.** Add port 22 to the list of expected open ports like so:
+**Step 9.** Change ports to the expected 22, 8080 and 9080. Also note that initially test was run against localhost (VM with BDD-Security). Change host value to the public IP address of your VM with MRP solution.
 
    ![](media/34.png)
 
@@ -306,7 +318,7 @@ nano bdd-security/src/test/resources/features/host_config.feature
 **Step 10.** Save the changes and exit the editor. Press `Ctrl+x` to indicate that you want to exit the editor. Press `Y` to save the changes and press `Enter` to confirm the file name.
 
 
-**Step 11.** Rerun the tests by triggering a new deployment or by running the following commands on the Ubuntu machine to see whether the tests will pass this time: 
+**Step 11.** Rerun the tests by triggering a new deployment or by running the following commands on the Ubuntu machine to see whether the tests will pass this time:
 ```
 cd bdd-security/
 ./gradlew -Dcucumber.options="--tags @app_scan,@host_config --tags ~@skip"

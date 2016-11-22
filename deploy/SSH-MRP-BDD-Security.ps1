@@ -32,4 +32,4 @@ Set-Content -Path $plinkFile -Value $plinkContent
 
 # Copy test results back to agent.
 $currentExecutionLocation = (Get-Location).Path
-& ./pscp.exe -batch -hostkey $sshKey -pw $sshPassword $sshUser@${sshTarget}:/home/AdminUser/bdd-security/build/reports/junit/all_tests.xml `"$currentExecutionLocation`"
+& ./pscp.exe -batch -hostkey $sshKey -pw $sshPassword $sshUser@${sshTarget}:bdd-security/build/reports/junit/all_tests.xml `"$currentExecutionLocation`"
