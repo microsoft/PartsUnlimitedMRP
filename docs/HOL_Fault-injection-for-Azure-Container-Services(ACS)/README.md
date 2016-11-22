@@ -53,13 +53,13 @@ HOL - Fault injection for Azure Container Services (ACS)
 * Load location: Closest location to the datacenter where MRP solution is hosted.
 
 ![](media/5.png)
-> **Note:**
-> 1. `Run duration (minutes)`: specifies the duration of the test in minutes.
+> **Note:**<br>
+> 1. `Run duration (minutes)`: specifies the duration of the test in minutes.<br>
 > 2. `Load pattern`: has two options: <br>
 > `Constant`: specifies the same amount of users that are going to be simulated throughout the test.<br>
-> `Step`: specifies a constantly increasing amount of users that are going to be simulated until the maximum desired amount of users is reached.
-> 3. `Warmup duration (seconds)`: specifies time duration to gradually increase the amount of users. This allows web server to cache everything it needs before the load test starts.
-> 4. `Browser mix`: specifies a browser distribution for the users.
+> `Step`: specifies a constantly increasing amount of users that are going to be simulated until the maximum desired amount of users is reached.<br>
+> 3. `Warmup duration (seconds)`: specifies time duration to gradually increase the amount of users. This allows web server to cache everything it needs before the load test starts.<br>
+> 4. `Browser mix`: specifies a browser distribution for the users.<br>
 > 5. `Load location`: specifies a datacenter's location from which all of the requests are going to be made.
 
 
