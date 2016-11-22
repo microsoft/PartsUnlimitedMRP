@@ -4,8 +4,7 @@ HOL - Fault injection for Azure Container Services (ACS)
 
 ## Pre-requisites:
 
-- HOL - Deploying Parts Unlimited MRP on DC/OS
-
+- [Deploying Parts Unlimited MRP on DC/OS](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-22-DCOS.html)
 - Access to VSTS to run a load test
 
 
@@ -35,12 +34,12 @@ HOL - Fault injection for Azure Container Services (ACS)
 ![](media/2.png)
 
 
-**Step 3.** Give this load test a name, rename URL name into something more meaningful and enter the MRP solution's URL (`{YourDnsName}/mrp`) into the URL field.
+**Step 3.** Give this load test a name, rename URL name into something more meaningful like `MainPage` and enter the MRP solution's URL into the URL field. This URL should be in the following format: `{YourDnsName}/mrp`, e.g. `http://myacsagents.australiaeast.cloudapp.azure.com/mrp/`.
 
 ![](media/3.png)
 
 
-**Step 4.** Click on "Add URL", give this URL a meaningful name and enter `{YourDnsName}/quotes?name` as a URL. This query will call your API, which then queries database.
+**Step 4.** Click on "Add URL", give this URL a meaningful name like `API call to DB` and enter `{YourDnsName}/quotes?name` as a URL. This query will call your API, which then queries database.
 
 ![](media/4.png)
 
@@ -54,6 +53,14 @@ HOL - Fault injection for Azure Container Services (ACS)
 * Load location: Closest location to the datacenter where MRP solution is hosted.
 
 ![](media/5.png)
+> **Note:**
+> 1. `Run duration (minutes)`: specifies the duration of the test in minutes.
+> 2. `Load pattern`: has two options: <br>
+> `Constant`: specifies the same amount of users that are going to be simulated throughout the test.<br>
+> `Step`: specifies a constantly increasing amount of users that are going to be simulated until the maximum desired amount of users is reached.
+> 3. `Warmup duration (seconds)`: specifies time duration to gradually increase the amount of users. This allows web server to cache everything it needs before the load test starts.
+> 4. `Browser mix`: specifies a browser distribution for the users.
+> 5. `Load location`: specifies a datacenter's location from which all of the requests are going to be made.
 
 
 **Step 6.** Click on "Save", then "Run test".
@@ -91,6 +98,8 @@ The new instance will be hosted on a different machine or on the same one with a
 
 ### Task 3: Inject faults into ACS environment using API
 
+In this task you will learn how to inject faults using Marathon's API. This is an alternative way of injecting faults but it achieves exactly the same outcome as the Task 2.
+
 **Step 1.** Open Marathon service again.
 
 
@@ -98,16 +107,17 @@ The new instance will be hosted on a different machine or on the same one with a
 
 ![](media/16.png)
 
+
 **Step 3.** Get applications' IDs by using the `GET /v2/apps` API call.
 
 ![](media/17.png)
 
 1. Clear all query parameters, click "GET", then "Force GET".
-        
+
     ![](media/19.png)
 
 2. Scroll down and find the applications' IDs in the "Body" of the response. You will need these IDs in the next step, so note them.
-  
+
     ```json
     ...
 
