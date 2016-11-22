@@ -24,7 +24,7 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
 
 ## HOL:
-###Task 1: Setup OMS workspace
+### Task 1: Setup OMS workspace
 
 **Step 1.** Open Azure and create a new resource group for this HOL.
 
@@ -47,7 +47,7 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
     ![](media/5.png)  
 
-3. Create an OMS workspace. Enter name, pick a subscription, location, current resource group and a pricing tier then click on "OK" button.
+3. Create an OMS workspace. Enter a name, pick a subscription, the resource group you created in step 1, a location and a pricing tier then click on the "OK" button.
 
     ![](media/6.png)  
     >**Note:** OMS Workspace name has to be unique across Azure.
@@ -55,6 +55,8 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 **Step 3.** Get "Workspace ID" and "Primary Key" from OMS Portal.
 
 1. Navigate to your resource group and click on "Log Analytics" you just created.
+    
+    ![](media/28.png)  
 
 2. Click on "OMS Portal".
 
@@ -74,13 +76,13 @@ In this lab you will set up PartsUnlimitedMRP's environment hosted on multiple V
 
 
 
-###Task 2: Deploy ARM template
+### Task 2: Deploy ARM template
 This task will setup the required environment in Azure.
 
 **Step 1.** Click on "Deploy to Azure" button below.
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://ms.portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
-[<img src="http://armviz.io/visualizebutton.png"/>](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FIntergen-NZ%2FPartsUnlimitedMRP%2Ffeature%2Ffault-injection-iaas%2Fdocs%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)	
+[<img src="http://armviz.io/visualizebutton.png"/>](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FIntergen-NZ%2FPartsUnlimitedMRP%2Ffeature%2Ffault-injection-iaas%2Fdocs%2FHOL_Fault-Injection-for-Azure-IaaS-with-OMS%2Fenv%2Ftemplate%2FlinuxVirtualMachineScaleSet.json)
 
 
 **Step 2.** Select Azure Subscription and the resource group you created earlier. Fill in Settings section.
@@ -98,9 +100,9 @@ This task will setup the required environment in Azure.
 
 > **Note:** The deployment might take up to 10 minutes.
 
-**Step 4.** Once deployment has finished verify that MRP solution is being hosted and that all 4 machines connected to OMS.
+**Step 4.** Once deployment has finished verify that MRP solution is being hosted and that all 4 machines are connected to OMS.
 
-1. Navigate to your resource group and click on "Virtual Machine Scale Set" instance.
+1. Navigate to your resource group and click on the item with the type "Virtual Machine Scale Set".
 
     ![](media/11.png)  
 
@@ -118,7 +120,7 @@ This task will setup the required environment in Azure.
 
 
 
-###Task 3: Set up Load Test
+### Task 3: Set up Load Test
 
 **Step 1.** Open your project in VSTS. Click on "Test", "Load test", "New", then on "URL based test".
 
@@ -128,7 +130,9 @@ This task will setup the required environment in Azure.
 
   ![](media/17.png)
 
->**Note:** <br> 1) URL should be in the following format: `http://<name>.<region>.cloudapp.azure.com/mrp` <br> 2) DNS name of the VMSS can be found by navigating to your resource group and clicking on "public IP address" instance.
+> **Note:** <br> 
+> 1) URL should be in the following format: `http://<name>.<region>.cloudapp.azure.com/mrp` <br> 
+> 2) DNS name of the VMSS can be found by navigating to your resource group and clicking on "public IP address" instance.
   ![](media/18.png)
 
 **Step 3.**  Add another request by clicking on "Add URL" and then entering URL in the following format:
@@ -153,7 +157,7 @@ This task will setup the required environment in Azure.
 
 
 
-###Task 4: Inject faults into VMSS
+### Task 4: Inject faults into VMSS
 
 This step can be done through Azure portal, PowerShell script ([Manage virtual machines in a virtual machine scale set](https://azure.microsoft.com/en-in/documentation/articles/virtual-machine-scale-sets-windows-manage/)) or by using a tool like [Chaos-Dingo](https://github.com/jmspring/chaos-dingo). In this lab you will learn how yo use all three of these tools.
 >**Note:** Since PowerShell script and Chaos-Dingo require you to set them up first, we recommend to use only one of them to inject faults into VMSS.
@@ -275,7 +279,7 @@ This step requires you to have:
 
 
 
-###Task 5: Analyze load test's results.
+### Task 5: Analyze load test's results.
 
 **Step 1.** Lets collect information related to how VMSS has performed during load test.
 
