@@ -4,13 +4,13 @@ This document describes how to set up and secure your own private Docker registr
 
 **Prerequisites**
 
-- You know how to use [Ubuntu](https://www.ubuntu.com/), [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/) and [Docker](https://www.docker.com/whatisdocker)
+- You know how to use [Ubuntu](https://www.ubuntu.com/), [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/) if you are using Windows and [Docker](https://www.docker.com/whatisdocker)
 
 - Complete the [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab
 
 - An active Visual Studio Team Services (VSTS) account
 
-- You know how to set up Continuous Integration (CI) with Visual Studio Team Services (You don't? [Learn about CI](https://github.com/Intergen-NZ/PartsUnlimited/tree/Develop/docs/HOL-Continuous_Integration))  
+- You know how to set up Continuous Integration (CI) with Visual Studio Team Services (You don't? [Learn about CI]( https://microsoft.github.io/PartsUnlimitedMRP/fundvsts/fund-01-MS-CI.html))  
 
 **Tasks Overview**
 
@@ -19,9 +19,11 @@ This document describes how to set up and secure your own private Docker registr
 **2. Set up Continuous Integration with Visual Studio Team Services** Integrate Docker images and containers into your DevOps workflows using [Docker Integration](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.docker) for Team Services. This Docker extension adds a task that enables you to build Docker images, push Docker images to an authenticated Docker registry, run Docker images or execute other operations offered by the Docker CLI.   
 
 ###Task 1: Set up a private Docker registry
-**Step 1.** Deploy an Ubuntu VM with Docker Engine. [Do it quickly on Azure](https://azure.microsoft.com/en-us/documentation/templates/docker-simple-on-ubuntu/)  
+**Step 1.** Deploy an Ubuntu VM with Docker Engine. [Do it quickly on Azure](https://azure.microsoft.com/en-us/documentation/templates/docker-simple-on-ubuntu/)
 
-> **Note:** Latest Ubuntu OS version is recommended.
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fdocker-simple-on-ubuntu%2Fazuredeploy.json" target="_blank"> <img src="http://azuredeploy.net/deploybutton.png"/> </a>
+
+> **Note:** Latest Ubuntu OS version 16.04 LTS is recommended.
 
 **Step 2.** Once deployed, SSH into the Ubuntu VM using [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/):
 
@@ -30,6 +32,8 @@ This document describes how to set up and secure your own private Docker registr
 Enter your credentials to your VM:
 
 ![](<media/entercredentials.png>)
+
+> **Note:** Run the following command to initiate the ssh connection if you are using a Unix machine: `ssh <user>@<public-ip>`
 
 **Step 3.** Install apache2-utils package. It contains the htpasswd utility which will be used to generate password hashes Nginx can understand:
 ```
@@ -41,7 +45,15 @@ $ mkdir ~/docker-registry && cd $_
 $ nano docker-compose.yml
 ```
 
-**Step 5.** Set up a Docker registry container. Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
+**Step 5.** Set up a Docker registry container. Let's create a new storage account to store Docker images, please sign in to the [Azure portal](https://ms.portal.azure.com/). On the Hub menu, select **New** -> **Storage** -> **Storage account**. Enter your details, and then click **Create**:
+
+![](<media/createstorageaccount.png>)
+
+ Once the storage account is created, click **Access Keys** setting, and then copy your storage account name and access key:    
+
+![](<media/storagenameandkey.png>)
+
+Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
 ```
 registry:
   image: registry:2
@@ -105,12 +117,14 @@ registry:
     - ./data:/data
 ```
 
+Save and Close our new file.
+
 **Step 7.** Create a registry.conf file:
 ```
 $ nano ~/docker-registry/nginx/registry.conf
 ```
 
-Copy and save the following contents into registry.conf file, and change the value of **server_name** to the DNS name or public IP of your Ubuntu VM (e.g., myregistrydomain.com):
+Copy and save the following contents into registry.conf file, and change the value of **server_name** to the public DNS name or IP of your Ubuntu VM (e.g., dockerregistry.australiaeast.cloudapp.azure.com):
 ```
 upstream docker-registry {
   server registry:5000;
@@ -165,7 +179,7 @@ If you need to create a self-signed certificate, please follow this instruction.
 ```
 $ cd ~/docker-registry/nginx
 ```
-Generate your own certificate and be sure to use the DNS name of your Ubuntu VM (e.g., myregistrydomain.com) as CN:
+Generate your own certificate and be sure to use the DNS name of your Ubuntu VM (e.g., dockerregistry.australiaeast.cloudapp.azure.com) as CN:
 ```
 $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 365 -out domain.crt
 ```
@@ -221,33 +235,51 @@ Login Succeeded
 ```
 > **Note:** If you use a self-signed certificate, please add the SSL certificate you created in Step 14 to this client machine.
 
-**Step 15.** You are now ready to publish images to the private Docker registry. Create Docker images by following this [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab. Tag an image with your registry's domain name (e.g., myregistrydomain.com/web) in order to push it:
+**Step 15.** You are now ready to publish images to the private Docker registry. You can build your own images using this lab. Let's do an example using [mongo official image](https://store.docker.com/images/9147d1b7-a686-4e38-8ecd-94a47f5da9cf?tab=description) from Docker Store. Pull the mongo image:
 ```
-$ docker tag mypartsunlimitedmrp/web <domain-name>/web
+$ docker pull mongo
 ```
 
-**Step 16.** Now we can push this image (e.g., myregistrydomain.com/web) to the private Docker registry:
+Tag an image with your registry's domain name (e.g., dockerregistry.australiaeast.cloudapp.azure.com/mongo) in order to push it:
 ```
-$ docker push <domain-name>/web
+$ docker tag mongo <domain-name>/mongo
+```
+
+**Step 16.** Now we can push this image (e.g., dockerregistry.australiaeast.cloudapp.azure.com/mongo) to the private Docker registry:
+```
+$ docker push <domain-name>/mongo
 ```
 This will take a moment to upload to the registry server. You should see output that ends with something similar to the following:
 ```
 latest: digest: sha256:d35c98ab2f3ec8d963e0d20a3577c8da23f7366d129959195749858da964fb0d size: 3251
 ```
-New Docker image appears in your Azure Blob storage.
+The mongo image appears in your Azure Blob storage.
 
-![](<media/repo.png>)
+![](<media/mongoinrepo.png>)
 
-**Step 17.** Pull this image (e.g., myregistrydomain.com/web) back from private Docker registry:
+**Step 17.** Pull this image (e.g., dockerregistry.australiaeast.cloudapp.azure.com/mongo) back from private Docker registry:
 ```
-$ docker pull <domain-name>/web
+$ docker pull <domain-name>/mongo
 ```
 
 ###Task 2: Set up Continuous Integration (CI) with Visual Studio Team Services (VSTS)  
 
+The goal of this task is to build a Continuous Integration (CI) pipeline with Docker. The flow that we will setup is explained as follows:
+1. Build: Build a Docker image.
+2. Run: Create a running instance of the Docker image.
+3. Inspect: Examine the software we build to ensure that they reach a high standard. The following tools are used:
+   * [Docker Inspect](https://docs.docker.com/engine/reference/commandline/inspect/): Using the basic inspect command, a wealth of information (e.g., ports) about images and containers can be gathered.
+   * [Docker Bench](https://github.com/docker/docker-bench-security): It is a script that checks for dozens of common best-practices around deploying Docker containers in production.
+4. Push: After inspection, push your image to the private Docker Registry created in previous task.
+5. Remove: Clean up the build environment by removing images and containers.
+
 **Step 1.** Install [Docker Integration](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.docker) for Visual Studio Team Services. This Docker extension adds a task that enables you to build Docker images, push Docker images to an authenticated Docker registry, run Docker images or execute other operations offered by the Docker CLI.
 
-**Step 2.** Create a Docker host based on Ubuntu machine in Microsoft Azure using [Docker Machine](https://docs.docker.com/machine/drivers/azure/). This tool is really easy to use and it allows to have a Docker host up and running in a few minutes!
+**Step 2.** Create a Docker host based on Ubuntu machine in Microsoft Azure using [Docker Machine](https://docs.docker.com/machine/drivers/azure/). This tool is really easy to use and it allows to have a Docker host up and running in a few minutes! The output using **docker-machine** is shown below:
+
+![](<media/dockermachineoutput.png>)
+
+This is another way to deploy a VM running Docker on Azure. We can also use, like in the first step of previous task, the official image from MS.
 
 > **Note:** Docker Machine is installed along with other Docker products when you install the Docker Toolbox. For details on installing Docker Toolbox, see the [macOS installation](https://docs.docker.com/docker-for-mac/)  instructions or [Windows installation](https://docs.docker.com/docker-for-windows/) instructions.
 
@@ -261,7 +293,12 @@ $ docker-machine ssh <machine_name>
 $ sudo usermod -aG docker <user-name>
 ```
 
-**Step 5.** Set up a Docker build agent that runs on Docker host. To begin, please connect to the Docker host and install these [pre-requisites](https://github.com/Microsoft/vsts-agent/blob/master/docs/start/envubuntu.md). After installed, you can download the [build agent](https://github.com/Microsoft/vsts-agent/releases) from the GitHub release page, depending on the Ubuntu version your are running on (e.g., 14.04 or 16.04). Once downloaded, create a new folder **vsts-agent**, and extract the archive in this folder:
+**Step 5.** Set up a Docker build agent that runs on Docker host. To begin, please connect to the Docker host and install these [pre-requisites](https://github.com/Microsoft/vsts-agent/blob/master/docs/start/envubuntu.md). After installed, you can download the [build agent](https://github.com/Microsoft/vsts-agent/releases) from the GitHub release page, depending on the Ubuntu version your are running on (e.g., 14.04 or 16.04):
+```
+$ wget https://github.com/Microsoft/vsts-agent/releases/download/v2.109.2/vsts-agent-ubuntu.16.04-x64-2.109.2.tar.gz
+```
+
+Once downloaded, create a new folder **vsts-agent**, and extract the archive in this folder:
 ```
 $ mkdir vsts-agent && cd vsts-agent
 $ tar xzf <path-to-build-agent-archive>
@@ -286,10 +323,10 @@ Check that Docker build agent is available.
 
 ![](<media/dockerbuildagentavailable.png>)
 
-**Step 6.** Create a project (e.g., PartsUnlimitedMRP) structured as follows after complete the [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab.     
+**Step 6.** After complete the [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab, please structure your directories and files as follows:    
 
 ```
-PartsUnlimitedMRP
+PartsUnlimitedMRPDocker
 ├── src
     ├── Clients
     |   ├── Dockerfile
@@ -306,11 +343,35 @@ PartsUnlimitedMRP
              └── run.sh
 ```
 
-**Step 7.** Create a VSTS team project, and add the PartsUnlimitedMRP project to VSTS Git repository. A good example on how to create a team project and use Git repository in VSTS can be found [here](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Set-Up-MRP/README.md).        
+1. Create **PartsUnlimitedMRPDocker** directory and **src** subdirectory.
+2. Copy **Clients**, **Database** and **Order** created in [Dockerizing Parts Unlimited MRP](https://microsoft.github.io/PartsUnlimitedMRP/adv/adv-21-Docker.html) lab into the **src** directory.
+
+**Step 7.** Go to your VSTS account’s homepage (e.g., https://`<account>`.visualstudio.com). Create a new PartsUnlimitedMRPDocker team project by clicking on the **New** button under Recent projects & teams. Type in the project name as **PartsUnlimitedMRPDocker** and select **Git** as the version control, then click on **Create project**:
+
+![](<media/createteamproject.png>)
+
+After the wizard creates your new team project, navigate to the PartsUnlimitedMRPDocker team project and click on the **Code** tab on the upper-left.
+
+![](<media/browsetocode.png>)
+
+The PartsUnlimitedMRPDocker Git repository will be empty, so copy the **Clone URL** of the VSTS repository to your clipboard and paste it into a text document for use later:
+
+![](<media/cloneurl.png>)
+
+Open your preferred command line tool, and change to **PartsUnlimitedMRPDocker** directory created earlier. Enter the following commands, and replace **clone-url** and **commit-message** with your **Clone URL** and message:
+```
+$ git init
+$ git remote add origin <clone-url>
+$ git add .
+$ git commit -m <commit-message>
+$ git push origin master
+```  
+
+Folders and files are now added into in your VSTS Git repository:
 
 ![](<media/projectstructure.png>)
 
-**Step 8.** Go to your VSTS account’s homepage (e.g., https://`<account>`.visualstudio.com), click **Browse** (if necessary), select your team project and click **Navigate**.
+**Step 8.** Go to your VSTS account’s homepage (e.g., https://<account>.visualstudio.com). Navigate to the **PartsUnlimitedMRPDocker** team project in VSTS.
 
 ![](<media/browsetoteamproject.png>)
 
@@ -354,10 +415,10 @@ Configure the task (e.g., Build Clients Image) as follows:
 * **Action**: Select **Build an image**.
 * **Docker File**: Select the path to Docker file for your **Clients** Component.
 * **Use Default Build Context**: Tick this checkbox. Set the build context to the directory that contains the Docker file.  
-* **Image Name**: Enter your preferred image name (e.g., **clients:$(Build.BuildId)**).
+* **Image Name**: Enter your preferred image name. You can tag an image with build number (e.g., **clients:$(Build.BuildId)**).
 * **Qualify Image Name**: Tick this checkbox. Qualify the image name with the Docker registry connection's hostname.
 
-**Step 12.** Add a build step to run the **Clients** Docker image. Configure the Docker task (e.g., Run Clients Image) as follows:
+**Step 12.** In the same Docker build task, add a build step to run the **Clients** Docker image. Configure the Docker task (e.g., Run Clients Image) as follows:
 
 ![](<media/runclientimage.png>)
 
@@ -415,10 +476,10 @@ Configure the task (e.g., Build Clients Image) as follows:
 ![](<media/removetestingclientsimage.png>)
 
 * **Action**: Select **Run a Docker command**.
-* **Command**: Enter the following command line, and replace the image-name with your image name (e.g., **myregistrydomain.com/clients:$(Build.BuildId)**):
+* **Command**: Enter the following command line, and replace the image-name with your image name (e.g., **dockerregistry.australiaeast.cloudapp.azure.com/clients:$(Build.BuildId)**):
 
     ```
-    rmi <image-name>
+    rmi <image-name>:$(Build.BuildId)
     ```
 
 **Step 18.** Save the build definition, and then click the **Queue new build** button.
@@ -441,7 +502,7 @@ Select **Default** as **Queue**, **master** as **Branch**, and then click **OK**
 
 ![](<media/clientsimage.png>)
 
-**Step 22.** Repeat the above steps for **Order** and **Database** components if you wish to practice more.
+**Step 22.** Repeat the above steps for **Order** and **Database** components if you wish to practice more. We can also optimize this workflow by creating a custom script when we call the Docker Inspect and Docker Bench command by rejecting the build and the push if something is wrong during the scan.
 
 ## Congratulations!
 You've completed this HOL! In this lab, you have learned how to set up a private Docker registry, and integrate with Visual Studio Team Services.
