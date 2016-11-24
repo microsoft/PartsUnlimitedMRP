@@ -265,6 +265,7 @@ $ docker pull <domain-name>/mongo
 ###Task 2: Set up Continuous Integration (CI) with Visual Studio Team Services (VSTS)  
 
 The goal of this task is to build a Continuous Integration (CI) pipeline with Docker. The flow that we will setup is explained as follows:
+
 1. Build: Build a Docker image.
 2. Run: Create a running instance of the Docker image.
 3. Inspect: Examine the software we build to ensure that they reach a high standard. The following tools are used:
