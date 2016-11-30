@@ -16,7 +16,7 @@ This document describes how to set up and secure your own private Docker registr
 
 **1. Set up a private Docker registry** This will walk you through creating a private Docker registry. It also demonstrates how to tag, push and pull your images.   
 
-**2. Set up Continuous Integration with Visual Studio Team Services** Integrate Docker images and containers into your DevOps workflows using [Docker Integration](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.docker) for Team Services. This Docker extension adds a task that enables you to build Docker images, push Docker images to an authenticated Docker registry, run Docker images or execute other operations offered by the Docker CLI.   
+**2. Set up a Secured Continuous Integration (CI) with Visual Studio Team Services (VSTS)** Integrate Docker images and containers into your DevOps workflows using [Docker Integration](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.docker) for Team Services. This Docker extension adds a task that enables you to build Docker images, push Docker images to an authenticated Docker registry, run Docker images or execute other operations offered by the Docker CLI.   
 
 ###Task 1: Set up a private Docker registry
 **Step 1.** Deploy an Ubuntu VM with Docker Engine. [Do it quickly on Azure](https://azure.microsoft.com/en-us/documentation/templates/docker-simple-on-ubuntu/)
@@ -39,13 +39,8 @@ Enter your credentials to your VM:
 ```
 $ sudo apt-get -y install apache2-utils
 ```
-**Step 4.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor:
-```
-$ mkdir ~/docker-registry && cd $_
-$ nano docker-compose.yml
-```
 
-**Step 5.** Set up a Docker registry container. Let's create a new storage account to store Docker images, please sign in to the [Azure portal](https://ms.portal.azure.com/). On the Hub menu, select **New** -> **Storage** -> **Storage account**. Enter your details, and then click **Create**:
+**Step 4.** Set up a Docker registry container. Let's create a new storage account to store Docker images, please sign in to the [Azure portal](https://ms.portal.azure.com/). On the Hub menu, select **New** -> **Storage** -> **Storage account**. Enter your details, and then click **Create**:
 
 ![](<media/createstorageaccount.png>)
 
@@ -69,6 +64,12 @@ registry:
 ```
 
 By hosting your Docker Registry instance on Azure VM and storing your images on Azure Blob Storage, you can have several benefits, such as security, performance and reliability.   
+
+**Step 5.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor:
+```
+$ mkdir ~/docker-registry && cd $_
+$ nano docker-compose.yml
+```
 
 **Step 6.** Set up a Docker Nginx container, and link it up to Docker registry container. Nginx is used to handle security and communication in this lab. Create a directory to store Nginx data:
 ```
@@ -117,7 +118,7 @@ registry:
     - ./data:/data
 ```
 
-Save and Close our new file.
+Save and Close our new file: Ctrl+X...
 
 **Step 7.** Create a registry.conf file:
 ```
@@ -186,7 +187,7 @@ $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 365
 
 ![](<media/generatecert.png>)
 
-Since the certificate we just generated isn't verified by any known certificate authority (e.g., VeriSign), we will need to tell **all the clients** that this is a legitimate certificate. Let's do this locally on the host machine so that we can use Docker from the Docker registry server itself:
+The certificate we just generated isn't verified by any known certificate authority (e.g., VeriSign). In this HOL, we included steps on how to export the certificate from Docker registry and import it to the client machine. Let's do this locally on the host machine so that we can use Docker from the Docker registry server itself:
 ```
 $ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert
 $ sudo cp domain.crt /usr/local/share/ca-certificates/docker-dev-cert
@@ -233,7 +234,30 @@ Enter the username and password you created earlier, and you should see the foll
 ```
 Login Succeeded
 ```
-> **Note:** If you use a self-signed certificate, please add the SSL certificate you created in Step 14 to this client machine.
+If you use a self-signed certificate, please add the SSL certificate you created in Step 9 to this client machine.
+On the Docker registry server, view the certificate:
+```
+$ sudo cat ~/docker-registry/nginx/domain.crt
+```
+You'll get output that looks something like this:
+
+![](<media/certificate.png>)
+
+Copy the certificate contents to your clipboard. On the client machine, create the certificate directory:
+```
+$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert
+```
+
+Open the certificate file for editing:
+```
+$ sudo nano /usr/local/share/ca-certificates/docker-dev-cert/domain.crt
+```
+
+Paste and save the certificate contents, and then run the following commands to update the certificate store:
+```
+$ sudo update-ca-certificates
+$ sudo service docker restart
+```
 
 **Step 15.** You are now ready to publish images to the private Docker registry. You can build your own images using this lab. Let's do an example using [mongo official image](https://store.docker.com/images/9147d1b7-a686-4e38-8ecd-94a47f5da9cf?tab=description) from Docker Store. Pull the mongo image:
 ```
@@ -249,10 +273,10 @@ $ docker tag mongo <domain-name>/mongo
 ```
 $ docker push <domain-name>/mongo
 ```
-This will take a moment to upload to the registry server. You should see output that ends with something similar to the following:
-```
-latest: digest: sha256:d35c98ab2f3ec8d963e0d20a3577c8da23f7366d129959195749858da964fb0d size: 3251
-```
+This will take a moment to upload to the registry server. You should see output similar to the following:
+
+![](<media/pulltagpush.png>)
+
 The mongo image appears in your Azure Blob storage.
 
 ![](<media/mongoinrepo.png>)
@@ -262,7 +286,7 @@ The mongo image appears in your Azure Blob storage.
 $ docker pull <domain-name>/mongo
 ```
 
-###Task 2: Set up Continuous Integration (CI) with Visual Studio Team Services (VSTS)  
+###Task 2: Set up a Secured Continuous Integration (CI) with Visual Studio Team Services (VSTS)  
 
 The goal of this task is to build a Continuous Integration (CI) pipeline with Docker. The flow that we will setup is explained as follows:
 
@@ -276,7 +300,11 @@ The goal of this task is to build a Continuous Integration (CI) pipeline with Do
 
 **Step 1.** Install [Docker Integration](https://marketplace.visualstudio.com/items?itemName=ms-vscs-rm.docker) for Visual Studio Team Services. This Docker extension adds a task that enables you to build Docker images, push Docker images to an authenticated Docker registry, run Docker images or execute other operations offered by the Docker CLI.
 
-**Step 2.** Create a Docker host based on Ubuntu machine in Microsoft Azure using [Docker Machine](https://docs.docker.com/machine/drivers/azure/). This tool is really easy to use and it allows to have a Docker host up and running in a few minutes! The output using **docker-machine** is shown below:
+**Step 2.** Create a Docker host based on Ubuntu machine in Microsoft Azure using [Docker Machine](https://docs.docker.com/machine/drivers/azure/).
+```
+$ docker-machine create --driver azure --azure-subscription-id <subs-id> <machine-name>
+```
+This tool is really easy to use and it allows to have a Docker host up and running in a few minutes! The output using **docker-machine** is shown below:
 
 ![](<media/dockermachineoutput.png>)
 
@@ -289,7 +317,31 @@ This is another way to deploy a VM running Docker on Azure. We can also use, lik
 $ docker-machine ssh <machine_name>
 ```
 
-**Step 4.** Add the login user (e.g., docker-user by default) to Docker group and reboot the Docker host:
+**Step 4.** If you use a self-signed certificate, please add the SSL certificate created in your private Docker registry to the Docker host. On the Docker registry server, view the certificate:
+```
+$ sudo cat ~/docker-registry/nginx/domain.crt
+```
+You'll get output that looks something like this:
+
+![](<media/certificate.png>)
+
+Copy the certificate contents to your clipboard. On the Docker Host, create the certificate directory:
+```
+$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert
+```
+
+Open the certificate file for editing:
+```
+$ sudo nano /usr/local/share/ca-certificates/docker-dev-cert/domain.crt
+```
+
+Paste and save the certificate contents, and then run the following commands to update the certificate store:
+```
+$ sudo update-ca-certificates
+$ sudo service docker restart
+```
+
+Add the login user (e.g., docker-user by default) to Docker group and reboot the Docker host:
 ```
 $ sudo usermod -aG docker <user-name>
 ```
@@ -299,7 +351,7 @@ $ sudo usermod -aG docker <user-name>
 $ wget https://github.com/Microsoft/vsts-agent/releases/download/v2.109.2/vsts-agent-ubuntu.16.04-x64-2.109.2.tar.gz
 ```
 
-Once downloaded, create a new folder **vsts-agent**, and extract the archive in this folder:
+At the time that we are writing this HOL, the latest version released for the agent is 2.109.2. Once downloaded, create a new folder **vsts-agent**, and extract the archive in this folder:
 ```
 $ mkdir vsts-agent && cd vsts-agent
 $ tar xzf <path-to-build-agent-archive>
