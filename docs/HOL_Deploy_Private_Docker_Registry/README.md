@@ -501,7 +501,7 @@ Configure the task (e.g., Build Clients Image) as follows:
 * **Command**: Enter the following command line:  
 
     ```
-    run --net host --pid host --cap-add audit_control -v /var/lib:/var/lib -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc --label docker_bench_security docker/docker-bench-security
+    run --name dockerbenchsecurity --net host --pid host --cap-add audit_control -v /var/lib:/var/lib -v /var/run/docker.sock:/var/run/docker.sock -v /usr/lib/systemd:/usr/lib/systemd -v /etc:/etc --label docker_bench_security docker/docker-bench-security
     ```
 
 **Step 15.** Add a build step to push the **Clients** image to your private Docker registry. Configure the Docker task (e.g., Push Clients Image to Private Docker Registry) as follows:
@@ -513,15 +513,15 @@ Configure the task (e.g., Build Clients Image) as follows:
 * **Image Name**: Enter the image name (e.g., **clients:$(Build.BuildId)**) you wish to push.
 * **Qualify Image Name**: Tick this checkbox. Qualify the image name with the Docker registry connection's hostname.
 
-**Step 16.** Add a build step to remove the running container after testing. Configure the Docker task (e.g., Remove Clients Container after Testing) as follows:
+**Step 16.** Add a build step to remove the containers after testing. Configure the Docker task (e.g., Remove Containers after Testing) as follows:
 
 ![](<media/removetestingclientscontainer.png>)
 
 * **Action**: Select **Run a Docker command**.
-* **Command**: Enter the following command line, and replace the container-name with your container name (e.g., clients):  
+* **Command**: Enter the following command line, and replace the container-list with your containers:  
 
     ```
-    rm -f <container-name>
+    rm -f [container-list]
     ```
 
 **Step 17.** Add a build step to remove the build image on Docker host after pushing to the private Docker registry. Configure the Docker task (e.g., Remove Clients Build Image after Pushing) as follows:
