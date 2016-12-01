@@ -67,8 +67,8 @@ To integrate BDD-Security with VSTS, you need to create a VM where all the tests
 **Step 3.** Open your preferred SSH client and connect to your Ubuntu machine.
 
 ![](media/6.png)
-> **Note:**
-> 1) In this lab we use [PuTTY](http://www.putty.org/) ssh client because we are using a Windows machine.
+> **Note:**<br>
+> 1) In this lab we use [PuTTY](http://www.putty.org/) ssh client because we are using a Windows machine.<br>
 > 2) Run the following command to initiate the ssh connection if you are using a Unix machine: `ssh <User>@<PublicIp>`
 
 
@@ -159,6 +159,7 @@ cd bdd-security/
 ```
 ./gradlew -Dcucumber.options="--tags @app_scan --tags ~@skip"
 ```
+>**Note:** This command allows us to run the scan locally.
 
 
 
