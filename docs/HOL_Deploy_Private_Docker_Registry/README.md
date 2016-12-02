@@ -48,7 +48,9 @@ $ sudo apt-get -y install apache2-utils
 
 ![](<media/storagenameandkey.png>)
 
-Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
+By hosting your Docker Registry instance on Azure VM and storing your images on Azure Blob Storage, you can have several benefits, such as security, performance and reliability.
+
+**Step 5.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor. Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
 ```
 registry:
   image: registry:2
@@ -62,10 +64,6 @@ registry:
   volumes:
     - ./data:/data
 ```
-
-By hosting your Docker Registry instance on Azure VM and storing your images on Azure Blob Storage, you can have several benefits, such as security, performance and reliability.   
-
-**Step 5.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor:
 ```
 $ mkdir ~/docker-registry && cd $_
 $ nano docker-compose.yml
