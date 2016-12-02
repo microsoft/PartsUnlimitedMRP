@@ -52,6 +52,11 @@ By hosting your Docker Registry instance on Azure VM and storing your images on 
 
 **Step 5.** [Docker Compose](https://docs.docker.com/compose/) allows you to write one YAML file to set up multiple containers and manage communication between them. Create a docker-compose.yml file using your favorite text editor. Add and save the following contents to docker-compose.yml file, and replace **storage-account** and **storage-key** with your storage account name and access key:
 ```
+$ mkdir ~/docker-registry && cd $_
+$ nano docker-compose.yml
+```
+
+```
 registry:
   image: registry:2
   ports:
@@ -63,10 +68,6 @@ registry:
     - REGISTRY_STORAGE_AZURE_CONTAINER="registry"
   volumes:
     - ./data:/data
-```
-```
-$ mkdir ~/docker-registry && cd $_
-$ nano docker-compose.yml
 ```
 
 **Step 6.** Set up a Docker Nginx container, and link it up to Docker registry container. Nginx is used to handle security and communication in this lab. Create a directory to store Nginx data:
