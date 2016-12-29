@@ -21,6 +21,12 @@
       "metadata": {
         "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
       }
+    },
+    "sshKeyData": { 
+        "type": "string",
+        "metadata": {
+            "description": "SSH rsa public key file as a string"
+        }
     }
   },
   "variables": {
@@ -43,6 +49,7 @@
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
     "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
+    "sshKeyPath": "[concat('/home/',parameters('adminUserName'),'/.ssh/authorized_keys')]",
     "customScript": {
         "fileUris": "https://raw.githubusercontent.com/dcaro/PartsUnlimitedMRP/master/docs/assets/jenkins/env/install_mrp_dependencies.sh",
         "commandToExecute": "bash install_mrp_dependencies.sh"
@@ -207,7 +214,17 @@
         "osProfile": {
           "computerName": "[variables('mrpVmName')]",
           "adminUsername": "[parameters('mrpAdminUsername')]",
-          "adminPassword": "[parameters('mrpAdminPassword')]"
+          "linuxConfiguration": {
+              "disablePasswordAuthentication": "true",
+              "ssh": {
+                  "publicKeys": [
+                      {
+                          "path": "[variables('sshKeyPath')]",
+                          "keyData": "[parameters('sshKeyData')]"
+                      }
+                  ]
+              }
+          }
         },
         "storageProfile": {
           "imageReference": {
