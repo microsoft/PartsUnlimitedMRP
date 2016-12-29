@@ -44,7 +44,7 @@
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
     "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
     "customScript": {
-        "fileUris": "https://raw.githubusercontent.com/dcaro/PartsUnlimitedMRP/master/docs/assets/jenkins/env/env/install_mrp_dependencies.sh",
+        "fileUris": "https://raw.githubusercontent.com/dcaro/PartsUnlimitedMRP/master/docs/assets/jenkins/env/install_mrp_dependencies.sh",
         "commandToExecute": "bash install_mrp_dependencies.sh"
     }
   },
@@ -254,7 +254,7 @@
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "fileUris": "[split(variables('customScript').fileUris, ' ')]",
+          "fileUris": "[variables('customScript').fileUris]",
           "commandToExecute": "[variables('customScript').commandToExecute]"
         }
       }
