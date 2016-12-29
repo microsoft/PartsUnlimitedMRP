@@ -8,6 +8,7 @@ sudo pkill -9 'java'
 sudo rm -f /var/lib/partsunlimited/MongoRecords.js*
 sudo rm -f /var/lib/partsunlimited/mrp.war*
 sudo rm -f /var/lib/partsunlimited/ordering-service-0.1.0.jar*
+sudo rm -f /var/lib/partsunlimited/integration-service-0.1.0.jar
 
 # Copy files from the build
 sudo find . -iname '*.?ar' -exec cp -t /var/lib/partsunlimited {} +;
