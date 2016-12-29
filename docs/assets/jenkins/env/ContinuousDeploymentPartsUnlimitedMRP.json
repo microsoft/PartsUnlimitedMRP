@@ -9,12 +9,6 @@
         "description": "User name for the MRP Virtual Machine."
       }
     },
-    "mrpAdminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for the MRP Virtual Machine."
-      }
-    },
     "mrpDnsNameForPublicIP": {
       "type": "string",
       "minLength": 1,
