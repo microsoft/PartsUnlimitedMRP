@@ -254,7 +254,7 @@
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "fileUris": "[split(variables('customScript').fileUris, ' ']",
+          "fileUris": "[split(variables('customScript').fileUris, ' ')]",
           "commandToExecute": "[variables('customScript').commandToExecute]"
         }
       }
