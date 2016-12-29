@@ -16,7 +16,7 @@
         "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
       }
     },
-    "sshKeyData": { 
+    "adminPublicKey": { 
         "type": "string",
         "metadata": {
             "description": "SSH rsa public key file as a string"
@@ -214,7 +214,7 @@
                   "publicKeys": [
                       {
                           "path": "[variables('sshKeyPath')]",
-                          "keyData": "[parameters('sshKeyData')]"
+                          "keyData": "[parameters('adminPublicKey')]"
                       }
                   ]
               }
