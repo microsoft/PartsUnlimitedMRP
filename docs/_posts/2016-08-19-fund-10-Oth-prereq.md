@@ -47,7 +47,7 @@ On the Azure portal, click on **Resource Group** and look for the Resource Group
 
 Click on the virtual machine in the resource group (_pumrp-jenkins_ in this example) and look for the "Public IP address/DNS name label".
 
-![Obtain the public IP of the Jenkins Master](../assets/jenkins/jenkinsmaster_ip.png)
+![Obtain the public IP of the Jenkins Master](<../assets/jenkins/jenkinsmaster_ip.png>)
 
 **4.** SSH to the Jenkins Master VM
 
