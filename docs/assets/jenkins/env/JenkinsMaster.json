@@ -14,7 +14,7 @@
         "vnetId": "[resourceId('jenkins-test','Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "jenkinsVmSize" : "Standard_DS2_v2",
-        "jenkinsVmName" : "toLower(parameters('jenkinsDnsNameForPublicIP'))]",
+        "jenkinsVmName" : "[toLower(parameters('jenkinsDnsNameForPublicIP'))]",
         "jenkinsNsgName" : "jenkinsNSG",
         "storageAccountType" : "Premium_LRS",
         "addressPrefix" : "172.16.2.0/24",
