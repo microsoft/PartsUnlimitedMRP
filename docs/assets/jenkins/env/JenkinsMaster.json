@@ -31,7 +31,7 @@
         "virtualNetworkName" : "jenkins-test-vnet",
         "storageAccountName" : "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
         "networkInterfaceName" : "jenkinsNic",
-        "jenkinsAdminUsername" : "jenkins"
+        "jenkinsAdminUsername" : "jenkinsadmin"
     },
     "resources": [
         {
