@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Set up Parts Unlimited MRP
+title: Set up Parts Unlimited MRP with Jenkins
 category: FundOth
 order: 1
 ---
@@ -13,7 +13,6 @@ In this lab, we will set up the Jenkins Master that will be used for the PartsUn
 ### Pre-Requisites: ###
 
 - An Active Azure Subscription (You can open a trial subscription here: [https://azure.microsoft.com/en-us/free](https://azure.microsoft.com/en-us/free))
-
 - A tool to connect to a Linux vm using SSH (like Putty for example: [http://www.chiark.greenend.org.uk/~sgtatham/putty/](http://www.chiark.greenend.org.uk/~sgtatham/putty/)) 
 
 
@@ -119,7 +118,7 @@ Keep the SSH session open, we will return at the end of this task.
 With your browser, navigate to the default page of the Jenkins master. 
 
 ```
-http://ip_address_of_the_jenkins_master:8080
+http://ip_address_of_your_jenkinsmaster:8080
 ```
 
 Paste the initial admin password obtained earlier to unlock your instance of Jenkins and click **Continue**.
