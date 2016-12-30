@@ -45,7 +45,7 @@
     "storageName": "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
     "sshKeyPath": "[concat('/home/',parameters('mrpAdminUsername'),'/.ssh/authorized_keys')]",
     "customScript": {
-        "fileUris": "https://raw.githubusercontent.com/dcaro/PartsUnlimitedMRP/master/docs/assets/jenkins/env/install_mrp_dependencies.sh",
+        "fileUris": "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/jenkins/env/install_mrp_dependencies.sh",
         "commandToExecute": "bash install_mrp_dependencies.sh"
     }
   },

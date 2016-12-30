@@ -7,7 +7,7 @@ order: 1
 
 ### Set up Parts Unlimited MRP with Jenkins ###
 
-In this lab, we will set up the Jenkins Master that will be used for the PartsUnlimitedMRP project. [Jenkins](https://jenkins.io/) is an open source automation server that provides capabilities for building, deploying and automating any project. This lab will configure the pre-requisites on the Jenkins Master, if you are familiar with Jenkins and already have a Jenkins Master, you may want to skip to the next step for [Parts Unlimited MRP Continous Integration](https://github.com/Microsoft/PartsUnlimitedMRP/tree/master/docs/HOL_Continuous-Integration).
+In this lab, we will set up the Jenkins Master that will be used for the PartsUnlimitedMRP project. [Jenkins](https://jenkins.io/) is an open source automation server that provides capabilities for building, deploying and automating any project. This lab will configure the pre-requisites on the Jenkins Master, if you are familiar with Jenkins and already have a Jenkins Master, you may want to skip to the next step for [Parts Unlimited MRP Continous Integration](https://microsoft.github.io/PartsUnlimitedMRP/fundoth/fund-11-Oth-CI.html).
 
 
 ### Pre-Requisites: ###
@@ -24,14 +24,14 @@ We will use the preconfigured VM image that is available on the Azure Market pla
 
 **1.** To deploy the Jenkins Master, simply click on the following button and fill in the fields.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdcaro%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2Fassets%2Fjenkins%2Fenv%2FJenkinsMaster.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2Fassets%2Fjenkins%2Fenv%2FJenkinsMaster.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
 * Select the subscription where you want that virtual machine to be deployed
 * Click **Create new** for the resource group
 * Select the location closest to you
-* Type the prefix for the FQDN of the Jenkins master
+* Type the prefix for the FQDN of the Jenkins master. This name **must be unique**.
 * Type the password for the jenkinsadmin user account 
 * Check the box "I agree to the terms and conditions stated above"
 
@@ -101,6 +101,8 @@ Click **Install suggested plugins**
 Create a user from the "Create First Admin User": 
 * Username = jenkins
 * Password = Passw0rd
+* Full name = Jenkins admin
+* E-mail address = jenkins@microsoft.com
 * Click **Save and Finish**. 
 
 ![Initial jenkins plugins](<../assets/jenkins/first_jenkins_user.png>){:width="500px"}
@@ -115,12 +117,17 @@ You now have a virtual machine in Azure running Jenkins as a Master.
 
 **5.** Logon on the jenkins master with the credentials that you have just created in step 4. 
 
+* Username = jenkins 
+* Password = Passw0rd
+
 **6.** Navigate to the "Configure System" page:
 
 ```
 http://fqdn_of_your_jenkinsmaster:8080/configure
 ```
 Look for the Jenkins URL field and type the URL of your Jenkins master: http://fqdn_of_your_jenkinsmaster:8080/
+
+**NOTE:** the URL may already be here but type it again and save to ensure the proper completion of the rest of the lab.
 
 ![Jenkins URL](<../assets/jenkins/jenkins_url.png>)
 
@@ -134,6 +141,54 @@ Type the following command:
 ```
 sudo apt-get install git -y
 ```
+
+### Task 3: Configure Jenkins  
+The three tools that we will need to create our pipeline on Jenkins needs to be configured on our instance of Jenkins.
+
+Connect to the Jenkins master that you have configured in the previous task using port 8080:
+```
+http://fqdn_of_your_jenkinsmaster:8080/manage 
+```
+
+**1.** Configure the JDK
+
+Go to the **Global Tool Configuration**
+
+![Global Tool Configuration](<../assets/jenkins/jenkins_globaltoolconfig.png>)
+
+In order to build the Parts Unlimited application we need to have the JDK installed.
+
+Click on **Add JDK**
+
+![Add JDK](<../assets/jenkins/jenkins_addjdk.png>)
+
+* Type the friendly name for the JDK: "JDK 8"
+* Check the box "Install automatically"
+* In the drop-down list, select the latest version ("Java SE Development Kit 8u112" at the time of writing)
+* Check the box "I agree to the Java SE Development Kit License Agreement"
+* Click on the link to enter the username and password of your Oracle account (Check the link in the pre-requisites)
+* Click **Save**
+
+![JDK Installation](<../assets/jenkins/jdk_installer.png>)
+
+
+**2.** Configure Gradle 
+
+Go to the **Global Tool Configuration**
+
+Gradle will be used to build the Parts Unlimited application. If needed, you could use Maven or Ant as well, the configuration would be very similar.
+
+Click on **Add Gradle** 
+
+![Add Gradle](<../assets/jenkins/jenkins_addgradle.png>)
+
+* Type the friendly name fo this installation of Gradle: "Gradle"
+* Verify that the "Install automatically" box is checked
+* Select the latest version of Gradle in the drop-down list.
+* Click **Save**
+
+![Gradle Installation](<../assets/jenkins/gradle_installer.png>)
+
 
 
 Next steps
