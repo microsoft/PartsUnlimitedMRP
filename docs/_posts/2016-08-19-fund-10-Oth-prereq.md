@@ -22,6 +22,12 @@ The following tasks will install a virtual machine running Ubuntu with Jenkins i
 ### Task 1: Create you Jenkins Master in Azure 
 We will use the preconfigured VM image that is available on the Azure Market place to deploy our Jenkins master.
 
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdcaro%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2Fassets%2Fjenkins%2Fenv%2FJenkinsMaster.json" target="_blank">
+        <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+
 **1.** First, navigate with your browser to the Azure portal and sign in with your Azure subscription:
 
  [https://portal.azure.com](https://portal.azure.com)

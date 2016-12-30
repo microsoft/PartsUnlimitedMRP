@@ -32,7 +32,7 @@
             "name": "[variables('jenkinsVmName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2015-06-15",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]",
                 "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
@@ -75,7 +75,7 @@
             "name": "[variables('storageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2015-06-15",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "accountType": "[variables('storageAccountType')]"
             }
@@ -84,7 +84,7 @@
             "name": "[variables('virtualNetworkName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -105,7 +105,7 @@
             "name": "[variables('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('jenkinsDnsNameForPublicIP'))]",
@@ -135,7 +135,7 @@
             "name": "[parameters('jenkinsDnsNameForPublicIP')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "publicIpAllocationMethod": "[variables('publicIpAddressType')]",
                 "dnsSettings" : {
@@ -147,7 +147,7 @@
             "name": "[variables('jenkinsNsgName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "securityRules": [
                     {
