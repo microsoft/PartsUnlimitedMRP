@@ -8,6 +8,13 @@
             "metadata": {
                 "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
             }
+        },
+        "jenkinsAdminPassword": {
+            "type": "securestring",
+            "defaultValue": "MyComplexPassw0rd",
+            "metadata": {
+                "description": "Password used to ssh to the vm with the user 'jenkins' "
+            }
         }
     },
     "variables": {
@@ -24,8 +31,7 @@
         "virtualNetworkName" : "jenkins-test-vnet",
         "storageAccountName" : "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
         "networkInterfaceName" : "jenkinsNic",
-        "jenkinsAdminUsername" : "jenkins",
-        "jenkinsAdminPassword" : "Passw0rd"
+        "jenkinsAdminUsername" : "jenkins"
     },
     "resources": [
         {
@@ -41,7 +47,7 @@
                 "osProfile": {
                     "computerName": "[variables('jenkinsVmName')]",
                     "adminUsername": "[variables('jenkinsAdminUsername')]",
-                    "adminPassword": "[variables('jenkinsAdminPassword')]"
+                    "adminPassword": "[parameters('jenkinsAdminPassword')]"
                 },
                 "hardwareProfile": {
                     "vmSize": "[variables('jenkinsVmSize')]"
