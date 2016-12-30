@@ -40,8 +40,8 @@
             "properties": {
                 "osProfile": {
                     "computerName": "[variables('jenkinsVmName')]",
-                    "adminUsername": "[parameters('jenkinsAdminUsername')]",
-                    "adminPassword": "[parameters('jenkinsAdminPassword')]"
+                    "adminUsername": "[variables('jenkinsAdminUsername')]",
+                    "adminPassword": "[variables('jenkinsAdminPassword')]"
                 },
                 "hardwareProfile": {
                     "vmSize": "[variables('jenkinsVmSize')]"
@@ -183,7 +183,7 @@
     "outputs": {
         "jenkinsAdminUsername": {
             "type": "string",
-            "value": "[parameters('jenkinsAdminUsername')]"
+            "value": "[variables('jenkinsAdminUsername')]"
         }
     }
 }
