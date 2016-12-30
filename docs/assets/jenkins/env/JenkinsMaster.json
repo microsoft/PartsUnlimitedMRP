@@ -11,7 +11,7 @@
         }
     },
     "variables": {
-        "vnetId": "[resourceId('jenkins-test','Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "jenkinsVmSize" : "Standard_DS2_v2",
         "jenkinsVmName" : "[toLower(parameters('jenkinsDnsNameForPublicIP'))]",
@@ -57,7 +57,7 @@
                         "name": "[variables('jenkinsVmName')]",
                         "createOption": "fromImage",
                         "vhd": {
-                            "uri": "[concat(concat(reference(resourceId('jenkins-test', 'Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').primaryEndpoints['blob'], 'vhds/'), variables('jenkinsVmName'), '20161229184318.vhd')]"
+                            "uri": "[concat(concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').primaryEndpoints['blob'], 'vhds/'), variables('jenkinsVmName'), '20161229184318.vhd')]"
                         }
                     },
                     "dataDisks": []
@@ -121,13 +121,13 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId('jenkins-test','Microsoft.Network/publicIpAddresses', parameters('jenkinsDnsNameForPublicIP'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('jenkinsDnsNameForPublicIP'))]"
                             }
                         }
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[resourceId('jenkins-test', 'Microsoft.Network/networkSecurityGroups', variables('jenkinsNsgName'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('jenkinsNsgName'))]"
                 }
             }
         },
