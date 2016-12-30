@@ -22,86 +22,45 @@ The following tasks will install a virtual machine running Ubuntu with Jenkins i
 ### Task 1: Create you Jenkins Master in Azure 
 We will use the preconfigured VM image that is available on the Azure Market place to deploy our Jenkins master.
 
+**1.** To deploy the Jenkins Master, simply click on the following button and fill in the fields.
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdcaro%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2Fassets%2Fjenkins%2Fenv%2FJenkinsMaster.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
+* Select the subscription where you want that virtual machine to be deployed
+* Click **Create new** for the resource group
+* Select the location closest to you
+* Type the prefix for the FQDN of the Jenkins master
+* Type the password for the jenkinsadmin user account 
 
-**1.** First, navigate with your browser to the Azure portal and sign in with your Azure subscription:
+![Deploy Jenkins Master image](<../assets/jenkins/jenkins_master_deploy.png>)
 
- [https://portal.azure.com](https://portal.azure.com)
+**2.** Click on the **Purchase** button.
 
-**2.** Click on the **+** on the top left of the portal and then click on **See all** 
+Wait until the deployment complete. 
 
-![](../assets/jenkins/search_marketplace.png){:height="150px"}
 
-**3.** Type jenkins in the search bar and select **Azure-Jenkins-012** in the list (the publisher is Microsoft). The blade with the description of the VM will appear on the right. Leave the deployment model as "Resource Manager" and click the **Create** button.
+**3.** Obtain the public IP of the Jenkins master VM. 
 
-![](<../assets/jenkins/jenkins_marketplace.png>)
+On the Azure portal, click on **Resource Group** and look for the Resource Group that you have just created.
 
-**4.** Set the basic parameters required for the deployment of the VM and click OK.
-
-* Name: This is the name of the virtual machine, use a name that will identify the VM easily.
-* VM disk type: leave the default (SSD).
-* User name: this is the name of the user that you will use to logon to the VM. root cannot be used.
-* Authentication type: You can use a password or and ssh key. You can use puttygen to generate the private/public key pair that you will use to connect to the VM.
-* Subscription: Select the subscription that you want to use to run your VM.
-* Resource group: We recommend that you create a new Resource Group to faciliate the clean-up process after you have completed this lab.
-* Location: Identify the location that is the closest to you to reduce the latency when you will access the VM. 
-
-![Basic configuration of the Jenkins VM](<../assets/jenkins/jenkins_vm_params1.png>){:height="500px"}
-
-**5.** Define the size of the Jenkins VM and click **Select**.
-
-We recommend to select _DS2\_V2 Standard_ for the size of the VM to run Jenkins for this lab.
-
-![Size for the Jenkins VM](<../assets/jenkins/jenkins_vm_params2.png>){:height="450px"}
-
-**6.** Leave the default for the advanced settings and click **OK**.
-
-![Advanced settings for the Jenkins VM](<../assets/jenkins/jenkins_vm_params3.png>){:height="500px"}
-
-**7.** Review the configuration of the Jenkin VM and click **OK**.
-
-![Review Jenkins VM configuration](<../assets/jenkins/jenkins_vm_params4.png>){:height="400px"}
-
-**8.** After the deployment of the VM has completed, open the Resource Group that you have defined in step 4 (in this example _PUMRP-Jenkins_) and click on the network security group object. The defautl name of the network security group is the name of the ressource group followed by "-nsg", in our example it it **PUMRP-Jenkins-nsg**. The blade that opens on the right shows the security rules that are associated with this networks security group.
-
-Click on **Inbound security rules**
-
-![Open the network security group for the jenkins master](<../assets/jenkins/azure_network_securitygroup.png>)
-
-**9.** Click on **Add** on the top of the "Inbound security rules" blade. 
-
-In the "Add inbound security rule" blade enter the following information and click **Ok** :
-
-* Name: enter "jenkins"
-* Priority: leave the default (1010)
-* Source: leave the default (Any)
-* Service: leave the default (Custom)
-* Protocol: leave the default (Any)
-* Port range: enter **8080**
-* Action: leave the default (Allow)
-
-![Create a security rule for Jenkins](<../assets/jenkins/azure_inbound_securityrule_add.png>){:height="200px"}
-![Create a security rule for Jenkins](<../assets/jenkins/azure_inbound_securityrule.png>){:height="400px"}
-
-**10.** Obtain the public IP of the Jenkins master VM. 
-
-Close the "Inbound security rules blade" and close the network security group blade (_PUMRP-Jenkins-nsg_ in this example).
-
-Click on the virtual machine in the resource group (_PUMRP-Jenkins_ in this example) and look for the "Public IP address/DNS name label".
+Click on the virtual machine in the resource group (_pumrp-jenkins_ in this example) and look for the "Public IP address/DNS name label".
 
 ![Obtain the public IP of the Jenkins Master](../assets/jenkins/jenkinsmaster_ip.png)
 
-**11.** SSH to the Jenkins Master VM
+**4.** SSH to the Jenkins Master VM
 
-Open PuTTY (or any other ssh tool that you like) and type the following information to logon to the VM.
+Open PuTTY (or any other ssh tool that you like) and type the following information to logon to the VM:
+```
+jenkinsadmin@pumrp-jenkins.westus.cloudapp.azure.com
+```
+You will need to adjust the connection to what you have specified in the first step.
+The user is jenkinsadmin in this lab. 
 
 ![SSH to the Jenkins Master VM](<../assets/jenkins/putty_to_jenkinsmaster.png>){:height="350px"}
 
-Then type the password that you have specified during step 4 or use the private key associated to the public key that you have defined then.
+Then type the password that you have specified.
 
 ### Task 2: Configure your Jenkins Master
 In this task, we will perform the basic configuration of the Jenkins master server and install the necesary plugins that will be used for Continuous Integration.
@@ -124,7 +83,7 @@ Keep the SSH session open, we will return at the end of this task.
 With your browser, navigate to the default page of the Jenkins master. 
 
 ```
-http://ip_address_of_your_jenkinsmaster:8080
+http://fqdn_of_your_jenkinsmaster:8080
 ```
 
 Paste the initial admin password obtained earlier to unlock your instance of Jenkins and click **Continue**.
@@ -152,9 +111,20 @@ Click the **Restart** button to restart Jenkins.
 
 You now have a virtual machine in Azure running Jenkins as a Master.
 
+**5.** Logon again on the jenkins master and navigate to the "Configure System" page:
+
+```
+http://fqdn_of_your_jenkinsmaster:8080/configure
+```
+Look for the Jenkins URL field and type the URL of your Jenkins master: http://fqdn_of_your_jenkinsmaster:8080/
+
+![Jenkins URL](<../assets/jenkins/jenkins_url.png>)
+
+Click **Save** 
+
 **5.** Install git
 
-Switch to the ssh session that was opened during step 1.
+Switch to the SSH session that was opened during step 1.
 
 Type the following command:
 ```
