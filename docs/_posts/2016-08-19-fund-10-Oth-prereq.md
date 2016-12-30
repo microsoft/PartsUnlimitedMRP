@@ -33,6 +33,7 @@ We will use the preconfigured VM image that is available on the Azure Market pla
 * Select the location closest to you
 * Type the prefix for the FQDN of the Jenkins master
 * Type the password for the jenkinsadmin user account 
+* Check the box "I agree to the terms and conditions stated above"
 
 ![Deploy Jenkins Master image](<../assets/jenkins/jenkins_master_deploy.png>)
 
@@ -53,10 +54,11 @@ Click on the virtual machine in the resource group (_pumrp-jenkins_ in this exam
 
 Open PuTTY (or any other ssh tool that you like) and type the following information to logon to the VM:
 ```
-jenkinsadmin@pumrp-jenkins.westus.cloudapp.azure.com
+jenkinsadmin@fqdn_of_your_jenkinsmaster
+In from the screen capture above, it would be: jenkinsadmin@pumrp-jenkins.westus.cloudapp.azure.com 
 ```
-You will need to adjust the connection to what you have specified in the first step.
-The user is jenkinsadmin in this lab. 
+
+To make this lab easier, the user has been pre-configued to be **jenkinsadmin** through the automated deployment. 
 
 ![SSH to the Jenkins Master VM](<../assets/jenkins/putty_to_jenkinsmaster.png>){:height="350px"}
 
@@ -111,7 +113,9 @@ Click the **Restart** button to restart Jenkins.
 
 You now have a virtual machine in Azure running Jenkins as a Master.
 
-**5.** Logon again on the jenkins master and navigate to the "Configure System" page:
+**5.** Logon on the jenkins master with the credentials that you have just created in step 4. 
+
+**6.** Navigate to the "Configure System" page:
 
 ```
 http://fqdn_of_your_jenkinsmaster:8080/configure
@@ -122,7 +126,7 @@ Look for the Jenkins URL field and type the URL of your Jenkins master: http://f
 
 Click **Save** 
 
-**5.** Install git
+**7.** Install git
 
 Switch to the SSH session that was opened during step 1.
 
