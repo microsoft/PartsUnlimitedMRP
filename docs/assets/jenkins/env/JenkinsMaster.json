@@ -1,0 +1,195 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "jenkinsDnsNameForPublicIP": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
+            }
+        },
+        "jenkinsAdminPassword": {
+            "type": "securestring",
+            "defaultValue": "MyComplexPassw0rd",
+            "metadata": {
+                "description": "Password used to ssh to the vm with the user 'jenkins' "
+            }
+        }
+    },
+    "variables": {
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+        "jenkinsVmSize" : "Standard_DS2_v2",
+        "jenkinsVmName" : "[toLower(parameters('jenkinsDnsNameForPublicIP'))]",
+        "jenkinsNsgName" : "jenkinsNSG",
+        "storageAccountType" : "Premium_LRS",
+        "addressPrefix" : "172.16.2.0/24",
+        "subnetPrefix" : "172.16.2.0/24",
+        "publicIPAddressType" : "Dynamic",
+        "subnetName": "default",
+        "virtualNetworkName" : "jenkins-test-vnet",
+        "storageAccountName" : "[concat('vhdstorage', uniqueString(resourceGroup().id))]",
+        "networkInterfaceName" : "jenkinsNic",
+        "jenkinsAdminUsername" : "jenkinsadmin"
+    },
+    "resources": [
+        {
+            "name": "[variables('jenkinsVmName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+            ],
+            "properties": {
+                "osProfile": {
+                    "computerName": "[variables('jenkinsVmName')]",
+                    "adminUsername": "[variables('jenkinsAdminUsername')]",
+                    "adminPassword": "[parameters('jenkinsAdminPassword')]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "[variables('jenkinsVmSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftVisualStudio",
+                        "offer": "VisualStudio",
+                        "sku": "Azure-Jenkins-012",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[variables('jenkinsVmName')]",
+                        "createOption": "fromImage",
+                        "vhd": {
+                            "uri": "[concat(concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').primaryEndpoints['blob'], 'vhds/'), variables('jenkinsVmName'), '20161229184318.vhd')]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "[variables('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "[variables('storageAccountType')]"
+            }
+        },
+        {
+            "name": "[variables('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('networkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('jenkinsDnsNameForPublicIP'))]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('jenkinsNsgName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('jenkinsDnsNameForPublicIP'))]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('jenkinsNsgName'))]"
+                }
+            }
+        },
+        {
+            "name": "[parameters('jenkinsDnsNameForPublicIP')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIpAllocationMethod": "[variables('publicIpAddressType')]",
+                "dnsSettings" : {
+                    "domainNameLabel": "[parameters('jenkinsDnsNameForPublicIP')]"
+                }
+            }
+        },
+        {
+            "name": "[variables('jenkinsNsgName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "jenkins",
+                        "properties": {
+                            "priority": 1010,
+                            "sourceAddressPrefix": "*",
+                            "protocol": "*",
+                            "destinationPortRange": "8080",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*"
+                        }
+                    },
+                    {
+                        "name": "default-allow-ssh",
+                        "properties": {
+                            "priority": 1000,
+                            "sourceAddressPrefix": "*",
+                            "protocol": "TCP",
+                            "destinationPortRange": "22",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+        "jenkinsAdminUsername": {
+            "type": "string",
+            "value": "[variables('jenkinsAdminUsername')]"
+        }
+    }
+}
