@@ -36,7 +36,7 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 * From a Linux or Mac machine you can simply use the : `ssh-keygen` command line. Enter the name and the passphrase that you want.
 
-    ![](<media/ssh-KeygenMac.png>)
+    ![](<media/ssh-keygenMac.png>)
 
 > If you are on Windows you can use PuttyGen.exe - [Click here to download it](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 
