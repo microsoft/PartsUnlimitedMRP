@@ -32,7 +32,17 @@ In this lab, you will work with one machine which will serve as both the deploym
 
 ### Task 1: Provision the Lab ###
 
-1. Instead of manually creating the VM in Azure, we are going to use an Azure Resource Management (ARM) template. Simply click the **Deploy to Azure** button below and follow the wizard to deploy the machine. You will need to log in to the Azure Portal.
+1. We will create a pair of ssh keys to be able to automatically connect to the deployment server.
+
+* From a Linux or Mac machine you can simply use the : `ssh-keygen` command line. Enter the name and the passphrase that you want.
+
+    ![](<media/ssh-KeygenMac.png>)
+
+> If you are on Windows you can use PuttyGen.exe - [Click here to download it](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
+
+You should have two generated files in your current folder, you will need the .pub one on the Azure Portal.
+
+2. Instead of manually creating the VM in Azure, we are going to use an Azure Resource Management (ARM) template. Simply click the **Deploy to Azure** button below and follow the wizard to deploy the machine. You will need to log in to the Azure Portal.
                                                                     
     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Ftemplates%2FPartsUnlimitedMRPdeploy.json" target="_blank">
         <img src="http://azuredeploy.net/deploybutton.png"/>
@@ -44,13 +54,13 @@ In this lab, you will work with one machine which will serve as both the deploym
     The VMs will be deployed to a Resource Group along with a virtual network (VNET) and some other required resources. You can 
     delete the resource group in order to remove all the created resources at any time.
 
-2. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, password, and unique name for the machine. The machine will be a Standard D1_V2.
+3. You will need to select a subscription and region to deploy the Resource Group to and supply an admin username, paste your public ssh key (.pub file), and unique name for the machine. The machine will be a Standard D1_V2.
 
-    ![](<media/set_arm_parameters.png>)
+    ![](<media/ArmParams.png>)
 
-    Make sure you make a note of the region as well as the username and password for the machine. Allow about 10 minutes for deployment and then another 10 minutes for the VSTS agent and MRP dependency configuration. 
+    Make sure you make a note of the region as well as the username for the machine. Allow about 10 minutes for deployment and the MRP dependency configuration. 
 
-3. When the deployment completes, you should see the following resources in the Azure Portal:
+4. When the deployment completes, you should see the following resources in the Azure Portal:
 
     ![](<media/post_deployment_rg.png>)
 
