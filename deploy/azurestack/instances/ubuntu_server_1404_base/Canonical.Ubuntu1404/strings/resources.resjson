@@ -1,0 +1,8 @@
+{
+  "displayName": "Ubuntu Server 14.04-LTS",
+  "publisherDisplayName": "Canonical",
+  "summary": "Ubuntu Server delivers the best value scale-out performance available.",
+  "longSummary": "Ubuntu Server delivers the best value scale-out performance available.",
+  "description": "<p>Ubuntu Server is the world's most popular Linux for cloud environments.</p><p>Updates and patches for Ubuntu 14.04 LTS will be available until 2019-04-17.</p><p>Ubuntu Server is the perfect virtual machine (VM) platform for all workloads from web applications to NoSQL databases and Hadoop</p>",
+  "documentationLink": "Documentation"
+}
