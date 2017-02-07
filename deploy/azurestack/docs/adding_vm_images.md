@@ -4,6 +4,8 @@ Azure Stack enables administrators to make VM images, such as their organization
 
 ## Downloading an Image
 
+Firstly, you should be **logged into you Azure Stack environment, and specifically, within the MAS-CON01 machine**.
+
 For the purpose of our testing, we're going to focus on Linux images. Microsoft has worked with a number of Linux vendors to provide a set of Azure Stack-compatible images for use in your Azure Stack environments:
 
    * [Bitnami](https://bitnami.com/azure-stack)
