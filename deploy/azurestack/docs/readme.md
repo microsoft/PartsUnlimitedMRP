@@ -21,7 +21,7 @@ When you deployed your Azure Stack, if you deployed with a static network config
 
 ###Known Issue#
 
-If you deployed an Azure Stack TP2 One-Node environment with a STATIC network configuration, you have 10 days to activate the MAS-BGPNAT01 VM, before it is no longer licensed. If the MAS-BGPNAT01 VM is off for an extended period, your environment may no longer function, even if it is activated/licensed and running
+If you deployed an Azure Stack TP2 One-Node environment with a STATIC network configuration, you have 10 days to activate the MAS-BGPNAT01 VM, before it is no longer licensed. If the MAS-BGPNAT01 VM is off for an extended period, your environment may no longer function, even if it is activated/licensed and running.
 
 ###Resolution#
 
