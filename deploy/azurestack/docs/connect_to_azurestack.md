@@ -32,3 +32,8 @@ In order to test the Azure Stack functionality, a simple test would be to deploy
 
 This deployment may take a few minutes, and will depend on your hardware. Once complete, you should see a new tile on your dashboard.
 
+  ![VM Deployed](/deploy/azurestack/docs/media/VMdeployed.PNG)
+
+Whilst it's great to have a Windows Server to deploy onto Azure Stack, the real power is when you start to provide your own, customized images that can be deployed within the environment. These could be standard base Linux distro images, or something more customized, to include apps and other features that are enabled during the deployment.
+
+In the next step, we'll [add a new VM image](/deploy/azurestack/docs/adding_vm_image.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.
