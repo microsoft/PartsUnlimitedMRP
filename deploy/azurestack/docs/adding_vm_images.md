@@ -22,3 +22,5 @@ Once downloaded, extract the zip file, to end up with a single 30GB VHD, with th
 2. Move the file to a new folder called C:\Images
 3. Optional - to free up space, delete the original ZIP file you just downloaded.
 
+## Connecting to Azure Stack via PowerShell
+
