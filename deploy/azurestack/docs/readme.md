@@ -9,4 +9,4 @@ With the package safely downloaded, [follow the documentation](https://docs.micr
 
 Make sure you pay particularly close attention to the password expiration configuration, as you don't want your POC machine to expire too soon!
 
-Once your deployment has completed, we can move on to [adding VM images to Azure Stack]() that you can use with the DevOps tools we'll be deploying.
+Once your deployment has completed, we can move on to [adding VM images to Azure Stack](https://github.com/Microsoft/PartsUnlimitedMRP/deploy/azurestack/docs/adding_vm_images.md) that you can use with the DevOps tools we'll be deploying.
