@@ -25,14 +25,14 @@ In order to test the Azure Stack functionality, a simple test would be to deploy
 3. In the new Virtual Machines blade, you'll be presented with all of the choices you can make, for deployment within your Azure Stack. As it stands, by default, there is only a standalone Windows Server 2012 R2 virtual machine, or an Availability Set. Select **WindowsServer-2012-R2-Datacenter** then click **Create**.
 4. In the Create Virtual Machine blade, provide the basic information and click **OK**.
 
-  ![Enter Basic Info](/deploy/azurestack/docs/media/CreateVMBasic.PNG)
+    ![Enter Basic Info](/deploy/azurestack/docs/media/CreateVMBasic.PNG)
 5. Choose a virtual machine size for your deployment. It's recommended just to go with the default **A2 standard**, then click **Select**.
 6. Configure any optional features you wish to change. For the purposes of this test, simply accept the defaults and click **OK**.
 7. Review the final summary, wait for validation, and then click **OK** to start the deployment.
 
 This deployment may take a few minutes, and will depend on your hardware. Once complete, you should see a new tile on your dashboard.
 
-  ![VM Deployed](/deploy/azurestack/docs/media/VMdeployed.PNG)
+    ![VM Deployed](/deploy/azurestack/docs/media/VMdeployed.PNG)
 
 Whilst it's great to have a Windows Server to deploy onto Azure Stack, the real power is when you start to provide your own, customized images that can be deployed within the environment. These could be standard base Linux distro images, or something more customized, to include apps and other features that are enabled during the deployment.
 
