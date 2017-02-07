@@ -28,3 +28,7 @@ To read and learn more about this project, please visit the [documentation websi
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+#Getting Started with DevOps on Azure Stack#
+
+Just like for the Parts Unlimited MRP on Azure documentation, these series of documents will walk you through various deployments and configurations, along with usage of a number of core DevOps tools such as Chef, Puppet, Jenkins and more, all on Azure Stack. Head on over to the [getting started page](https://github.com/Microsoft/PartsUnlimitedMRP/deploy/azurestack/docs/readme.md)
