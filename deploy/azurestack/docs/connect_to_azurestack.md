@@ -16,6 +16,15 @@ Once you've successfully connected, you're free to explore the Azure Stack envir
 ## Connect with a VPN
 Virtual Private Network connections let multiple concurrent users connect from clients outside of the Azure Stack infrastructure. You can use the portal to manage resoures. You can also use tools, such as Visual Studio and PowerShell, on your local client. If you require a VPN connection to connect to your Azure Stack, please [refer to the documentation](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-connect-azure-stack).
 
+## Update Internet Explorer Enhanced Security Configuration
+
+It's easier if you do this now, rather than later. It'll make things easier when accessing Azure Stack both programmatically, and via the Portal.
+
+1. Open **Server Manager**, then click **Local Server**.
+2. On the right-hand side, next to IE Enhanced Security Configuration, click **On**.
+3. In the Internet Explorer Enhanced Security Configuration window, for Administrators, select **Off** and click **OK**.
+4. Close Server Manager.
+
 ## Deploy a Virtual Machine
 
 In order to test the Azure Stack functionality, a simple test would be to deploy a virtual machine.
