@@ -14,7 +14,7 @@ For the purpose of our testing, we're going to focus on Linux images. Microsoft 
    * [SuSE](https://download.suse.com/Download?buildid=VCFi7y7MsFQ~)
    * [Ubuntu 14.04 LTS](https://partner-images.canonical.com/azure/azure_stack/) / [Ubuntu 16.04 LTS](http://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.vhd.zip)
 
-For the purpose of our testing, we'll be focusing on **Ubuntu 14.04 LTS**, so that's the one you should be downloading too. When you click on the Ubuntu 14.04 LTS link above, you'll be taken to a page with a list of builds for that particular release. Choose the one at the bottom of the list, which typically corresponds to the newest of the builds. If you accept the default name, and save location, you'll end up with a 300+MB zip file, located in the downloads folder.
+We'll be focusing on **Ubuntu 14.04 LTS**, so that's the one you should be downloading too. When you click on the Ubuntu 14.04 LTS link above, you'll be taken to a page with a list of builds for that particular release. Choose the one at the bottom of the list, which typically corresponds to the newest of the builds. If you accept the default name, and save location, you'll end up with a 300+MB zip file, located in the downloads folder.
 
 Once downloaded, extract the zip file, to end up with a single 30GB VHD.
 
