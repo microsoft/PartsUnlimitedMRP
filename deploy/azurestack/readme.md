@@ -23,7 +23,7 @@ To read and learn more about this project, please visit the [documentation websi
 ## Key Features##
 - Front end service - runs Apache Tomcat and talks to order service
 - Order and Integration service - runs Java and calls MongoDB
-- Integran service - present to integrate with Parts Unlimited Website
+- Integration service - present to integrate with Parts Unlimited Website
 - Includes a Dockerfile and sample publishing profile to publish to a Docker container
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
 
