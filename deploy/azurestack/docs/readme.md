@@ -31,7 +31,7 @@ To update the STATIC network configuration AND activate the MAS-BGPNAT01 VM, tak
 - Open PowerShell ISE (this will open as Administrator, which is required)
 - Create a new file, paste (from Clipboard via Hyper-V console) in and Run the following script (to eliminate any strange characters coming through on the copy/paste from this page, it is recommended that you copy from here, paste into notepad, then into PowerShell ISE):
 
-<code></code><code>PowerShell
+```PowerShell
 $NetNatName = "BGPNAT"
 $NetNatEA = Get-NetNatExternalAddress -NatName $NetNatName
 $IPAddress = $NetNatEA.IPAddress
@@ -42,7 +42,7 @@ $PrefixLength = $IPAddressConfig.PrefixLength
 Remove-NetNatExternalAddress -ExternalAddressID $ExternalAddressID -Confirm:$false
 New-NetIPAddress -InterfaceAlias $InterfaceAlias -IPAddress $IPAddress -PrefixLength $PrefixLength
 Add-NetNatExternalAddress -NatName $NetNatName -IPAddress $IPAddress -PortStart 4096 -PortEnd 49151
-</code><code></code>
+```
 
 Wait for the network/internet connection to return. Sometime soon after the script is run, the Network task bar icon will go from warning to clear. At this point, you can check the System settings for activation – it will attempt to activate on its own, or you can choose to activate it manually. The desired end state after these actions is as follows:
 
