@@ -16,5 +16,9 @@ For the purpose of our testing, we're going to focus on Linux images. Microsoft 
 
 We'll be focusing on **Ubuntu 14.04 LTS**, so that's the one you should be downloading too. When you click on the Ubuntu 14.04 LTS link above, you'll be taken to a page with a list of builds for that particular release. Choose the one at the bottom of the list, which typically corresponds to the newest of the builds. If you accept the default name, and save location, you'll end up with a 300+MB zip file, located in the downloads folder.
 
-Once downloaded, extract the zip file, to end up with a single 30GB VHD.
+Once downloaded, extract the zip file, to end up with a single 30GB VHD, with the name **trusty-server-cloudimg-amd64-disk1.vhd**.
+
+1. Rename the VHD file to Ubuntu1404LTS.vhd
+2. Move the file to a new folder called C:\Images
+3. Optional - to free up space, delete the original ZIP file you just downloaded.
 
