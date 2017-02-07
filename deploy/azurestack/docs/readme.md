@@ -11,7 +11,7 @@ Make sure you pay particularly close attention to the password expiration config
 
 Once your deployment has completed, we can move on to [adding VM images to Azure Stack](https://github.com/Microsoft/PartsUnlimitedMRP/deploy/azurestack/docs/adding_vm_images.md) that you can use with the DevOps tools we'll be deploying.
 
-##Important Note for Azure Stack TP2 & Static IP Addresses#
+##*Important Note for Azure Stack TP2 & Static IP Addresses#
 
 When you deployed your Azure Stack, if you deployed with a static network configuration, there is a known issue, and workaround. If you're not sure whether you deployed with a static network configuration, essentially, you have a static configuration if you used any of the following parameters within your deployment script:
 
