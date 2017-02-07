@@ -9,7 +9,7 @@ With the package safely downloaded, [follow the documentation](https://docs.micr
 
 Make sure you pay particularly close attention to the password expiration configuration, as you don't want your POC machine to expire too soon!
 
-Once your deployment has completed, we can move on to [connecting to Azure Stack](/connect_to_azurestack.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.
+Once your deployment has completed, we can move on to [connecting to Azure Stack](/deploy/azurestack/docs/connect_to_azurestack.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.
 
 ##*Important Note for Azure Stack TP2 & Static IP Addresses#
 
