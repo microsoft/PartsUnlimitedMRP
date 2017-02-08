@@ -34,12 +34,12 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
     Get-PSRepository
 ```
 2. Run the following command to install the AzureRM module:
-``` PowerShell
+    ``` PowerShell
     Install-Module -Name AzureRM -RequiredVersion 1.2.6 -Scope CurrentUser
-```
-   > *-Scope CurrentUser* is optional. If you want more than the current user to have access to the modules, use an elevated command prompt and leave off the *Scope* parameter.
+    ```
+> *-Scope CurrentUser* is optional. If you want more than the current user to have access to the modules, use an elevated command prompt and leave off the *Scope* parameter.
    
 3. To confirm the installation of AzureRM modules, execute the following commands:
-``` PowerShell
+    ``` PowerShell
     Get-Command -Module AzureRM.AzureStackAdmin
-```
+    ```
