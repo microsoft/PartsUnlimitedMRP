@@ -45,13 +45,28 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
     Get-Command -Module AzureRM.AzureStackAdmin
     ```
 
-Once verified, we need to ensure we have the relevant tools in place to connect to Azure Stack via PowerShell. These could also be used for Azure, but may lack some of the latest Azure features. To grab these, run the following in an elevated PowerShell console on MAS-CON01:
+Once verified, we need to ensure we have the relevant tools in place to connect to Azure Stack via PowerShell. These could also be used for Azure, but may lack some of the latest Azure features. The tools are all [hosted on GitHub](https://github.com/Azure/AzureStack-Tools). To grab them, run the following in an elevated PowerShell console on MAS-CON01:
 
 ``` PowerShell
 cd\
 Invoke-Webrequest https://github.com/Azure/AzureStack-Tools/archive/master.zip -OutFile master.zip
 Expand-Archive master.zip -DestinationPath . -Force
-cd AzureStack-Tools-master
+cd AzureStack-Tools-master\connect
+Import-Module .\AzureStack.Connect.psm1
 ```
+With the Azure Stack coinnection module now imported, you can use the following commands to connect to your Azure Stack. Note, AzureRM cmdlets can be targeted at multiple Azure clouds such as Azure China, Government, and Azure Stack.
+To target your Azure Stack instance, an AzureRM environment needs to be registered as follows.
 
+```powershell
+Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
+```
+The AadTenant parameter above specifies the directory that was used when deploying Azure Stack.  After registering, AzureRM environment cmdlets can be easily targeted at your Azure Stack instance. For example:
 
+```powershell
+Add-AzureRmAccount -EnvironmentName AzureStack
+```
+You will be prompted for the account login including two factor authentication if it is enabled in your organization. You can also log in with a service principal using appropriate parameters of the Add-AzureRmAccount cmdlet.
+
+**Note, if you need info on connecting to your Azure Stack via VPN, see the [Azure Stack documentation](https://github.com/Azure/AzureStack-Tools/tree/master/Connect).
+
+Once logged in, you're ready to start adding images to your Azure Stack.
