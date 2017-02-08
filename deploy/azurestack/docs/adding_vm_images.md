@@ -83,7 +83,15 @@ Import-Module .\AzureStack.ComputeAdmin.psm1
 We're then ready to push our Ubuntu image that we downloaded earlier, into our Azure Stack PIR. Now, the code below is accurate assuming you used the same naming conventions I did, earlier. If not, adjust as necessary.
 
 ```powerShell
-Add-VMImage -publisher "Canonical" -offer "UbuntuServer" -sku "1404-LTS" '
--version "1.0.0" -osType Linux -osDiskLocalPath 'C:\Images\Ubuntu1404LTS.vhd' '
--tenantID <myaadtenant>.onmicrosoft.com -CreateGalleryItem $false
+Add-VMImage -publisher "Canonical" -offer "UbuntuServer" -sku "1404-LTS" -version "1.0.0" -osType Linux -osDiskLocalPath 'C:\Images\Ubuntu1404LTS.vhd' -tenantID <myaadtenant>.onmicrosoft.com -CreateGalleryItem $false
 ```
+The command above does the following:
+
+* Authenticates to the Azure Stack environment
+* Uploads the local VHD to a newly created temporary storage account
+* Adds the VM image to the VM image repository
+* Removes the temporary storage account
+
+You'll notice at the end of the command, there was a parameter called **-CreateGalleryItem**, and the value for this, I declared as false. By default, when you run this command without using this parameter, a default marketplace item will be created for this particular image. If you recall, earlier when we deployed our Windows Server 2012 R2 VM, this was created from a marketplace image, which had an icon, desciption and more. For this Ubuntu image, we'll skip the marketplace creation for now, and will create a more professional, complete one later.
+
+If you're interested in understanding a bit more about the other parameters used with the command above, [check out the docs](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-add-vm-image).
