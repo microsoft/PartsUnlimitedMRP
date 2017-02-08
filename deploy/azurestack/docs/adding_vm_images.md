@@ -104,6 +104,9 @@ With the upload complete, it's important to confirm that the image now exist in 
 3. In the Region Management blade, click on **local** and then in the Resource Providers box, click on **Compute**.
 4. In the Compute blade, under Content, click on **VM Images**.
 5. In the VM Images blade, you should see 2 images listed. The original Windows Server image, and the newly added Ubuntu image.
+
+    ![Image Added](/deploy/azurestack/docs/media/VM%20Images%20Complete.PNG)
+
 6. Close all open blades and return to the dashboard.
 
 At this stage, you're now ready to move on to deployment of the Parts Unlimited MRP environment, or expore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet.
