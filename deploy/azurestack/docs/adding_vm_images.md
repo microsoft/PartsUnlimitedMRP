@@ -28,7 +28,7 @@ Once downloaded, extract the zip file, to end up with a single 30GB VHD, with th
 
 Before we can begin adding an image to the Azure Stack PIR, we'll need to be able to connect to the Azure Stack via PowerShell, and there are a couple of steps we need to perform to do that.
 
-### Install Azure Stack PowerShell cmdlets
+### Install Azure Stack PowerShell cmdlets & dependencies
 1. Azure Stack uses the same AzureRM cmdlets that you'd use if you were connecting to Azure. These are installed from the PowerShell Gallery. To begin, open an elevated (as administrator) PowerShell Console on MAS-CON01 and run the following command to return a list of PowerShell repositories available:
 
     ``` PowerShell
@@ -44,3 +44,14 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
     ``` PowerShell
     Get-Command -Module AzureRM.AzureStackAdmin
     ```
+
+Once verified, we need to ensure we have the relevant tools in place to connect to Azure Stack via PowerShell. These could also be used for Azure, but may lack some of the latest Azure features. To grab these, run the following in an elevated PowerShell console on MAS-CON01:
+
+``` PowerShell
+cd\
+Invoke-Webrequest https://github.com/Azure/AzureStack-Tools/archive/master.zip -OutFile master.zip
+Expand-Archive master.zip -DestinationPath . -Force
+cd AzureStack-Tools-master
+```
+
+
