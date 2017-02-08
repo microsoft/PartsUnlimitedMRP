@@ -54,6 +54,7 @@ Expand-Archive master.zip -DestinationPath . -Force
 cd AzureStack-Tools-master\connect
 Import-Module .\AzureStack.Connect.psm1
 ```
+### Connect to Azure Stack
 With the Azure Stack coinnection module now imported, you can use the following commands to connect to your Azure Stack. Note, AzureRM cmdlets can be targeted at multiple Azure clouds such as Azure China, Government, and Azure Stack.
 To target your Azure Stack instance, an AzureRM environment needs to be registered as follows.
 
@@ -65,8 +66,8 @@ The AadTenant parameter above specifies the directory that was used when deployi
 ```powershell
 Add-AzureRmAccount -EnvironmentName AzureStack
 ```
-You will be prompted for the account login including two factor authentication if it is enabled in your organization. You can also log in with a service principal using appropriate parameters of the Add-AzureRmAccount cmdlet.
+You will be prompted for the account login including two factor authentication if it is enabled in your organization. You can also log in with a service principal using appropriate parameters of the Add-AzureRmAccount cmdlet. Keep this PowerShell console window open, for use later.
 
-**Note, if you need info on connecting to your Azure Stack via VPN, see the [Azure Stack documentation](https://github.com/Azure/AzureStack-Tools/tree/master/Connect).
+**Note, if you need info on connecting to your Azure Stack via VPN, see the [Azure Stack documentation](https://github.com/Azure/AzureStack-Tools/tree/master/Connect).**
 
 Once logged in, you're ready to start adding images to your Azure Stack.
