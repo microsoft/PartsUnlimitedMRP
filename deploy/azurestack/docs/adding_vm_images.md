@@ -83,5 +83,7 @@ Import-Module .\AzureStack.ComputeAdmin.psm1
 We're then ready to push our Ubuntu image that we downloaded earlier, into our Azure Stack PIR. Now, the code below is accurate assuming you used the same naming conventions I did, earlier. If not, adjust as necessary.
 
 ```powerShell
-Add-VMImage -publisher "Canonical" -offer "UbuntuServer" -sku "1404-LTS" -version "1.0.0" -osType Linux -osDiskLocalPath 'C:\Images\Ubuntu1404LTS.vhd' -tenantID <myaadtenant>.onmicrosoft.com -CreateGalleryItem $false
+Add-VMImage -publisher "Canonical" -offer "UbuntuServer" -sku "1404-LTS" '
+-version "1.0.0" -osType Linux -osDiskLocalPath 'C:\Images\Ubuntu1404LTS.vhd' '
+-tenantID <myaadtenant>.onmicrosoft.com -CreateGalleryItem $false
 ```
