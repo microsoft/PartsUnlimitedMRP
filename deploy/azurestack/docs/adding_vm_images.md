@@ -36,7 +36,7 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
     ```
 2. Run the following command to install the AzureRM module:
     ``` PowerShell
-    Install-Module -Name AzureRM -RequiredVersion 1.2.6 -Scope CurrentUser
+    Install-Module -Name AzureRM -RequiredVersion 1.2.6 -Scope CurrentUser -Force -AllowClobber
     ```
 > *-Scope CurrentUser* is optional. If you want more than the current user to have access to the modules, use an elevated command prompt and leave off the *Scope* parameter.
    
