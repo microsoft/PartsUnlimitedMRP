@@ -95,3 +95,23 @@ The command above does the following:
 You'll notice at the end of the command, there was a parameter called **-CreateGalleryItem**, and the value for this, I declared as false. By default, when you run this command without using this parameter, a default marketplace item will be created for this particular image. If you recall, earlier when we deployed our Windows Server 2012 R2 VM, this was created from a marketplace image, which had an icon, desciption and more. For this Ubuntu image, we'll skip the marketplace creation for now, and will create a more professional, complete one later.
 
 If you're interested in understanding a bit more about the other parameters used with the command above, [check out the docs](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-add-vm-image).
+
+## Explore the Platform Image Repository
+With the upload complete, it's important to confirm that the image now exist in the PIR. To do so, follow these steps:
+
+1. Open the Azure Stack Portal and log in as the Service Administrator.
+2. On the dashboard, click on the **Region Management** tile.
+3. In the Region Management blade, click on **local** and then in the Resource Providers box, click on **Compute**.
+4. In the Compute blade, under Content, click on **VM Images**.
+5. In the VM Images blade, you should see 2 images listed. The original Windows Server image, and the newly added Ubuntu image.
+6. Close all open blades and return to the dashboard.
+
+At this stage, you're now ready to move on to deployment of the Parts Unlimited MRP environment, or expore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet.
+
+If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
+
+## *Optional - Create a Marketplace item for your Ubuntu Base Image
+If you'd like something like this, in your Azure Stack gallery:
+
+
+
