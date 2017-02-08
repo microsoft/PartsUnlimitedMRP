@@ -46,3 +46,11 @@ This deployment may take a few minutes, and will depend on your hardware. Once c
 Whilst it's great to have a Windows Server to deploy onto Azure Stack, the real power is when you start to provide your own, customized images that can be deployed within the environment. These could be standard base Linux distro images, or something more customized, to include apps and other features that are enabled during the deployment.
 
 In the next step, we'll [add a new VM image](/deploy/azurestack/docs/adding_vm_images.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.
+
+## Optional - Clean Up VM Deployment
+
+If you're not going to use the previously deployed Windows Server VM, follow these steps to remove it from your Azure Stack environment:
+
+1. In the Azure Stack Portal, click **Resource Groups**
+2. In the list of Resource Groups, find your entry that you created during the Windows Server VM deployment, and on the far-right of the list, click the 3 dots **...** then choose **Delete**.
+3. In the new blade, enter the name of the Resource Group, and click **Delete**. This will clean up all of the artifacts from your deployment. It will take a few minutes, and you will receive a notification when complete.
