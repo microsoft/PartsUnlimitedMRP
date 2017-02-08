@@ -2,6 +2,8 @@
 
 Azure Stack enables administrators to make VM images, such as their organization’s custom VHD, available to their tenants. Images can be referenced by Azure Resource Manager templates or added to the Azure Marketplace UI with the creation of a Marketplace item. As we saw previously, a Windows Server 2012 R2 image is included by default in the Azure Stack Technical Preview.
 
+An image can be added to your Azure Stack Platform Image Repository (PIR) in 2 ways - via the portal, or programmatically. We'll focus on the programmatical approach, specifically with PowerShell, as it's faster, and more repeatable.  Plus, you can copy and paste my code ;-)
+
 ## Downloading an Image
 
 Firstly, you should be **logged into you Azure Stack environment, and specifically, within the MAS-CON01 machine**.
@@ -24,3 +26,24 @@ Once downloaded, extract the zip file, to end up with a single 30GB VHD, with th
 
 ## Connecting to Azure Stack via PowerShell
 
+Before we can begin adding an image to the Azure Stack PIR, we'll need to be able to connect to the Azure Stack via PowerShell, and there are a couple of steps we need to perform to do that.
+
+### Install Azure Stack PowerShell cmdlets
+1. Azure Stack uses the same AzureRM cmdlets that you'd use if you were connecting to Azure. These are installed from the PowerShell Gallery. To begin, open an elevated (as administrator) PowerShell Console on MAS-CON01 and run the following command to return a list of PowerShell repositories available:
+   
+``` PowerShell
+Get-PSRepository
+```
+2. Run the following command to install the AzureRM module:
+
+``` PowerShell
+Install-Module -Name AzureRM -RequiredVersion 1.2.6 -Scope CurrentUser
+```
+   > [!NOTE]
+   > *-Scope CurrentUser* is optional. If you want more than the current user to have access to the modules, use an elevated command prompt and leave off the *Scope* parameter.
+   > 
+   > 
+3. To confirm the installation of AzureRM modules, execute the following commands:
+``` PowerShell
+Get-Command -Module AzureRM.AzureStackAdmin
+```
