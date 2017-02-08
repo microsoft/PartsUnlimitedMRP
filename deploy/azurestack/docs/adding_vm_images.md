@@ -55,7 +55,7 @@ cd AzureStack-Tools-master\connect
 Import-Module .\AzureStack.Connect.psm1
 ```
 ### Connect to Azure Stack
-With the Azure Stack coinnection module now imported, you can use the following commands to connect to your Azure Stack. Note, AzureRM cmdlets can be targeted at multiple Azure clouds such as Azure China, Government, and Azure Stack.
+With the Azure Stack connection module now imported, you can use the following commands to connect to your Azure Stack. Note, AzureRM cmdlets can be targeted at multiple Azure clouds such as Azure China, Government, and Azure Stack.
 To target your Azure Stack instance, an AzureRM environment needs to be registered as follows.
 
 ```powershell
@@ -71,3 +71,11 @@ You will be prompted for the account login including two factor authentication i
 **Note, if you need info on connecting to your Azure Stack via VPN, see the [Azure Stack documentation](https://github.com/Azure/AzureStack-Tools/tree/master/Connect).**
 
 Once logged in, you're ready to start adding images to your Azure Stack.
+
+## Add VM Image to Platform Image Repository with PowerShell
+The first thing we'll need to do to upload an image with PowerShell, is import the Compute module, from our tools folder.
+
+```powerShell
+cd ..
+cd ComputeAdmin
+Import-Module .\AzureStack.ComputeAdmin.psm1
