@@ -118,3 +118,4 @@ Start-Process -FilePath C:\putty.exe
 ```
 When Putty opens, you'll need the Public IP address of the Ubuntu VM you deployed earlier. Once you have it, enter it into the appropriate window in Putty, and click **Open**. Note - Port 22 is open on this VM, as our ARM template that deployed the image opened it automatically.
 
+Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP).
