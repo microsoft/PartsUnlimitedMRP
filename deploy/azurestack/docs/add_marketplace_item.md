@@ -96,3 +96,13 @@ When successful, you should see a **StatusCode** of **Created**
 Go back and refresh the portal, and under New -> Virtual Machines -> See All, you should see your newly added Ubuntu marketplace item
 
   ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated.PNG)
+  
+## Test Deployment of your Ubuntu Base Image
+You've successfully added a new marketplace item, but it's important to check that it works as expected. To do so, we'll walk through a UI deployment:
+
+1. On MAS-CON01, from the Azure Stack Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 14.04-LTS**
+2. Enter the basic details required - **username, password and a resource group name**.
+3. Optionally, select **Pin to Dashboard**, then click Create.
+4. The process should take around ~20 minutes, depending on your hardware.
+
+
