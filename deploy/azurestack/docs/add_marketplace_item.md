@@ -33,7 +33,7 @@ At the root of this folder are 2 files. The **manifest.json** file provides key 
 
 Feel free to explore the files within the folder structure, and if you wish to customize. **Be careful though – changing certain parameters and variables may result in your ARM template not utilizing the UbuntuServer image we uploaded earlier**, so be careful.
 
-A good way to look through all the files quickly, is to download and install the excellent Visual Studio Code (https://code.visualstudio.com/Download). Once downloaded and installed, open the containing folder (be sure to keep the existing naming convention of the folder) and you’ll see all the files within the folder, and can quickly navigate between them.
+A good way to look through all the files quickly, is to download and install the excellent [Visual Studio Code](https://code.visualstudio.com/Download). Once downloaded and installed, open the containing folder (be sure to keep the existing naming convention of the folder) and you’ll see all the files within the folder, and can quickly navigate between them.
 
 If you want a quick way to download and install Visual Studio Code on your MAS-CON01 machine, here's a useful PowerShell script, to be run within an administrator PowerShell console:
 
@@ -55,7 +55,13 @@ Normally, once you've finished creating your respective files within your packag
 
 To save you time however, we'll just use the package we orginally downloaded earlier.
 
-1. Navigate to your .azpkg file, you downloaded earlier
-Save the package to C:\MyMarketPlaceItems.
-It’s important to note that if you are going to use the package I have provided, you need to have used the following info when uploading your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image.
+1. Navigate to your **Canonical.UbuntuServer.1.0.0.azpkg** file, you downloaded earlier
+2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
+
+    It’s important to note that if you are going to use the package I have provided, you need to have used the following info when uploading your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image.
+    
+    - Publisher "Canonical"
+    - Offer "UbuntuServer"
+    - SKU "1404-LTS"
+
 
