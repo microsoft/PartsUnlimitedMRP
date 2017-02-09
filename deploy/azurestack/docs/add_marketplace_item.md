@@ -18,4 +18,10 @@ As mentioned earlier, it's much easier if you start from an esiting set of resou
 
 - [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
-Once downloaded, navigate to the 
+1. Once downloaded, navigate to the folder containing your newly downloaded image, right click the file, and **rename to .zip**.
+2. Unzip the files
+
+What you'll see inside are a number of files and folders.
+
+  ![Unzipped Package](/deploy/azurestack/docs/media/UnzippedPackage.PNG)
+  
