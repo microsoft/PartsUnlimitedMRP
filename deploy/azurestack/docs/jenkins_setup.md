@@ -23,4 +23,4 @@ Now, you have 2 options for deployment.
 
 **The end result of both of these options is the same, however if you'd like to populate your gallery with more items, use option 2.
 
-### *Option 1 - ARM Template * Custom Deployment
+### *Option 1 - ARM Template & Custom Deployment
