@@ -58,7 +58,7 @@ To save you time however, we'll just use the package we orginally downloaded ear
 1. Navigate to your **Canonical.UbuntuServer.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-    It’s important to note that if you are going to use the package I have provided, you need to have used the following info when uploading your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image.
+    It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
