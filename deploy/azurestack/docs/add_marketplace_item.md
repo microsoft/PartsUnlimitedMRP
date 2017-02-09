@@ -1,4 +1,4 @@
-## Adding a Marketplace Item to Azure Stack
+# Adding a Marketplace Item to Azure Stack
 Once your Ubuntu base image is in the platform image repository within your Azure Stack, you can deploy ARM templates that reference those images without any further prep work...however having choices in your marketplace is pretty cool, and it’s not that difficult. Especially seeing as I’ve packaged marketplace items for you to save you a job :-)
 
 If you've stumbled upon this page and you're not quite sure what a Marketplace item is, it's one of these:
@@ -14,7 +14,7 @@ As you can see, I've created entries for the Ubuntu base image, along with image
 
 Once you have those 3 items defined, you're at a point where you can used the [Azure Gallery Packager tool](http://www.aka.ms/azurestackmarketplaceitem) to package all of those respective files into a .azpkg file, that is then uploaded into your Azure Stack.
 
-### Download an Example Package for the Base Ubuntu Image
+## Download an Example Package for the Base Ubuntu Image
 As mentioned earlier, it's much easier if you start from an esiting set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
 - [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
@@ -49,7 +49,7 @@ Ben Gelens has a [great write up on his blog](https://azurestack.eu/2016/10/addi
 
 The key question is, how do you take those files and folders, and get them into Azure Stack?
 
-### Uploading a Package to Azure Stack
+## Uploading a Package to Azure Stack
 
 Normally, once you've finished creating your respective files within your package folder, you would download and install the [Azure Gallery Packager Tool](http://www.aka.ms/azurestackmarketplaceitem) and follow the [guidance here](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item).
 
@@ -117,5 +117,7 @@ Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -Out
 Start-Process -FilePath C:\putty.exe
 ```
 When Putty opens, you'll need the Public IP address of the Ubuntu VM you deployed earlier. Once you have it, enter it into the appropriate window in Putty, and click **Open**. Note - Port 22 is open on this VM, as our ARM template that deployed the image opened it automatically.
+
+# Next Step
 
 Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP).
