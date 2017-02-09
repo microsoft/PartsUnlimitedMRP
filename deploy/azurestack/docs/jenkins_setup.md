@@ -8,6 +8,7 @@ There are a couple of key things you'll need to have in place before setting up 
   - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](deploy/azurestack/docs/adding_vm_images.md))
   - An Ubuntu base image in the Platform Image Repository ([Details here](deploy/azurestack/docs/adding_vm_images.md))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
+    
     ```powershell
     Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
     ```
