@@ -33,4 +33,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 Just like for the Parts Unlimited MRP on Azure documentation, this detailed series of documents will walk you through various deployments and configurations, along with usage of a number of core DevOps tools such as Chef, Puppet, Jenkins and more, all on Azure Stack.
 
-Interested? Head on over to the [getting started page](https://github.com/Microsoft/PartsUnlimitedMRP/deploy/azurestack/docs/readme.md) to start kicking the tires.
+Interested? Head on over to the [getting started page](/deploy/azurestack/docs/readme.md) to start kicking the tires.
