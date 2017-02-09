@@ -88,6 +88,7 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
   $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\Canonical.UbuntuServer.1.0.0.azpkg
   Add-AzureRMGalleryItem -SubscriptionId $subscriptionid -GalleryItemUri $MarketPlaceAzpkg.ICloudBlob.StorageUri.PrimaryUri.AbsoluteUri  -Apiversion "2015-04-01"
   ```
-When successful, you should see a **StatusCode** of **Successful**
+
+When successful, you should see a **StatusCode** of **Created**
 
    ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
