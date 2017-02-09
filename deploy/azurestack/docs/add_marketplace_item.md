@@ -64,9 +64,9 @@ To save you time however, we'll just use the package we orginally downloaded ear
     - Offer "UbuntuServer"
     - SKU "1404-LTS"
 
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. For that, we'll create a **Storage Account** that will be used to hold this package, and any others we upload in the future.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. For that, we'll create a **storage account** that will be used to hold this package, and any others we upload in the future.
 
-1. On MAS-CON01, connect to your Azure Stack via PowerShell. If you're not still connected from the earlier steps, run the following:
+1. On MAS-CON01, connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
   ``` powershell
   cd C:\AzureStack-Tools-master\connect
@@ -74,4 +74,17 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
   Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
   Add-AzureRmAccount -EnvironmentName AzureStack
   ```
-2. 
+2. Now, let's create the storage account to hold these packages. We'll call this **tenantartifacts** and store it in a dedicated **resource group** of the same name:
+
+  ``` powershell
+  $subscriptionid = (Get-AzureRmSubscription -SubscriptionName 'Default Provider Subscription').SubscriptionId
+  $RG = New-AzureRmResourceGroup -Name tenantartifacts -Location local
+  $StorageAccount = $RG | New-AzureRmStorageAccount -Name tenantartifacts -Type Standard_LRS
+  ```
+3. With the resource group, and storage account created, we can now push our marketplace package into Azure Stack, by first creating a new **Azure Storage Container** within the storage account, and then uploading:
+
+  ``` powershell
+  $GalleryContainer = New-AzureStorageContainer -Name gallery -Permission Blob -Context $StorageAccount.Context
+  $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\Canonical.UbuntuServer.1.0.0.azpkg
+  Add-AzureRMGalleryItem -SubscriptionId $subscriptionid -GalleryItemUri $MarketPlaceAzpkg.ICloudBlob.StorageUri.PrimaryUri.AbsoluteUri  -Apiversion "2015-04-01"
+  ```
