@@ -30,11 +30,11 @@ In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that w
 [Go to the Jenkins lab!](/deploy/azurestack/docs/jenkins_setup.md)
 
 ### Chef - Continuous Deployment with Chef
-In this multi-part lab, you will explore some of the new features and capabilities of deploying the Parts Unlimited MRP App via Chef Server in Azure Stack. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.
+In this multi-part lab, you will explore some of the new features and capabilities of deploying the Parts Unlimited MRP App via Chef Server in Azure Stack. This hands-on lab is designed to point out new features of [Chef Server](https://www.chef.io/), discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.
 
 [Go to the Chef lab!](/deploy/azurestack/docs/chef_setup.md)
 
 ### Puppet - Continuous Deployment with Puppet
-In this multi-part lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from PuppetLabs. Puppet is a configuration management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure as code. Infrastructure as Code is an important pillar of good DevOps.
+In this multi-part lab, you will deploy a Java app, the Parts Unlimited MRP App, using [Puppet](https://puppet.com/) from PuppetLabs. Puppet is a configuration management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure as code. Infrastructure as Code is an important pillar of good DevOps.
 
 [Go to the Puppet lab!](/deploy/azurestack/docs/puppet_setup.md)
