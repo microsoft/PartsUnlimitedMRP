@@ -67,7 +67,8 @@ To save you time however, we'll just use the package we orginally downloaded ear
 Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. For that, we'll create a **Storage Account** that will be used to hold this package, and any others we upload in the future.
 
 1. On MAS-CON01, connect to your Azure Stack via PowerShell. If you're not still connected from the earlier steps, run the following:
-  ```powershell
+  
+  ``` powershell
   cd AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
   Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
