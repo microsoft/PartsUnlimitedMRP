@@ -69,7 +69,7 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 1. On MAS-CON01, connect to your Azure Stack via PowerShell. If you're not still connected from the earlier steps, run the following:
   
   ``` powershell
-  cd AzureStack-Tools-master\connect
+  cd C:\AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
   Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
   Add-AzureRmAccount -EnvironmentName AzureStack
