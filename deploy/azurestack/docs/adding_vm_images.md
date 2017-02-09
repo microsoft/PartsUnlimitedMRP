@@ -92,7 +92,7 @@ The command above does the following:
 * Adds the VM image to the VM image repository
 * Removes the temporary storage account
 
-You'll notice at the end of the command, there was a parameter called **-CreateGalleryItem**, and the value for this, I declared as false. By default, when you run this command without using this parameter, a default marketplace item will be created for this particular image. If you recall, earlier when we deployed our Windows Server 2012 R2 VM, this was created from a marketplace image, which had an icon, desciption and more. For this Ubuntu image, we'll skip the marketplace creation for now, and will create a more professional, complete one later.
+You'll notice at the end of the command, there was a parameter called **-CreateGalleryItem**, and the value for this, I declared as false. By default, when you run this command without using this parameter, a default marketplace item will be created for this particular image. If you recall, earlier when we deployed our Windows Server 2012 R2 VM, this was created from a marketplace image, which had an icon, desciption and more. For this Ubuntu image, we'll skip the marketplace creation for now, and will create a more professional, complete one later. Once you've executed the command, leave the PowerShell window open for later.
 
 If you're interested in understanding a bit more about the other parameters used with the command above, [check out the docs](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-add-vm-image).
 
@@ -109,7 +109,20 @@ With the upload complete, it's important to confirm that the image now exist in 
 
 6. Close all open blades and return to the dashboard.
 
-At this stage, you're now ready to move on to deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP) page to go forward.
+## *Important - Add Diagnostic Extension to enable Linux Monitoring
+The extension required to monitor Linux VMs, didn't ship in the box with the Azure Stack Technical Preview 2, so we'll quickly add it to avoid any issues later. On the **Azure Stack POC Host machine**, execute the following steps, from an **administrative PowerShell console**.
+
+```powershell
+New-Item C:\ClusterStorage\Volume1\Shares\SU1_Infrastructure_1\CRP\GuestArtifactRepository\IaaSDiagnosticsLinux -Type directory
+Invoke-WebRequest https://raw.githubusercontent.com/bgelens/BlogItems/master/Microsoft.OSTCExtensions.LinuxDiagnostic_2.3.9009.zip -OutFile C:\ClusterStorage\Volume1\Shares\SU1_Infrastructure_1\CRP\GuestArtifactRepository\IaaSDiagnosticsLinux\Microsoft.OSTCExtensions.LinuxDiagnostic_2.3.9009.zip
+Invoke-WebRequest https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/deploy/azurestack/customscripts/linux_extension/manifest.json -OutFile C:\ClusterStorage\Volume1\Shares\SU1_Infrastructure_1\CRP\GuestArtifactRepository\IaaSDiagnosticsLinux\manifest.json
+```
+With those commands executed, hop back over to the MAS-CON01 machine, and in your administrative PowerShell console, run the following:
+
+```powershell
+Get-AzureRmVMExtensionImage -PublisherName Microsoft.OSTCExtensions -Location local -Type LinuxDiagnostic
+```
+You should receive an output, and not an exception. If so, you're ready to move on to deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP) page to go forward.
 
 If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
 
