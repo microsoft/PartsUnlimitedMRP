@@ -16,5 +16,5 @@ Once you have those 3 items defined, you're at a point where you can used the [A
 ### Download an Example Package for the Base Ubuntu Image
 As mentioned earlier, it's much easier if you start from an esiting set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
-- [Download Base Image Package Files](deploy/azurestack/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
+- [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
