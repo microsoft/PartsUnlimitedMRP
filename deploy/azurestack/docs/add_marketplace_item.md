@@ -104,5 +104,16 @@ You've successfully added a new marketplace item, but it's important to check th
 2. Enter the basic details required - **username, password and a resource group name**.
 3. Optionally, select **Pin to Dashboard**, then click Create.
 4. The process should take around ~20 minutes, depending on your hardware.
+5. Once completed, from the Azure Stack Portal, click **Virtual Machines** on the left hand side.
+6. Click on your newly deployed Ubuntu VM, then click on **Overview**
+7. You should see your Public IP defined as a property in the Overview blade - make a note of this Public IP
+  ![VM Public IP](/deploy/azurestack/docs/media/UbuntuPublicIP.PNG)
 
+Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty on MAS-CON01, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
+
+```powershell
+Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
+Start-Process -FilePath C:\putty.exe
+```
+When Putty opens, you'll need the Public IP address of the Ubuntu VM you deployed earlier. Once you have it, enter it into the appropriate window in Putty, and click **Open**. Note - Port 22 is open on this VM, as our ARM template that deployed the image opened it automatically.
 
