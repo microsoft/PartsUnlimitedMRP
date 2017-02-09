@@ -19,7 +19,8 @@ As mentioned earlier, it's much easier if you start from an esiting set of resou
 
 - [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
-1. Once downloaded, navigate to the folder containing your newly downloaded image, right click the file, and **rename to .zip**
+1. Once downloaded, navigate to the folder containing your newly downloaded image, and **create a copy of the file**.
+2. Right click the new copy, and **rename to .zip**
 2. Unzip the files
 
 What you'll see inside are a number of files and folders.
@@ -44,8 +45,17 @@ Restart-Computer -Force -Confirm:$false
 ```
 
 
-Ben (https://azurestack.eu/2016/10/adding-and-using-os-gallery-items-to-azure-stack-tp2/) has a great rite up on his blog, and in addition, there is some very useful information on marketplace items on the official Azure Stack documentation site: https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item, especially the explanation of the key manifest.json components that are very useful to understand.
-The key question is, how do you take those files and folders, and get them into Azure Stack? Well, you can either download and install the Azure Gallery Packager Tool (http://www.aka.ms/azurestackmarketplaceitem) and follow the guidance here: https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item), or, you could simply grab the package that I’ve already packaged for you, and use that (https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg). 
+Ben Gelens has a [great write up on his blog](https://azurestack.eu/2016/10/adding-and-using-os-gallery-items-to-azure-stack-tp2/) on adding marketplace items, and in addition, there is some very useful information on marketplace items on the [official Azure Stack documentation site](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item), especially the explanation of the key manifest.json components that are very useful to understand.
+
+The key question is, how do you take those files and folders, and get them into Azure Stack?
+
+### Uploading a Package to Azure Stack
+
+Normally, once you've finished creating your respective files within your package folder, you would download and install the [Azure Gallery Packager Tool](http://www.aka.ms/azurestackmarketplaceitem) and follow the [guidance here](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item).
+
+To save you time however, we'll just use the package we orginally downloaded earlier.
+
+1. Navigate to your .azpkg file, you downloaded earlier
 Save the package to C:\MyMarketPlaceItems.
 It’s important to note that if you are going to use the package I have provided, you need to have used the following info when uploading your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image.
 
