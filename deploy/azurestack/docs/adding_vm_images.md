@@ -131,4 +131,4 @@ If you'd like something like this, in your Azure Stack gallery:
 
    ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
 
-then [follow the steps over on this page](/deploy/azurestack/docs/add_marketplace_item).
+then [follow the steps over on this page](/deploy/azurestack/docs/add_marketplace_item.md).
