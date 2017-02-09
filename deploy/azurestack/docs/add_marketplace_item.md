@@ -92,3 +92,7 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 When successful, you should see a **StatusCode** of **Created**
 
    ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+
+Go back and refresh the portal, and under New -> Virtual Machines -> See All, you should see your newly added Ubuntu marketplace item
+
+  ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated.PNG)
