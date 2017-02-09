@@ -108,7 +108,7 @@ You've successfully added a new marketplace item, but it's important to check th
 6. Click on your newly deployed Ubuntu VM, then click on **Overview**
 7. You should see your Public IP defined as a property in the Overview blade - make a note of this Public IP
 
-![VM Public IP](/deploy/azurestack/docs/media/UbuntuPublicIP.PNG)
+![VM Public IP](/deploy/azurestack/docs/media/UbuntuVMCreated.PNG)
 
 Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty on MAS-CON01, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
 
