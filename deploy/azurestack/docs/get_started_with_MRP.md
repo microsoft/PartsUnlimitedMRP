@@ -21,3 +21,20 @@ As part of the deployment, you'll have the opportunity to embrace a number of co
 
 As time moves forward, more documents will be added that support additonal DevOps practices, going beyond the fundamentals and exploring more advanced techniques and tools.
 
+## Choose a path
+Below, you'll find the current scenarios, with a brief description. Some will consume more time than others, however all of them will provide valuable learnings across core DevOps practices.
+
+### Jenkins - Continuous Integrated and Continuous Deployment
+In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that will be used for the Parts Unlimited MRP project. We'll then step through using that environment to showcase CI/CD capabilities. [Jenkins](https://jenkins.io/) is an open source automation server that provides capabilities for building, deploying and automating any project.
+
+[Go to the Jenkins lab!](/deploy/azurestack/docs/jenkins_setup.md)
+
+### Chef - Continuous Deployment with Chef
+In this multi-part lab, you will explore some of the new features and capabilities of deploying the Parts Unlimited MRP App via Chef Server in Azure Stack. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle.
+
+[Go to the Chef lab!](/deploy/azurestack/docs/chef_setup.md)
+
+### Puppet - Continuous Deployment with Puppet
+In this multi-part lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from PuppetLabs. Puppet is a configuration management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure as code. Infrastructure as Code is an important pillar of good DevOps.
+
+[Go to the Puppet lab!](/deploy/azurestack/docs/puppet_setup.md)
