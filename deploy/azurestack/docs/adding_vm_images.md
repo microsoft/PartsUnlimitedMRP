@@ -116,6 +116,6 @@ If you're interested in understanding how to create more professional marketplac
 ## *Optional - Create a Marketplace item for your Ubuntu Base Image
 If you'd like something like this, in your Azure Stack gallery:
 
-    ![Image Added](/deploy/azurestack/docs/media/gallery.jpg)
+    ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallery.PNG)
 
 then [follow the steps over on this page](/deploy/azurestack/docs/add_marketplace_item).
