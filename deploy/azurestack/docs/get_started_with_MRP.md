@@ -24,7 +24,7 @@ As time moves forward, more documents will be added that support additonal DevOp
 ## Choose a path
 Below, you'll find the current scenarios, with a brief description. Some will consume more time than others, however all of them will provide valuable learnings across core DevOps practices.
 
-### Jenkins - Continuous Integrated and Continuous Deployment
+### Jenkins - Continuous Integration and Continuous Deployment
 In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that will be used for the Parts Unlimited MRP project. We'll then step through using that environment to showcase CI/CD capabilities. [Jenkins](https://jenkins.io/) is an open source automation server that provides capabilities for building, deploying and automating any project.
 
 [Go to the Jenkins lab!](/deploy/azurestack/docs/jenkins_setup.md)
