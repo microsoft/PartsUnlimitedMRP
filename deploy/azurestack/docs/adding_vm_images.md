@@ -122,7 +122,10 @@ With those commands executed, hop back over to the MAS-CON01 machine, and in you
 ```powershell
 Get-AzureRmVMExtensionImage -PublisherName Microsoft.OSTCExtensions -Location local -Type LinuxDiagnostic
 ```
-You should receive an output, and not an exception. If so, you're ready to move on to deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP) page to go forward.
+You should receive an output, and not an exception. If so, you're ready to move on.
+
+# Next Step
+You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP) page to go forward.
 
 If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
 
