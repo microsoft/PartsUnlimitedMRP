@@ -8,6 +8,7 @@ If you've stumbled upon this page and you're not quite sure what a Marketplace i
 As you can see, I've created entries for the Ubuntu base image, along with images specific to Jenkins, and the Parts Unlimited MRP application. Creating a marketplace item requires a number of steps, which involve the following:
 
 1. Creation of a **manifest.json** file, which is a bit like a metadata document
+2. Creation of a **resources.resjson** file, which contains useful description information
 2. Creation of an **ARM Template** which actually configures the deployment from your image
 3. Creation of a **UI Definition** file, which determines the blades used during the portal deployment
 
@@ -18,10 +19,11 @@ As mentioned earlier, it's much easier if you start from an esiting set of resou
 
 - [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
-1. Once downloaded, navigate to the folder containing your newly downloaded image, right click the file, and **rename to .zip**.
+1. Once downloaded, navigate to the folder containing your newly downloaded image, right click the file, and **rename to .zip**
 2. Unzip the files
 
 What you'll see inside are a number of files and folders.
 
   ![Unzipped Package](/deploy/azurestack/docs/media/UnzippedPackage.PNG)
   
+Some of these can be ignored, as they are created during the packaging process, such as the **_rels** folder
