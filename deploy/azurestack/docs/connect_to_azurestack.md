@@ -20,7 +20,7 @@ Virtual Private Network connections let multiple concurrent users connect from c
 
 It's easier if you do this now, rather than later. It'll make things easier when accessing Azure Stack both programmatically, and via the Portal.
 
-1. Open **Server Manager**, then click **Local Server**.
+1. On MAS-CON01, open **Server Manager**, then click **Local Server**.
 2. On the right-hand side, next to IE Enhanced Security Configuration, click **On**.
 3. In the Internet Explorer Enhanced Security Configuration window, for Administrators, select **Off** and click **OK**.
 4. Close Server Manager.
