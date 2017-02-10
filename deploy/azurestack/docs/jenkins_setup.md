@@ -28,6 +28,4 @@ If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP
 
 Firstly, you need to click on the button below, and then enter some information:
 
-  ![Deploy to Azure Stack](/deploy/azurestack/docs/media/DeployToStack.png)
-
-(https://portal.azurestack.local/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/mattmcspirit/PartsUnlimitedMRP/patch-2/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)
+  [![Deploy to Azure Stack](/deploy/azurestack/docs/media/DeployToStack.png)](https://portal.azurestack.local/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/mattmcspirit/PartsUnlimitedMRP/patch-2/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)
