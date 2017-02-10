@@ -31,5 +31,5 @@ Firstly, you need to click on the button below, and then enter some information:
   [![Deploy to Azure Stack](/deploy/azurestack/docs/media/DeployToStack.png)](https://portal.azurestack.local/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmattmcspirit%2FPartsUnlimitedMRP%2Fpatch-2%2Fdeploy%2Fazurestack%2Finstances%2Fjenkins_mrp%2FPartsUnlimitedMRP.MRPwithJenkins%2FDeploymentTemplates%2FMRPwithJenkinsDeploy.json)
 
 <a href="https://portal.azurestack.local/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmattmcspirit%2FPartsUnlimitedMRP%2Fpatch-2%2Fdeploy%2Fazurestack%2Finstances%2Fjenkins_mrp%2FPartsUnlimitedMRP.MRPwithJenkins%2FDeploymentTemplates%2FMRPwithJenkinsDeploy.json" target="_blank">
-        <img src="https://github.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png?raw=true"/>
+        <img src="https://raw.githubusercontent.com/mattmcspirit/PartsUnlimitedMRP/patch-2/deploy/azurestack/docs/media/DeployToStack.png"/>
 </a>
