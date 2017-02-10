@@ -38,14 +38,14 @@ First, we need to set up Eclipse in order to work on the Parts Unlimited MRP App
 
 ![](<../assets/test/open_other_perspective.png>)
 
-**6.** Select **Git** and click **OK**.
+**4.** Select **Git** and click **OK**.
 
 ![](<../assets/test/git_perspective.png>)
 
 
 This will open up the Git perspective in Eclipse.
 
-**7.** If the Visual Studio Team Services Git repository already exists on your local machine, **skip to step 8**. Otherwise, click the **Clone a Git repository** from the Git Repositories Window:
+**5.** If the Visual Studio Team Services Git repository already exists on your local machine, **skip to step 8**. Otherwise, click the **Clone a Git repository** from the Git Repositories Window:
 
 ![](<../assets/test/clone_repo.png>)
 
@@ -67,53 +67,53 @@ This will clone the repository to your local machine. You should be able to see 
 
 ![](<../assets/test/local_repo.png>)
 
-**8.** If you already have the Visual Studio Team Services Git repo on your machine, select the option to **Add an existing local Git repository**, then navigate to the folder of the Git repo and check the box next to it to add the repo reference into Eclipse. 
+**6.** If you already have the Visual Studio Team Services Git repo on your machine, select the option to **Add an existing local Git repository**, then navigate to the folder of the Git repo and check the box next to it to add the repo reference into Eclipse. 
 
 ![](<../assets/test/add_existing_git_repo.png>)
 
-**9.** Open the **Java perspective** by clicking the shortcut in the top right corner of Eclipse.
+**7.** Open the **Java perspective** by clicking the shortcut in the top right corner of Eclipse.
 
 ![](<../assets/test/java_perspective.png>)
 
-**12.** In the top left, click the **New** drop down and select **Java project**.
+**8.** In the top left, click the **New** drop down and select **Java project**.
 
 ![](<../assets/test/new_java_project.png>)
 
-**13.** In the New Java Project dialog name the project **IntegrationService**, uncheck the **Use default location**, choose the **IntegrationService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
+**9.** In the New Java Project dialog name the project **IntegrationService**, uncheck the **Use default location**, choose the **IntegrationService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
 ![](<../assets/test/new_integration_service.png>)
 
-**14.** In the Package Explorer window, **right-click on IntegrationService** and then select **Configure -> Add Gradle Nature**.
+**10.** In the Package Explorer window, **right-click on IntegrationService** and then select **Configure -> Add Gradle Nature**.
  
 ![](<../assets/test/integration_to_gradle.png>)
 
 Note: at this point, you should see the errors disappear from the project.
 
-**15.** Follow **Step 12** to create a **new Java Project**.
+**11.** Follow **Step 12** to create a **new Java Project**.
 
-**16.** In the New Java Project dialog name the project **OrderService**, uncheck the **Use default location**, choose the **OrderService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
+**12.** In the New Java Project dialog name the project **OrderService**, uncheck the **Use default location**, choose the **OrderService** folder located in `src/Backend/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
 ![](<../assets/test/new_order_service.png>)
 
-**17.** In the Package Explorer window, **right-click on OrderService** and then select **Configure -> Add Gradle Nature**.
+**13.** In the Package Explorer window, **right-click on OrderService** and then select **Configure -> Add Gradle Nature**.
 
-**18.** Follow **Step 12** again to create a **new Java Project**.
+**14.** Follow **Step 12** again to create a **new Java Project**.
 
-**19.** In the New Java Project dialog name the project **Clients**, uncheck the **Use default location**, choose the **Clients** folder located in `src/` of the PartsUnlimitedMRP repository, and click **Finish**.
+**15.** In the New Java Project dialog name the project **Clients**, uncheck the **Use default location**, choose the **Clients** folder located in `src/` of the PartsUnlimitedMRP repository, and click **Finish**.
 
 ![](<../assets/test/new_clients.png>)
 
-**20.** In the Package Explorer window, **right-click on Clients** and then select **Configure -> Add Gradle Nature**.
+**16.** In the Package Explorer window, **right-click on Clients** and then select **Configure -> Add Gradle Nature**.
 
 You should now have 3 projects in Eclipse that are all Gradle projects (signified by the `G` in the glyph of the projects in the Package Explorer window).
 
 ![](<../assets/test/gradle_projects.png>)
 
-**21.** In Eclipse's menu select **Window -> Show View -> Other...**
+**17.** In Eclipse's menu select **Window -> Show View -> Other...**
 
 ![](<../assets/test/other_view.png>)
 
-**22.** Type `gradle` in the filter box, and select "Gradle Tasks."
+**18.** Type `gradle` in the filter box, and select "Gradle Tasks."
 
 ![](<../assets/test/show_gradle_view.png>)
 
@@ -213,11 +213,11 @@ The Push Results window should pop up after you have successfully pushed:
 
 Once the build is done, **open up the build summary page** by double-clicking on it. 
 
-**7.** On the build summary page, note that 54 tests have run successfully. Click on the **Tests** tab to view the list of automated tests.
+**6.** On the build summary page, note that 54 tests have run successfully. Click on the **Tests** tab to view the list of automated tests.
 
 ![](<../assets/test/build_test_summary.png>)
 
-**8.** In the **Tests** tab, select the **Passed** outcome in the dropdown area, and you should now see that your new automated test is a part of the Continuous Integration Build.
+**7.** In the **Tests** tab, select the **Passed** outcome in the dropdown area, and you should now see that your new automated test is a part of the Continuous Integration Build.
 
 ![](<../assets/test/build_test_results.png>)
 
