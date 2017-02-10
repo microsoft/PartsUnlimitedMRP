@@ -32,4 +32,10 @@ Firstly, from your MAS-CON01 machine, you need to click on the button below, and
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
 </a>
 
+You'll need to enter information for the following fields:
+- **JENKINSADMINPASSWORD** - choose a password of your choice
+- **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-jenkins**
+- **MRPADMINPASSWORD** - choose a password of your choice
+- **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-deploy**
 
+![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeployment.PNG)
