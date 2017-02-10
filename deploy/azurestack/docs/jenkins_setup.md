@@ -24,3 +24,8 @@ Now, you have 2 options for deployment.
 **The end result of both of these options is the same, however if you'd like to populate your gallery with more items, use option 2.
 
 ### *Option 1 - ARM Template & Custom Deployment
+If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP with Jenkins', then this quick and easy approach should make things, well, quick and easy for you!
+
+Firstly, you need to click on the button below, and then enter some information:
+
+[![Azure Stack Gallery](/deploy/azurestack/docs/media/DeployToStack.PNG)](https://portal.azurestack.local/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/mattmcspirit/PartsUnlimitedMRP/patch-2/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)
