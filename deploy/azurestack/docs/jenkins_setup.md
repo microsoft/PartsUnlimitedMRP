@@ -38,4 +38,4 @@ You'll need to enter information for the following fields:
 - **MRPADMINPASSWORD** - choose a password of your choice
 - **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-deploy**
 
-  ![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeployment.png)
+![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeployment.png)
