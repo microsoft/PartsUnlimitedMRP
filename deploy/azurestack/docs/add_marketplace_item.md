@@ -15,7 +15,7 @@ As you can see, I've created entries for the Ubuntu base image, along with image
 Once you have those 3 items defined, you're at a point where you can used the [Azure Gallery Packager tool](http://www.aka.ms/azurestackmarketplaceitem) to package all of those respective files into a .azpkg file, that is then uploaded into your Azure Stack.
 
 ## Download an Example Package for the Base Ubuntu Image
-As mentioned earlier, it's much easier if you start from an esiting set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
+As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
 - [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
@@ -120,4 +120,4 @@ When Putty opens, you'll need the Public IP address of the Ubuntu VM you deploye
 
 # Next Step
 
-Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP).
+Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP.md).

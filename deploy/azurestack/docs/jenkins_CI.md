@@ -1,0 +1,229 @@
+# Continuous Integration for Parts Unlimited MRP with Jenkins
+In this lab, we have an application called Parts Unlimited MRP. We want to set up Jenkins to be able continuously integrate code into the master branch of code. This means that whenever code is committed and pushed to the master branch, we want to ensure that it integrates into our code correctly to get fast feedback. To do so, we are going to be creating a pipeline that will allow us to compile and run unit tests on our code every time a commit is pushed to GitHub.
+
+## Pre-Requisites: ##
+
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
+- Have a github account [https://github.com](https://github.com).
+
+## Tasks Overview:
+During the following tasks you will fork the Parts Unlimited MRP github repository and create a Jenkins pipeline for the Continous Integration of the Parts Unlimited MRP application. You will learn how to configure Jenkins so that whenever a change is checked in on the code repository, a build will be triggered and several tests will be performed.
+
+### Configure your GitHub repository
+
+**1.** Nagivate to [https://github.com/Microsoft/PartsUnlimitedMRP/](https://github.com/Microsoft/PartsUnlimitedMRP/)
+
+**2.** Sign in with your github account
+
+**3.** Click on Fork.
+
+**NOTE**: if you have multiple account, select the account you want to fork to.
+
+![Github fork](<../assets/jenkins/github_fork.png>)
+
+**4.** Go to the repository that you have just forked and click on the tab **Settings**
+
+**5.** Click on Webhooks then **Add webhook**
+
+![Github Webhook](<../assets/jenkins/github_webhook.png>)
+
+**6.** Type the following in the **Payload URL**
+
+```
+http://jenkins:Passw0rd@fqdn_of_your_jenkinsmaster:8080/job/PartsUnlimitedMRP/build
+```
+**NOTE:** You can use the IP or the FQDN of your jenkins master server
+
+**7.** Click **Add webhook** 
+
+**8.** Navigate to 
+```
+http://fqdn_of_your_jenkinsmaster:8080/configureSecurity/
+```
+
+**9.** Check the box "Allow anonymous read access"
+
+**10.** Untick the box "Prevent Cross Site Request Forgery exploits" and click **Save** 
+
+![CSRF_disabled](<../assets/jenkins/csrf_disabled.png>)
+
+This will Disable the CSRF protection on the Jenkins master but is an easy way to enable CI with Github.
+
+Click **Save** 
+
+
+### Create a new pipeline
+In this task, we will create a new pipeline that will build the artifacts of the application.
+
+**1.** Create an empty pipeline: from you Jenkins master, click on **New Item**.
+
+**NOTE:** You can also go directly to: http://fqdn_of_your_jenkinsmaster/view/All/newJob
+
+![New Jenkins item](<../assets/jenkins/jenkins_newitem.png>)
+
+* Type the following name for the pipeline: **PartsUnlimitedMRP**
+* Select **Pipeline** 
+* Click **OK**
+
+![New Jenkins Pipeline](<../assets/jenkins/jenkins_newpipeline.png>)
+
+The pipeline type in Jenkins will allow us to describe all the build step with Groovy code. This code can be easily ported on any Jenkins system and could also be embeded in a Jenkinsfile in the source code.
+
+**2.** Create the Pipeline
+
+Click on the tab name **Pipeline** and ensure that the definition is **Pipeline script**
+
+The following code will clone the source code from PartsUnlimited, define the environement variables for the JDK and print the version of Java that we are using. Copy the script below in the **Script** box. 
+
+{% highlight groovy %}
+
+    node{
+        stage ("Checkout") {
+        git 'https://github.com/Microsoft/PartsUnlimitedMRP.git'
+        }
+
+        env.JAVA_HOME = "${tool 'JDK 8'}"
+        env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+        sh 'java -version'
+    }
+
+{% endhighlight %}
+
+Replace the git url with the url of your own github repository. 
+
+![Pipeline script](<../assets/jenkins/pipeline_script1.png>)
+
+The **stage** syntax in the code above defines a boundary of code that will be executed together. In a pipeline you can have as many stages as you want, they can run sequencially or in parallell, depending on the constraints that you have to build the application.
+
+Click **Save** and then **Build Now** 
+
+![Pipeline script](<../assets/jenkins/pipeline_build1.png>)
+
+After few seconds you should have a successful build with following result:
+
+![Build results](<../assets/jenkins/build_result1.png>)
+
+**3.** Building PartsUnlimitedMRP
+
+Now that we have a basic pipeline, let's add the code that will define the build of the Parts Unlimited application.
+The application is composed of three components: 
+- The _Order Service_
+- The _Integration Service_
+- The _Client_ application 
+
+we will create a stage for each of those components.
+
+Click on **Configure** on the left section.
+
+Copy the following code in the pipeline script: 
+
+{% highlight Groovy %}
+
+    node{
+    stage ("Checkout") {
+        git 'https://github.com/Microsoft/PartsUnlimitedMRP.git'
+        }
+
+    env.JAVA_HOME = "${tool 'JDK 8'}"
+    env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+    sh 'java -version'  
+          
+    stage ("Integration Service") {
+            dir('src/Backend/IntegrationService') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/integration-service*.jar', excludes: null
+        }
+    }    
+    stage ("Order Service") {
+            dir('src/Backend/OrderService') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/ordering-service*.jar', excludes: null
+        }
+    }    
+    stage ("Clients") {
+        dir('src/Clients') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/mrp.war', excludes: null
+        }
+    }
+    }  
+
+{% endhighlight %}
+
+Replace the git url with the url of your own github repository. 
+
+Click **Save** and then **Build Now**
+
+**NOTE:** You may have to refresh the page once the build has completed to see the artifacts that have been produced.
+
+![Build Pipeline for PartsUnlimitedMRP](<../assets/jenkins/build_pipeline2.png>)
+
+
+### Adding test coverage
+The Parts Unlimited MRP Application performs some test for the OrderService component. In this task, we will add some information about the results of those tests and display the trend of the results of those tests.
+
+**1.** Cick on **Configure** to edit your pipeline script.
+
+**2.** After line 21, insert the following code
+            ```
+            junit '**/TEST-*.xml'
+            ```
+
+The new pipeline code is:
+
+{% highlight Groovy %}
+
+    node{
+    stage ("Checkout") {
+    git 'https://github.com/Microsoft/PartsUnlimitedMRP.git'
+    }
+    env.JAVA_HOME = "${tool 'JDK 8'}"
+    env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+    sh 'java -version'    
+    stage ("Integration Service") {
+            dir('src/Backend/IntegrationService') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/integration-service*.jar', excludes: null
+        }
+    }    
+    stage ("Order Service") {
+            dir('src/Backend/OrderService') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/ordering-service*.jar', excludes: null
+            junit '**/TEST-*.xml'
+        }
+    }    
+    stage ("Clients") {
+        dir('src/Clients') {
+            sh 'chmod +x gradlew'
+            sh './gradlew build'
+            archiveArtifacts artifacts: '**/mrp.war', excludes: null
+        }
+    }
+    }
+
+{% endhighlight %}
+
+**3.** Click on **Save** then **Build Now**
+
+The test results as displayed below will be displayed AFTER two build and refreshing the page.
+
+![Pipeline with test results](<../assets/jenkins/pipeline_withtest.png>)
+
+
+# Next steps
+
+In this lab, you learned how to create a Continuous Integration build that runs when new commits are pushed to the master branch. This allows you to get feedback as to whether your changes made breaking syntax changes, or if they broke one or more automated tests, or if your changes are okay. Try these lab out for next steps:
+
+- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_CD.md)
+
+## Continuous Feedback
+
+#### Issues / Questions about this Hands-On-Lab?
+
+[If you are encountering issues or have questions during this Hands-on-Lab, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
