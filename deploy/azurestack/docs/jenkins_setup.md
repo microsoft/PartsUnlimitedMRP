@@ -13,7 +13,7 @@ There are a couple of key things you'll need to have in place before setting up 
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
 ```
-Once you've got all those sorted, you're ready to deploy the environment. The environment will consist of a single **resource group** containing 2 virtual machines, connected on a single virtual network. One of the virtual machines will be the **Jenkins Master**, while the other will be a standard Ubuntu Linux VM, that will be configured using Jenkins, later in the lab series.
+Once you've got all those sorted, you're ready to deploy the environment. The environment will consist of a single **resource group** containing the Jenkins Master VM, connected to a single virtual network. One of the virtual machines will be the **Jenkins Master**, while the other will be a standard Ubuntu Linux VM, that will be configured using Jenkins, later in the lab series.
 
 ## Deployment Options
 
