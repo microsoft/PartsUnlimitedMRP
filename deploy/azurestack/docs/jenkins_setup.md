@@ -13,14 +13,14 @@ There are a couple of key things you'll need to have in place before setting up 
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
 ```
-Once you've got all those sorted, you're ready to deploy the environment. The environment will consist of a single **resource group** containing the Jenkins Master VM, connected to a single virtual network. One of the virtual machines will be the **Jenkins Master**, while the other will be a standard Ubuntu Linux VM, that will be configured using Jenkins, later in the lab series.
+Once you've got all those sorted, you're ready to deploy the environment. The environment will consist of a single **resource group** containing the Jenkins Master VM, connected to a single virtual network. Later in the lab, you'll deploy another standard Ubuntu Linux VM, that will be configured using Jenkins.
 
 ## Deployment Options
 
 Now, you have 2 options for deployment.
 
 1. **ARM Template & Custom Deployment** -> for this option, you will perform a new custom template deployment from Azure Stack, using a JSON file that will be provided for you. You will enter a number of key values for the parameters, and then deploy. **This is the quicker option**.
-2. **Create a Custom Marketplace Item for Deployment** -> for this option, in the same way you added an Ubuntu 14.04-LTS item to the Azure Stack Marketplace, you will add a new .azpkg to your Azure Stack, and configure the deployment from this, providing the same parameters as per option 1.
+2. **Create a Custom Marketplace Item for Deployment** -> for this option, in the same way you (optionally) added an Ubuntu 14.04-LTS item to the Azure Stack Marketplace, you will add a new .azpkg to your Azure Stack, and configure the deployment from this, providing the same parameters as per option 1.
 
 **The end result of both of these options is the same, however if you'd like to populate your gallery with more items, use option 2.**
 
@@ -36,7 +36,6 @@ Firstly, from your MAS-CON01 machine, you need to click on the button below, and
 You'll need to enter information for the following fields:
 - **JENKINSADMINPASSWORD** - choose a password of your choice.
 - **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-jenkins**.
-- **MRPADMINPASSWORD** - choose a password of your choice.
 - **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
 - **Resource Group** - for testing purposes, use **pumrp-jenkins**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
