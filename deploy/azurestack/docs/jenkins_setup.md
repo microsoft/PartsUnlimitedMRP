@@ -8,7 +8,7 @@ There are a couple of key things you'll need to have in place before setting up 
   - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](deploy/azurestack/docs/adding_vm_images.md))
   - An Ubuntu base image in the Platform Image Repository ([Details here](deploy/azurestack/docs/adding_vm_images.md))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
-  - An Oracle Account, in order to source the latest JDK (https://login.oracle.com/mysso/signon.jsp)
+  - An Oracle Account, in order to source the latest JDK (Test creds at http://www.oracle.com then click Sign-in at the top)
 
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
@@ -36,11 +36,10 @@ Firstly, from your MAS-CON01 machine, you need to click on the button below, and
 You'll need to enter information for the following fields:
 - **JENKINSADMINPASSWORD** - choose a password of your choice.
 - **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-jenkins**.
-- **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
 - **Resource Group** - for testing purposes, use **pumrp-jenkins**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeployment.PNG)
+![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeploy.PNG)
 
 If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)**
 
@@ -49,11 +48,11 @@ Depending on your hardware, the deployment of the key artifacts, the virtual mac
 Once the deployment has completed, you're ready to proceed with configuring Jenkins.
 
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
-If you are interested in adding a custom marketplace item to your Azure Stack marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
+If you are interested in adding a custom marketplace item to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Parts Unlimited MRP with Jenkins Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
+- [Download Jenkins Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
 
 1. Navigate to your **TheJenkinsProject.Jenkins.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
@@ -112,13 +111,13 @@ With your newly created marketplace item created and pushed to the Azure Stack M
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
-Depending on your hardware, the deployment of the key artifacts, the two virtual machines, and their respective automated configuration, may take a while. Expect around 30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
+Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 Once the deployment has completed, you're ready to proceed with configuring Jenkins.
 
 ## Jenkins Setup
-cRegardless of using Option 1, or Option 2, your environment should now be deployed. You can now continue with the configuration of the Jenkins environment specifically.
+Regardless of using Option 1, or Option 2, your environment should now be deployed. You can now continue with the configuration of the Jenkins environment specifically.
 
-1. Firstly, we need to **obtain the public IP of the Jenkins master VM**. In the Azure Stack portal, click on **Resource Groups** and look for the Resource Group that you have just created.  Click on the virtual machine in the resource group (_pumrp-jenkins_ in this example) and look for the "Public IP address/DNS name label".
+1. Firstly, we need to **obtain the public IP of the Jenkins Master VM**. In the Azure Stack portal, click on **Resource Groups** and look for the Resource Group that you have just created.  Click on the virtual machine in the resource group (_pumrp-jenkins_ in this example) and look for the "Public IP address/DNS name label".
 
     ![Obtain the public IP of the Jenkins Master](/deploy/azurestack/docs/media/JenkinsMRPDeployed.PNG)
 
@@ -165,7 +164,7 @@ Click **Install suggested plugins**
 Create a user from the "Create First Admin User": 
 * Username = Jenkins
 * Password = Passw0rd
-* Full name = Jenkins admin
+* Full name = Jenkins Admin
 * E-mail address = jenkins@microsoft.com
 * Click **Save and Finish**. 
 
@@ -229,7 +228,7 @@ Once you've been returned to the Manage Jenkins page, go to the **Global Tool Co
 
 Gradle will be used to build the Parts Unlimited MRP application. If needed, you could use Maven or Ant as well, the configuration would be very similar. Click on **Add Gradle**
 
-* Type the friendly name fo this installation of Gradle: "Gradle"
+* Type the friendly name for this installation of Gradle: "Gradle"
 * Verify that the "Install automatically" box is checked
 * Select the latest version of Gradle in the drop-down list.
 * Click **Save**
@@ -243,8 +242,8 @@ In this lab, you learned how to setup a Jenkins Master on Azure Stack, try these
 - [Parts Unlimited MRP Continous Integration with Jenkins](/deploy/azurestack/docs/jenkins_CI.md)
 - [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_CD.md)
 
-## Continuous Feedbacks
+## Continuous Feedback
 
 #### Issues / Questions about this Hands-On-Lab?
 
-[If you are encountering some issues or questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
+[If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)

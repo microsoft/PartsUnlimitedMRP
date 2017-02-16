@@ -90,21 +90,31 @@ Now, you have 2 options for deployment.
 ### *Option 1 - ARM Template & Custom Deployment
 If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP with SSH', then this quick and easy approach should make things, well, quick and easy for you!
 
-Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+Firstly, we need the SSH key to use with this new virtual machine.  To obtain this, go back to your SSH session, and run:
 
-<a href="https://portal.azurestack.local/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fjenkins_standalone%2FTheJenkinsProject.Jenkins%2FDeploymentTemplates%2FJenkinsDeploy.json" target="_blank">
+```
+cat ./.ssh/id_rsa.pub
+```
+
+Select the returned text, and copy it. We will use it later.
+
+![Copy SSH public key](<../../../docs/assets/jenkins/copy_sshpublickey.png>)
+
+Then, from your MAS-CON01 machine, you need to click on the button below to deploy the MRP virtual machine, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+
+<a href="https://portal.azurestack.local/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fparts_unlimited_SSH_mrp_base%2FPartsUnlimitedSSH.Ubuntu1404%2FDeploymentTemplates%2FPartsUnlimitedSSHMRP.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
-- **ADMINPUBLICKEY** - Paste the string that you have copied in step 1.
+- **ADMINPUBLICKEY** - Paste the string that you have copied earlier.
 - **MRPDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
 - **Resource Group** - for testing purposes, use **mrp-deploy**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeployment.PNG)
+![Jenkins Deployment](/deploy/azurestack/docs/media/MRPDeploy.PNG)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimitedSSH.Ubuntu1404/DeploymentTemplates/PartsUnlimitedSSHMRP.json)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -113,11 +123,11 @@ Once the deployment has completed, you're ready to proceed with the lab.
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Parts Unlimited MRP with Jenkins Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
+- [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg)
 
-1. Navigate to your **TheJenkinsProject.Jenkins.1.0.0.azpkg** file, you downloaded earlier
+1. Navigate to your **PartsUnlimited.MRPSSH.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
   It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/adding_vm_images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
@@ -146,7 +156,7 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 3. With the resource group, storage account and gallery container now accessible, we can push our new Jenkins marketplace package into Azure Stack.
 
   ``` powershell
-  $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\TheJenkinsProject.Jenkins.1.0.0.azpkg
+  $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\PartsUnlimited.MRPSSH.1.0.0.azpkg
   Add-AzureRMGalleryItem -SubscriptionId $subscriptionid -GalleryItemUri $MarketPlaceAzpkg.ICloudBlob.StorageUri.PrimaryUri.AbsoluteUri  -Apiversion "2015-04-01"
   ```
 
@@ -154,79 +164,42 @@ When successful, you should see a **StatusCode** of **Created**
 
    ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
 
-Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Jenkins marketplace item
+Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Parts Unlimited MRP with SSH marketplace item
 
-  ![Jenkins added to Marketplace](/deploy/azurestack/docs/media/JenkinsMarketplace.PNG)
+  ![MRP VM added to Marketplace](/deploy/azurestack/docs/media/MRPwithSSHMarketplace.PNG)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
 1. On the **MAS-CON01** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
-2. Select the **Jenkins** item in the marketplace, and click **Create**.
-3. Provide the information for the following fields:
-  - **JENKINSADMINPASSWORD** - choose a password of your choice.
-  - **JENKINSDNSNAMEFORPUBLICIP** - for testing purposes, use **pumrp-jenkins**. 
-  - **Resource Group** - for testing purposes, use **pumrp-jenkins**.
+2. Select the **Parts Unlimited MRP with SSH** item in the marketplace, and click **Create**.
+3. You'll need to enter information for the following fields:
+  - **ADMINPUBLICKEY** - Paste the string that you have copied earlier.
+  - **MRPDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
+  - **Resource Group** - for testing purposes, use **mrp-deploy**.
   - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
-  
+
   Once you've filled in the fields, it should look like this:
   
-  ![Deploying Jenkins](/deploy/azurestack/docs/media/JenkinsDeploy.PNG)
+  ![Jenkins Deployment](/deploy/azurestack/docs/media/MRPDeploy.PNG)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
-Depending on your hardware, the deployment of the key artifacts, the two virtual machines, and their respective automated configuration, may take a while. Expect around 30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
-Once the deployment has completed, you're ready to proceed with configuring Jenkins.
+Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
-**1.** From your SSH session type the following
-```
-cat ./.ssh/id_rsa.pub
-```
+Once the deployment has completed, you're ready to proceed with the lab.
 
-Select the text returned and copy it, we will use it in step 3. 
+## Update the Jenkins pipeline
 
-![Copy SSH public key](<../../../docs/assets/jenkins/copy_sshpublickey.png>)
-
-**2.** Click on the following button to deploy the MRP virtual machine 
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdocs%2Fassets%2Fjenkins%2Fenv%2FContinuousDeploymentPartsUnlimitedMRP.json" target="_blank">
-        <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-
-**3.** Enter the values as follows
-
-* Select the subscription that you want to use for the deployment.
-* Check **Create new** for the resource group.
-* Resource Group: **mrp-deploy** (or a name of your choice)
-* Use the location of your choice 
-* Mrp Admin Username: **mrpadmin** 
-* Mrp Dns Name for Public IP: Use the name you want, this name has to be unique. 
-* Admin Public Key: Paste the string that you have copied in step 1.
-* Scroll down to agree on the terms and conditions.
-
-Click **Purchase** to start the deployment.
-
-![Deploy MRP VM](<../../../docs/assets/jenkins/mrp_arm_deploy.png>)
-
-**NOTE:** write down the FQDN of your newly deployed virtual machine, we will call it MRP machine. 
-You can get it via the same steps that in this lab [Set up Parts Unlimited MRP with Jenkins](./fund-10-Oth-prereq.html). 
-
-It should take the following form:
- ```
- nanme_specified_above.region_selected.cloudapp.azure.com
- ```
-
-### Task 4: Update the Jenkins pipeline
-
-In this task we will update the Jenkins pipeline to automatically deploy the artifacts after they have been build.
+In this task we will update the Jenkins pipeline to automatically deploy the artifacts after they have been built.
 
 Navigate to the configuration of your pipeline:
 ```
-http://fqdn_of_your_jenkinsmaster:8080/job/PartsUnlimitedMRP/configure
+http://ip_address_of_your_jenkinsmaster:8080/job/PartsUnlimitedMRP/configure
 ```
 
-In the pipeline, go to the end of the script (line 31) and **before the last line** (the trailing "}" shall be behing this added code, insert the following code. 
+In the pipeline, go to the end of the script (line 31) and **before the last line** (the trailing "}" you need to paste in the following code. 
 
-{% highlight groovy %}
+``` Groovy
 
     stage ('Save MongoRecords.js') {
         dir('deploy') {
@@ -234,41 +207,41 @@ In the pipeline, go to the end of the script (line 31) and **before the last lin
         }
     }
 
-    def mrphostname
+    def mrpipaddress
     
-    stage ('Get MRP hostname') { 
-        mrphostname = input(
-            id: 'mrhphostname', message: 'Please enter the MRP VM FQDN', parameters: [
-                [$class: 'TextParameterDefinition', defaultValue: 'mrp-deploy.westus.cloudapp.azure.com', description: 'This is the FQDN by which the VM can be remotely accessed', name: 'mrphostname']
+    stage ('Get MRP IP Address') { 
+        mrpipaddress = input(
+            id: 'mrpipaddress', message: 'Please enter the MRP VM IP Address', parameters: [
+                [$class: 'TextParameterDefinition', defaultValue: '192.168.102.1', description: 'This is the IP Address by which the VM can be remotely accessed', name: 'mrpipaddress']
                 ])
-        echo ("MRP HostName: ${mrphostname}")
+        echo ("MRP IP Address: ${mrpipaddress}")
     }
     
     stage ("ssh") {
         sshagent(['mrpadmin']) {
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/mrp.war'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/integration-service-0.1.0.jar'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/ordering-service-0.1.0.jar'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/MongoRecords.js'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -sL https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/jenkins/env/deploy_mrp_app.sh | sudo bash -'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/mrp.war'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/integration-service-0.1.0.jar'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/ordering-service-0.1.0.jar'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/MongoRecords.js'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -sL https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/jenkins/env/deploy_mrp_app.sh | sudo bash -'"
         }
-        sh "curl -sL -w \"%{http_code}\\n\" http://${mrphostname}:9080/mrp/ -o /dev/null"
+        sh "curl -sL -w \"%{http_code}\\n\" http://${mrpipaddress}:9080/mrp/ -o /dev/null"
     }
 
-{% endhighlight %}
+```
 
 Click **Save**
 
-**NOTE:** Since we have implemented CI in the previous lab, any changes made in the code will automatically trigger a new build. You don't have to manually trigger the builds now. We will experiment this in the next task.
+**NOTE:** In the Azure Stack environment, because we have chosen not to automate the new build process on the changing of code in GitHub, you will still need to manually press **Build Now** in the Jenkins UI **After** we make a change to the code in GitHub.
 
-The pipeline shall now be the following
+The pipeline shall now be the following - **Make sure you change the git url on line 4, to your GitHub repository**.
 
-{% highlight groovy %}
+``` Groovy
 
 node{
     
     stage ("Checkout") {
-    git url: 'https://github.com/dcaro/PartsUnlimitedMRP'
+    git url: 'https://github.com/Microsoft/PartsUnlimitedMRP'
     }
     
     env.JAVA_HOME = "${tool 'JDK 8'}"
@@ -306,35 +279,34 @@ node{
         }
     }
 
-    def mrphostname
+    def mrpipaddress
     
-    stage ('Get MRP hostname') { 
-        mrphostname = input(
-            id: 'mrhphostname', message: 'Please enter the MRP VM FQDN', parameters: [
-                [$class: 'TextParameterDefinition', defaultValue: 'mrp-deploy.westus.cloudapp.azure.com', description: 'This is the FQDN by which the VM can be remotely accessed', name: 'mrphostname']
+    stage ('Get MRP IP Address') { 
+        mrpipaddress = input(
+            id: 'mrpipaddress', message: 'Please enter the MRP VM IP Address', parameters: [
+                [$class: 'TextParameterDefinition', defaultValue: '192.168.102.1', description: 'This is the IP Address by which the VM can be remotely accessed', name: 'mrpipaddress']
                 ])
-        echo ("MRP HostName: ${mrphostname}")
+        echo ("MRP IP Address: ${mrpipaddress}")
     }
     
     stage ("ssh") {
         sshagent(['mrpadmin']) {
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/mrp.war'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/integration-service-0.1.0.jar'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/ordering-service-0.1.0.jar'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/MongoRecords.js'"
-            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrphostname} 'curl -sL https://raw.githubusercontent.com/dcaro/PartsUnlimitedMRP/master/docs/assets/jenkins/env/deploy_mrp_app.sh | sudo bash -'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/mrp.war'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/integration-service-0.1.0.jar'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/build/libs/ordering-service-0.1.0.jar'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -O ${env.JENKINS_URL}/job/PartsUnlimitedMRP/lastSuccessfulBuild/artifact/MongoRecords.js'"
+            sh "ssh -o StrictHostKeyChecking=no -l mrpadmin  ${mrpipaddress} 'curl -sL https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/jenkins/env/deploy_mrp_app.sh | sudo bash -'"
         }
-        sh "curl -sL -w \"%{http_code}\\n\" http://${mrphostname}:9080/mrp/ -o /dev/null"
+        sh "curl -sL -w \"%{http_code}\\n\" http://${mrpipaddress}:9080/mrp/ -o /dev/null"
     }
     
 }
 
-{% endhighlight %}
+```
 
+## Connecting the dots
 
-### Taks 5: Connecting the dots
-
-**1.** Go to the source code on your github repository
+**1.** Go to the source code on your GitHub repository
 
 **2.** Edit the file **src/Clients/Web/index.html**
 
@@ -344,43 +316,41 @@ You can change the title of the page for example.
 
 **3.** Click **Commit changes** 
 
-**4.** Navigate to your Jenkins master
+**4.** Navigate to your Jenkins master, and click **Build Now**
 ```
-http://fqdn_of_your_jenkinsmaster:8080/job/PartsUnlimitedMRP/
+http://ip_address_of_your_jenkinsmaster:8080/job/PartsUnlimitedMRP/
 ```
 
-**5.** If not already there, the pipeline will stop at the stage **Get MRP hostname**
+**5.** The build will begin, and the pipeline will stop at the stage **Get MRP IP Address**
 
-Click on the step that is paused and enter the FQDN of the MRP machine, this is the one that you have deployed in this lab on Task 2.3.
+Click on the step that is paused and enter the IP address of the MRP machine, this is the Parts Unlimited MRP with SSH VM you deployed earlier
 
 Click **Proceed** 
 
-![Enter the FQDN of the deployment machine](<../../../docs/assets/jenkins/pipeline_wait_for_userinput.png>)
+![Enter the IP Address of the deployment machine](<../../../docs/assets/jenkins/pipeline_wait_for_userinput.png>)
 
-**6.** Wait until the completion of the pipeline 
+**6.** Wait until the completion of the pipeline
 
 **7.** Navigate to the following address:
 
 ```
-http://name_of_the_mrp_deployment_machine:9080/mrp
+http://ip_address_of_the_mrp_deployment_machine:9080/mrp
 ```
-The name of the mrp deployment machine is the name of the machine deployed in Task 2.3
+The IP address of the MRP deployment machine is the IP address of the Parts Unlimited MRP with SSH VM you deployed earlier
 
 Verify that the Title in the browser is the same than the one you have modified in the code.
 
 ![Parts Unlimited Application](<../../../docs/assets/jenkins/pumrp_app.png>)
 
-Next steps
-----------
+# Next steps
 
-In this lab, you learned how to implement Continous Deployment for the Parts Unlimited Application. 
-This allows you to reduce the time to go in tproduction and get feedback  if your changes are okay. Implemented with Continous Integration, the changes performed by te developers are pushed in a continuous manner into production without removing the ability to have a human control.
+In this lab, you learned how to implement Continuous Deployment for the Parts Unlimited MRP Application. 
+This allows you to reduce the time to go in production and get feedback if your changes are okay. Implemented with Continuous Integration, the changes performed by the developers are pushed, in a continuous manner into production without removing the ability to have human control.
 
-# Continuous Feedbacks
+# Continuous Feedback
 
 #### Issues / Questions about this Hands-On-Lab ??
 
 [If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
 
 Thanks
-

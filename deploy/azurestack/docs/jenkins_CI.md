@@ -8,7 +8,7 @@ Due to the way that Azure Stack is configured from a networking perspective, uti
 
 Workarounds include the use of a GitHub proxy, that has communication between the Jenkins VM and the public internet, or alternatively, configuring multiple NAT rules, using public IPs etc. to allow GitHub to reach the Jenkins Master VM. A more realistic alternative would be the deployment of GitHub Enterprise on-premises, which would provide GitHub functionlity, but within your corporate environment.
 
-These workarounds are currently out of scope, but may be addressed in the future.  For this lab, you wuill trigger builds manually in Jenkins.
+These workarounds are currently out of scope, but may be addressed in the future.  For this lab, you will trigger builds manually in Jenkins.
 
 ## Pre-Requisites: ##
 
@@ -16,7 +16,7 @@ These workarounds are currently out of scope, but may be addressed in the future
 - Have a GitHub account [https://github.com](https://github.com).
 
 ## Tasks Overview:
-During the following tasks you will fork the Parts Unlimited MRP github repository and create a Jenkins pipeline for the Continous Integration of the Parts Unlimited MRP application. You will learn how to configure Jenkins so that whenever a change is checked in on the code repository, a build will be triggered and several tests will be performed.
+During the following tasks you will fork the Parts Unlimited MRP github repository and create a Jenkins pipeline for the Continuous Integration of the Parts Unlimited MRP application. You will learn how to configure Jenkins so that whenever a change is checked in on the code repository, a build will be triggered and several tests will be performed.
 
 ### Configure your GitHub repository
 
