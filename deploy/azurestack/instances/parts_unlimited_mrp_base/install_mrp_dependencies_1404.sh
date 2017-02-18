@@ -12,5 +12,9 @@ apt-get install tomcat7 -y
 apt-get install wget -y
 
 # Set Java environment variables
+sed -i '$ a JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' /etc/default/tomcat7
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
+
+# Restart tomcat7
+service tomcat7 restart
