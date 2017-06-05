@@ -27,7 +27,7 @@
     "variables": {
         "jenkinsImagePublisher": "Canonical",
         "jenkinsImageOffer": "UbuntuServer",
-        "jenkinsImageSku": "1404-LTS",
+        "jenkinsImageSku": "16.04.3-LTS",
         "jenkinsOSDiskName": "jenkinsOsdisk",
         "jenkinsNicName": "jenkinsNic",
         "addressPrefix": "10.0.0.0/16",
@@ -238,9 +238,9 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/customscripts/jenkins/install_jenkins_1404.sh"
+                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/customscripts/jenkins/install_jenkins_1604.sh"
                     ],
-                    "commandToExecute": "bash install_jenkins_1404.sh"
+                    "commandToExecute": "bash install_jenkins_1604.sh"
                 },
                 "protectedSettings": {}
             }

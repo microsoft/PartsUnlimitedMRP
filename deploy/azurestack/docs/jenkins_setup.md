@@ -20,7 +20,7 @@ Once you've got all those sorted, you're ready to deploy the environment. The en
 Now, you have 2 options for deployment.
 
 1. **ARM Template & Custom Deployment** -> for this option, you will perform a new custom template deployment from Azure Stack, using a JSON file that will be provided for you. You will enter a number of key values for the parameters, and then deploy. **This is the quicker option**.
-2. **Create a Custom Marketplace Item for Deployment** -> for this option, in the same way you (optionally) added an Ubuntu 14.04-LTS item to the Azure Stack Marketplace, you will add a new .azpkg to your Azure Stack, and configure the deployment from this, providing the same parameters as per option 1.
+2. **Create a Custom Marketplace Item for Deployment** -> for this option, in the same way you (optionally) added an Ubuntu 16.04-LTS item to the Azure Stack Marketplace, you will add a new .azpkg to your Azure Stack, and configure the deployment from this, providing the same parameters as per option 1.
 
 **The end result of both of these options is the same, however if you'd like to populate your gallery with more items, use option 2.**
 
@@ -41,7 +41,7 @@ You'll need to enter information for the following fields:
 
 ![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeploy.PNG)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/jenkins_mrp/PartsUnlimitedMRP.MRPwithJenkins/DeploymentTemplates/MRPwithJenkinsDeploy.json)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins/DeploymentTemplates/JenkinsDeploy.json)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -61,30 +61,36 @@ As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marke
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
-    - SKU "1404-LTS"
+    - SKU "16.04.3-LTS"
     
 Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/add_marketplace_item.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
   ``` powershell
+  cd\
   cd C:\AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
-  Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
-  Add-AzureRmAccount -EnvironmentName AzureStack
+  Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
+  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com" -EnvironmentName AzureStackAdmin
+  $UserName='<Username of the service administrator or user account>'
+  $Password='<administrator or user password>'| `
+  ConvertTo-SecureString -Force -AsPlainText
+  $Credential= New-Object PSCredential($UserName,$Password)
+  Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID -Credential $Credential
   ```
 2. Now, let's access the storage account to hold this package. If you recall, we named the storage account **tenantartifacts** and this is located in a dedicated **resource group** of the same name:
 
   ``` powershell
-  $subscriptionid = (Get-AzureRmSubscription -SubscriptionName 'Default Provider Subscription').SubscriptionId
   $StorageAccount = Get-AzureRmStorageAccount -ResourceGroupName tenantartifacts -Name tenantartifacts
   $GalleryContainer = Get-AzureStorageContainer -Name gallery -Context $StorageAccount.Context
   ```
 3. With the resource group, storage account and gallery container now accessible, we can push our new Jenkins marketplace package into Azure Stack.
 
   ``` powershell
-  $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\TheJenkinsProject.Jenkins.1.0.0.azpkg
-  Add-AzureRMGalleryItem -SubscriptionId $subscriptionid -GalleryItemUri $MarketPlaceAzpkg.ICloudBlob.StorageUri.PrimaryUri.AbsoluteUri  -Apiversion "2015-04-01"
+  $GalleryContainer | Set-AzureStorageBlobContent -File "C:\MyMarketPlaceItems\TheJenkinsProject.Jenkins.1.0.0.azpkg"
+  $GalleryItemURI = (Get-AzureStorageBlob -Context $StorageAccount.Context -Blob 'TheJenkinsProject.Jenkins.1.0.0.azpkg' -Container 'gallery').ICloudBlob.uri.AbsoluteUri
+  Add-AzureRMGalleryItem -GalleryItemUri $GalleryItemURI -Verbose
   ```
 
 When successful, you should see a **StatusCode** of **Created**
@@ -129,7 +135,7 @@ Regardless of using Option 1, or Option 2, your environment should now be deploy
 To make this lab easier, the user has been pre-configured to be **jenkinsadmin** through the automated deployment.
 
 ### Configure your Jenkins Master
-In this task, we will perform the basic configuration of the Jenkins master server and install the necesary plugins that will be used for Continuous Integration.
+In this task, we will perform the basic configuration of the Jenkins master server and install the necessary plugins that will be used for Continuous Integration.
 
 **1.** Obtain the initial admin password
 
@@ -215,7 +221,7 @@ Click on **Add JDK**
 
 * Type the friendly name for the JDK: JDK 8
 * Ensure the box "Install automatically" is checked
-* In the drop-down list, select the latest version ("Java SE Development Kit 8u121" at the time of writing)
+* In the drop-down list, select the latest version ("Java SE Development Kit 8u131" at the time of writing)
 * Check the box "I agree to the Java SE Development Kit License Agreement"
 * Click on the link to enter the username and password of your Oracle account (Test credentials here: https://www.oracle.com and click on Sign In at the top) then click **OK** then **Close**
 * Click **Save**

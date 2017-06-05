@@ -31,9 +31,25 @@ During the following tasks you will fork the Parts Unlimited MRP github reposito
 ![Github fork](<../../../docs/assets/jenkins/github_fork.png>)
 
 ### Create a new pipeline
-In this task, we will create a new pipeline that will build the artifacts of the application.
+In this task, we will create a new pipeline that will build the artifacts of the application.  Before we do this however, there are a couple of settings to tweak on the Jenkins master, to ensure smooth operation of the lab.
 
-**1.** Create an empty pipeline: from you Jenkins master, click on **New Item**.
+**1.** Firstly navigate to:
+
+```
+http://ip_address_of_your_jenkinsmaster:8080/configureSecurity/
+```
+
+**2.** Check the box "Allow anonymous read access"
+
+**3.** Untick the box "Prevent Cross Site Request Forgery exploits" and click **Save** 
+
+![CSRF_disabled](<../../../docs/assets/jenkins/csrf_disabled.png>)
+
+This will Disable the CSRF protection on the Jenkins master but is an easy way to enable CI with Github.
+
+Click **Save**
+
+**4.** Create an empty pipeline: from your Jenkins master, click on **New Item**.
 
 **NOTE:** You can also go directly to: http://IP_address_of_your_jenkinsmaster/view/All/newJob
 
@@ -47,11 +63,11 @@ In this task, we will create a new pipeline that will build the artifacts of the
 
 The pipeline type in Jenkins will allow us to describe all the build steps with Groovy code. This code can be easily ported on any Jenkins system and could also be embedded in a Jenkinsfile in the source code.
 
-**2.** Create the Pipeline
+**5.** Create the Pipeline
 
 Click on the tab name **Pipeline** and ensure that the definition is **Pipeline script**
 
-The following code will clone the source code from PartsUnlimited, define the environement variables for the JDK and print the version of Java that we are using. Copy the script below in the **Script** box. 
+The following code will clone the source code from PartsUnlimited, define the environment variables for the JDK and print the version of Java that we are using. Copy the script below in the **Script** box. 
 
 ``` Groovy
 
@@ -81,7 +97,7 @@ After few seconds you should have a successful build with following result:
 
 ![Build results](<../../../docs/assets/jenkins/build_result1.png>)
 
-**3.** Building PartsUnlimitedMRP
+**6.** Building PartsUnlimitedMRP
 
 Now that we have a basic pipeline, let's add the code that will define the build of the Parts Unlimited MRP application.
 The application is composed of three components: 

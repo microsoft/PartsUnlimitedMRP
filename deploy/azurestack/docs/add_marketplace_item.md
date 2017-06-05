@@ -17,7 +17,7 @@ Once you have those 3 items defined, you're at a point where you can used the [A
 ## Download an Example Package for the Base Ubuntu Image
 As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
-- [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1404_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
+- [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
 1. Once downloaded, navigate to the folder containing your newly downloaded image, and **create a copy of the file**.
 2. Right click the new copy, and **rename to .zip**
@@ -56,28 +56,33 @@ Normally, once you've finished creating your respective files within your packag
 To save you time however, we'll just use the package we orginally downloaded earlier.
 
 1. Navigate to your **Canonical.UbuntuServer.1.0.0.azpkg** file, you downloaded earlier
-2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
+2. Move it to a newly created folder **C:\MyMarketplaceItems**.
 
     It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu VHD image to the platform image repository earlier. Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
-    - SKU "1404-LTS"
+    - SKU "16.04.3-LTS"
 
 Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. For that, we'll create a **storage account** that will be used to hold this package, and any others we upload in the future.
 
 1. On MAS-CON01, connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
   ``` powershell
+  cd\
   cd C:\AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
-  Add-AzureStackAzureRmEnvironment -AadTenant "<mydirectory>.onmicrosoft.com"
-  Add-AzureRmAccount -EnvironmentName AzureStack
+  Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
+  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com" -EnvironmentName AzureStackAdmin
+  $UserName='<Username of the service administrator or user account>'
+  $Password='<administrator or user password>'| `
+  ConvertTo-SecureString -Force -AsPlainText
+  $Credential= New-Object PSCredential($UserName,$Password)
+  Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID -Credential $Credential
   ```
 2. Now, let's create the storage account to hold these packages. We'll call this **tenantartifacts** and store it in a dedicated **resource group** of the same name:
 
   ``` powershell
-  $subscriptionid = (Get-AzureRmSubscription -SubscriptionName 'Default Provider Subscription').SubscriptionId
   $RG = New-AzureRmResourceGroup -Name tenantartifacts -Location local
   $StorageAccount = $RG | New-AzureRmStorageAccount -Name tenantartifacts -Type Standard_LRS
   ```
@@ -85,8 +90,9 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
   ``` powershell
   $GalleryContainer = New-AzureStorageContainer -Name gallery -Permission Blob -Context $StorageAccount.Context
-  $MarketPlaceAzpkg = $GalleryContainer | Set-AzureStorageBlobContent -File C:\MyMarketPlaceItems\Canonical.UbuntuServer.1.0.0.azpkg
-  Add-AzureRMGalleryItem -SubscriptionId $subscriptionid -GalleryItemUri $MarketPlaceAzpkg.ICloudBlob.StorageUri.PrimaryUri.AbsoluteUri  -Apiversion "2015-04-01"
+  $GalleryContainer | Set-AzureStorageBlobContent -File "C:\MyMarketplaceItems\Canonical.UbuntuServer.1.0.0.azpkg"
+  $GalleryItemURI = (Get-AzureStorageBlob -Context $StorageAccount.Context -Blob 'Canonical.UbuntuServer.1.0.0.azpkg' -Container 'gallery').ICloudBlob.uri.AbsoluteUri
+  Add-AzureRMGalleryItem -GalleryItemUri $GalleryItemURI -Verbose
   ```
 
 When successful, you should see a **StatusCode** of **Created**
@@ -95,12 +101,12 @@ When successful, you should see a **StatusCode** of **Created**
 
 Go back and refresh the portal, and under New -> Virtual Machines -> See All, you should see your newly added Ubuntu marketplace item
 
-  ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated.PNG)
+  ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated1604.PNG)
   
 ## Test Deployment of your Ubuntu Base Image
 You've successfully added a new marketplace item, but it's important to check that it works as expected. To do so, we'll walk through a UI deployment:
 
-1. On MAS-CON01, from the Azure Stack Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 14.04-LTS**
+1. On MAS-CON01, from the Azure Stack Admin Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 16.04-LTS**
 2. Enter the basic details required - **username, password and a resource group name**.
 3. Optionally, select **Pin to Dashboard**, then click Create.
 4. The process should take around ~20 minutes, depending on your hardware.

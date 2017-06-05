@@ -27,7 +27,7 @@
     "variables": {
         "mrpImagePublisher": "Canonical",
         "mrpImageOffer": "UbuntuServer",
-        "mrpImageSku": "1404-LTS",
+        "mrpImageSku": "16.04.3-LTS",
         "mrpOSDiskName": "mrpOsdisk",
         "mrpNicName": "mrpNic",
         "addressPrefix": "10.0.0.0/16",
@@ -263,9 +263,9 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/parts_unlimited_mrp_base/install_mrp_dependencies_1404.sh"
+                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/parts_unlimited_mrp_base/install_mrp_dependencies_1604.sh"
                     ],
-                    "commandToExecute": "bash install_mrp_dependencies_1404.sh"
+                    "commandToExecute": "bash install_mrp_dependencies_1604.sh"
                 },
                 "protectedSettings": {}
             }
