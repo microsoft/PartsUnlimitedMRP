@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Update OS
+apt-get update
+# apt-get upgrade -y
+
 # Validate input parameters
 if [[ !("$#" -eq 2) ]]; 
     then echo "Parameters missing for puppet enterprise configuration." >&2
@@ -36,6 +40,7 @@ sed '/console_admin_password/c \
    "console_admin_password":"'$console_pw'"' conf.d/pe.conf > conf.d/azure-pe.conf
 
 # Start the installation
+./puppet-enterprise-installer -c conf.d/azure-pe.conf
 sudo ./puppet-enterprise-installer -c conf.d/azure-pe.conf
 
 exit 0

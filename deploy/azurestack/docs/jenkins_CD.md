@@ -142,16 +142,17 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
   
   ``` powershell
   cd\
-cd C:\AzureStack-Tools-master\connect
-Import-Module .\AzureStack.Connect.psm1
-Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
-$TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com" -EnvironmentName AzureStackAdmin
-$UserName='<Username of the service administrator or user account>'
-$Password='<administrator or user password>'| `
-ConvertTo-SecureString -Force -AsPlainText
-$Credential= New-Object PSCredential($UserName,$Password)
-Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID -Credential $Credential
+  cd C:\AzureStack-Tools-master\connect
+  Import-Module .\AzureStack.Connect.psm1
+  Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
+  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com or customdomain.com" -EnvironmentName AzureStackAdmin
+  $UserName='<username@myaadtenant.onmicrosoft.com or username@customdomain.com>'
+  $Password='<administrator or user password>'| `
+  ConvertTo-SecureString -Force -AsPlainText
+  $Credential= New-Object PSCredential($UserName,$Password)
+  Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID -Credential $Credential
   ```
+  
 2. Now, let's access the storage account to hold this package. If you recall, we named the storage account **tenantartifacts** and this is located in a dedicated **resource group** of the same name:
 
   ``` powershell

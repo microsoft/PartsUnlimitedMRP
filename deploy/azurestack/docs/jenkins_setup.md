@@ -5,8 +5,8 @@ In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that w
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps so far, you should already have most of them :-)
 
   - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](deploy/azurestack/docs/adding_vm_images.md))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](deploy/azurestack/docs/adding_vm_images.md))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/adding_vm_images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/adding_vm_images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   - An Oracle Account, in order to source the latest JDK (Test creds at http://www.oracle.com then click Sign-in at the top)
 
@@ -52,7 +52,7 @@ If you are interested in adding a custom marketplace item to your Azure Stack Ma
 
 As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Jenkins Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
+- [Download Jenkins Package](/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
 
 1. Navigate to your **TheJenkinsProject.Jenkins.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
@@ -72,13 +72,14 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
   cd C:\AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
   Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
-  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com" -EnvironmentName AzureStackAdmin
-  $UserName='<Username of the service administrator or user account>'
+  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com or customdomain.com" -EnvironmentName AzureStackAdmin
+  $UserName='<username@myaadtenant.onmicrosoft.com or username@customdomain.com>'
   $Password='<administrator or user password>'| `
   ConvertTo-SecureString -Force -AsPlainText
   $Credential= New-Object PSCredential($UserName,$Password)
   Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID -Credential $Credential
   ```
+  
 2. Now, let's access the storage account to hold this package. If you recall, we named the storage account **tenantartifacts** and this is located in a dedicated **resource group** of the same name:
 
   ``` powershell

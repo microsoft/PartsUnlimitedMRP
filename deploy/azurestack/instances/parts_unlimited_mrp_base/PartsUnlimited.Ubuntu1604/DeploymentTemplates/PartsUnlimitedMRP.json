@@ -2,34 +2,34 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "jenkinsAdminUsername": {
+        "mrpAdminUsername": {
             "type": "string",
             "minLength": 1,
             "metadata": {
-                "description": "User name for the Jenkins Master Virtual Machine."
+                "description": "User name for the MRP Virtual Machine."
             },
-            "defaultValue": "jenkinsadmin"
+            "defaultValue": "mrpadmin"
         },
-        "jenkinsAdminPassword": {
+        "mrpAdminPassword": {
             "type": "securestring",
             "metadata": {
-                "description": "Password for the Jenkins Master Virtual Machine."
+                "description": "Administrator password for the MRP Virtual Machine."
             }
         },
-        "jenkinsDnsNameForPublicIP": {
+        "mrpDnsNameForPublicIP": {
             "type": "string",
             "minLength": 1,
             "metadata": {
-                "description": "Globally unique DNS Name for the Public IP used to access the Jenkins Master Virtual Machine."
+                "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
             }
         }
     },
     "variables": {
-        "jenkinsImagePublisher": "Canonical",
-        "jenkinsImageOffer": "UbuntuServer",
-        "jenkinsImageSku": "16.04.3-LTS",
-        "jenkinsOSDiskName": "jenkinsOsdisk",
-        "jenkinsNicName": "jenkinsNic",
+        "mrpImagePublisher": "Canonical",
+        "mrpImageOffer": "UbuntuServer",
+        "mrpImageSku": "16.04.3-LTS",
+        "mrpOSDiskName": "mrpOsdisk",
+        "mrpNicName": "mrpNic",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "Subnet",
         "subnetPrefix": "10.0.0.0/24",
@@ -37,10 +37,10 @@
         "storageType": "Standard_LRS",
         "publicIPAddressType": "Dynamic",
         "vhdStorageContainerName": "vhds",
-        "jenkinsNsgName": "jenkinsNSG",
-        "jenkinsVmSize": "Standard_A3",
-        "jenkinsVmName": "[toLower(parameters('jenkinsDnsNameForPublicIP'))]",
-        "virtualNetworkName": "jenkinsVNET",
+        "mrpNsgName": "mrpNSG",
+        "mrpVmSize": "Standard_A2",
+        "mrpVmName": "[toLower(parameters('mrpDnsNameForPublicIP'))]",
+        "virtualNetworkName": "mrpVNET",
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
     },
@@ -50,21 +50,15 @@
             "name": "[toLower(variables('storageName'))]",
             "apiVersion": "2015-05-01-preview",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "StorageAccount"
-            },
             "properties": {
                 "accountType": "[variables('storageType')]"
             }
         },
-         {
+        {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[variables('jenkinsNsgName')]",
+            "name": "[variables('mrpNsgName')]",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "NSG-Jenkins"
-            },
             "properties": {
                 "securityRules": [
                     {
@@ -82,16 +76,30 @@
                         }
                     },
                     {
-                        "name": "Jenkins",
+                        "name": "MRP",
                         "properties": {
-                            "description": "Jenkins port",
+                            "description": "MRP port",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "9080",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "OrderingSvc",
+                        "properties": {
+                            "description": "OrderingService port",
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "destinationPortRange": "8080",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 1100,
+                            "priority": 1200,
                             "direction": "Inbound"
                         }
                     }
@@ -101,15 +109,12 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('jenkinsDnsNameForPublicIP')]",
+            "name": "[parameters('mrpDnsNameForPublicIP')]",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "PublicIPAddress-Jenkins"
-            },
             "properties": {
                 "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('jenkinsDnsNameForPublicIP')]"
+                    "domainNameLabel": "[parameters('mrpDnsNameForPublicIP')]"
                 }
             }
         },
@@ -118,9 +123,6 @@
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[variables('virtualNetworkName')]",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "VirtualNetwork"
-            },
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -137,23 +139,19 @@
                 ]
             }
         },
-       
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('jenkinsNicName')]",
+            "name": "[variables('mrpNicName')]",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "NIC-Jenkins"
-            },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', parameters('jenkinsDnsNameForPublicIP'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', parameters('mrpDnsNameForPublicIP'))]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-                "[concat('Microsoft.Network/networkSecurityGroups/', variables('jenkinsNSGName'))]"
+                "[variables('mrpNsgName')]"
             ],
             "properties": {
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('jenkinsNSGName'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('mrpNsgName'))]"
                 },
                 "ipConfigurations": [
                     {
@@ -161,7 +159,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('jenkinsDnsNameForPublicIP'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('mrpDnsNameForPublicIP'))]"
                             },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
@@ -174,35 +172,32 @@
         {
             "apiVersion": "2015-06-15",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('jenkinsVmName')]",
+            "name": "[variables('mrpVmName')]",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "VM-Jenkins"
-            },
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', variables('storageName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('jenkinsNicName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('mrpNicName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[variables('jenkinsVmSize')]"
+                    "vmSize": "[variables('mrpVmSize')]"
                 },
                 "osProfile": {
-                    "computerName": "[variables('jenkinsVmName')]",
-                    "adminUsername": "[parameters('jenkinsAdminUsername')]",
-                    "adminPassword": "[parameters('jenkinsAdminPassword')]"
+                    "computerName": "[variables('mrpVmName')]",
+                    "adminUsername": "[parameters('mrpAdminUsername')]",
+                    "adminPassword": "[parameters('mrpAdminPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[variables('jenkinsImagePublisher')]",
-                        "offer": "[variables('jenkinsImageOffer')]",
-                        "sku": "[variables('jenkinsImageSku')]",
+                        "publisher": "[variables('mrpImagePublisher')]",
+                        "offer": "[variables('mrpImageOffer')]",
+                        "sku": "[variables('mrpImageSKU')]",
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "osdisk",
+                        "name": "[concat(resourceGroup().name, 'osdisk')]",
                         "vhd": {
-                            "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob, variables('vhdStorageContainerName'),'/',variables('jenkinsOSDiskName'),'.vhd')]"
+                            "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob, variables('vhdStorageContainerName'),'/',variables('mrpOSDiskName'),'.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
@@ -211,7 +206,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('jenkinsNicName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('mrpNicName'))]"
                         }
                     ]
                 },
@@ -225,33 +220,33 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('jenkinsVmName'),'/CustomScriptForLinux')]",
+            "name": "[concat(variables('mrpVmName'),'/LinuxCustomScriptExtension')]",
             "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('jenkinsVmName'))]"
+                "[concat('Microsoft.Compute/virtualMachines/', variables('mrpVmName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.OSTCExtensions",
                 "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.3",
+                "typeHandlerVersion": "1.4",
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/customscripts/jenkins/install_jenkins_1604.sh"
+                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/customscripts/install_updates.sh"
                     ],
-                    "commandToExecute": "bash install_jenkins_1604.sh"
+                    "commandToExecute": "bash install_updates.sh"
                 },
                 "protectedSettings": {}
             }
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('jenkinsVmName'),'/LinuxVMAccessExtension')]",
+            "name": "[concat(variables('mrpVmName'),'/LinuxVMAccessExtension')]",
             "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('jenkinsVmName'),'/extensions/CustomScriptForLinux')]"
+                "[concat('Microsoft.Compute/virtualMachines/', variables('mrpVmName'),'/extensions/LinuxCustomScriptExtension')]"
             ],
             "properties": {
                 "publisher": "Microsoft.OSTCExtensions",
@@ -260,8 +255,8 @@
                 "autoUpgradeMinorVersion": "true",
                 "settings": {},
                 "protectedSettings": {
-                    "username": "[parameters('jenkinsAdminUsername')]",
-                    "password": "[parameters('jenkinsAdminPassword')]"
+                    "username": "[parameters('mrpAdminUsername')]",
+                    "password": "[parameters('mrpAdminPassword')]"
                 }
             }
         }

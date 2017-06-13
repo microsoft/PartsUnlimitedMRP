@@ -1,6 +1,6 @@
 {   "$schema": "https://gallery.azure.com/schemas/2014-09-01/manifest.json#",
-    "name": "PuppetEnterprise",
-    "publisher": "Puppet",
+    "name": "MRP",
+    "publisher": "PartsUnlimited",
     "version": "1.0.0",
     "displayName": "ms-resource:displayName",
     "publisherDisplayName": "ms-resource:publisherDisplayName",
@@ -10,14 +10,14 @@
     "description": "ms-resource:description",
     "longDescription": "ms-resource:description",
     "links": [
-        { "displayName": "ms-resource:documentationLink", "uri": "https://puppet.com/" },
-        { "displayName": "ms-resource:documentationLink2", "uri": "https://docs.puppet.com/puppet/" }
+        { "displayName": "ms-resource:documentationLink", "uri": "https://microsoft.github.io/PartsUnlimitedMRP/" },
+        { "displayName": "ms-resource:documentationLink2", "uri": "https://channel9.msdn.com/Series/Parts-Unlimited-MRP-Labs" }
     ],
     "artifacts": [
         {
-            "name": "PuppetDeploy",
+            "name": "PartsUnlimitedMRP",
             "type": "Template",
-            "path": "DeploymentTemplates\\PuppetDeploy.json",
+            "path": "DeploymentTemplates\\PartsUnlimitedMRP.json",
             "isDefault": true
         }
     ],

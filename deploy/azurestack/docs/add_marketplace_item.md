@@ -73,8 +73,8 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
   cd C:\AzureStack-Tools-master\connect
   Import-Module .\AzureStack.Connect.psm1
   Add-AzureStackAzureRmEnvironment -Name "AzureStackAdmin" -ArmEndpoint "https://adminmanagement.local.azurestack.external"
-  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com" -EnvironmentName AzureStackAdmin
-  $UserName='<Username of the service administrator or user account>'
+  $TenantID = Get-DirectoryTenantID -AADTenantName "<myaadtenant>.onmicrosoft.com or customdomain.com" -EnvironmentName AzureStackAdmin
+  $UserName='<username@myaadtenant.onmicrosoft.com or username@customdomain.com>'
   $Password='<administrator or user password>'| `
   ConvertTo-SecureString -Force -AsPlainText
   $Credential= New-Object PSCredential($UserName,$Password)

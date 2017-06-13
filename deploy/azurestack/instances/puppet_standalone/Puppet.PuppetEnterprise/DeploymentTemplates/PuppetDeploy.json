@@ -45,7 +45,7 @@
         "publicIPAddressType": "Dynamic",
         "vhdStorageContainerName": "vhds",
         "pmNsgName": "pmNSG",
-        "pmVmSize": "Standard_A2",
+        "pmVmSize": "Standard_A3",
         "pmVmName": "[toLower(parameters('pmDnsNameForPublicIP'))]",
         "virtualNetworkName": "puppetVNET",
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
@@ -269,8 +269,9 @@
             "properties": {
                 "publisher": "Microsoft.OSTCExtensions",
                 "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.4",
-                "autoUpgradeMinorVersion": true,
+                "typeHandlerVersion": "1.3",
+                "autoUpgradeMinorVersion": "true",
+
                 "settings": {
                     "fileUris": [
                         "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/customscripts/puppet/install_puppet_1604.sh"
