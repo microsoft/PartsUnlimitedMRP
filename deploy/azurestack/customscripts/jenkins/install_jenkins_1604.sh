@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Install Jenkins Dependencies
+add-apt-repository ppa:openjdk-r/ppa
 apt-get update
 apt-get upgrade -y
 apt-get install openjdk-7-jdk -y
