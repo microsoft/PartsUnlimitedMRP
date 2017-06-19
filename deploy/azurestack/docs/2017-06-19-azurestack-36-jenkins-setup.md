@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Setup Parts Unlimited MRP with Jenkins
+category: AzureStack
+order: 6
+---
 # Setup Environment | Parts Unlimited MRP with Jenkins
 In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that will be used for the Parts Unlimited MRP project. We'll then step through using that environment to showcase CI/CD capabilities. [Jenkins](https://jenkins.io/) is an open source automation server that provides capabilities for building, deploying and automating any project.
 
@@ -5,8 +11,8 @@ In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that w
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps so far, you should already have most of them :-)
 
   - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/adding_vm_images.md#connecting-to-azure-stack-via-powershell))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/adding_vm_images.md#add-vm-image-to-platform-image-repository-with-powershell))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   - An Oracle Account, in order to source the latest JDK (Test creds at http://www.oracle.com then click Sign-in at the top)
 
@@ -57,13 +63,13 @@ As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marke
 1. Navigate to your **TheJenkinsProject.Jenkins.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/adding_vm_images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/add_marketplace_item.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -246,8 +252,8 @@ Gradle will be used to build the Parts Unlimited MRP application. If needed, you
 
 In this lab, you learned how to setup a Jenkins Master on Azure Stack, try these labs for the next steps: 
 
-- [Parts Unlimited MRP Continous Integration with Jenkins](/deploy/azurestack/docs/jenkins_CI.md)
-- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_CD.md)
+- [Parts Unlimited MRP Continous Integration with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-37-jenkins-ci.md)
+- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-38-jenkins-cd.md)
 
 ## Continuous Feedback
 

@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Getting Started with Parts Unlimited MRP
+category: AzureStack
+order: 5
+---
 # Getting Started with Parts Unlimited MRP
 
 As mentioned in the previous steps, Parts Unlimited MRP is a fictional outsourced Manufacturing Resource Planning (MRP) application for training purposes based on the description in chapters 31-35 of The Phoenix Projectby Gene Kim, Kevin Behr and George Spafford. © 2013 IT Revolution Press LLC, Portland, OR. Resemblance to “Project Unicorn” in the novel is intentional; resemblance to any real company is purely coincidental.

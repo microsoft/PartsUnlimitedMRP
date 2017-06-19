@@ -1,3 +1,10 @@
+---
+layout: page
+title:  Connecting to Azure Stack
+category: AzureStack
+order: 2
+---
+
 # Connecting to Azure Stack
 
 With your Azure Stack deployed, you should be logged in to the Azure Stack POC host, ready to use the environment. Now, in order to use the environment correctly, you will need to log into the MAS-CON01 virtual machine. This machine is your primary machine for administering, deploying and managing the Azure Stack.
@@ -27,4 +34,4 @@ It's easier if you do this now, rather than later. It'll make things easier when
 
 # Next Step
 
-In the next step, we'll [add a new VM image](/deploy/azurestack/docs/adding_vm_images.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.
+In the next step, we'll [add a new VM image](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.

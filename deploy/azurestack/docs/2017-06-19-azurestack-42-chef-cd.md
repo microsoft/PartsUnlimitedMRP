@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Setup Continuous Deployment with Puppet
+category: AzureStack
+order: 12
+---
 # Continuous Deployment with Chef Server
 
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with Chef Server 12.
@@ -5,7 +11,7 @@ After this lab, you will have a working continuous deployment environment in Che
 
 ## Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](/deploy/azurestack/docs/chef_setup.md)
+- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](/deploy/azurestack/docs/2017-06-19-azurestack-41-chef-setup.md)
 
 In the previous lab, we setup the environment.  This involved deploying a Chef Server, syndicating and deploying a Windows Server VM, that will act as our workstation, and finally, we deployed a single Linux node which will eventually host our Parts Unlimited MRP application.
 
@@ -73,9 +79,9 @@ Once you are successfully logged into the Chef Workstation VM, we can start the 
 
 	![Chef Verify Error](/deploy/azurestack/docs/media/ChefStarterKit.PNG)
 
-7. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef\`.
+7. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef-starter\`.
 
-8. Open the knife.rb file in chef-repo\ .chef and check that the chef_server_url matches the external FQDN (e.g. https://<chef-server-dns-name>.local.cloudapp.azurestack.external/organizations/partsunlimited). Then, save and close the file.
+8. Open the knife.rb file in chef-repo\ .chef and check that the chef_server_url matches the external FQDN (e.g. https://chef-server-dns-name.local.cloudapp.azurestack.external/organizations/partsunlimited). Then, save and close the file.
 
 	![Edit Knife File](/deploy/azurestack/docs/media/ChefEditKnife.PNG)
 
@@ -427,11 +433,11 @@ In this exercise, you will make a change to the configuration of your MRP applic
 
 	Click **Run History**.
 
-	Observe that the node has a first successful run that executed 25/51 resources, and possibly additional runs that executed 0/35 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
+	Observe that the node has a first successful run that executed 26/55 resources, and possibly additional runs that executed 0/39 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
 
 	![Chef Reports Tab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/reports_tab.png)
 
-6. Click on the run that shows 1/35 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
+6. Click on the run that shows 1/39 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
 
 	![Chef Report Details](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/report_details_tab.png)
 
@@ -443,8 +449,8 @@ In this hands-on lab you explored some of the new features and capabilities of d
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
-- [Continuous Deployment with Puppet](/deploy/azurestack/docs/puppet_setup.md)
+- [Continuous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
+- [Continuous Deployment with Puppet](/deploy/azurestack/docs/2017-06-19-azurestack-39-puppet-setup.md)
 
 # Continuous Feedback
 

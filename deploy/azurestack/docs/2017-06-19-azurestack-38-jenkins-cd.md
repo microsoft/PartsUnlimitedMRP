@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Continuous Deployment with Jenkins
+category: AzureStack
+order: 8
+---
 # Continuous Deployment with Jenkins
 
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with no agent.
@@ -5,8 +11,8 @@ After this lab, you will have a working pipeline in Jenkins that will build, tes
 
 ## Pre-Requisites:
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
-- Completion of the [Continuous Integration with Jenkins lab](/deploy/azurestack/docs/jenkins_CI.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
+- Completion of the [Continuous Integration with Jenkins lab](/deploy/azurestack/docs/2017-06-19-azurestack-37-jenkins-ci.md)
 
 ## Overview:
 During this lab, we will implement the continuous delivery of the artifacts that we have built in the previous lab. 
@@ -130,13 +136,13 @@ As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marke
 1. Navigate to your **PartsUnlimited.MRPSSH.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/adding_vm_images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/add_marketplace_item.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   

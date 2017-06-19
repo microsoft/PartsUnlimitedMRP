@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Setup Continuous Deployment with Puppet
+category: AzureStack
+order: 9
+---
 # Setup Environment | Continuous Deployment with Puppet
 
 In this multi-part lab, we will set up the Puppet Master in Azure Stack, that will be used for Continuous Deployment of the Parts Unlimited MRP project. We'll then step through using that environment to showcase its CD capabilities. [Puppet](https://puppetlabs.com/) is a configuration management system that allows you to automate provisioning and configuration of machines by describing the state of your infrastructure as code. Infrastructure as Code is an important pillar of good DevOps.
@@ -6,8 +12,8 @@ In this multi-part lab, we will set up the Puppet Master in Azure Stack, that wi
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps across other labs so far, you should already have most of them :-)
 
  - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/adding_vm_images.md#connecting-to-azure-stack-via-powershell))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/adding_vm_images.md#add-vm-image-to-platform-image-repository-with-powershell))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   
 ```powershell
@@ -59,7 +65,7 @@ Once the deployment has completed, you're ready to proceed with configuring the 
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item for Puppet Enterprise, to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Puppet environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Puppet environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
 - [Download Puppet Enterprise Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise.1.0.0.azpkg)
 
@@ -72,7 +78,7 @@ As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marke
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/add_marketplace_item.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -163,7 +169,7 @@ Alternatively, for those of you who like to press buttons, and would like a simp
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
 </a>
 
-This node is based on the [Ubuntu base image that we added to the Azure Stack marketplace earlier](/deploy/azurestack/docs/add_marketplace_item.md). The only difference here is, the template creates the corresponding VM inside the same resource group, and virtual network as our Puppet Enterprise Master, and opens a couple of necessary ports in the network security group.
+This node is based on the [Ubuntu base image that we added to the Azure Stack marketplace earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md). The only difference here is, the template creates the corresponding VM inside the same resource group, and virtual network as our Puppet Enterprise Master, and opens a couple of necessary ports in the network security group.
 
 You'll need to enter information for the following fields:
 - **ADMINUSERNAME** - accept the default of **localadmin**.
@@ -184,7 +190,7 @@ Once the deployment has completed, you're ready to proceed with configuring the 
 
 In this lab, you learned how to setup deploy Puppet Enterprise on Azure Stack, and deploy an initial node that will be configured with Puppet Enterprise.  In the next lab, you'll walk through deploying the Parts Unlimited MRP app, to this node, from Puppet Enterprise. 
 
-- [Parts Unlimited MRP Continous Deployment with Puppet Enterprise](/deploy/azurestack/docs/puppet_CD.md)
+- [Parts Unlimited MRP Continous Deployment with Puppet Enterprise](/deploy/azurestack/docs/2017-06-19-azurestack-40-puppet-cd.md)
 
 ## Continuous Feedback
 

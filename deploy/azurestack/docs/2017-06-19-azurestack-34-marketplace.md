@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Adding a Marketplace Item to Azure Stack
+category: AzureStack
+order: 4
+---
 # Adding a Marketplace Item to Azure Stack
 Once your Ubuntu base image is in the platform image repository within your Azure Stack, you can deploy ARM templates that reference those images without any further prep work...however having choices in your marketplace is pretty cool, and it’s not that difficult. Especially seeing as I’ve packaged marketplace items for you to save you a job :-)
 
@@ -126,4 +132,4 @@ When Putty opens, you'll need the Public IP address of the Ubuntu VM you deploye
 
 # Next Step
 
-Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP.md).
+Once successfully connected to your Ubuntu VM, you're now ready to move on to get started with Parts Unlimited MRP and exploring the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP.md).

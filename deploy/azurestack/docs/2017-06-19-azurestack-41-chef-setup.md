@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Setup Continuous Deployment with Chef
+category: AzureStack
+order: 11
+---
 # Setup Environment | Continuous Deployment with Chef
 
 In this multi-part lab, we will setup a Chef Server in Azure Stack, that will be used for Continuous Deployment of the Parts Unlimited MRP project. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand these features as part of the DevOps Lifecycle.
@@ -6,8 +12,8 @@ In this multi-part lab, we will setup a Chef Server in Azure Stack, that will be
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps across other labs so far, you should already have most of them :-)
 
  - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/adding_vm_images.md#connecting-to-azure-stack-via-powershell))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/adding_vm_images.md#add-vm-image-to-platform-image-repository-with-powershell))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   
 ```powershell
@@ -24,7 +30,7 @@ Once you've got all those sorted, you're ready to deploy the environment. In thi
 - Remediating Configuration Changes: You will see how Chef reacts when changes happen to the configuration and how Chef resolves issues.
 
 ## Provision the Lab | Enable Syndication
-In previous labs, you'll have seen that whether we are deploying Jenkins, Puppet, or just a regular Linux VM, we've been using an Ubuntu image that we added to the Azure Stack Platform Image Repository ([earlier](/deploy/azurestack/docs/adding_vm_images.md#add-vm-image-to-platform-image-repository-with-powershell)).  We essentially 'sideloaded' this image into Azure Stack, and from there, we used it with a number of ARM templates to deploy specific workloads.
+In previous labs, you'll have seen that whether we are deploying Jenkins, Puppet, or just a regular Linux VM, we've been using an Ubuntu image that we added to the Azure Stack Platform Image Repository ([earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell)).  We essentially 'sideloaded' this image into Azure Stack, and from there, we used it with a number of ARM templates to deploy specific workloads.
 
 There is, however, another way to populate your Azure Stack Platform Image Repository, and also, the Azure Stack Marketplace.  This alternative method is known as **Marketplace Syndication**.
 
@@ -122,20 +128,20 @@ Once the deployment has completed, you're ready to proceed with deploying the ad
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item for Chef Server, to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
 - [Download Chef Server Package](/deploy/azurestack/instances/chef_standalone/Chef.ChefServer.1.0.0.azpkg)
 
 1. Navigate to your **Chef.ChefServer.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/adding_vm_images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/add_marketplace_item.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -254,7 +260,7 @@ Once this is complete, we're ready to move on to configuring the environment!
 
 In this lab, you learned how to deploy Chef Server on Azure Stack, how to enable and use Marketplace Syndication with Azure Stack, deploying a syndicated Windows Server machine that will be used as a Workstation, and finally, deploy an additional Linux node, that will be managed by Chef.  In the next lab, you'll walk through deploying the Parts Unlimited MRP app, to this node, from Chef. 
 
-- [Parts Unlimited MRP Continous Deployment with Chef](/deploy/azurestack/docs/chef_CD.md)
+- [Parts Unlimited MRP Continous Deployment with Chef](/deploy/azurestack/docs/2017-06-19-azurestack-42-chef-cd.md)
 
 ## Continuous Feedback
 

@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Continuous Integration with Jenkins
+category: AzureStack
+order: 7
+---
 # Continuous Integration for Parts Unlimited MRP with Jenkins
 In this lab, we have an application called Parts Unlimited MRP. We want to set up Jenkins to be able continuously integrate code into the master branch of code. This means that whenever code is committed and pushed to the master branch, we want to ensure that it integrates into our code correctly to get fast feedback. To do so, we are going to be creating a pipeline that will allow us to compile and run unit tests on our code when it is pushed to GitHub.
 
@@ -12,7 +18,7 @@ These workarounds are currently out of scope, but may be addressed in the future
 
 ## Pre-Requisites: ##
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
 - Have a GitHub account [https://github.com](https://github.com).
 
 ## Tasks Overview:
@@ -214,7 +220,7 @@ The test results as displayed below will be displayed AFTER running two builds a
 
 In this lab, you learned how to create a Continuous Integration build that runs when new commits are pushed to the master branch. This allows you to get feedback as to whether your changes made breaking syntax changes, or if they broke one or more automated tests, or if your changes are OK. Try this lab out for next steps:
 
-- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_CD.md)
+- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-38-jenkins-cd.md)
 
 ## Continuous Feedback
 

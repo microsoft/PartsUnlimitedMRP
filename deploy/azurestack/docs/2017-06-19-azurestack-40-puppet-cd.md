@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Continuous Deployment with Puppet
+category: AzureStack
+order: 10
+---
 # Continuous Deployment with Puppet Enterprise
 
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with Puppet Enterprise.
@@ -5,7 +11,7 @@ After this lab, you will have a working continuous deployment environment in Pup
 
 ## Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](/deploy/azurestack/docs/puppet_setup.md)
+- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](/deploy/azurestack/docs/2017-06-19-azurestack-39-puppet-setup.md)
 
 ## Overview:
 During this lab, we will finalize configuration of Puppet Enterprise to manage the additional virtual machine that was also deployed in the previous lab, and once under management, deploy the Parts Unlimited MRP app in an automated fashion.
@@ -462,7 +468,7 @@ In this lab, you learned how to create the Puppet infrastructure and deploy the 
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
+- [Continuous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
 - [Continuous Deployment with Chef](/deploy/azurestack/docs/chef_setup.md)
 
 # Continuous Feedback

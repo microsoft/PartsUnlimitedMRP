@@ -1,3 +1,9 @@
+---
+layout: page
+title:  Adding VM Images to Azure Stack
+category: AzureStack
+order: 3
+---
 # Adding VM Images to Azure Stack
 
 Azure Stack enables administrators to make VM images, such as their organization’s custom VHD, available to their tenants. Images can be referenced by Azure Resource Manager templates or added to the Azure Marketplace UI with the creation of a Marketplace item. No images are included by default in the Azure Stack Technical Preview 3 Refresh.
@@ -162,7 +168,7 @@ With the upload complete, it's important to confirm that the image now exist in 
 6. Close all open blades and return to the dashboard.
 
 # Next Step
-You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP.md) page to go forward.
+You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/2017-06-19-azurestack-34-mrp.md) page to go forward.
 
 If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
 
@@ -171,4 +177,4 @@ If you'd like something like this, in your Azure Stack gallery:
 
    ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
 
-then [follow the steps over on this page](/deploy/azurestack/docs/add_marketplace_item.md).
+then [follow the steps over on this page](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md).
