@@ -456,8 +456,6 @@ Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
     ![Tomcat Running](/deploy/azurestack/docs/media/PuppetPartsMRPRunning.PNG)
 
-In this lab, you learned how to create the Puppet infrastructure and deploy the Parts Unlimited MRP app to the nodes while managing configuration drift.
-
 # Next steps
 
 In this lab, you learned how to create the Puppet infrastructure and deploy the Parts Unlimited MRP app to the nodes while managing configuration drift. You can follow the steps again to deploy additional nodes under management.  Each Puppet Enterprise deployment allows you to manage up to 10 nodes for free - great for learning and development!

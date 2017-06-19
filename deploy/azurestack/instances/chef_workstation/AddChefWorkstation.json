@@ -4,30 +4,32 @@
     "parameters": {
         "adminUsername": {
             "defaultValue": "localadmin",
-            "minLength": 1,
             "type": "string",
+            "minLength": 1,
             "metadata": {
-                "description": "User name for the additional node."
+            "description": "User name for the Chef Workstation Virtual Machine."
             }
         },
         "adminPassword": {
             "type": "securestring",
+            "minLength": 8,
             "metadata": {
-                "description": "Administrator password for the additional node."
+            "description": "Password for the Chef Workstation Virtual Machine."
             }
         },
         "dnsNameForPublicIP": {
-            "minLength": 1,
             "type": "string",
+            "minLength": 1,
+            "maxLength": 15,
             "metadata": {
-                "description": "Globally unique DNS Name for the Public IP used to access the MRP Virtual Machine."
+                "description": "Globally unique DNS Name for the Public IP used to access the Chef Workstation Virtual Machine."
             }
         }
     },
     "variables": {
-        "imagePublisher": "Canonical",
-        "imageOffer": "UbuntuServer",
-        "imageSku": "16.04.3-LTS",
+        "imagePublisher": "MicrosoftWindowsServer",
+        "imageOffer": "WindowsServer",
+        "imageSku": "2012-R2-Datacenter",
         "osDiskName": "[tolower(concat(parameters('dnsNameForPublicIP'), 'osdisk'))]",
         "nicName": "[tolower(concat(parameters('dnsNameForPublicIP'), 'Nic'))]",
         "addressPrefix": "10.0.0.0/16",
@@ -40,7 +42,7 @@
         "nsgName": "[tolower(concat(parameters('dnsNameForPublicIP'), 'NSG'))]",
         "vmSize": "Standard_A2",
         "vmName": "[toLower(parameters('dnsNameForPublicIP'))]",
-        "existingVirtualNetworkName": "puppetVNET",
+        "existingVirtualNetworkName": "chefVNET",
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('existingVirtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
     },
@@ -62,44 +64,16 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "SSH",
+                        "name": "RDP",
                         "properties": {
-                            "description": "SSH port",
+                            "description": "RDP port",
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "22",
+                            "destinationPortRange": "3389",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 1000,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "MRP",
-                        "properties": {
-                            "description": "MRP port",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "9080",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 1100,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "OrderingSvc",
-                        "properties": {
-                            "description": "OrderingService port",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "8080",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 1200,
                             "direction": "Inbound"
                         }
                     }
@@ -220,41 +194,25 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmName'),'/LinuxCustomScriptExtension')]",
+            "name": "[concat(variables('vmName'),'/chefworkstationconfig')]",
             "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
-            "properties": {
-                "publisher": "Microsoft.OSTCExtensions",
-                "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.5",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "commandToExecute": "ifconfig"
-                }
-            },
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmName'),'/LinuxVMAccessExtension')]",
-            "apiVersion": "2015-06-15",
-            "location": "[resourceGroup().location]",
+            ],
             "properties": {
-                "publisher": "Microsoft.OSTCExtensions",
-                "type": "VMAccessForLinux",
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
                 "typeHandlerVersion": "1.4",
-                "autoUpgradeMinorVersion": "true",
-                "settings": {},
-                "protectedSettings": {
-                    "username": "[parameters('adminUsername')]",
-                    "password": "[parameters('adminPassword')]"
-                }
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxCustomScriptExtension')]"
-            ]
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Chef/env/Configure-Chef-Workstation.ps1"
+                    ],
+                    "commandToExecute": "powershell -File Configure-Chef-Workstation.ps1"
+                },
+                "protectedSettings": {}
+            }
         }
     ],
     "outputs": {}
