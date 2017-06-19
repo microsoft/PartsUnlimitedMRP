@@ -40,7 +40,7 @@
         "nsgName": "[tolower(concat(parameters('dnsNameForPublicIP'), 'NSG'))]",
         "vmSize": "Standard_A2",
         "vmName": "[toLower(parameters('dnsNameForPublicIP'))]",
-        "existingVirtualNetworkName": "puppetVNET",
+        "existingVirtualNetworkName": "chefVNET",
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('existingVirtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
     },
