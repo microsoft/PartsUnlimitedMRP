@@ -4,20 +4,18 @@ title:  Continuous Deployment with Jenkins
 category: AzureStack
 order: 8
 ---
-# Continuous Deployment with Jenkins
-
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with no agent.
 After this lab, you will have a working pipeline in Jenkins that will build, test, and deploy the Parts Unlimited MRP app to a Virtual Machine in Azure Stack.
 
-## Pre-Requisites:
+### Pre-Requisites:
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
-- Completion of the [Continuous Integration with Jenkins lab](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-37-jenkins-ci.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](azurestack-36-jenkins-setup.html)
+- Completion of the [Continuous Integration with Jenkins lab](azurestack-37-jenkins-ci.html)
 
-## Overview:
+### Overview:
 During this lab, we will implement the continuous delivery of the artifacts that we have built in the previous lab. 
 
-## Install the SSH Agent plugin 
+### Install the SSH Agent plugin 
 In this task, we are going to install the ssh-agent plugin on Jenkins. This plugin will allow Jenkins to connect via ssh to the target machine during the deployment or the artifacts.
 
 **1.** Switch to the SSH session to your Jenkins server (or open a new one if you have closed the one from the previous lab) and type the following command
@@ -38,7 +36,7 @@ sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://Jenkins:
 
 Keep your ssh session open.
 
-## Create a pair of SSH keys
+### Create a pair of SSH keys
 In this taks, we will create a pair of ssh keys to be able to automatically connect to the deployment server. 
 
 **1.** Type the following command: 
@@ -84,7 +82,7 @@ Click **OK**
 
 ![Adding SSH key to Jenkins](<../assets/jenkins/jenkins_addsshkey.png>)
 
-## Create the VM to run the Parts Unlimited MRP application 
+### Create the VM to run the Parts Unlimited MRP application 
 
 Now, you have 2 options for deployment.
 
@@ -93,7 +91,7 @@ Now, you have 2 options for deployment.
 
 **The end result of both of these options is the same, however if you'd like to populate your gallery with more items, use option 2.**
 
-### *Option 1 - ARM Template & Custom Deployment
+#### *Option 1 - ARM Template & Custom Deployment
 If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP with SSH', then this quick and easy approach should make things, well, quick and easy for you!
 
 Firstly, we need the SSH key to use with this new virtual machine.  To obtain this, go back to your SSH session, and run:
@@ -126,23 +124,23 @@ Depending on your hardware, the deployment of the key artifacts, the virtual mac
 
 Once the deployment has completed, you're ready to proceed with the lab.
 
-### *Option 2 - Create a Custom Marketplace Item for Deployment
+#### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
 - [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg)
 
 1. Navigate to your **PartsUnlimited.MRPSSH.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](azurestack-33-images.html). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](azurestack-34-marketplace.html#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -201,7 +199,7 @@ Depending on your hardware, the deployment of the key artifacts, the virtual mac
 
 Once the deployment has completed, you're ready to proceed with the lab.
 
-## Update the Jenkins pipeline
+### Update the Jenkins pipeline
 
 In this task we will update the Jenkins pipeline to automatically deploy the artifacts after they have been built.
 
@@ -317,7 +315,7 @@ node{
 
 ```
 
-## Connecting the dots
+### Connecting the dots
 
 **1.** Go to the source code on your GitHub repository
 
@@ -355,20 +353,18 @@ Verify that the Title in the browser is the same than the one you have modified 
 
 ![Parts Unlimited Application](<../assets/jenkins/pumrp_app.png>)
 
-# Next steps
+## Next steps
 
 In this lab, you learned how to implement Continuous Deployment for the Parts Unlimited MRP Application. 
 This allows you to reduce the time to go in production and get feedback if your changes are okay. Implemented with Continuous Integration, the changes performed by the developers are pushed, in a continuous manner into production without removing the ability to have human control.
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Puppet](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-39-puppet-setup.md)
-- [Continuous Deployment with Chef](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-41-chef-setup.md)
+- [Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
+- [Continuous Deployment with Chef](azurestack-41-chef-setup.html)
 
-# Continuous Feedback
+## Continuous Feedback
 
-#### Issues / Questions about this Hands-On-Lab ??
+##### Issues / Questions about this Hands-On-Lab ??
 
 [If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
-
-Thanks

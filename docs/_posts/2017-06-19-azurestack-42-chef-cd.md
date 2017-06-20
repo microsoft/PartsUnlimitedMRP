@@ -1,17 +1,15 @@
 ---
 layout: page
-title:  Continuous Deployment with Puppet
+title:  Continuous Deployment with Chef
 category: AzureStack
 order: 12
 ---
-# Continuous Deployment with Chef Server
-
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with Chef Server 12.
 After this lab, you will have a working continuous deployment environment in Chef that will deploy the Parts Unlimited MRP app to a Virtual Machine in Azure Stack.
 
-## Pre-Requisites:
+### Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-41-chef-setup.md)
+- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](azurestack-41-chef-setup.html)
 
 In the previous lab, we setup the environment.  This involved deploying a Chef Server, syndicating and deploying a Windows Server VM, that will act as our workstation, and finally, we deployed a single Linux node which will eventually host our Parts Unlimited MRP application.
 
@@ -23,7 +21,7 @@ To recap, here's what we'll be doing during this part of the lab:
 - Bootstrap the MRP App Server and Deploy the Application: You will bootstrap the MRP app and use the role that you previously created to deploy the app.
 - Remediating Configuration Changes: You will see how Chef reacts when changes happen to the configuration and how Chef resolves issues.
 
-## Configure the Chef Workstation
+### Configure the Chef Workstation
 Earlier, you deployed a Windows Server virtual machine that will act as our administrative workstation for Chef administration.  During that deployment, as the ARM template was being executed, a custom PowerShell script was being called, that performed the following task on that Windows Server virtual machine:
 
 ```powershell
@@ -112,7 +110,7 @@ Once you are successfully logged into the Chef Workstation VM, we can start the 
 		git add -A
 		git commit -m "knife download commit"
 
-## Create a Chef Cookbook
+### Create a Chef Cookbook
 In this exercise, we will create a cookbook to automate the installation of the Parts Unlimited MRP application and upload it to the Chef server.
 
 1. Use the **knife tool** to generate a cookbook template.
@@ -323,7 +321,7 @@ In this exercise, we will create a cookbook to automate the installation of the 
 
 	Now that we have a recipe created and all of the dependencies installed, we can upload our cookbooks and recipes to the Chef server with the knife upload command.
 
-## Create a Role
+### Create a Role
 In this exercise, you will use the Chef Manage web site to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers.
 
 At the start of this task, you should be logged in to the Chef Manage web site. 
@@ -384,7 +382,7 @@ At the start of this task, you should be logged in to the Chef Manage web site.
 
 	Then, click **Create Role**.
 	
-## Bootstrap the MRP App Server and Deploy the Application
+### Bootstrap the MRP App Server and Deploy the Application
 In this exercise, you will run the knife command to bootstrap the Parts Unlimited MRP app server and assign the MRP application role.
 
 1. Use knife to boostrap the VM. If you have followed the steps in the guide, your FQDN should be **chefnode1.local.cloudapp.azurestack.external**, your username for the additional node should be **localadmin** and you used a password of your choice.
@@ -405,7 +403,7 @@ In this exercise, you will run the knife command to bootstrap the Parts Unlimite
 
 3. Click around the site and observe that it functions normally.
 
-## Remediating Configuration Changes
+### Remediating Configuration Changes
 
 In this exercise, you will make a change to the configuration of your MRP application server, then observe as Chef automatically corrects the issue.
 
@@ -443,19 +441,17 @@ In this exercise, you will make a change to the configuration of your MRP applic
 
 7. Reload the MRP application site, and you should see the site successfully load.
 
-# Next steps
+## Next steps
 
 In this hands-on lab you explored some of the new features and capabilities of deploying the MRP App via Chef Server in Azure Stack. You also learned about Marketplace Syndication between Azure and Azure Stack. This hands-on lab was designed to point out new features, discuss and describe them, and enable you to understand these features as part of the DevOps Lifecycle.
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
-- [Continuous Deployment with Puppet](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-39-puppet-setup.md)
+- [Continuous Deployment with Jenkins](azurestack-36-jenkins-setup.html)
+- [Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
 
-# Continuous Feedback
+### Continuous Feedback
 
-#### Issues / Questions about this Hands-On-Lab ??
+##### Issues / Questions about this Hands-On-Lab ??
 
 [If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
-
-Thanks

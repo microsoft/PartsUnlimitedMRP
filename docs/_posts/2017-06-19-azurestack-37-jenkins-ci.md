@@ -4,10 +4,9 @@ title:  Continuous Integration with Jenkins
 category: AzureStack
 order: 7
 ---
-# Continuous Integration for Parts Unlimited MRP with Jenkins
 In this lab, we have an application called Parts Unlimited MRP. We want to set up Jenkins to be able continuously integrate code into the master branch of code. This means that whenever code is committed and pushed to the master branch, we want to ensure that it integrates into our code correctly to get fast feedback. To do so, we are going to be creating a pipeline that will allow us to compile and run unit tests on our code when it is pushed to GitHub.
 
-## *Important Consideration for Azure Stack
+### *Important Consideration for Azure Stack
 Combining Jenkins and GitHub allows for the automated building of an application as soon as developers check in code to their GitHub repository, through a capability known as webhooks. For instance, you can configure Jenkins and GitHub in such a way that when GitHub detects new code from your developers, it automatically sends information to Jenkins, which triggers the build process to start, using the freshly checked-in code. This is more efficient than having Jenkins poll GitHub on an interval for instance, or via manual triggering.
 
 Due to the way that Azure Stack is configured from a networking perspective, utilizing webhooks from GitHub (resides on the public internet) and your Jenkins VM (inside an Azure Stack virtual network, which itself is likely inside your corporate network) is difficult. If you recall earlier, your IP address for your Jenkins Master VM is likely 192.168.102.X i.e. a private IP. This will not resolve on the public internet, and thus, GitHub would not be able to reach this address directly.
@@ -16,15 +15,15 @@ Workarounds include the use of a GitHub proxy, that has communication between th
 
 These workarounds are currently out of scope, but may be addressed in the future.  For this lab, you will trigger builds manually in Jenkins.
 
-## Pre-Requisites: ##
+### Pre-Requisites: ##
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](azurestack-36-jenkins-setup.html)
 - Have a GitHub account [https://github.com](https://github.com).
 
-## Tasks Overview:
+### Tasks Overview:
 During the following tasks you will fork the Parts Unlimited MRP github repository and create a Jenkins pipeline for the Continuous Integration of the Parts Unlimited MRP application. You will learn how to configure Jenkins so that whenever a change is checked in on the code repository, a build will be triggered and several tests will be performed.
 
-### Configure your GitHub repository
+#### Configure your GitHub repository
 
 **1.** Nagivate to [https://github.com/Microsoft/PartsUnlimitedMRP/](https://github.com/Microsoft/PartsUnlimitedMRP/)
 
@@ -36,7 +35,7 @@ During the following tasks you will fork the Parts Unlimited MRP github reposito
 
 ![Github fork](<../assets/jenkins/github_fork.png>)
 
-### Create a new pipeline
+#### Create a new pipeline
 In this task, we will create a new pipeline that will build the artifacts of the application.  Before we do this however, there are a couple of settings to tweak on the Jenkins master, to ensure smooth operation of the lab.
 
 **1.** Firstly navigate to:
@@ -162,7 +161,7 @@ Click **Save** and then **Build Now**
 ![Build Pipeline for PartsUnlimitedMRP](<../assets/jenkins/build_pipeline2.png>)
 
 
-### Adding test coverage
+#### Adding test coverage
 The Parts Unlimited MRP Application performs tests for the OrderService component. In this task, we will add some information about the results of those tests and display the trend of the results of those tests.
 
 **1.** Cick on **Configure** to edit your pipeline script.
@@ -215,15 +214,14 @@ The test results as displayed below will be displayed AFTER running two builds a
 
 ![Pipeline with test results](<../assets/jenkins/pipeline_withtest.png>)
 
-
-# Next steps
+## Next steps
 
 In this lab, you learned how to create a Continuous Integration build that runs when new commits are pushed to the master branch. This allows you to get feedback as to whether your changes made breaking syntax changes, or if they broke one or more automated tests, or if your changes are OK. Try this lab out for next steps:
 
-- [Parts Unlimited MRP Continous Deployment with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-38-jenkins-cd.md)
+- [Parts Unlimited MRP Continous Deployment with Jenkins](azurestack-38-jenkins-cd.html)
 
-## Continuous Feedback
+### Continuous Feedback
 
-#### Issues / Questions about this Hands-On-Lab?
+##### Issues / Questions about this Hands-On-Lab?
 
 [If you are encountering issues or have questions during this Hands-on-Lab, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)

@@ -4,19 +4,17 @@ title:  Continuous Deployment with Puppet
 category: AzureStack
 order: 10
 ---
-# Continuous Deployment with Puppet Enterprise
-
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with Puppet Enterprise.
 After this lab, you will have a working continuous deployment environment in Puppet that will deploy the Parts Unlimited MRP app to a Virtual Machine in Azure Stack.
 
-## Pre-Requisites:
+### Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-39-puppet-setup.md)
+- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
 
-## Overview:
+### Overview:
 During this lab, we will finalize configuration of Puppet Enterprise to manage the additional virtual machine that was also deployed in the previous lab, and once under management, deploy the Parts Unlimited MRP app in an automated fashion.
 
-## Install Puppet Agent on the Node
+### Install Puppet Agent on the Node
 
 First, we need to bring our previously deployed Ubuntu VM under the management of the Puppet Enterprise Master. To do that, you'll first need to log into the Puppet Enterprise Master.
 
@@ -70,7 +68,7 @@ Once you're all connected, you're ready to start connecting this node with the P
 
     ![Accept Puppet Node](<../../deploy/azurestack/media/PuppetNodeAdded.PNG>)
     
-## Configure the Puppet Production Environment
+### Configure the Puppet Production Environment
 
 The Parts Unlimited MRP application is a Java application that requires [mongodb](https://www.mongodb.org/)
 and [tomcat](http://tomcat.apache.org/) to be installed and configured on the Parts Unlimited MRP machine (the node). Instead of
@@ -148,7 +146,7 @@ in `/etc/puppetlabs/code/environments/production`.
     currently empty) is in the `modules` folder of the production environment, so Puppet will know where to find
     it.
 
-## Test the Production Environment Configuration
+### Test the Production Environment Configuration
 
 Before we fully describe the MRP app for the node, let's test that everything is hooked up correctly by 
 configuring a "dummy" file in the `mrpapp` module. If Puppet executes and creates the dummy file, then we can
@@ -217,7 +215,7 @@ flesh out the rest of the module properly.
     You can also try to edit the contents of the file and re-run the `sudo puppet agent --test` command to see the 
     contents update.
 
-## Create a Puppet Program to Describe the Prerequisites for the MRP Application
+### Create a Puppet Program to Describe the Prerequisites for the MRP Application
 
 Now that we have hooked up the node (partsmrp) to the Puppet Master, we can begin to write the Puppet Program
 that will describe the prerequisites for the Parts Unlimited MRP application.
@@ -228,7 +226,7 @@ manifests or modules as they grow. This would promote reuse - just as in any goo
 
 >**Note:** You can see the complete `init.pp` file [here](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Puppet/final/init.pp).
 
-### Configure MongoDb
+#### Configure MongoDb
 
 Let's add a class to configure mongodb. Once mongodb is configured, we want Puppet to download a mongo script that contains some data for our application's database. We'll include this as part of the mongodb setup.
 
@@ -282,7 +280,7 @@ command again.
 
 Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
-### Configure Java
+#### Configure Java
 
 Add the following class below the `configuremongodb` class:
 
@@ -309,7 +307,7 @@ why we needed to add the PPA using the `apt` module.
 
 Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
-### Configure Tomcat
+#### Configure Tomcat
 
 Let's add a class below the `configurejava` class to configure `tomcat`:
 
@@ -345,7 +343,7 @@ Let's examine this class:
 
 Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
  
-### Deploy a WAR File
+#### Deploy a WAR File
 
 The MRP application is compiled into a WAR file that Tomcat then uses to serve pages.
 
@@ -371,7 +369,7 @@ Let's examine this class:
 - Line 5: We set the `catalina base` directory so that Puppet deploys the war to our Tomcat service
 - Line 6: We use the tomcat module's `war` resource to deploy our war from the `war_source`
 
-### Start the Ordering Service
+#### Start the Ordering Service
 
 The MRP service calls an Ordering Service, which is a REST API managing orders in the MongoDb. This service is compiled to a 
 jar file. We'll need to copy the jar file to our node and then run it in the background so that it can listen for requests.
@@ -426,7 +424,7 @@ Let's examine this class:
 
 >**Note:** We need to wait after running the `java` command since this service needs to be running before we start Tomcat, otherwise Tomcat grabs the port that the ordering service needs to listen on.
 
-### Complete the mrpapp Resource
+#### Complete the mrpapp Resource
 
 Go back to the top of the file and change the `mrpapp` class to look as follows to run all our resources:
 
@@ -442,7 +440,7 @@ class mrpapp {
 
 Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
-## Run the Puppet Configuration on the Node
+### Run the Puppet Configuration on the Node
 
 1. On the partsmrp SSH session, again force Puppet to update the node's configuration:
     ```sh
@@ -453,7 +451,7 @@ Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
     it will verify that the existing environment is correctly configured - that should be much quicker since the services will already
     be installed and configured.
 
-2. We need to check if Tomcat is running, so open a browser and browse to port `9080` of the partsmrp machine. You can get the name of the machine by clicking on the Public IP. If you've followed the steps exactly, it should be puppetnode1.local.cloudapp.azurestack.external.  You can check in the Azure Stack portal (just like you did to get the url of the puppet master earlier). Once you open the browser, you should see the following Tomcat confirmation page:
+2. We need to check if Tomcat is running, so open a browser and browse to port `9080` of the partsmrp machine. You can get the name of the machine by clicking on the Public IP. If you've followed the steps exactly, it should be puppetnode1.local.cloudapp.azurestack.external. You can check in the Azure Stack portal (just like you did to get the url of the puppet master earlier). Once you open the browser, you should see the following Tomcat confirmation page:
 
     ![Tomcat Running](<../../deploy/azurestack/media/PuppetTomcat.PNG>)
 
@@ -462,19 +460,17 @@ Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
     ![Tomcat Running](<../../deploy/azurestack/media/PuppetPartsMRPRunning.PNG>)
 
-# Next steps
+## Next steps
 
 In this lab, you learned how to create the Puppet infrastructure and deploy the Parts Unlimited MRP app to the nodes while managing configuration drift. You can follow the steps again to deploy additional nodes under management.  Each Puppet Enterprise deployment allows you to manage up to 10 nodes for free - great for learning and development!
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
-- [Continuous Deployment with Chef](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-41-chef-setup.md)
+- [Continuous Deployment with Jenkins](azurestack-36-jenkins-setup.html)
+- [Continuous Deployment with Chef](azurestack-41-chef-setup.html)
 
-# Continuous Feedback
+### Continuous Feedback
 
-#### Issues / Questions about this Hands-On-Lab ??
+##### Issues / Questions about this Hands-On-Lab ??
 
 [If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
-
-Thanks
