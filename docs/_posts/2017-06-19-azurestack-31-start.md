@@ -4,9 +4,6 @@ title:  Getting Started with DevOps on Azure Stack
 category: AzureStack
 order: 1
 ---
-
-# Getting Started with DevOps on Azure Stack
-
 In order to get started exploring DevOps tooling on Azure Stack, you're going to need an Azure Stack, and that requires some hardware. If you're not sure what specific hardware you'll need for the single-node POC configuration, don't fear, it's all [documented here](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-deploy).
 
 Once you've sourced your hardware, you'll need to [pull down the package](https://azure.microsoft.com/en-us/overview/azure-stack/try/?v=try), which requires you to complete a short registration form, then download the bits. A word of warning though - it's a big file, so set aside a bit of time for a coffee, or 9.
@@ -15,6 +12,6 @@ With the package safely downloaded, [follow the documentation](https://docs.micr
 
 Make sure you pay particularly close attention to the portal activation, and also the password expiration configuration, as you don't want your POC machine to expire too soon!
 
-# Next Step
+## Next Step
 
-Once your deployment has completed, we can move on to [connecting to Azure Stack](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-32-connect.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.
+Once your deployment has completed, we can move on to [connecting to Azure Stack](azurestack-32-connect.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.
