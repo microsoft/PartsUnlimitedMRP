@@ -328,11 +328,11 @@ At the start of this task, you should be logged in to the Chef Manage web site.
 
 1. Click on the "Policy" tab. Then, click on the "Roles" tab and then "Create."
 
-	![Create a Role](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/policy_tab.png?raw=true)
+	![Create a Role](<../assets/chef/policy_tab.png>)
 
 2. Enter the role name *mrp* then the "Next" button.
 
-	![Enter a role name](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/enter_role_name.png?raw=true)
+	![Enter a role name](<../assets/chef/enter_role_name.png>)
 
 3. Under **Available Recipes**, find the *mrpapp* recipe.
 
@@ -340,11 +340,11 @@ At the start of this task, you should be logged in to the Chef Manage web site.
 
 	Drag the *mrpapp* recipe to the **Current Run List** box.
 
-	![Define the Run List](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_mrp_run_list.png?raw=true)
+	![Define the Run List](<../assets/chef/add_mrp_run_list.png>)
 
 4. Repeat for the **chef-client::service** recipe.
 
-	![Chef Client Service](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_chefclient_run_list.png?raw=true)
+	![Chef Client Service](<../assets/chef/add_chefclient_run_list.png>)
 
 	The run list should be:
     
@@ -361,7 +361,7 @@ At the start of this task, you should be logged in to the Chef Manage web site.
       		}
     	}
 
-	![Default Attributes](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_default_attributes.png?raw=true)
+	![Default Attributes](<../assets/chef/add_default_attributes.png>)
 
 	In the previous exercise, we referenced an attribute called `['tomcat']['mrp_port']` in our recipe. This was referencing a JSON object. Now we can define default values to provide.
 
@@ -376,7 +376,7 @@ At the start of this task, you should be logged in to the Chef Manage web site.
            }
         }
 
-	![Override Attributes](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_override_attributes.png?raw=true)
+	![Override Attributes](<../assets/chef/add_override_attributes.png>)
 
 	The second recipe we added to the run list was chef-client:: service. This recipe ensure that the Chef client will run on a regular basis to ensure that the environment is in sync with what is defined in our recipe. However, the default value for the chef client service is to sync every 30 minutes. We can override that value here and set it to a more frequent interval.
 
@@ -433,11 +433,11 @@ In this exercise, you will make a change to the configuration of your MRP applic
 
 	Observe that the node has a first successful run that executed 26/55 resources, and possibly additional runs that executed 0/39 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
 
-	![Chef Reports Tab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/reports_tab.png?raw=true)
+	![Chef Reports Tab](<../assets/chef/reports_tab.png>)
 
 6. Click on the run that shows 1/39 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
 
-	![Chef Report Details](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/report_details_tab.png?raw=true)
+	![Chef Report Details](<../assets/chef/report_details_tab.png>)
 
 7. Reload the MRP application site, and you should see the site successfully load.
 
