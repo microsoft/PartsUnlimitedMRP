@@ -9,7 +9,7 @@ After this lab, you will have a working continuous deployment environment in Che
 
 ### Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](azurestack-41-chef-setup.html)
+- Completion of the lab [Setup Continuous Deployment with Chef](azurestack-41-chef-setup.html)
 
 In the previous lab, we setup the environment.  This involved deploying a Chef Server, syndicating and deploying a Windows Server VM, that will act as our workstation, and finally, we deployed a single Linux node which will eventually host our Parts Unlimited MRP application.
 

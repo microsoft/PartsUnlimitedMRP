@@ -9,7 +9,7 @@ After this lab, you will have a working continuous deployment environment in Pup
 
 ### Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
+- Completion of the lab [Setup Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
 
 ### Overview:
 During this lab, we will finalize configuration of Puppet Enterprise to manage the additional virtual machine that was also deployed in the previous lab, and once under management, deploy the Parts Unlimited MRP app in an automated fashion.
