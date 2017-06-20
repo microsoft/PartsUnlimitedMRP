@@ -163,18 +163,18 @@ With the upload complete, it's important to confirm that the image now exist in 
 4. In the Compute blade, under Content, click on **VM Images**.
 5. In the VM Images blade, you should see your Ubuntu image listed.
 
-    ![Image Added](/deploy/azurestack/docs/media/VMImages.PNG)
+    ![Image Added](<../../deploy/azurestack/media/VMImages.PNG>)
 
 6. Close all open blades and return to the dashboard.
 
 # Next Step
-You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/2017-06-19-azurestack-34-mrp.md) page to go forward.
+You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-mrp.md) page to go forward.
 
 If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
 
 ## *Optional - Create a Marketplace item for your Ubuntu Base Image
 If you'd like something like this, in your Azure Stack gallery:
 
-   ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
+   ![Azure Stack Gallery](<../../deploy/azurestack/media/gallerymedium.PNG>)
 
-then [follow the steps over on this page](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md).
+then [follow the steps over on this page](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md).

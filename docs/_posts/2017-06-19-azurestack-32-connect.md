@@ -34,4 +34,4 @@ It's easier if you do this now, rather than later. It'll make things easier when
 
 # Next Step
 
-In the next step, we'll [add a new VM image](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.
+In the next step, we'll [add a new VM image](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md), that we'll use for our ongoing tasks to evaluate key DevOps tooling on Azure Stack.

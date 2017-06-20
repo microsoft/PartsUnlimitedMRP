@@ -18,7 +18,7 @@ These workarounds are currently out of scope, but may be addressed in the future
 
 ## Pre-Requisites: ##
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
 - Have a GitHub account [https://github.com](https://github.com).
 
 ## Tasks Overview:
@@ -34,7 +34,7 @@ During the following tasks you will fork the Parts Unlimited MRP github reposito
 
 **NOTE**: if you have multiple accounts, select the account you want to fork to.
 
-![Github fork](<../../../docs/assets/jenkins/github_fork.png>)
+![Github fork](<../assets/jenkins/github_fork.png>)
 
 ### Create a new pipeline
 In this task, we will create a new pipeline that will build the artifacts of the application.  Before we do this however, there are a couple of settings to tweak on the Jenkins master, to ensure smooth operation of the lab.
@@ -49,7 +49,7 @@ http://ip_address_of_your_jenkinsmaster:8080/configureSecurity/
 
 **3.** Untick the box "Prevent Cross Site Request Forgery exploits" and click **Save** 
 
-![CSRF_disabled](<../../../docs/assets/jenkins/csrf_disabled.png>)
+![CSRF_disabled](<../assets/jenkins/csrf_disabled.png>)
 
 This will Disable the CSRF protection on the Jenkins master but is an easy way to enable CI with Github.
 
@@ -59,13 +59,13 @@ Click **Save**
 
 **NOTE:** You can also go directly to: http://IP_address_of_your_jenkinsmaster/view/All/newJob
 
-![New Jenkins item](<../../../docs/assets/jenkins/jenkins_newitem.png>)
+![New Jenkins item](<../assets/jenkins/jenkins_newitem.png>)
 
 * Type the following name for the pipeline: **PartsUnlimitedMRP**
 * Select **Pipeline** 
 * Click **OK**
 
-![New Jenkins Pipeline](<../../../docs/assets/jenkins/jenkins_newpipeline.png>)
+![New Jenkins Pipeline](<../assets/jenkins/jenkins_newpipeline.png>)
 
 The pipeline type in Jenkins will allow us to describe all the build steps with Groovy code. This code can be easily ported on any Jenkins system and could also be embedded in a Jenkinsfile in the source code.
 
@@ -91,17 +91,17 @@ The following code will clone the source code from PartsUnlimited, define the en
 
 Replace the git url with the url of your own github repository. 
 
-![Pipeline script](<../../../docs/assets/jenkins/pipeline_script1.png>)
+![Pipeline script](<../assets/jenkins/pipeline_script1.png>)
 
 The **stage** syntax in the code above defines a boundary of code that will be executed together. In a pipeline you can have as many stages as you want, they can run sequentially or in parallel, depending on the constraints that you have to build the application.
 
 Click **Save** and then **Build Now** 
 
-![Pipeline script](<../../../docs/assets/jenkins/pipeline_build1.png>)
+![Pipeline script](<../assets/jenkins/pipeline_build1.png>)
 
 After few seconds you should have a successful build with following result:
 
-![Build results](<../../../docs/assets/jenkins/build_result1.png>)
+![Build results](<../assets/jenkins/build_result1.png>)
 
 **6.** Building PartsUnlimitedMRP
 
@@ -159,7 +159,7 @@ Click **Save** and then **Build Now**
 
 **NOTE:** You may have to refresh the page once the build has completed to see the artifacts that have been produced.
 
-![Build Pipeline for PartsUnlimitedMRP](<../../../docs/assets/jenkins/build_pipeline2.png>)
+![Build Pipeline for PartsUnlimitedMRP](<../assets/jenkins/build_pipeline2.png>)
 
 
 ### Adding test coverage
@@ -213,14 +213,14 @@ The new pipeline code is:
 
 The test results as displayed below will be displayed AFTER running two builds and refreshing the page.
 
-![Pipeline with test results](<../../../docs/assets/jenkins/pipeline_withtest.png>)
+![Pipeline with test results](<../assets/jenkins/pipeline_withtest.png>)
 
 
 # Next steps
 
 In this lab, you learned how to create a Continuous Integration build that runs when new commits are pushed to the master branch. This allows you to get feedback as to whether your changes made breaking syntax changes, or if they broke one or more automated tests, or if your changes are OK. Try this lab out for next steps:
 
-- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-38-jenkins-cd.md)
+- [Parts Unlimited MRP Continous Deployment with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-38-jenkins-cd.md)
 
 ## Continuous Feedback
 

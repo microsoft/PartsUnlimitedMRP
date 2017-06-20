@@ -11,8 +11,8 @@ After this lab, you will have a working pipeline in Jenkins that will build, tes
 
 ## Pre-Requisites:
 
-- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-36-jenkins-setup.md)
-- Completion of the [Continuous Integration with Jenkins lab](/deploy/azurestack/docs/2017-06-19-azurestack-37-jenkins-ci.md)
+- Completion of the lab [Set up Parts Unlimited MRP with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-36-jenkins-setup.md)
+- Completion of the [Continuous Integration with Jenkins lab](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-37-jenkins-ci.md)
 
 ## Overview:
 During this lab, we will implement the continuous delivery of the artifacts that we have built in the previous lab. 
@@ -48,7 +48,7 @@ ssh-keygen
 
 **2.** Press **Enter** to leave the default values for the filename and the passphrase.
 
-![Creating a new ssh-rsa keypair](<../../../docs/assets/jenkins/ssh_key.png>)
+![Creating a new ssh-rsa keypair](<../assets/jenkins/ssh_key.png>)
 
 **3.** Copy the private key file to /var/lib/jenkins/.ssh by typing the following commands:
 
@@ -82,7 +82,7 @@ Because of the restart, you will have to authenticate again with the following c
 
 Click **OK**
 
-![Adding SSH key to Jenkins](<../../../docs/assets/jenkins/jenkins_addsshkey.png>)
+![Adding SSH key to Jenkins](<../assets/jenkins/jenkins_addsshkey.png>)
 
 ## Create the VM to run the Parts Unlimited MRP application 
 
@@ -104,12 +104,12 @@ cat ./.ssh/id_rsa.pub
 
 Select the returned text, and copy it. We will use it later.
 
-![Copy SSH public key](<../../../docs/assets/jenkins/copy_sshpublickey.png>)
+![Copy SSH public key](<../assets/jenkins/copy_sshpublickey.png>)
 
 Then, from your MAS-CON01 machine, you need to click on the button below to deploy the MRP virtual machine, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fparts_unlimited_SSH_mrp_base%2FPartsUnlimitedSSH.Ubuntu1604%2FDeploymentTemplates%2FPartsUnlimitedSSHMRP.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -118,9 +118,9 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, use **mrp-deploy**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Jenkins Deployment](/deploy/azurestack/docs/media/MRPDeploy.PNG)
+![Jenkins Deployment](<../../deploy/azurestack/media/MRPDeploy.PNG>)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimitedSSH.Ubuntu1604/DeploymentTemplates/PartsUnlimitedSSHMRP.json)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](<../../deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimitedSSH.Ubuntu1604/DeploymentTemplates/PartsUnlimitedSSHMRP.json>)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -129,20 +129,20 @@ Once the deployment has completed, you're ready to proceed with the lab.
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
 - [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg)
 
 1. Navigate to your **PartsUnlimited.MRPSSH.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -175,11 +175,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
 
 Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Parts Unlimited MRP with SSH marketplace item
 
-  ![MRP VM added to Marketplace](/deploy/azurestack/docs/media/MRPwithSSHMarketplace.PNG)
+  ![MRP VM added to Marketplace](<../../deploy/azurestack/media/MRPwithSSHMarketplace.PNG>)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
@@ -193,7 +193,7 @@ With your newly created marketplace item created and pushed to the Azure Stack M
 
   Once you've filled in the fields, it should look like this:
   
-  ![Jenkins Deployment](/deploy/azurestack/docs/media/MRPDeploy.PNG)
+  ![Jenkins Deployment](<../../deploy/azurestack/media/MRPDeploy.PNG>)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
@@ -325,7 +325,7 @@ node{
 
 You can change the title of the page for example.
 
-![Editing PartsUnlimitedMRP title](<../../../docs/assets/jenkins/edit_index.png>)
+![Editing PartsUnlimitedMRP title](<../assets/jenkins/edit_index.png>)
 
 **3.** Click **Commit changes** 
 
@@ -340,7 +340,7 @@ Click on the step that is paused and enter the IP address of the MRP machine, th
 
 Click **Proceed** 
 
-![Enter the IP Address of the deployment machine](/deploy/azurestack/docs/media/JenkinsGetMRPIP.PNG)
+![Enter the IP Address of the deployment machine](<../../deploy/azurestack/media/JenkinsGetMRPIP.PNG>)
 
 **6.** Wait until the completion of the pipeline
 
@@ -353,7 +353,7 @@ The IP address of the MRP deployment machine is the IP address of the Parts Unli
 
 Verify that the Title in the browser is the same than the one you have modified in the code.
 
-![Parts Unlimited Application](<../../../docs/assets/jenkins/pumrp_app.png>)
+![Parts Unlimited Application](<../assets/jenkins/pumrp_app.png>)
 
 # Next steps
 
@@ -362,8 +362,8 @@ This allows you to reduce the time to go in production and get feedback if your 
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Puppet](/deploy/azurestack/docs/puppet_setup.md)
-- [Continuous Deployment with Chef](/deploy/azurestack/docs/chef_setup.md)
+- [Continuous Deployment with Puppet](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-39-puppet-setup.md)
+- [Continuous Deployment with Chef](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-41-chef-setup.md)
 
 # Continuous Feedback
 

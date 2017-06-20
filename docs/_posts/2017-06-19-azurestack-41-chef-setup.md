@@ -12,8 +12,8 @@ In this multi-part lab, we will setup a Chef Server in Azure Stack, that will be
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps across other labs so far, you should already have most of them :-)
 
  - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   
 ```powershell
@@ -30,7 +30,7 @@ Once you've got all those sorted, you're ready to deploy the environment. In thi
 - Remediating Configuration Changes: You will see how Chef reacts when changes happen to the configuration and how Chef resolves issues.
 
 ## Provision the Lab | Enable Syndication
-In previous labs, you'll have seen that whether we are deploying Jenkins, Puppet, or just a regular Linux VM, we've been using an Ubuntu image that we added to the Azure Stack Platform Image Repository ([earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell)).  We essentially 'sideloaded' this image into Azure Stack, and from there, we used it with a number of ARM templates to deploy specific workloads.
+In previous labs, you'll have seen that whether we are deploying Jenkins, Puppet, or just a regular Linux VM, we've been using an Ubuntu image that we added to the Azure Stack Platform Image Repository ([earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell)).  We essentially 'sideloaded' this image into Azure Stack, and from there, we used it with a number of ARM templates to deploy specific workloads.
 
 There is, however, another way to populate your Azure Stack Platform Image Repository, and also, the Azure Stack Marketplace.  This alternative method is known as **Marketplace Syndication**.
 
@@ -83,7 +83,7 @@ For the purpose of this lab, we're going to select to syndicate the Windows Serv
 1. Ensure you are logged into **MAS-CON01** and signed in to the Azure Stack portal as a service administrator.
 2. Click **More Services** > **Marketplace Management** > **Add from Azure**.  You should see a list of available options, including multiple Windows Server offerings:
 
-  ![Successful Upload](/deploy/azurestack/docs/media/WindowsServerSyndication.PNG)
+  ![Successful Upload](<../../deploy/azurestack/media/WindowsServerSyndication.PNG>)
   
 3. As mentioned earlier, click on **Windows Server 2012 R2 Datacenter - Eval** and when the new blade opens, click on **Download**
 
@@ -106,7 +106,7 @@ If you're not interested in creating a Marketplace item for Chef Server, then th
 Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_standalone%2FChef.ChefServer%2FDeploymentTemplates%2FChefDeploy.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -117,9 +117,9 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, use **chefmrp**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Chef Deployment](/deploy/azurestack/docs/media/ChefDeploy.PNG)
+![Chef Deployment](<../../deploy/azurestack/media/ChefDeploy.PNG>)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/chef_standalone/Chef.ChefServer/DeploymentTemplates/ChefDeploy.json)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](<../../deploy/azurestack/instances/chef_standalone/Chef.ChefServer/DeploymentTemplates/ChefDeploy.json>)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -128,20 +128,20 @@ Once the deployment has completed, you're ready to proceed with deploying the ad
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item for Chef Server, to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Chef Server Package](/deploy/azurestack/instances/chef_standalone/Chef.ChefServer.1.0.0.azpkg)
+- [Download Chef Server Package](<../../deploy/azurestack/instances/chef_standalone/Chef.ChefServer.1.0.0.azpkg>)
 
 1. Navigate to your **Chef.ChefServer.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -174,11 +174,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
 
 Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Chef Server marketplace item
 
-  ![Chef Server added to Marketplace](/deploy/azurestack/docs/media/ChefMarketplace.PNG)
+  ![Chef Server added to Marketplace](<../../deploy/azurestack/media/ChefMarketplace.PNG>)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
@@ -193,7 +193,7 @@ With your newly created marketplace item created and pushed to the Azure Stack M
   
   Once you've filled in the fields, it should look like this:
   
-  ![Deploying Chef](/deploy/azurestack/docs/media/ChefDeploy.PNG)
+  ![Deploying Chef](<../../deploy/azurestack/media/ChefDeploy.PNG>)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
@@ -205,12 +205,12 @@ With out Chef Server deployed, we can move on to deploying our Chef Workstation,
 
 Now in order to streamline this, I've created an ARM template for you to use - all you need to do is grab it from here:
 
-- **[Deploy Chef Workstation](/deploy/azurestack/instances/chef_workstation/AddChefWorkstation.json)**
+- **[Deploy Chef Workstation](<../../deploy/azurestack/instances/chef_workstation/AddChefWorkstation.json>)**
 
 Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_workstation%2FAddChefWorkstation.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -220,7 +220,7 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, select existing, and use the drop down to select **chefmrp**.
 - **Location** - this will already be selected based on the resource group you choose.
 
-![Chef Workstation Deployment](/deploy/azurestack/docs/media/ChefWorkstationDeploy.PNG)
+![Chef Workstation Deployment](<../../deploy/azurestack/media/ChefWorkstationDeploy.PNG>)
 
 If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment.
 
@@ -233,12 +233,12 @@ With out Chef Server and Workstation deployed, we can move on to deploying a nod
 
 Now in order to streamline this, I've created an ARM template for you to use - all you need to do is grab it from here:
 
-- **[Deploy Chef Node](/deploy/azurestack/instances/chef_node/AddChefNode.json)**
+- **[Deploy Chef Node](<../../deploy/azurestack/instances/chef_node/AddChefNode.json>)**
 
 Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_node%2FAddChefNode.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -248,7 +248,7 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, select existing, and use the drop down to select **chefmrp**.
 - **Location** - this will already be selected based on the resource group you choose.
 
-![Chef Node Deployment](/deploy/azurestack/docs/media/AddChefNode.PNG)
+![Chef Node Deployment](<../../deploy/azurestack/media/AddChefNode.PNG>)
 
 If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment.
 
@@ -260,7 +260,7 @@ Once this is complete, we're ready to move on to configuring the environment!
 
 In this lab, you learned how to deploy Chef Server on Azure Stack, how to enable and use Marketplace Syndication with Azure Stack, deploying a syndicated Windows Server machine that will be used as a Workstation, and finally, deploy an additional Linux node, that will be managed by Chef.  In the next lab, you'll walk through deploying the Parts Unlimited MRP app, to this node, from Chef. 
 
-- [Parts Unlimited MRP Continous Deployment with Chef](/deploy/azurestack/docs/2017-06-19-azurestack-42-chef-cd.md)
+- [Parts Unlimited MRP Continous Deployment with Chef](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-42-chef-cd.md)
 
 ## Continuous Feedback
 

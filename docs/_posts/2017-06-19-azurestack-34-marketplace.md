@@ -9,7 +9,7 @@ Once your Ubuntu base image is in the platform image repository within your Azur
 
 If you've stumbled upon this page and you're not quite sure what a Marketplace item is, it's one of these:
 
-  ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
+  ![Azure Stack Gallery](<../../deploy/azurestack/media/gallerymedium.PNG>)
 
 As you can see, I've created entries for the Ubuntu base image, along with images specific to Jenkins, and the Parts Unlimited MRP application. Creating a marketplace item requires a number of steps, which involve the following:
 
@@ -23,7 +23,7 @@ Once you have those 3 items defined, you're at a point where you can used the [A
 ## Download an Example Package for the Base Ubuntu Image
 As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
-- [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
+- [Download Base Image Package Files](<../../deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true>)
 
 1. Once downloaded, navigate to the folder containing your newly downloaded image, and **create a copy of the file**.
 2. Right click the new copy, and **rename to .zip**
@@ -31,7 +31,7 @@ As mentioned earlier, it's much easier if you start from an existing set of reso
 
 What you'll see inside are a number of files and folders.
 
-  ![Unzipped Package](/deploy/azurestack/docs/media/UnzippedPackage.PNG)
+  ![Unzipped Package](<../../deploy/azurestack/media/UnzippedPackage.PNG>)
   
 Some of these can be ignored, as they are created during the packaging process, such as the **_rels** folder, a **GUID folder** and a **Content_Types** XML document. Ignore all of these, and focus on the key files we'll talk about now.
 
@@ -103,11 +103,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
 
 Go back and refresh the portal, and under New -> Virtual Machines -> See All, you should see your newly added Ubuntu marketplace item
 
-  ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated1604.PNG)
+  ![Ubuntu Marketplace Image](<../../deploy/azurestack/media/UbuntuCreated1604.PNG>)
   
 ## Test Deployment of your Ubuntu Base Image
 You've successfully added a new marketplace item, but it's important to check that it works as expected. To do so, we'll walk through a UI deployment:
@@ -120,7 +120,7 @@ You've successfully added a new marketplace item, but it's important to check th
 6. Click on your newly deployed Ubuntu VM, then click on **Overview**
 7. You should see your Public IP defined as a property in the Overview blade - make a note of this Public IP
 
-![VM Public IP](/deploy/azurestack/docs/media/UbuntuVMCreated.PNG)
+![VM Public IP](<../../deploy/azurestack/media/UbuntuVMCreated.PNG>)
 
 Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty on MAS-CON01, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
 
@@ -132,4 +132,4 @@ When Putty opens, you'll need the Public IP address of the Ubuntu VM you deploye
 
 # Next Step
 
-Once successfully connected to your Ubuntu VM, you're now ready to move on to get started with Parts Unlimited MRP and exploring the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP.md).
+Once successfully connected to your Ubuntu VM, you're now ready to move on to get started with Parts Unlimited MRP and exploring the [DevOps scenarios](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-35-mrp.md).

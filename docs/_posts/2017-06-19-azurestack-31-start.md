@@ -17,4 +17,4 @@ Make sure you pay particularly close attention to the portal activation, and als
 
 # Next Step
 
-Once your deployment has completed, we can move on to [connecting to Azure Stack](/deploy/azurestack/docs/2017-06-19-azurestack-31-connect.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.
+Once your deployment has completed, we can move on to [connecting to Azure Stack](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-32-connect.md), and from there, we'll upload some images that you can use with the DevOps tools we'll be deploying.

@@ -11,8 +11,8 @@ In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that w
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps so far, you should already have most of them :-)
 
   - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
-  - An Ubuntu base image in the Platform Image Repository ([Details here](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
+  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md#connecting-to-azure-stack-via-powershell))
+  - An Ubuntu base image in the Platform Image Repository ([Details here](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md#add-vm-image-to-platform-image-repository-with-powershell))
   - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
   - An Oracle Account, in order to source the latest JDK (Test creds at http://www.oracle.com then click Sign-in at the top)
 
@@ -36,7 +36,7 @@ If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP
 Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fjenkins_standalone%2FTheJenkinsProject.Jenkins%2FDeploymentTemplates%2FJenkinsDeploy.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/docs/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -45,9 +45,9 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, use **pumrp-jenkins**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Jenkins Deployment](/deploy/azurestack/docs/media/JenkinsDeploy.PNG)
+![Jenkins Deployment](<../../deploy/azurestack/media/JenkinsDeploy.PNG>)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins/DeploymentTemplates/JenkinsDeploy.json)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](<../../deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins/DeploymentTemplates/JenkinsDeploy.json>)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -56,20 +56,20 @@ Once the deployment has completed, you're ready to proceed with configuring Jenk
 ### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](/deploy/azurestack/docs/add_marketplace_item.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Jenkins Package](/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg)
+- [Download Jenkins Package](<../../deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg>)
 
 1. Navigate to your **TheJenkinsProject.Jenkins.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
 
-  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](/deploy/azurestack/docs/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
+  It’s important to note that if you are going to use the package I have provided, you need to have used the following info when you uploaded your Ubuntu base VHD image to the platform image repository [earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-33-images.md). Any differences, and the package I’m providing will not reference your uploaded image. If you used an exact copy of my PowerShell upload script, you're all set.
     
     - Publisher "Canonical"
     - Offer "UbuntuServer"
     - SKU "16.04.3-LTS"
     
-Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](/deploy/azurestack/docs/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
+Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. Fortunately, we [created a storage account for this very purpose earlier](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-34-marketplace.md#uploading-a-package-to-azure-stack), so we'll use the same storage account for this package.
 
 1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
@@ -102,11 +102,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
 
 Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Jenkins marketplace item
 
-  ![Jenkins added to Marketplace](/deploy/azurestack/docs/media/JenkinsMarketplace.PNG)
+  ![Jenkins added to Marketplace](<../../deploy/azurestack/media/JenkinsMarketplace.PNG>)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
@@ -120,7 +120,7 @@ With your newly created marketplace item created and pushed to the Azure Stack M
   
   Once you've filled in the fields, it should look like this:
   
-  ![Deploying Jenkins](/deploy/azurestack/docs/media/JenkinsDeploy.PNG)
+  ![Deploying Jenkins](<../../deploy/azurestack/media/JenkinsDeploy.PNG>)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
@@ -132,7 +132,7 @@ Regardless of using Option 1, or Option 2, your environment should now be deploy
 
 1. Firstly, we need to **obtain the public IP of the Jenkins Master VM**. In the Azure Stack portal, click on **Resource Groups** and look for the Resource Group that you have just created.  Click on the virtual machine in the resource group (_pumrp-jenkins_ in this example) and look for the "Public IP address/DNS name label".
 
-    ![Obtain the public IP of the Jenkins Master](/deploy/azurestack/docs/media/JenkinsMRPDeployed.PNG)
+    ![Obtain the public IP of the Jenkins Master](<../../deploy/azurestack/media/JenkinsMRPDeployed.PNG>)
 
 2. We can now **SSH to the Jenkins Master VM**. To do this, we'll use PuTTY, (or any other ssh tool that you like) to connect to the IP address of the VM, and once connected type the following information to login to the VM:
 
@@ -154,7 +154,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 Copy the value returned by the command.  Keep the SSH session open, we will return at the end of this task.
 
-![Initial jenkins admin password](/deploy/azurestack/docs/media/JenkinsPassword.PNG) 
+![Initial jenkins admin password](<../../deploy/azurestack/media/JenkinsPassword.PNG>) 
 
 **2.** Unlock the jenkins master
 
@@ -166,11 +166,11 @@ http://ip_address_of_your_jenkinsmaster:8080
 
 Paste the initial admin password obtained earlier to unlock your instance of Jenkins and click **Continue**.
 
-![Initial jenkins admin password](/deploy/azurestack/docs/media/initial_jenkins_unlock.png)
+![Initial jenkins admin password](<../../deploy/azurestack/media/initial_jenkins_unlock.png>)
 
 Click **Install suggested plugins** 
 
-![Initial jenkins plugins](/deploy/azurestack/docs/media/initial_jenkins_plugins.png)
+![Initial jenkins plugins](<../../deploy/azurestack/media/initial_jenkins_plugins.png>)
 
 **3.** Create the first user 
 
@@ -181,7 +181,7 @@ Create a user from the "Create First Admin User":
 * E-mail address = jenkins@microsoft.com
 * Click **Save and Finish**. 
 
-![Initial jenkins plugins](/deploy/azurestack/docs/media/JenkinsCreateAdminUser.PNG)
+![Initial jenkins plugins](<../../deploy/azurestack/media/JenkinsCreateAdminUser.PNG>)
 
 **4.** Start Using Jenkins
 
@@ -198,7 +198,7 @@ Under **Jenkins Location** look for the Jenkins URL field and type the URL of yo
 
 **NOTE:** the URL may already be here but type it again and save to ensure the proper completion of the rest of the lab.
 
-![Jenkins URL](/deploy/azurestack/docs/media/JenkinsLocation.PNG)
+![Jenkins URL](<../../deploy/azurestack/media/JenkinsLocation.PNG>)
 
 Click **Save** 
 
@@ -233,7 +233,7 @@ Click on **Add JDK**
 * Click on the link to enter the username and password of your Oracle account (Test credentials here: https://www.oracle.com and click on Sign In at the top) then click **OK** then **Close**
 * Click **Save**
 
-![JDK Installation](/deploy/azurestack/docs/media/JDKSettings.PNG)
+![JDK Installation](<../../deploy/azurestack/media/JDKSettings.PNG>)
 
 **2.** Configure Gradle 
 
@@ -246,14 +246,14 @@ Gradle will be used to build the Parts Unlimited MRP application. If needed, you
 * Select the latest version of Gradle in the drop-down list.
 * Click **Save**
 
-![Gradle Installation](/deploy/azurestack/docs/media/JenkinsGradle.PNG)
+![Gradle Installation](<../../deploy/azurestack/media/JenkinsGradle.PNG>)
 
 # Next steps
 
 In this lab, you learned how to setup a Jenkins Master on Azure Stack, try these labs for the next steps: 
 
-- [Parts Unlimited MRP Continous Integration with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-37-jenkins-ci.md)
-- [Parts Unlimited MRP Continous Deployment with Jenkins](/deploy/azurestack/docs/2017-06-19-azurestack-38-jenkins-cd.md)
+- [Parts Unlimited MRP Continous Integration with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-37-jenkins-ci.md)
+- [Parts Unlimited MRP Continous Deployment with Jenkins](https://microsoft.github.io/PartsUnlimitedMRP/azurestack/2017-06-19-azurestack-38-jenkins-cd.md)
 
 ## Continuous Feedback
 
