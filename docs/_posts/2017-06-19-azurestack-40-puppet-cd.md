@@ -22,11 +22,11 @@ If it's not already open, on MAS-CON01, open a browser and navigate to your Pupp
 
 You will be prompted about an invalid certificate - it is safe to ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console sign in page:
 
-![Puppet Login](<../../deploy/azurestack/media/PuppetLogin.png>)
+![Puppet Login](<../assets/azurestack/PuppetLogin.png>)
 
 On the Puppet Enterprise sign-in screen, enter the username `admin` and the password you set during the deployment. When you log in, you should see a page like this:
 
-![Puppet Logged in](<../../deploy/azurestack/media/PuppetLoggedIn.png>)
+![Puppet Logged in](<../assets/azurestack/PuppetLoggedIn.png>)
 
 Now that we're successfully logged into the Puppet Enterprise Master, you are now ready to add the node to the Puppet Master. Once the node is added, the Puppet Master will be able to configure the node.
 
@@ -38,7 +38,7 @@ Before we do that however, we'll need to connect to our newly deployed **puppetn
 
 3. The details of **puppetnode1** should be displayed, and should look similar to these below:
 
-![Puppet Node IP](<../../deploy/azurestack/media/PuppetNodeDeployed.PNG>)
+![Puppet Node IP](<../assets/azurestack/PuppetNodeDeployed.PNG>)
 
 4. Make a note of the IP and DNS name.  If you've followed the steps, your DNS name should be puppetnode1.local.cloudapp.azurestack.external.
 
@@ -51,22 +51,22 @@ Once you're all connected, you're ready to start connecting this node with the P
     ```
     puppetmaster.6786122c-04f9-4ccb-8ff4-21476954ec5f.internal.azurestack.local
     ```
-    ![Puppet Unsigned Certs](<../../deploy/azurestack/media/PuppetUnsignedCerts.png>)
+    ![Puppet Unsigned Certs](<../assets/azurestack/PuppetUnsignedCerts.png>)
 
 2. Copy the "Add Node" command from the Puppet Console (the one that starts with `curl...`), then switch back to your Putty session, and paste the code into the window, then run it.  Note, if it appears that nothing is happening, you may need to press Enter after initially running the line of code, to trigger a sudo password prompt.  From there, it should run to completion.
 
-    ![Puppet Run Script](<../../deploy/azurestack/media/PuppetAddNodePutty.PNG>)
+    ![Puppet Run Script](<../assets/azurestack/PuppetAddNodePutty.PNG>)
 
 	The command will take a few moments to complete.  From here on, you will configure the node only from the Puppet Master, though you will use the Putty to manually force Puppet to configure it.
 
 3. Return to the Puppet Console and refresh the Unsigned Certificates page (where you previously got the node install command). You     should see a pending request. This request has come from the node and will authorize the certificate between the puppet     master and the node so that they can communicate securely. Press "Accept" to approve the node:
 
-    ![Accept Puppet Node](<../../deploy/azurestack/media/PuppetAddNodeAccept.PNG>)
+    ![Accept Puppet Node](<../assets/azurestack/PuppetAddNodeAccept.PNG>)
 
 	Click on the "Nodes" tab in the Puppet Console to return to the nodes view. You should see 2 nodes listed: 
 	the puppet master and the new node (it may take a few minutes for the additional node to finish configuration before it appears)
 
-    ![Accept Puppet Node](<../../deploy/azurestack/media/PuppetNodeAdded.PNG>)
+    ![Accept Puppet Node](<../assets/azurestack/PuppetNodeAdded.PNG>)
     
 ### Configure the Puppet Production Environment
 
@@ -107,7 +107,7 @@ in `/etc/puppetlabs/code/environments/production`.
     sudo puppet module install maestrodev-wget
     ```
 
-    ![Add Modules](<../../deploy/azurestack/media/PuppetInstallModules.PNG>)
+    ![Add Modules](<../assets/azurestack/PuppetInstallModules.PNG>)
 
     >**Note:** The `mongodb` and `tomcat` modules are supported modules from the Forge. The `wget` module is
     a user module and so is not officially supported.
@@ -124,7 +124,7 @@ in `/etc/puppetlabs/code/environments/production`.
 
     Running `ls -la` should list the modules available so far, including `mrpapp`:
 
-    ![Added Module](<../../deploy/azurestack/media/PuppetLSLa.PNG>)
+    ![Added Module](<../assets/azurestack/PuppetLSLa.PNG>)
 
 1. We are going to define the node's configuration in the `mrpapp` module. The configuration of the nodes in the production environment is defined in a `site.pp` file in the production `manifests` folder (the `.pp` extension is short for "puppet program"). Let's edit the `site.pp` file and define the configuration for our node:
 
@@ -195,7 +195,7 @@ flesh out the rest of the module properly.
     cat /tmp/dummy.txt
     ```
     
-    ![Added Dummy Text File](<../../deploy/azurestack/media/PuppetRules.PNG>)
+    ![Added Dummy Text File](<../assets/azurestack/PuppetRules.PNG>)
 
 2. Puppet will automatically detect configuration drift and fix it. By default, the agent runs every 30 minutes on     the nodes. Each time the agent runs, Puppet will determine if the environment is in the correct state - if it is not, it will reapply classes as necessary.
 
@@ -210,7 +210,7 @@ flesh out the rest of the module properly.
 
     You should see the run complete successfully and the file should exist again. 
 
-    ![Added Dummy Text File](<../../deploy/azurestack/media/PuppetRules2.PNG>)
+    ![Added Dummy Text File](<../assets/azurestack/PuppetRules2.PNG>)
 
     You can also try to edit the contents of the file and re-run the `sudo puppet agent --test` command to see the 
     contents update.
@@ -453,12 +453,12 @@ Press `ctrl-O`, then `enter` to save the changes to the file without exiting.
 
 2. We need to check if Tomcat is running, so open a browser and browse to port `9080` of the partsmrp machine. You can get the name of the machine by clicking on the Public IP. If you've followed the steps exactly, it should be puppetnode1.local.cloudapp.azurestack.external. You can check in the Azure Stack portal (just like you did to get the url of the puppet master earlier). Once you open the browser, you should see the following Tomcat confirmation page:
 
-    ![Tomcat Running](<../../deploy/azurestack/media/PuppetTomcat.PNG>)
+    ![Tomcat Running](<../assets/azurestack/PuppetTomcat.PNG>)
 
 3. Now you can ensure that the configuration is correct by opening a browser to the Parts Unlimited MRP application. The address
     will be http://puppetnode1.local.cloudapp.azurestack.external:9080/mrp, assuming you used puppetnode1 as your chosen VM name.
 
-    ![Tomcat Running](<../../deploy/azurestack/media/PuppetPartsMRPRunning.PNG>)
+    ![Tomcat Running](<../assets/azurestack/PuppetPartsMRPRunning.PNG>)
 
 ## Next steps
 

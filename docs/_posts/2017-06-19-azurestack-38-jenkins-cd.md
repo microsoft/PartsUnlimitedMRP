@@ -107,7 +107,7 @@ Select the returned text, and copy it. We will use it later.
 Then, from your MAS-CON01 machine, you need to click on the button below to deploy the MRP virtual machine, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fparts_unlimited_SSH_mrp_base%2FPartsUnlimitedSSH.Ubuntu1604%2FDeploymentTemplates%2FPartsUnlimitedSSHMRP.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -116,9 +116,9 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, use **mrp-deploy**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Jenkins Deployment](<../../deploy/azurestack/media/MRPDeploy.PNG>)
+![Jenkins Deployment](<../assets/azurestack/MRPDeploy.PNG>)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](<../../deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimitedSSH.Ubuntu1604/DeploymentTemplates/PartsUnlimitedSSHMRP.json>)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimitedSSH.Ubuntu1604/DeploymentTemplates/PartsUnlimitedSSHMRP.json)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -129,7 +129,7 @@ If you are interested in adding a custom marketplace item to your Azure Stack ma
 
 As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg)
+- [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg?raw=true)
 
 1. Navigate to your **PartsUnlimited.MRPSSH.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
@@ -173,11 +173,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
+   ![Successful Upload](<../assets/azurestack/PSCreated.PNG>)
 
 Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Parts Unlimited MRP with SSH marketplace item
 
-  ![MRP VM added to Marketplace](<../../deploy/azurestack/media/MRPwithSSHMarketplace.PNG>)
+  ![MRP VM added to Marketplace](<../assets/azurestack/MRPwithSSHMarketplace.PNG>)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
@@ -191,7 +191,7 @@ With your newly created marketplace item created and pushed to the Azure Stack M
 
   Once you've filled in the fields, it should look like this:
   
-  ![Jenkins Deployment](<../../deploy/azurestack/media/MRPDeploy.PNG>)
+  ![Jenkins Deployment](<../assets/azurestack/MRPDeploy.PNG>)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
@@ -338,7 +338,7 @@ Click on the step that is paused and enter the IP address of the MRP machine, th
 
 Click **Proceed** 
 
-![Enter the IP Address of the deployment machine](<../../deploy/azurestack/media/JenkinsGetMRPIP.PNG>)
+![Enter the IP Address of the deployment machine](<../assets/azurestack/JenkinsGetMRPIP.PNG>)
 
 **6.** Wait until the completion of the pipeline
 

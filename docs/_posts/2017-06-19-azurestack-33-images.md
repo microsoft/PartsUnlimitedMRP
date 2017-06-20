@@ -161,7 +161,7 @@ With the upload complete, it's important to confirm that the image now exist in 
 4. In the Compute blade, under Content, click on **VM Images**.
 5. In the VM Images blade, you should see your Ubuntu image listed.
 
-    ![Image Added](<../../deploy/azurestack/media/VMImages.PNG>)
+    ![Image Added](<../assets/azurestack/VMImages.PNG>)
 
 6. Close all open blades and return to the dashboard.
 
@@ -173,6 +173,6 @@ If you're interested in understanding how to create more professional marketplac
 ### *Optional - Create a Marketplace item for your Ubuntu Base Image
 If you'd like something like this, in your Azure Stack gallery:
 
-   ![Azure Stack Gallery](<../../deploy/azurestack/media/gallerymedium.PNG>)
+   ![Azure Stack Gallery](<../assets/azurestack/gallerymedium.PNG>)
 
 then [follow the steps over on this page](azurestack-34-marketplace.html).

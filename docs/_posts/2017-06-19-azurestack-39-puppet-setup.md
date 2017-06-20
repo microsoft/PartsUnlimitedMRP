@@ -41,7 +41,7 @@ If you're not interested in creating a Marketplace item for Puppet, then this qu
 Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fpuppet_standalone%2FPuppet.PuppetEnterprise%2FDeploymentTemplates%2FPuppetDeploy.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
 </a>
 
 You'll need to enter information for the following fields:
@@ -52,9 +52,9 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, use **puppet**.
 - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
 
-![Puppet Deployment](<../../deploy/azurestack/media/PuppetDeploy.png>)
+![Puppet Deployment](<../assets/azurestack/PuppetDeploy.png>)
 
-If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](<../../deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise/DeploymentTemplates/PuppetDeploy.json>)**
+If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment, or alternatively, you could **[grab the ARM template from here](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise/DeploymentTemplates/PuppetDeploy.json)**
 
 Depending on your hardware, the deployment of the key artifacts, the virtual machine, and its respective automated configuration, may take a while. Expect around 20-30 mins for the deployment, unless you have new hardware, and a bank of SSDs for storage!
 
@@ -65,7 +65,7 @@ If you are interested in adding a custom marketplace item for Puppet Enterprise,
 
 As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Puppet environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
 
-- [Download Puppet Enterprise Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise.1.0.0.azpkg)
+- [Download Puppet Enterprise Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise.1.0.0.azpkg?raw=true)
 
 1. Navigate to your **Puppet.PuppetEnterprise.1.0.0.azpkg** file, you downloaded earlier
 2. Move it to a newly created folder **C:\MyMarketPlaceItems**.
@@ -109,11 +109,11 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](<../../deploy/azurestack/media/PSCreated.PNG>)
+   ![Successful Upload](<../assets/azurestack/PSCreated.PNG>)
 
 Go back and refresh the portal, and under **New -> Virtual Machines -> See All**, you should see your newly added Puppet Enterprise marketplace item
 
-  ![Puppet added to Marketplace](<../../deploy/azurestack/media/PuppetMarketplace.png>)
+  ![Puppet added to Marketplace](<../assets/azurestack/PuppetMarketplace.png>)
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
@@ -128,7 +128,7 @@ With your newly created marketplace item created and pushed to the Azure Stack M
   
   Once you've filled in the fields, it should look like this:
   
-  ![Deploying Puppet](<../../deploy/azurestack/media/PuppetDeploy.png>)
+  ![Deploying Puppet](<../assets/azurestack/PuppetDeploy.png>)
  
 4. Click **OK** to confirm the parameters, and then **Create** to start the deployment.
 
@@ -141,15 +141,15 @@ Regardless of using Option 1, or Option 2, your Puppet Enterprise Master should 
 1. In the Azure Stack portal, click on **Resource Groups** and locate the **puppet** resource group.
 2. Inside the resource group, click on the **puppetmaster** virtual machine, and take note of its **Public IP address/DNS name label**
 
-![Deploying Puppet](<../../deploy/azurestack/media/PuppetIP.PNG>)
+![Deploying Puppet](<../assets/azurestack/PuppetIP.PNG>)
 
 The _dnsaddress_ will be of the form _machinename_._local_.cloudapp.azurestack.external. Open a browser to https://_dnsaddress_.  (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console sign in page:
 
-![Puppet Login](<../../deploy/azurestack/media/PuppetLogin.png>)
+![Puppet Login](<../assets/azurestack/PuppetLogin.png>)
 
 3. On the Puppet Enterprise sign-in screen, enter the username `admin` and the password you set during the deployment. When you log in, you should see a page like this:
 
-![Puppet Logged in](<../../deploy/azurestack/media/PuppetLoggedIn.png>)
+![Puppet Logged in](<../assets/azurestack/PuppetLoggedIn.png>)
 
 Now that we're successfully logged into the Puppet Enterprise Master, we'll quickly deploy an additional virtual machine that will be used for configuration tasks with Puppet.
 
@@ -159,12 +159,12 @@ Now that you have your Puppet Enterprise Master deployed, the fastest way to bri
 
 Now in order to streamline this, I've created an ARM template for you to use - all you need to do is grab it from here:
 
-- **[Additional Puppet Node](<../../deploy/azurestack/instances/puppet_node/AddPuppetNode.json>)**
+- **[Additional Puppet Node](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/puppet_node/AddPuppetNode.json)**
 
 Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fpuppet_node%2FAddPuppetNode.json" target="_blank">
-        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/media/DeployToStack.png"/>
+        <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
 </a>
 
 This node is based on the [Ubuntu base image that we added to the Azure Stack marketplace earlier](azurestack-34-marketplace.html). The only difference here is, the template creates the corresponding VM inside the same resource group, and virtual network as our Puppet Enterprise Master, and opens a couple of necessary ports in the network security group.
@@ -176,7 +176,7 @@ You'll need to enter information for the following fields:
 - **Resource Group** - for testing purposes, select existing, and use the drop down to select **puppet**.
 - **Location** - this will already be selected based on the resource group you choose.
 
-![MRP Deployment](<../../deploy/azurestack/media/AddPuppetNode.PNG>)
+![MRP Deployment](<../assets/azurestack/AddPuppetNode.PNG>)
 
 If you're interested in taking a deeper look at the ARM template that is used for deployment, you could either **click Edit Template** within the custom template deployment blade, and that will present the template that will be used for the deployment.
 
