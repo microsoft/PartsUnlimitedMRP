@@ -1,10 +1,14 @@
-# Adding VM Images to Azure Stack
-
+---
+layout: page
+title:  Adding VM Images to Azure Stack
+category: AzureStack
+order: 3
+---
 Azure Stack enables administrators to make VM images, such as their organization’s custom VHD, available to their tenants. Images can be referenced by Azure Resource Manager templates or added to the Azure Marketplace UI with the creation of a Marketplace item. No images are included by default in the Azure Stack Technical Preview 3 Refresh.
 
 An image can be added to your Azure Stack Platform Image Repository (PIR) in 2 ways - via the portal, or programmatically. We'll focus on the programmatical approach, specifically with PowerShell, as it's faster, and more repeatable.  Plus, you can copy and paste my code ;-)
 
-## Downloading an Image
+### Downloading an Image
 
 Firstly, you should be **logged into you Azure Stack environment, and specifically, within the MAS-CON01 machine**.
 
@@ -24,11 +28,11 @@ Once downloaded, extract the zip file, to end up with a single 30GB VHD, with th
 2. Move the file to a new folder called C:\Images
 3. Optional - to free up space, delete the original ZIP file you just downloaded.
 
-## Connecting to Azure Stack via PowerShell
+### Connecting to Azure Stack via PowerShell
 
 Before we can begin adding an image to the Azure Stack PIR, we'll need to be able to connect to the Azure Stack via PowerShell, and there are a couple of steps we need to perform to do that.
 
-### Install Azure Stack PowerShell cmdlets & dependencies
+#### Install Azure Stack PowerShell cmdlets & dependencies
 1. Azure Stack uses the same AzureRM cmdlets that you'd use if you were connecting to Azure. These are installed from the PowerShell Gallery. To begin, open an elevated (as administrator) PowerShell Console on MAS-CON01 and run the following command to return a list of PowerShell repositories available:
 
     ``` PowerShell
@@ -74,7 +78,7 @@ cd AzureStack-Tools-master\connect
 Import-Module .\AzureStack.Connect.psm1
 Set-ExecutionPolicy Unrestricted
 ```
-### Connect to Azure Stack
+#### Connect to Azure Stack
 With the Azure Stack connection module now imported, you can use the following commands to connect to your Azure Stack. Note, AzureRM cmdlets can be targeted at multiple Azure clouds such as Azure China, Government, and Azure Stack.
 To target your Azure Stack instance, an AzureRM environment needs to be registered as follows.
 
@@ -114,7 +118,7 @@ Once you've run through all of these commands, you should be successfully connec
 
 Once logged in, you're ready to start adding images to your Azure Stack.
 
-## Add VM Image to Platform Image Repository with PowerShell
+### Add VM Image to Platform Image Repository with PowerShell
 The first thing we'll need to do to upload an image with PowerShell, is import the Compute module, from our tools folder.
 
 ``` PowerShell
@@ -148,7 +152,7 @@ You'll notice at the end of the command, there was a parameter called **-CreateG
 
 If you're interested in understanding a bit more about the other parameters used with the command above, [check out the docs](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-add-vm-image).
 
-## Explore the Platform Image Repository
+### Explore the Platform Image Repository
 With the upload complete, it's important to confirm that the image now exist in the PIR. To do so, follow these steps:
 
 1. Open the Azure Stack Admin Portal and log in as the Service Administrator.
@@ -157,18 +161,18 @@ With the upload complete, it's important to confirm that the image now exist in 
 4. In the Compute blade, under Content, click on **VM Images**.
 5. In the VM Images blade, you should see your Ubuntu image listed.
 
-    ![Image Added](/deploy/azurestack/docs/media/VMImages.PNG)
+    ![Image Added](<../assets/azurestack/VMImages.PNG>)
 
 6. Close all open blades and return to the dashboard.
 
-# Next Step
-You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](/deploy/azurestack/docs/get_started_with_MRP.md) page to go forward.
+## Next Step
+You're now ready to start the deployment of the Parts Unlimited MRP environment, or explore any one of the DevOps scenarios provided within this documetation. These include CI/CD with Jenkins, Configuration Management with Chef, and Configuration Management with Puppet, with more to come in the future. Check out the [Getting Started with Parts Unlimited](azurestack-35-mrp.html) page to go forward.
 
 If you're interested in understanding how to create more professional marketplace items, so that your users can deploy the base Ubuntu image, along with any other future images, direct from the Azure Stack marketplace, then read on...
 
-## *Optional - Create a Marketplace item for your Ubuntu Base Image
+### *Optional - Create a Marketplace item for your Ubuntu Base Image
 If you'd like something like this, in your Azure Stack gallery:
 
-   ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
+   ![Azure Stack Gallery](<../assets/azurestack/gallerymedium.PNG>)
 
-then [follow the steps over on this page](/deploy/azurestack/docs/add_marketplace_item.md).
+then [follow the steps over on this page](azurestack-34-marketplace.html).

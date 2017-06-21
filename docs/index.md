@@ -24,7 +24,14 @@ You may watch a [demo in Channel 9](https://channel9.msdn.com/Blogs/TalkDevOps/T
 - Continuous Integration - C.I
 - Continuous Deployment - C.D
 - Infrastructure as Code - IaC
-- Configuration Management - ConfMgnt
+- Configuration Management - ConfMgmt
+
+## Fundamentals on Azure Stack
+Microsoft Azure Stack is a new hybrid cloud platform product that enables you to deliver Azure services from your own datacenter. Just like for the Parts Unlimited MRP on Azure documentation, this detailed series of documents will walk you through various deployments and configurations, along with usage of a number of core DevOps tools on Azure Stack, including:
+- Adding custom images and marketplace items to Azure Stack
+- Continuous Integration and Deployment with Jenkins on Azure Stack
+- Continuous Deployment & Configuration Management with Puppet on Azure Stack
+- Continuous Deployment & Cnfiguration Management with Chef on Azure Stack
 
 ## Advanced
 - Microservices using Azure Container Service or Docker Swarm

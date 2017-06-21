@@ -1,11 +1,15 @@
-# Continuous Deployment with Chef Server
-
+---
+layout: page
+title:  Continuous Deployment with Chef
+category: AzureStack
+order: 12
+---
 In this lab, you will learn how to deploy the Parts Unlimited MRP App in an automated fashion onto a Linux VM with Chef Server 12.
 After this lab, you will have a working continuous deployment environment in Chef that will deploy the Parts Unlimited MRP app to a Virtual Machine in Azure Stack.
 
-## Pre-Requisites:
+### Pre-Requisites:
 
-- Completion of the lab [Setup Environment | Continuous Deployment with Puppet](/deploy/azurestack/docs/chef_setup.md)
+- Completion of the lab [Setup Continuous Deployment with Chef](azurestack-41-chef-setup.html)
 
 In the previous lab, we setup the environment.  This involved deploying a Chef Server, syndicating and deploying a Windows Server VM, that will act as our workstation, and finally, we deployed a single Linux node which will eventually host our Parts Unlimited MRP application.
 
@@ -17,7 +21,7 @@ To recap, here's what we'll be doing during this part of the lab:
 - Bootstrap the MRP App Server and Deploy the Application: You will bootstrap the MRP app and use the role that you previously created to deploy the app.
 - Remediating Configuration Changes: You will see how Chef reacts when changes happen to the configuration and how Chef resolves issues.
 
-## Configure the Chef Workstation
+### Configure the Chef Workstation
 Earlier, you deployed a Windows Server virtual machine that will act as our administrative workstation for Chef administration.  During that deployment, as the ARM template was being executed, a custom PowerShell script was being called, that performed the following task on that Windows Server virtual machine:
 
 ```powershell
@@ -43,7 +47,7 @@ This PowerShell script essentially installed a Package Manager called Chocolatey
 
 Now in order to start using the Windows Server workstation, we need to connect to it via Remote Desktop Protocol, or RDP.  In the Azure Stack portal, click on **Virtual Machines**, then the name of your Chef Workstation virtual machine. In the **Essentials** blade, you'll see both the IP address and the DNS name, but at the top of the blade, you'll also see a **Connect** button.  **Note**, you may need to allow popups in your browser to see the RDP download prompt.  It will likely be saved to your **Downloads** folder for future reference.
 
-![Chef Workstation Name](/deploy/azurestack/docs/media/ChefWorkstationName.PNG)
+![Chef Workstation Name](<../assets/azurestack/ChefWorkstationName.PNG>)
 
 Open the RDP file and enter the appropriate credentials.  In our case, this was **localadmin** and your chosen password.
 
@@ -51,33 +55,33 @@ Once you are successfully logged into the Chef Workstation VM, we can start the 
 
 1. From the desktop, open Chrome or Firefox and navigate to the Chef Manage web page.  The address will be of the form chefservername.local.cloudapp.azurestack.external. Open a browser to https://dnsaddress. (Make sure you're going to http__s__, not http). You will be prompted about an invalid certificate - it is safe to ignore this for the purposes of this lab.  You should see the Chef Manage login page.
 
-	![Chef Manage Login Page](/deploy/azurestack/docs/media/ChefManageSignIn.PNG)
+	![Chef Manage Login Page](<../assets/azurestack/ChefManageSignIn.PNG>)
 
 2. Sign in with your credentials that you provided when you deployed the Chef Server.  If you followed the guide, you'll have used **chefadmin** and a password of your choice.
 
 3. Minimize the browser, and from the desktop, launch the **Chef Development Kit**.
 4. Once opened, run `chef verify`. A list of components will be returned, however the chef verify command will return errors that git was not configured with your identity information. We'll configure that now.
 
-	![Chef Verify Error](/deploy/azurestack/docs/media/ChefVerify.PNG)
+	![Chef Verify Error](<../assets/azurestack/ChefVerify.PNG>)
 
 5. Configure your global git variables with your name and email address
 
 		git config --global user.name "YourName"
 		git config --global user.email "you@yourdomain.com"
 	
-	![Chef Update Git User](/deploy/azurestack/docs/media/ChefGitUser.PNG)
+	![Chef Update Git User](<../assets/azurestack/ChefGitUser.PNG>)
 	
 	Run `chef verify` again to ensure no further errors exist.
 
 6. Go back to the Chef Manage website, go to the **Administration** tab, then select the **partsunlimited** organization. Click on the **Starter Kit** on the left, then **Download Starter Kit**.
 
-	![Chef Verify Error](/deploy/azurestack/docs/media/ChefStarterKit.PNG)
+	![Chef Verify Error](<../assets/azurestack/ChefStarterKit.PNG>)
 
-7. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef\`.
+7. Extract the Chef starter kit files to a directory like `C:\Users\<username>\chef-starter\`.
 
-8. Open the knife.rb file in chef-repo\ .chef and check that the chef_server_url matches the external FQDN (e.g. https://<chef-server-dns-name>.local.cloudapp.azurestack.external/organizations/partsunlimited). Then, save and close the file.
+8. Open the knife.rb file in chef-repo\ .chef and check that the chef_server_url matches the external FQDN (e.g. https://chef-server-dns-name.local.cloudapp.azurestack.external/organizations/partsunlimited). Then, save and close the file.
 
-	![Edit Knife File](/deploy/azurestack/docs/media/ChefEditKnife.PNG)
+	![Edit Knife File](<../assets/azurestack/ChefEditKnife.PNG>)
 
 9. Change directories to the chef-repo directory in the Chef DK shell (i.e. `cd C:\Users\<username>\Downloads\chef-starter\chef-repo`). Run the following git commands: 
 
@@ -99,14 +103,14 @@ Once you are successfully logged into the Chef Workstation VM, we can start the 
 
 13. Run the `dir` command from Step 11 again, and observe that additional files and folders have been created in the chef-repo directory. 
 
-	![Additional Chef Files](/deploy/azurestack/docs/media/ChefAddedFiles.PNG)
+	![Additional Chef Files](<../assets/azurestack/ChefAddedFiles.PNG>)
 
 14. Commit the added files into the git repository:
     
 		git add -A
 		git commit -m "knife download commit"
 
-## Create a Chef Cookbook
+### Create a Chef Cookbook
 In this exercise, we will create a cookbook to automate the installation of the Parts Unlimited MRP application and upload it to the Chef server.
 
 1. Use the **knife tool** to generate a cookbook template.
@@ -117,7 +121,7 @@ In this exercise, we will create a cookbook to automate the installation of the 
 
 	This creates an **mrpapp** directory in the **chef-repo/cookbooks/** directory that contains all of the boilerplate code that defines a cookbook and a default recipe.
 
-	![Chef Cookbook Directory](/deploy/azurestack/docs/media/ChefCookbookDirectory.PNG)
+	![Chef Cookbook Directory](<../assets/azurestack/ChefCookbookDirectory.PNG>)
 
 2. Edit the **metadata.rb** file in our cookbook directory. Open **chef-repo/cookbooks/mrpapp/metadata.rb** for edit
  
@@ -127,7 +131,7 @@ In this exercise, we will create a cookbook to automate the installation of the 
 
     	depends 'apt'
 
-	![Chef Metadata.rb File](/deploy/azurestack/docs/media/ChefMetadata.PNG)
+	![Chef Metadata.rb File](<../assets/azurestack/ChefMetadata.PNG>)
 
 	Save and close the file.
 
@@ -166,7 +170,7 @@ In this exercise, we will create a cookbook to automate the installation of the 
     
 7. Paste the contents of the recipe into the default recipe file, then save and close the file.
 
-	![Chef Default Recipe](/deploy/azurestack/docs/media/ChefDefaultRecipe.PNG)
+	![Chef Default Recipe](<../assets/azurestack/ChefDefaultRecipe.PNG>)
 
 8. **The following explains what the recipe is doing to provision the application.**
 
@@ -317,18 +321,18 @@ In this exercise, we will create a cookbook to automate the installation of the 
 
 	Now that we have a recipe created and all of the dependencies installed, we can upload our cookbooks and recipes to the Chef server with the knife upload command.
 
-## Create a Role
+### Create a Role
 In this exercise, you will use the Chef Manage web site to create a role to define a baseline set of cookbooks and attributes that can be applied to multiple servers.
 
 At the start of this task, you should be logged in to the Chef Manage web site. 
 
 1. Click on the "Policy" tab. Then, click on the "Roles" tab and then "Create."
 
-	![Create a Role](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/policy_tab.png)
+	![Create a Role](<../assets/chef/policy_tab.png>)
 
 2. Enter the role name *mrp* then the "Next" button.
 
-	![Enter a role name](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/enter_role_name.png)
+	![Enter a role name](<../assets/chef/enter_role_name.png>)
 
 3. Under **Available Recipes**, find the *mrpapp* recipe.
 
@@ -336,11 +340,11 @@ At the start of this task, you should be logged in to the Chef Manage web site.
 
 	Drag the *mrpapp* recipe to the **Current Run List** box.
 
-	![Define the Run List](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_mrp_run_list.png)
+	![Define the Run List](<../assets/chef/add_mrp_run_list.png>)
 
 4. Repeat for the **chef-client::service** recipe.
 
-	![Chef Client Service](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_chefclient_run_list.png)
+	![Chef Client Service](<../assets/chef/add_chefclient_run_list.png>)
 
 	The run list should be:
     
@@ -357,7 +361,7 @@ At the start of this task, you should be logged in to the Chef Manage web site.
       		}
     	}
 
-	![Default Attributes](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_default_attributes.png)
+	![Default Attributes](<../assets/chef/add_default_attributes.png>)
 
 	In the previous exercise, we referenced an attribute called `['tomcat']['mrp_port']` in our recipe. This was referencing a JSON object. Now we can define default values to provide.
 
@@ -372,20 +376,20 @@ At the start of this task, you should be logged in to the Chef Manage web site.
            }
         }
 
-	![Override Attributes](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/add_override_attributes.png)
+	![Override Attributes](<../assets/chef/add_override_attributes.png>)
 
 	The second recipe we added to the run list was chef-client:: service. This recipe ensure that the Chef client will run on a regular basis to ensure that the environment is in sync with what is defined in our recipe. However, the default value for the chef client service is to sync every 30 minutes. We can override that value here and set it to a more frequent interval.
 
 	Then, click **Create Role**.
 	
-## Bootstrap the MRP App Server and Deploy the Application
+### Bootstrap the MRP App Server and Deploy the Application
 In this exercise, you will run the knife command to bootstrap the Parts Unlimited MRP app server and assign the MRP application role.
 
 1. Use knife to boostrap the VM. If you have followed the steps in the guide, your FQDN should be **chefnode1.local.cloudapp.azurestack.external**, your username for the additional node should be **localadmin** and you used a password of your choice.
 
 		knife bootstrap <FQDN-for-MRP-App-VM> --ssh-user <mrp-app-admin-username> --ssh-password <mrp-app-admin-password> --node-name mrp-app --run-list role[mrp] --sudo --verbose
 
-	![Knife Bootstrap the Additional Node](/deploy/azurestack/docs/media/ChefKnifeBootstrap.PNG)
+	![Knife Bootstrap the Additional Node](<../assets/azurestack/ChefKnifeBootstrap.PNG>)
 
 	The script will take a few minutes to run. You will see it do the following things:
 	-	Install Chef on the VM
@@ -395,23 +399,23 @@ In this exercise, you will run the knife command to bootstrap the Parts Unlimite
 
 2. Open the URL you chose for your public DNS name in a browser. The URL should be something like `http://<mrp-dns-name>.local.cloudapp.azurestack.external:9080/mrp.`.  If you followed the guide specifically, your DNS name should be http://chefnode1.local.cloudapp.azurestack.external:9080/mrp
 
-	![MRP App Deployed](/deploy/azurestack/docs/media/ChefMRPDeployed.PNG)
+	![MRP App Deployed](<../assets/azurestack/ChefMRPDeployed.PNG>)
 
 3. Click around the site and observe that it functions normally.
 
-## Remediating Configuration Changes
+### Remediating Configuration Changes
 
 In this exercise, you will make a change to the configuration of your MRP application server, then observe as Chef automatically corrects the issue.
 
 1. Click on the **Start button** and search for Putty.  CLick on PuTTY.exe (which has already been installed on the Chef workstation) and enter the host name of the MRP application server, which if you've followed the guide, should be **chefnode1.local.cloudapp.azurestack.external**. Then click **Open**.
 
-	![Putty Login](/deploy/azurestack/docs/media/ChefPutty.PNG)
+	![Putty Login](<../assets/azurestack/ChefPutty.PNG>)
 
 	Click Yes to cache the server host key.
 
 2. When prompted for a user name, enter the MRP admin username, which should be **localadmin** and press **Enter**.
 
-	![Putty Login](/deploy/azurestack/docs/media/ChefPuttyMRP.PNG)
+	![Putty Login](<../assets/azurestack/ChefPuttyMRP.PNG>)
 
 	When prompted for a password, enter the MRP admin password and press **Enter**.
 	
@@ -427,29 +431,27 @@ In this exercise, you will make a change to the configuration of your MRP applic
 
 	Click **Run History**.
 
-	Observe that the node has a first successful run that executed 25/51 resources, and possibly additional runs that executed 0/35 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
+	Observe that the node has a first successful run that executed 26/55 resources, and possibly additional runs that executed 0/39 resources. This is because the chef client installed on the server runs every 60 seconds and checks for environmental discrepancies. 
 
-	![Chef Reports Tab](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/reports_tab.png)
+	![Chef Reports Tab](<../assets/chef/reports_tab.png>)
 
-6. Click on the run that shows 1/35 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
+6. Click on the run that shows 1/39 resources executed. In the Details tab, it shows that the action executed was starting tomcat7.
 
-	![Chef Report Details](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/docs/HOL_Deploying-Using-Chef/media/report_details_tab.png)
+	![Chef Report Details](<../assets/chef/report_details_tab.png>)
 
 7. Reload the MRP application site, and you should see the site successfully load.
 
-# Next steps
+## Next steps
 
 In this hands-on lab you explored some of the new features and capabilities of deploying the MRP App via Chef Server in Azure Stack. You also learned about Marketplace Syndication between Azure and Azure Stack. This hands-on lab was designed to point out new features, discuss and describe them, and enable you to understand these features as part of the DevOps Lifecycle.
 
 If you're interested in learning more about DevOps tooling on Azure Stack, check out these Hands-On-Labs:
 
-- [Continuous Deployment with Jenkins](/deploy/azurestack/docs/jenkins_setup.md)
-- [Continuous Deployment with Puppet](/deploy/azurestack/docs/puppet_setup.md)
+- [Continuous Deployment with Jenkins](azurestack-36-jenkins-setup.html)
+- [Continuous Deployment with Puppet](azurestack-39-puppet-setup.html)
 
-# Continuous Feedback
+### Continuous Feedback
 
-#### Issues / Questions about this Hands-On-Lab ??
+##### Issues / Questions about this Hands-On-Lab ??
 
 [If you are encountering issues or have questions during this Hands on Labs, please open an issue by clicking here](https://github.com/Microsoft/PartsUnlimitedMRP/issues)
-
-Thanks

@@ -20,6 +20,7 @@ codeurl: 'https://github.com/Microsoft/PartsUnlimitedMRP'
 sections: [
     ['FundVSTS', 'Fundamentals using Visual Studio Team Services'],
     ['FundOth', 'Fundamentals using Other Tools'],
+    ['AzureStack', 'Fundamentals on Azure Stack'],
     ['Misc', 'Miscellaneous'],
     ['Adv', 'Advanced']
 ]

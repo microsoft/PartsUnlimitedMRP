@@ -1,9 +1,14 @@
-# Adding a Marketplace Item to Azure Stack
+---
+layout: page
+title:  Adding a Marketplace Item to Azure Stack
+category: AzureStack
+order: 4
+---
 Once your Ubuntu base image is in the platform image repository within your Azure Stack, you can deploy ARM templates that reference those images without any further prep work...however having choices in your marketplace is pretty cool, and it’s not that difficult. Especially seeing as I’ve packaged marketplace items for you to save you a job :-)
 
 If you've stumbled upon this page and you're not quite sure what a Marketplace item is, it's one of these:
 
-  ![Azure Stack Gallery](/deploy/azurestack/docs/media/gallerymedium.PNG)
+  ![Azure Stack Gallery](<../assets/azurestack/gallerymedium.PNG>)
 
 As you can see, I've created entries for the Ubuntu base image, along with images specific to Jenkins, and the Parts Unlimited MRP application. Creating a marketplace item requires a number of steps, which involve the following:
 
@@ -14,10 +19,10 @@ As you can see, I've created entries for the Ubuntu base image, along with image
 
 Once you have those 3 items defined, you're at a point where you can used the [Azure Gallery Packager tool](http://www.aka.ms/azurestackmarketplaceitem) to package all of those respective files into a .azpkg file, that is then uploaded into your Azure Stack.
 
-## Download an Example Package for the Base Ubuntu Image
+### Download an Example Package for the Base Ubuntu Image
 As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
 
-- [Download Base Image Package Files](/deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
+- [Download Base Image Package Files](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
 1. Once downloaded, navigate to the folder containing your newly downloaded image, and **create a copy of the file**.
 2. Right click the new copy, and **rename to .zip**
@@ -25,7 +30,7 @@ As mentioned earlier, it's much easier if you start from an existing set of reso
 
 What you'll see inside are a number of files and folders.
 
-  ![Unzipped Package](/deploy/azurestack/docs/media/UnzippedPackage.PNG)
+  ![Unzipped Package](<../assets/azurestack/UnzippedPackage.PNG>)
   
 Some of these can be ignored, as they are created during the packaging process, such as the **_rels** folder, a **GUID folder** and a **Content_Types** XML document. Ignore all of these, and focus on the key files we'll talk about now.
 
@@ -44,12 +49,11 @@ Start-Sleep -S 240
 Restart-Computer -Force -Confirm:$false
 ```
 
-
 Ben Gelens has a [great write up on his blog](https://azurestack.eu/2016/10/adding-and-using-os-gallery-items-to-azure-stack-tp2/) on adding marketplace items, and in addition, there is some very useful information on marketplace items on the [official Azure Stack documentation site](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item), especially the explanation of the key manifest.json components that are very useful to understand.
 
 The key question is, how do you take those files and folders, and get them into Azure Stack?
 
-## Uploading a Package to Azure Stack
+### Uploading a Package to Azure Stack
 
 Normally, once you've finished creating your respective files within your package folder, you would download and install the [Azure Gallery Packager Tool](http://www.aka.ms/azurestackmarketplaceitem) and follow the [guidance here](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-and-publish-marketplace-item).
 
@@ -97,13 +101,13 @@ Now that we have the package ready to upload, we need *somewhere* in Azure Stack
 
 When successful, you should see a **StatusCode** of **Created**
 
-   ![Successful Upload](/deploy/azurestack/docs/media/PSCreated.PNG)
+   ![Successful Upload](<../assets/azurestack/PSCreated.PNG>)
 
 Go back and refresh the portal, and under New -> Virtual Machines -> See All, you should see your newly added Ubuntu marketplace item
 
-  ![Ubuntu Marketplace Image](/deploy/azurestack/docs/media/UbuntuCreated1604.PNG)
+  ![Ubuntu Marketplace Image](<../assets/azurestack/UbuntuCreated1604.PNG>)
   
-## Test Deployment of your Ubuntu Base Image
+### Test Deployment of your Ubuntu Base Image
 You've successfully added a new marketplace item, but it's important to check that it works as expected. To do so, we'll walk through a UI deployment:
 
 1. On MAS-CON01, from the Azure Stack Admin Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 16.04-LTS**
@@ -114,7 +118,7 @@ You've successfully added a new marketplace item, but it's important to check th
 6. Click on your newly deployed Ubuntu VM, then click on **Overview**
 7. You should see your Public IP defined as a property in the Overview blade - make a note of this Public IP
 
-![VM Public IP](/deploy/azurestack/docs/media/UbuntuVMCreated.PNG)
+![VM Public IP](<../assets/azurestack/UbuntuVMCreated.PNG>)
 
 Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty on MAS-CON01, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
 
@@ -124,6 +128,6 @@ Start-Process -FilePath C:\putty.exe
 ```
 When Putty opens, you'll need the Public IP address of the Ubuntu VM you deployed earlier. Once you have it, enter it into the appropriate window in Putty, and click **Open**. Note - Port 22 is open on this VM, as our ARM template that deployed the image opened it automatically.
 
-# Next Step
+## Next Step
 
-Once successfully connected to your Ubuntu VM, you're now ready to move on to the [DevOps scenarios](/deploy/azurestack/docs/get_started_with_MRP.md).
+Once successfully connected to your Ubuntu VM, you're now ready to move on to get started with Parts Unlimited MRP and exploring the [DevOps scenarios](azurestack-35-mrp.html).
