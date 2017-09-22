@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 
 # Validate input parameters
 if [[ !("$#" -eq 3) ]]; 
@@ -26,13 +26,15 @@ echo "Initial Chef Server Configuration done"
 ## Finish Chef Server configuration
 
 # Remove the Nginx configuration for the existing Chef Analytics configuration
-sudo rm /var/opt/opscode/nginx/etc/nginx.d/analytics.conf
+# Analytics not present in Chef Automate whihc we are now deploying as opart of lab. commented out analytics code.
+# sudo rm /var/opt/opscode/nginx/etc/nginx.d/analytics.conf
 
 # Update /etc/chef-marketplace/marketplace.rb with the api_fqdn of the machine
 echo api_fqdn \"${azure_fqdn}\" | sudo tee -a /etc/chef-marketplace/marketplace.rb
 
 # Update /etc/opscode-analytics/opscode-analytics.rb with analytics_fqdn of the machine
-echo analytics_fqdn \"${azure_fqdn}\" | sudo tee -a /etc/opscode-analytics/opscode-analytics.rb
+# Analytics not present in Chef Automate whihc we are now deploying as opart of lab. commented out analytics code.
+# echo analytics_fqdn \"${azure_fqdn}\" | sudo tee -a /etc/opscode-analytics/opscode-analytics.rb
 
 # Update the hostname and reconfigure Chef
 sudo chef-marketplace-ctl hostname ${azure_fqdn}
