@@ -1,3 +1,4 @@
+
 ---
 layout: page
 title: Deploy and use a Private Docker Registry
@@ -10,6 +11,8 @@ order: 2
 ## Introduction #
 
 This document describes how to set up and secure your own private Docker registry on Microsoft Azure. We will also set up a Continuous Integration build (CI) that will allow us to build and run Docker images, inspect and scan containers, push Docker images to your own private Docker registry and clean up build environment whenever the branch is updated.  
+
+Test Update.
 
 ## Prerequisites ##
 
