@@ -26,7 +26,7 @@ We will use the pre-configured VM image that is available on the Azure to deploy
 
 * You can [deploy the new resource by simply clicking here](https://portal.azure.com/#create/azure-oss.jenkinsjenkins) or in Azure Portal click `New` and search for Jenkins image from Microsoft.
 
-![Deploy Jenkins](<../assets/jenkins2/pre/1.jpg>)
+![Deploy Jenkins](<../assets/jenkins2/pre/1.png>)
 * Click `Create` to start the new resource configuration.
 
 * Basic Configuration
