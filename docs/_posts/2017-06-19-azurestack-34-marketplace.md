@@ -20,7 +20,7 @@ As you can see, I've created entries for the Ubuntu base image, along with image
 Once you have those 3 items defined, you're at a point where you can used the [Azure Gallery Packager tool](http://www.aka.ms/azurestackmarketplaceitem) to package all of those respective files into a .azpkg file, that is then uploaded into your Azure Stack.
 
 ### Download an Example Package for the Base Ubuntu Image
-As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your MAS-CON01 machine**.
+As mentioned earlier, it's much easier if you start from an existing set of resources, and customize from there, so to help you understand the relationship between the core package files discussed above, you can download a set of files I've provided, already packaged as a .azpkg file. **Download it onto your Azure Stack Development Kit host**.
 
 - [Download Base Image Package Files](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/ubuntu_server_1604_base/Canonical.UbuntuServer.1.0.0.azpkg?raw=true)
 
@@ -40,7 +40,7 @@ Feel free to explore the files within the folder structure, and if you wish to c
 
 A good way to look through all the files quickly, is to download and install the excellent [Visual Studio Code](https://code.visualstudio.com/Download). Once downloaded and installed, open the containing folder (be sure to keep the existing naming convention of the folder) and you’ll see all the files within the folder, and can quickly navigate between them.
 
-If you want a quick way to download and install Visual Studio Code on your MAS-CON01 machine, here's a useful PowerShell script, to be run within an administrator PowerShell console:
+If you want a quick way to download and install Visual Studio Code on your host, here's a useful PowerShell script, to be run within an administrator PowerShell console:
 
 ```powershell
 Invoke-Webrequest https://go.microsoft.com/fwlink/?LinkID=623230 -OutFile C:\VSCode.exe
@@ -70,7 +70,7 @@ To save you time however, we'll just use the package we orginally downloaded ear
 
 Now that we have the package ready to upload, we need *somewhere* in Azure Stack to upload it to. For that, we'll create a **storage account** that will be used to hold this package, and any others we upload in the future.
 
-1. On MAS-CON01, connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
+1. Connect to your Azure Stack via an **administrative PowerShell console**. If you're not still connected from the earlier steps, run the following:
   
   ``` powershell
   cd\
@@ -110,7 +110,7 @@ Go back and refresh the portal, and under New -> Virtual Machines -> See All, yo
 ### Test Deployment of your Ubuntu Base Image
 You've successfully added a new marketplace item, but it's important to check that it works as expected. To do so, we'll walk through a UI deployment:
 
-1. On MAS-CON01, from the Azure Stack Admin Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 16.04-LTS**
+1. From the Azure Stack Admin Portal Dashboard, click on **New**, then **Virtual Machines**, then **Ubuntu Server 16.04-LTS**
 2. Enter the basic details required - **username, password and a resource group name**.
 3. Optionally, select **Pin to Dashboard**, then click Create.
 4. The process should take around ~20 minutes, depending on your hardware.
@@ -120,7 +120,7 @@ You've successfully added a new marketplace item, but it's important to check th
 
 ![VM Public IP](<../assets/azurestack/UbuntuVMCreated.PNG>)
 
-Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty on MAS-CON01, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
+Once successfully deployed, you can log into your Ubuntu base image via Putty. If you haven't installed Putty, here's a PowerShell script you can run to quickly grab it. Run the following from an administrative PowerShell console.
 
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
