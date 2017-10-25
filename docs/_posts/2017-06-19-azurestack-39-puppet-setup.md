@@ -9,10 +9,10 @@ In this multi-part lab, we will set up the Puppet Master in Azure Stack, that wi
 ### Prerequisites 
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps across other labs so far, you should already have most of them :-)
 
- - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
+ - A configured Azure Stack, logged into the Azure Stack Development Kit Host
+  - The Azure Stack Tools downloaded to the Azure Stack Development Kit Host ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
   - An Ubuntu base image in the Platform Image Repository ([Details here](azurestack-33-images.html#add-vm-image-to-platform-image-repository-with-powershell))
-  - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
+  - Putty installed on the Azure Stack Development Kit Host (use the script below, from an administrative PowerShell console to download)
   
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
@@ -38,7 +38,7 @@ Now, you have 2 options for deployment.
 #### *Option 1 - ARM Template & Custom Deployment
 If you're not interested in creating a Marketplace item for Puppet, then this quick and easy approach should make things, well, quick and easy for you!
 
-Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+Firstly, from your Azure Stack Development Kit Host machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fpuppet_standalone%2FPuppet.PuppetEnterprise%2FDeploymentTemplates%2FPuppetDeploy.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
@@ -50,7 +50,7 @@ You'll need to enter information for the following fields:
 - **PMDNSNAMEFORPUBLICIP** - for testing purposes, use **puppetmaster**.
 - **PMCONSOLEPASSWORD** - choose a password of your choice.
 - **Resource Group** - for testing purposes, use **puppet**.
-- **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+- **Location** - seeing as this is the Azure Stack Development kit, you'll just be able to choose local for now.
 
 ![Puppet Deployment](<../assets/azurestack/PuppetDeploy.png>)
 
@@ -63,7 +63,7 @@ Once the deployment has completed, you're ready to proceed with configuring the 
 #### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item for Puppet Enterprise, to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Puppet environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Puppet environment, that I've stored on GitHub. From your **Azure Stack Development Kit Host** machine, do the following:
 
 - [Download Puppet Enterprise Package](https://github.com/Microsoft/PartsUnlimitedMRP/raw/master/deploy/azurestack/instances/puppet_standalone/Puppet.PuppetEnterprise.1.0.0.azpkg?raw=true)
 
@@ -117,14 +117,14 @@ Go back and refresh the portal, and under **New -> Virtual Machines -> See All**
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
-1. On the **MAS-CON01** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
+1. On the **Azure Stack Development Kit Host** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
 2. Select the **Puppet Enterprise** item in the marketplace, and click **Create**.
 3. Provide the information for the following fields:
   - **PMADMINPASSWORD** - choose a password of your choice.
   - **PMDNSNAMEFORPUBLICIP** - for testing purposes, use **puppetmaster**.
   - **PMCONSOLEPASSWORD** - choose a password of your choice.
   - **Resource Group** - for testing purposes, use **puppet**.
-  - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+  - **Location** - seeing as this is the Azure Stack Development Kit, you'll just be able to choose local for now.
   
   Once you've filled in the fields, it should look like this:
   
@@ -161,7 +161,7 @@ Now in order to streamline this, I've created an ARM template for you to use - a
 
 - **[Additional Puppet Node](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/puppet_node/AddPuppetNode.json)**
 
-Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
+Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **Azure Stack Development Kit Host** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fpuppet_node%2FAddPuppetNode.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
