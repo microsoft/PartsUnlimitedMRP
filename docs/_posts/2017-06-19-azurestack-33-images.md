@@ -4,13 +4,13 @@ title:  Adding VM Images to Azure Stack
 category: AzureStack
 order: 3
 ---
-Azure Stack enables administrators to make VM images, such as their organization’s custom VHD, available to their tenants. Images can be referenced by Azure Resource Manager templates or added to the Azure Marketplace UI with the creation of a Marketplace item. No images are included by default in the Azure Stack Technical Preview 3 Refresh.
+Azure Stack enables administrators to make VM images, such as their organization’s custom VHD, available to their tenants. Images can be referenced by Azure Resource Manager templates or added to the Azure Marketplace UI with the creation of a Marketplace item. No images are included by default in the Azure Stack Development Kit.
 
 An image can be added to your Azure Stack Platform Image Repository (PIR) in 2 ways - via the portal, or programmatically. We'll focus on the programmatical approach, specifically with PowerShell, as it's faster, and more repeatable.  Plus, you can copy and paste my code ;-)
 
 ### Downloading an Image
 
-Firstly, you should be **logged into you Azure Stack environment, and specifically, within the MAS-CON01 machine**.
+Firstly, you should be **logged into you Azure Stack environment, and specifically, on the Azure Stack Development Kit host**.
 
 For the purpose of our testing, we're going to focus on Linux images. Microsoft has worked with a number of Linux vendors to provide a set of Azure Stack-compatible images for use in your Azure Stack environments:
 
@@ -33,10 +33,11 @@ Once downloaded, extract the zip file, to end up with a single 30GB VHD, with th
 Before we can begin adding an image to the Azure Stack PIR, we'll need to be able to connect to the Azure Stack via PowerShell, and there are a couple of steps we need to perform to do that.
 
 #### Install Azure Stack PowerShell cmdlets & dependencies
-1. Azure Stack uses the same AzureRM cmdlets that you'd use if you were connecting to Azure. These are installed from the PowerShell Gallery. To begin, open an elevated (as administrator) PowerShell Console on MAS-CON01 and run the following command to return a list of PowerShell repositories available:
+1. Azure Stack uses the same AzureRM cmdlets that you'd use if you were connecting to Azure. These are installed from the PowerShell Gallery. To begin, open an elevated (as administrator) PowerShell Console and run the following command to return a list of PowerShell repositories available and ensure the gallery is trusted:
 
     ``` PowerShell
     Get-PSRepository
+    Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
     ```
 2. Before installing the required version, make sure that you uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions and run the following command:
 
@@ -59,7 +60,7 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
 5. In addition to the AzureRM modules, you should also install the Azure Stack-specific PowerShell modules such as AzureStackAdmin, and AzureStackStorage by running the following command:
 
     ``` PowerShell
-    Install-Module -Name AzureStack -RequiredVersion 1.2.9
+    Install-Module -Name AzureStack -RequiredVersion 1.2.11
     ```
 
 6. To confirm the installation, run the following command:
@@ -68,7 +69,7 @@ Before we can begin adding an image to the Azure Stack PIR, we'll need to be abl
     Get-Module -ListAvailable | where-Object {$_.Name -like "Azure*"}
     ```
 
-If the installation is successful, the AzureRM and AzureStack modules are displayed in the output. Once verified, we need to ensure we have the relevant tools in place to connect to Azure Stack via PowerShell. These could also be used for Azure, but may lack some of the latest Azure features. The tools are all [hosted on GitHub](https://github.com/Azure/AzureStack-Tools). To grab them, run the following in an elevated PowerShell console on MAS-CON01:
+If the installation is successful, the AzureRM and AzureStack modules are displayed in the output. Once verified, we need to ensure we have the relevant tools in place to connect to Azure Stack via PowerShell. These could also be used for Azure, but may lack some of the latest Azure features. The tools are all [hosted on GitHub](https://github.com/Azure/AzureStack-Tools). To grab them, run the following in an elevated PowerShell console:
 
 ``` PowerShell
 cd\

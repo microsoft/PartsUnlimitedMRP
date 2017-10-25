@@ -104,7 +104,7 @@ Select the returned text, and copy it. We will use it later.
 
 ![Copy SSH public key](<../assets/jenkins/copy_sshpublickey.png>)
 
-Then, from your MAS-CON01 machine, you need to click on the button below to deploy the MRP virtual machine, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+Then, from your Azure Stack Development Kit Host machine, you need to click on the button below to deploy the MRP virtual machine, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fparts_unlimited_SSH_mrp_base%2FPartsUnlimitedSSH.Ubuntu1604%2FDeploymentTemplates%2FPartsUnlimitedSSHMRP.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
@@ -114,7 +114,7 @@ You'll need to enter information for the following fields:
 - **ADMINPUBLICKEY** - Paste the string that you have copied earlier.
 - **MRPDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
 - **Resource Group** - for testing purposes, use **mrp-deploy**.
-- **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+- **Location** - seeing as this is the Azure Stack Development Kit, you'll just be able to choose local for now.
 
 ![Jenkins Deployment](<../assets/azurestack/MRPDeploy.PNG>)
 
@@ -127,7 +127,7 @@ Once the deployment has completed, you're ready to proceed with the lab.
 #### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Parts Unlimited MRP with SSH machine, that I've stored on GitHub. From yor **Azure Stack Development Kit Host** machine, do the following:
 
 - [Download Parts Unlimited MRP with SSH Package](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/parts_unlimited_SSH_mrp_base/PartsUnlimited.MRPSSH.1.0.0.azpkg?raw=true)
 
@@ -181,13 +181,13 @@ Go back and refresh the portal, and under **New -> Virtual Machines -> See All**
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
-1. On the **MAS-CON01** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
+1. On the **Azure Stack Development Kit Host** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
 2. Select the **Parts Unlimited MRP with SSH** item in the marketplace, and click **Create**.
 3. You'll need to enter information for the following fields:
   - **ADMINPUBLICKEY** - Paste the string that you have copied earlier.
   - **MRPDNSNAMEFORPUBLICIP** - for testing purposes, use **mrp-deploy**.
   - **Resource Group** - for testing purposes, use **mrp-deploy**.
-  - **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+  - **Location** - seeing as this is the Azure Stack Development Kit, you'll just be able to choose local for now.
 
   Once you've filled in the fields, it should look like this:
   
