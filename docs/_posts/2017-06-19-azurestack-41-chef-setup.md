@@ -9,10 +9,10 @@ In this multi-part lab, we will setup a Chef Server in Azure Stack, that will be
 ### Prerequisites
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps across other labs so far, you should already have most of them :-)
 
- - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
+ - A configured Azure Stack, logged into the Azure Stack Development kit host
+  - The Azure Stack Tools downloaded to the Azure Stack Development kit host ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
   - An Ubuntu base image in the Platform Image Repository ([Details here](azurestack-33-images.html#add-vm-image-to-platform-image-repository-with-powershell))
-  - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
+  - Putty installed on the Azure Stack Development kit host (use the script below, from an administrative PowerShell console to download)
   
 ```powershell
 Invoke-Webrequest https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe -OutFile C:\putty.exe
@@ -38,35 +38,15 @@ To download marketplace items into Azure Stack, you've first got to register Azu
 
 #### Register Azure Stack with Azure
 
-To register your Azure Stack with Azure, you'll need to perform a few steps **from the Azure Stack Host**, not MAS-CON01.  Before registering, you'll need the following info:
+To register your Azure Stack with Azure, you'll need to perform a few steps **from the Azure Stack Development kit host**.  Before registering, you'll need the following info:
 
-- The subscription ID for an Azure subscription. To get this, sign in to Azure, click More services > Subscriptions, click the subscription you want to use, and under Essentials you can find the Subscription ID. China, Germany, government cloud, and CSP subscriptions are not supported in TP3.
-- The username and password for an account that is an owner for the subscription (Hotmail.com, live.com domains and 2FA accounts are not supported).
+- The subscription ID for an Azure subscription. To get this, sign in to Azure, click More services > Subscriptions, click the subscription you want to use, and under Essentials you can find the Subscription ID. China, Germany, US Government cloud are not currently supported.
+- The username and password for an account that is an owner for the subscription (MSA/2FA accounts are supported).
 - The AAD directory for the Azure subscription. You can find this directory in Azure by hovering over your avatar at the top right corner of the Azure portal.
 
 If you don’t have an Azure subscription that meets these requirements, you can [create a free Azure account here](https://azure.microsoft.com/en-us/free/?b=17.06). Registering Azure Stack incurs no cost on your Azure subscription.
 
-Once you have those details, you're ready to register your Azure Stack.  Remember, run these steps **from the Azure Stack Host**, not MAS-CON01.
-
-1. Sign in to the Azure Stack POC host computer as an Azure Stack administrator.
-2. [Install PowerShell for Azure Stack](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-powershell-install).
-3. Copy the [RegisterWithAzure.ps1 script](https://go.microsoft.com/fwlink/?linkid=842959) to a folder (such as C:\Temp).
-4. Start PowerShell ISE as an administrator.
-5. Run the RegisterWithAzure.ps1 script. Make sure to change the values for *YourAccountName* (the owner of the Azure subscription), *YourID*, and *YourDirectory* to match your Azure subscription.
-
-    ```powershell
-    RegisterWithAzure.ps1 -azureDirectory YourDirectory -azureSubscriptionId YourID -azureSubscriptionOwner YourAccountName
-    ```
-    
-    For example:
-    
-    ```powershell
-    C:\temp\RegisterWithAzure.ps1 -azureDirectory contoso.onmicrosoft.com ` 
-    -azureSubscriptionId 5c15413c-1135-479b-a046-857e1ef9fbeb ` 
-    -azureSubscriptionOwner serviceadmin@contoso.onmicrosoft.com     
-    ```
-6. At the two prompts, press Enter.
-7. In the pop-up log in window, enter your Azure subscription credentials
+Once you have those details, you're ready to register your Azure Stack, by [following the steps outlined here](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-register). Remember, run these steps **from the Azure Stack Development Kit Host**.
 
 #### Verify the registration
 
@@ -78,7 +58,7 @@ Once you have those details, you're ready to register your Azure Stack.  Remembe
 
 For the purpose of this lab, we're going to select to syndicate the Windows Server 2012 R2 Datacenter - Eval gallery item.  This is smaller than the 2016 version, and thus quicker to download and test.  In order to kick off the syndication, perform the following steps:
 
-1. Ensure you are logged into **MAS-CON01** and signed in to the Azure Stack portal as a service administrator.
+1. Ensure you are logged into **the Azure Stack Development kit host** and signed in to the Azure Stack portal as a service administrator.
 2. Click **More Services** > **Marketplace Management** > **Add from Azure**.  You should see a list of available options, including multiple Windows Server offerings:
 
   ![Successful Upload](<../assets/azurestack/WindowsServerSyndication.PNG>)
@@ -101,7 +81,7 @@ Now, you have 2 options for deployment.
 #### *Option 1 - ARM Template & Custom Deployment
 If you're not interested in creating a Marketplace item for Chef Server, then this quick and easy approach should make things, well, quick and easy for you!
 
-Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+Firstly, from your Azure Stack Development kit host machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_standalone%2FChef.ChefServer%2FDeploymentTemplates%2FChefDeploy.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
@@ -113,7 +93,7 @@ You'll need to enter information for the following fields:
 - **CHEFADMINPASSWORD** - choose a password of your choice.
 - **CHEFDNSNAMEFORPUBLICIP** - for testing purposes, use **chefserver**.
 - **Resource Group** - for testing purposes, use **chefmrp**.
-- **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+- **Location** - seeing as this is the Azure Stack Develelopment Kit, you'll just be able to choose local for now.
 
 ![Chef Deployment](<../assets/azurestack/ChefDeploy.PNG>)
 
@@ -126,7 +106,7 @@ Once the deployment has completed, you're ready to proceed with deploying the ad
 #### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item for Chef Server, to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Chef environment, that I've stored on GitHub. From your **Azure Stack Development kit host** machine, do the following:
 
 - [Download Chef Server Package](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/chef_standalone/Chef.ChefServer.1.0.0.azpkg?raw=true)
 
@@ -180,14 +160,14 @@ Go back and refresh the portal, and under **New -> Virtual Machines -> See All**
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
-1. On the **MAS-CON01** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
+1. On the **Azure Stack Development kit host** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
 2. Select the **Chef Server** item in the marketplace, and click **Create**.
 3. Provide the information for the following fields:
 - **CHEFADMINUSERNAME** - choose a username of your choice. For testing purposes, use **chefadmin**
 - **CHEFADMINPASSWORD** - choose a password of your choice.
 - **CHEFDNSNAMEFORPUBLICIP** - for testing purposes, use **chefserver**.
 - **Resource Group** - for testing purposes, use **chefmrp**.
-- **Location** - seeing as this is Azure Stack, you'll just be able to choose local in the current technical preview.
+- **Location** - seeing as this is the Azure Stack Development Kit, you'll just be able to choose local for now.
   
   Once you've filled in the fields, it should look like this:
   
@@ -205,7 +185,7 @@ Now in order to streamline this, I've created an ARM template for you to use - a
 
 - **[Deploy Chef Workstation](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/chef_workstation/AddChefWorkstation.json)**
 
-Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
+Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **Azure Stack Development kit host** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_workstation%2FAddChefWorkstation.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
@@ -233,7 +213,7 @@ Now in order to streamline this, I've created an ARM template for you to use - a
 
 - **[Deploy Chef Node](https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/deploy/azurestack/instances/chef_node/AddChefNode.json)**
 
-Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **MAS-CON01** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
+Alternatively, for those of you who like to press buttons, and would like a simple option for deploying without copying and pasting, click the button below from your **Azure Stack Development kit host** machine, and fill in the parameter fields. The link should open the Azure Stack admin portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade:
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fchef_node%2FAddChefNode.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>

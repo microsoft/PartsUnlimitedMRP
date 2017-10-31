@@ -9,10 +9,10 @@ In this multi-part lab, we will set up the Jenkins Master in Azure Stack, that w
 ### Prerequisites 
 There are a couple of key things you'll need to have in place before setting up this lab environment, which, if you've been following the steps so far, you should already have most of them :-)
 
-  - A configured Azure Stack, logged into MAS-CON01
-  - The Azure Stack Tools downloaded to MAS-CON01 ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
+  - A configured Azure Stack, logged into the Azure Stack Development Kit host
+  - The Azure Stack Tools downloaded to the Azure Stack Development Kit host ([Details here](azurestack-33-images.html#connecting-to-azure-stack-via-powershell))
   - An Ubuntu base image in the Platform Image Repository ([Details here](azurestack-33-images.html#add-vm-image-to-platform-image-repository-with-powershell))
-  - Putty installed on MAS-CON01 (use the script below, from an administrative PowerShell console to download)
+  - Putty installed on the Azure Stack Development Kit host (use the script below, from an administrative PowerShell console to download)
   - An Oracle Account, in order to source the latest JDK (Test creds at http://www.oracle.com then click Sign-in at the top)
 
 ```powershell
@@ -32,7 +32,7 @@ Now, you have 2 options for deployment.
 #### *Option 1 - ARM Template & Custom Deployment
 If you're not interested in creating a Marketplace item for 'Parts Unlimited MRP with Jenkins', then this quick and easy approach should make things, well, quick and easy for you!
 
-Firstly, from your MAS-CON01 machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
+Firstly, from your the Azure Stack Development Kit host machine, you need to click on the button below, and fill in the parameter fields. The link should open the Azure Stack portal, and if you're not already logged in, it'll prompt you for your Azure Stack credentials, then take you immediately to the custom template blade.
 
 <a href="https://adminportal.local.azurestack.external/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FPartsUnlimitedMRP%2Fmaster%2Fdeploy%2Fazurestack%2Finstances%2Fjenkins_standalone%2FTheJenkinsProject.Jenkins%2FDeploymentTemplates%2FJenkinsDeploy.json" target="_blank">
         <img src="https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/assets/azurestack/DeployToStack.png"/>
@@ -55,7 +55,7 @@ Once the deployment has completed, you're ready to proceed with configuring Jenk
 #### *Option 2 - Create a Custom Marketplace Item for Deployment
 If you are interested in adding a custom marketplace item to your Azure Stack Marketplace, then these steps will help. I've already made the package for you, so you should just be able to follow these steps, and import it right into your Azure Stack.
 
-As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **MAS-CON01** machine, do the following:
+As we saw earlier, when we [added our Ubuntu base image to the Azure Stack marketplace](azurestack-34-marketplace.html), things are much easier when something is packaged for you, so to start things off, pull down the .azpkg file for our Jenkins environment, that I've stored on GitHub. From yor **the Azure Stack Development Kit host** machine, do the following:
 
 - [Download Jenkins Package](https://github.com/Microsoft/PartsUnlimitedMRP/blob/master/deploy/azurestack/instances/jenkins_standalone/TheJenkinsProject.Jenkins.1.0.0.azpkg?raw=true)
 
@@ -109,7 +109,7 @@ Go back and refresh the portal, and under **New -> Virtual Machines -> See All**
   
 With your newly created marketplace item created and pushed to the Azure Stack Marketplace, we're ready to deploy an instance of the environment.
 
-1. On the **MAS-CON01** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
+1. On the **the Azure Stack Development Kit host** machine, in your Azure Stack portal, click on **New**, then **Virtual Machines**, then **See all**.
 2. Select the **Jenkins** item in the marketplace, and click **Create**.
 3. Provide the information for the following fields:
   - **JENKINSADMINPASSWORD** - choose a password of your choice.
@@ -157,7 +157,7 @@ Copy the value returned by the command.  Keep the SSH session open, we will retu
 
 **2.** Unlock the jenkins master
 
-SOn MAS-CON01, with your browser, navigate to the default page of the Jenkins master. 
+On the Azure Stack Development Kit host, with your browser, navigate to the default page of the Jenkins master. 
 
 ```
 http://ip_address_of_your_jenkinsmaster:8080

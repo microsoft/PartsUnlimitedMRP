@@ -18,7 +18,7 @@ During this lab, we will finalize configuration of Puppet Enterprise to manage t
 
 First, we need to bring our previously deployed Ubuntu VM under the management of the Puppet Enterprise Master. To do that, you'll first need to log into the Puppet Enterprise Master.
 
-If it's not already open, on MAS-CON01, open a browser and navigate to your Puppet Enterprise Master address. The _dnsaddress_ will be of the form _machinename_._local_.cloudapp.azurestack.external. Open a browser to https://_dnsaddress_.  (Make sure you're going to http__s__, not http). If you followed the steps in the lab, your DNS address will be https://puppetmaster.local.cloudapp.azurestack.external.
+If it's not already open, on the Azure Stack Development Kit host, open a browser and navigate to your Puppet Enterprise Master address. The _dnsaddress_ will be of the form _machinename_._local_.cloudapp.azurestack.external. Open a browser to https://_dnsaddress_.  (Make sure you're going to http__s__, not http). If you followed the steps in the lab, your DNS address will be https://puppetmaster.local.cloudapp.azurestack.external.
 
 You will be prompted about an invalid certificate - it is safe to ignore this for the purposes of this lab. If the Puppet configuration has succeeded, you should see the Puppet Console sign in page:
 
