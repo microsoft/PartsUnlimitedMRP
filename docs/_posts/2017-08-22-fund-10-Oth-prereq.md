@@ -203,7 +203,7 @@ Gradle will be used to build the Parts Unlimited application. If needed, you cou
 * Click on **Add Gradle** 
 > * Type the friendly name fo this installation of Gradle: "Gradle"
 > * Verify that the "Install automatically" box is checked
-> * Select the latest version of Gradle in the drop-down list, current `Gradle 4.1`.
+> * Select the latest version of Gradle in the drop-down list, current `Gradle 4.3`.
 
 ![Add Gradle](<../assets/jenkins2/pre/15.png>)
 
