@@ -1,6 +1,6 @@
 ---
 layout: page
-title:  DevOps200.1x Primciples and Practices - M01 Azure Automation Labs
+title:  DevOps200.1x Primciples and Practices - M03 Create CI infratructure using Python, GitHub and Travis CI
 category: IaC
 order: 1
 ---
