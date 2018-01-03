@@ -23,6 +23,9 @@ sections: [
     ['AzureStack', 'Fundamentals on Azure Stack'],
     ['Misc', 'Miscellaneous'],
     ['Adv', 'Advanced']
+    ['IaC', 'Infrastructure as Code']
+
+
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
