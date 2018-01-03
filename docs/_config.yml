@@ -18,14 +18,7 @@ codeurl: 'https://github.com/Microsoft/PartsUnlimitedMRP'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['FundVSTS', 'Fundamentals using Visual Studio Team Services'],
-    ['FundOth', 'Fundamentals using Other Tools'],
-    ['AzureStack', 'Fundamentals on Azure Stack'],
-    ['Misc', 'Miscellaneous'],
-    ['Adv', 'Advanced']
-    ['IaC', 'Infrastructure as Code']
-
-
+    ['FundVSTS', 'Fundamentals using Visual Studio Team Services'],['FundOth', 'Fundamentals using Other Tools'],['AzureStack', 'Fundamentals on Azure Stack'],['Misc', 'Miscellaneous'],['Adv', 'Advanced'],['PandP',DevOps Practices and Principles],['IaC', 'Infrastructure as Code']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
