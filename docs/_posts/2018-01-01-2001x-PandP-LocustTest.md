@@ -6,7 +6,7 @@ order: 1
 ---
 
 
-# Introduction
+<h3><span style="color: #0000CD;"> Introduction</span></h3> 
 
 
 There are several types of test types in software engineering and load testing is one of the most common tests.
@@ -32,7 +32,7 @@ Gatling, JMeter, Locust are some of the load testing tools.
 
 In this practice lab, we are going to create a simple REST API and write some load test scenarios.
 
-# Preparing Our Application
+<h3><span style="color: #0000CD;"> Preparing Our Application</span></h3> 
 
 
 In this practice lab, we are going to create a minimal RESTful API using the Flask framework. Our application will let the user get a list of software testing types or add a new type.
@@ -200,7 +200,7 @@ We should see the two types of tests:
 ]
 ```
 
-# Load Testing Our RESTful API Using Locust
+<h3><span style="color: #0000CD;"> Load Testing Our RESTful API Using Locust</span></h3> 
 
 Locust is described as an easy-to-use, distributed, user load testing tool. It is intended for load-testing web sites (or other systems) and figuring out how many concurrent users a system can handle.
 
@@ -249,18 +249,18 @@ Make sure to change ``` http://localhost:5000 ``` by the real address of your ap
 
 The web interface of Locust is available by default at ``` http://localhost:8089 ```
 
-![Locust Home Page](images/locust_home.png "Locust Home Page")
+![Locust Home Page](..\assets\locusttest/locust_home.png "Locust Home Page")
 
 Say our API should support a number of 10000 user. We can start a test by giving this value to Locust, using the web interface, as well as the the hatch rate which is the number of users spawned by second.
 
 After clicking on "Start spawning", you can see different live statistics about your tasks like the number of requests, fails, and other statistics about the response time.
 
-![Locust Statistics](images/locust_stats.png "Locust Statistics")
+![Locust Statistics](<..\assets\locusttest/locust_stats.png>)
 
 Using the Charts view, we can determine some fact-based conclusions. For instance, if we don't accept a response time greater than 450ms, we know that our application cannot handle more than 117 request per second and that the max number of simultaneous users should be less than 350.
 
 
-# Conclusion
+<h3><span style="color: #0000CD;"> Conclusion</span></h3> 
 
 In this practice lab, we created a RESTful API and tested its performance using Locust. Using the results from our tests, we determined how our API can behave with a certain number of users and requests.
 
