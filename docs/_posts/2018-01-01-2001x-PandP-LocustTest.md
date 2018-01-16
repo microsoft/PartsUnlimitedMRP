@@ -1,9 +1,15 @@
 ---
 layout: page
-title:  DevOps200.1x Principles and Practices - M04 Create a simple REST API and perform Load Tests using Locust
+title:  Create a simple REST API and perform Load Tests using Locust
 category: PandP
-order: 1
+order: 3
 ---
+
+
+<h1><span style="color: #0000CD;">DevOps200.1x: Practices and Principles</span></h1>
+============================================================
+
+<h2><span style="color: #0000CD;">Create a simple REST API and perform Load Tests using Locust</span></h2>
 
 
 <h3><span style="color: #0000CD;"> Introduction</span></h3> 

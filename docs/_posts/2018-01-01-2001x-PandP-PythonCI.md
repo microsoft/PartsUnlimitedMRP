@@ -1,12 +1,15 @@
 ---
 layout: page
-title:  DevOps200.1x Principles and Practices - M03 Create CI infratructure using Python, GitHub and Travis CI
+title:  Create CI infratructure using Python, GitHub and Travis CI
 category: PandP
 order: 1
 ---
 
 
-<h3><span style="color: #0000CD;"> Introduction</span></h3> 
+<h1><span style="color: #0000CD;">DevOps200.1x: Practices and Principles</span></h1>
+============================================================
+
+<h2><span style="color: #0000CD;">Create CI infratructure using Python, GitHub and Travis CI</span></h2>
 
 
 
