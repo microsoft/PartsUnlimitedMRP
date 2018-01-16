@@ -32,7 +32,7 @@ We are going to use:
 - Python Virtualenv to create an isolated environment for our application
 - Unittest: A unit testing framework for Python
 - Github: A web-based Git version control repository hosting service
-- CircleCI: A hosted continuous integration testing tool integrated with code management services such as GitHub
+- TravisCI: A hosted continuous integration testing tool integrated with code management services such as GitHub
 
 This is the structure of our code:
 
@@ -240,13 +240,13 @@ Add your modifications then push them to the dev branch:
 git push origin dev
 ```
 
-Once your modifications are added to the remote dev branch, Circle CI will trigger a new build for the dev branch and you will notice that you can make a pull request on the master branch:
+Once your modifications are added to the remote dev branch, Travis CI will trigger a new build for the dev branch and you will notice that you can make a pull request on the master branch:
 
 ![Git Pull Request](images/pull.png "Git Pull Request")
 
 If the pull request is accepted an merged with the master branch, our CI tool will trigger a new build under the "Pull Requests" tab:
 
-![Circle CI Pull Request Build](images/pr.png "Circle CI Pull Request Build")
+![Travis CI Pull Request Build](images/pr.png "Travis CI Pull Request Build")
 
 
 
