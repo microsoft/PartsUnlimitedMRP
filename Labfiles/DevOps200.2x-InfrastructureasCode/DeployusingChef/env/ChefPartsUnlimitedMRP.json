@@ -68,7 +68,7 @@
   },
   "variables": {
     "chefServerImagePublisher": "chef-software",
-    "chefServerImageOffer": "chef-automate-vm-image",
+    "chefServerImageOffer": "chef-server",
     "chefServerImageSku": "chefbyol",
     "chefServerOSDiskName": "chefServerOsDisk",
     "chefServerNicName": "chefServerNic",
