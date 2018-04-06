@@ -1,9 +1,11 @@
----
-layout: page
-title: Set up Parts Unlimited MRP
-category: FundVSTS
-order: 1
----
+
+// removed 5th April 2018
+// ---
+// layout: page
+// title: Set up Parts Unlimited MRP
+// category: FundVSTS
+// order: 1
+// ---
 
 ### Set up Parts Unlimited MRP with VSTS ###
 
