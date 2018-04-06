@@ -1,9 +1,11 @@
----
-layout: page
-title:  Auto-Scale & Load Tests
-category: FundVSTS
-order: 7
----
+
+// removed 5th April 2018
+// ---
+//layout: page
+//title:  Auto-Scale & Load Tests
+//category: FundVSTS
+//order: 7
+//---
 
 ### Auto-Scaling and Load Testing
 

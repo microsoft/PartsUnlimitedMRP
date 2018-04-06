@@ -1,9 +1,11 @@
----
-layout: page
-title: Continuous Deployment with Remote Agent
-category: FundVSTS
-order: 4
----
+
+// removed 5th April 2018
+// ---------
+//layout: page
+//title: Continuous Deployment with Remote Agent
+//category: FundVSTS
+//order: 4
+//---
 
 ### Parts Unlimited MRP App Continuous Deployment with VSTS - Remote Agent ###
 

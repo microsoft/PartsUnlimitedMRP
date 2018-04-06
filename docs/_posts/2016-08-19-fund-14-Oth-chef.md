@@ -1,9 +1,12 @@
----
-layout: page
-title:  Continuous Deployment with Chef
-category: FundOth
-order: 5
----
+
+// removed 5th April 2018
+// ---
+//layout: page
+//title:  Continuous Deployment with Chef
+//category: FundOth
+//order: 5
+//---
+
 ### Parts Unlimited MRP App Continuous Deployment with Chef ###
 
 In this hands-on lab, you will explore some of the new features and capabilities of Deploying MRP App via Chef Server in Azure. This hands-on lab is designed to point out new features, discuss and describe them, and enable you to understand and explain these features to customers as part of the DevOps Lifecycle. 
