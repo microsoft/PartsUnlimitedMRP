@@ -1,9 +1,12 @@
----
-layout: page
-title:  Testing with VSTS and Eclipse
-category: FundVSTS
-order: 6
----
+
+// removed 5th Apr 2018
+//  
+// ---
+// layout: page
+// title:  Testing with VSTS and Eclipse
+// category: FundVSTS
+// order: 6
+// ---
 
 ### Parts Unlimited MRP App Automated Testing with VSTS Build using the Eclipse IDE ###
 
