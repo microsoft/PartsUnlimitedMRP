@@ -1,9 +1,11 @@
----
-layout: page
-title:  Continuous Deployment with Puppet
-category: FundOth
-order: 4
----
+
+// removed 5th apr 2018
+// ---
+// layout: page
+// title:  Continuous Deployment with Puppet
+// category: FundOth
+// order: 4
+// ---
 
 # Deploying the Parts Unlimited MRP App via Puppet in Azure
 In this hands-on lab, you will deploy a Java app, the Parts Unlimited MRP App, using Puppet from [PuppetLabs](https://puppetlabs.com/). Puppet is a configuration

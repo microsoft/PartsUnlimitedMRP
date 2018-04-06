@@ -1,9 +1,11 @@
----
-layout: page
-title: Set up Parts Unlimited MRP with Jenkins
-category: FundOth
-order: 1
----
+
+// removed 5th apr 2018
+// ---
+// layout: page
+//title: Set up Parts Unlimited MRP with Jenkins
+//category: FundOth
+//order: 1
+//---
 
 ### Set up Parts Unlimited MRP with Jenkins ###
 
