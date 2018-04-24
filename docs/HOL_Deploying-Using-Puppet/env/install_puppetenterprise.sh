@@ -16,7 +16,7 @@ case $pe_version in
         pe_url=https://pm.puppetlabs.com/puppet-enterprise/2016.2.0/puppet-enterprise-2016.2.0-ubuntu-12.04-amd64.tar.gz
         ;;
     *)
-        pe_url=https://pm.puppetlabs.com/puppet-enterprise/2016.2.0/puppet-enterprise-2016.2.0-ubuntu-12.04-amd64.tar.gz
+        pe_url=https://pm.puppetlabs.com/puppet-enterprise/2016.4.3/puppet-enterprise-2016.4.3-ubuntu-12.04-amd64.tar.gz
         ;;
 esac
 

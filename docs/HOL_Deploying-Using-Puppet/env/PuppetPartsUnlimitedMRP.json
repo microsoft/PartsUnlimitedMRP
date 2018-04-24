@@ -53,7 +53,7 @@
     "pmImagePublisher": "Canonical",
     "pmImageOffer": "UbuntuServer",
     "pmImageSku": "12.04.4-LTS",
-    "pmVersion": "2016.2.0",
+    "pmVersion": "2016.4.3",
     "mrpImagePublisher": "Canonical",
     "mrpImageOffer": "UbuntuServer",
     "mrpImageSku": "12.04.4-LTS",
@@ -454,7 +454,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
+            "https://raw.githubusercontent.com/gzepeda/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
           ]
         },
         "protectedSettings": {
