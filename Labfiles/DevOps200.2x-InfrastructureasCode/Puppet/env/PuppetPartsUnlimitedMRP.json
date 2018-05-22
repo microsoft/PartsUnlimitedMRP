@@ -454,7 +454,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/grgreenfield/parts-unlimited/new/CD-Updates/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/Labfiles/DevOps200.2x-InfrastructureasCode/Puppet/env/install_puppetenterprise.sh"
           ]
         },
         "protectedSettings": {
