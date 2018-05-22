@@ -454,7 +454,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/gzepeda/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
+            "https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/docs/HOL_Deploying-Using-Puppet/env/install_puppetenterprise.sh"
           ]
         },
         "protectedSettings": {
