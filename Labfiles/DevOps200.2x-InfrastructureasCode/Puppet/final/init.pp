@@ -38,21 +38,24 @@ class configurejava {
 class configuretomcat {
   class { 'tomcat': }
 
-  tomcat::instance { 'default':
-    package_name => 'tomcat7',
-    install_from_source => false,
+  tomcat::install { 'var/lib/tomcat7':
+        catalina_home => '/var/lib/tomcat7',
+        source_url => 'http://www.apache.org/dist/tomcat/tomcat-7/v7.0.88/bin/apache-tomcat-7.0.88.tar.gz',
   }->
   tomcat::config::server::connector { 'tomcat7-http':
     catalina_base => '/var/lib/tomcat7',
     port => '9080',
     protocol => 'HTTP/1.1',
     connector_ensure => 'present',
-    server_config => '/etc/tomcat7/server.xml',
+   server_config => '$(Catalina_base)/config/server.xml',
+
   }->
-  tomcat::service { 'default':
-    use_jsvc => false,
-    use_init => true,
-    service_name => 'tomcat7',
+   tomcat::service { 'default':
+        catalina_base => '/var/lib/tomcat7',
+        service_ensure => 'running',
+        use_jsvc => false,
+        use_init => false,
+        service_name => 'tomcat',
   }
 }
 
