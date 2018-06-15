@@ -60,7 +60,7 @@ user { 'tomcat':
 
 class configuretomcat {
   class { 'tomcat': }
- require creategroup
+ require createuserandgroup
 
 
  tomcat::instance { 'default':
