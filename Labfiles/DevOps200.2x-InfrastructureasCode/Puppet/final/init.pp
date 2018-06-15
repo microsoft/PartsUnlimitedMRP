@@ -1,7 +1,7 @@
 class mrpapp {
   class { 'configuremongodb': }
   class { 'configurejava': }
-  class { 'creategroup': }
+  class { 'createuserandgroup': }
   class { 'configuretomcat': }
   class { 'deploywar': }
   class { 'orderingservice': }
@@ -37,7 +37,7 @@ class configurejava {
 }
 
 
-class creategroup {
+class createuserandgroup {
 
 group { 'tomcat':
   ensure => 'present',
