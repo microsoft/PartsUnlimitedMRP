@@ -41,7 +41,7 @@ class createuserandgroup {
 
 group { 'tomcat':
   ensure => 'present',
-  gid    => '10004',
+  gid    => '10003',
   }
 
 user { 'tomcat':
@@ -51,7 +51,7 @@ user { 'tomcat':
   password         => '!',
   password_max_age => '99999',
   password_min_age => '0',
-  uid              => '10003',
+  uid              => '1003',
   }
 
 }
