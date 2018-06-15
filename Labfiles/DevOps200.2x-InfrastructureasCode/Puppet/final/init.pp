@@ -1,6 +1,7 @@
 class mrpapp {
   class { 'configuremongodb': }
   class { 'configurejava': }
+  class { 'creategroup': }
   class { 'configuretomcat': }
   class { 'deploywar': }
   class { 'orderingservice': }
@@ -36,10 +37,30 @@ class configurejava {
 }
 
 
+class creategroup {
+
+group { 'tomcat':
+  ensure => 'present',
+  gid    => '10004',
+  }
+
+user { 'tomcat':
+  ensure           => 'present',
+  gid              => '10003',
+  home             => '/tomcat',
+  password         => '!',
+  password_max_age => '99999',
+  password_min_age => '0',
+  uid              => '10003',
+  }
+
+}
+
 
 
 class configuretomcat {
   class { 'tomcat': }
+ require creategroup
 
 
  tomcat::instance { 'default':
@@ -62,10 +83,12 @@ class configuretomcat {
   use_jsvc => false,
   use_init => true,
   service_name => 'tomcat7',
- 
+
  }
 
 }
+
+
 
 
 
@@ -77,6 +100,9 @@ class deploywar {
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
   }
 }
+
+
+
 
 
 
@@ -99,13 +125,14 @@ class orderingservice {
     path => '/bin:/usr/bin:/usr/sbin',
     onlyif => "pgrep -f ordering-service"
   }->
+
   exec { 'stoptomcat':
     command => 'service tomcat7 stop',
     path => '/bin:/usr/bin:/usr/sbin',
     onlyif => "test -f /etc/init.d/tomcat7",
   }->
   exec { 'orderservice':
-    command => 'java -jar /opt/mrp/ordering-service.jar >> /tmp/log.txt &',
+    command => 'java -jar /opt/mrp/ordering-service.jar &',
     path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
   }->
   exec { 'wait':
@@ -114,6 +141,10 @@ class orderingservice {
     notify => Tomcat::Service['default']
   }
 }
+
+
+
+
 
 
 
