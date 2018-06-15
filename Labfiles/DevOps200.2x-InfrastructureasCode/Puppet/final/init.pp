@@ -132,7 +132,7 @@ class orderingservice {
     onlyif => "test -f /etc/init.d/tomcat7",
   }->
   exec { 'orderservice':
-    command => 'java -jar /opt/mrp/ordering-service.jar &',
+    command => 'java -jar /opt/mrp/ordering-service.jar >> /tmp/log.txt &',
     path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
   }->
   exec { 'wait':
