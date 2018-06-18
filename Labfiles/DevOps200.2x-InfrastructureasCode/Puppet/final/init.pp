@@ -107,7 +107,7 @@ class deploywar {
  file { '/var/lib/tomcat7/webapps/':
    path => '/var/lib/tomcat7/webapps/',
    ensure => 'directory',
-   recurse => 'true'
+   recurse => 'true',
    mode => '777',
  }
 
