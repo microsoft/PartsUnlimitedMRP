@@ -42,7 +42,7 @@ class createuserandgroup {
 group { 'tomcat':
   ensure => 'present',
   gid    => '10003',
-  }
+ }
 
 user { 'tomcat':
   ensure           => 'present',
@@ -52,22 +52,32 @@ user { 'tomcat':
   password_max_age => '99999',
   password_min_age => '0',
   uid              => '1003',
-  }
+ }
 
 }
 
-
-
 class configuretomcat {
   class { 'tomcat': }
- require createuserandgroup
+  require createuserandgroup
 
 
  tomcat::instance { 'default':
   catalina_home => '/var/lib/tomcat7',
   install_from_source => false,
-  package_name => 'tomcat7',
+  package_name => ['tomcat7','tomcat7-admin'],
+ }->
 
+ tomcat::config::server::tomcat_users {
+ 'tomcat':
+   catalina_base => '/var/lib/tomcat7',
+   element  => 'user',
+   password => 'password',
+   roles => ['manager-gui','manager-jmx','manager-script','manager-status'];
+ 'tomcat7':
+   catalina_base => '/var/lib/tomcat7',
+   element  => 'user',
+   password => 'password',
+   roles => ['manager-gui','manager-jmx','manager-script','manager-status'];
  }->
 
  tomcat::config::server::connector { 'tomcat7-http':
@@ -76,21 +86,15 @@ class configuretomcat {
   protocol => 'HTTP/1.1',
   connector_ensure => 'present',
   server_config => '/etc/tomcat7/server.xml',
-
  }->
 
  tomcat::service { 'default':
   use_jsvc => false,
   use_init => true,
   service_name => 'tomcat7',
-
  }
 
 }
-
-
-
-
 
 class deploywar {
   require configuretomcat
@@ -99,12 +103,15 @@ class deploywar {
     catalina_base => '/var/lib/tomcat7',
     war_source => 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/builds/mrp.war',
   }
+
+ file { '/var/lib/tomcat7/webapps/':
+   path => '/var/lib/tomcat7/webapps/',
+   ensure => 'directory',
+   recurse => 'true'
+   mode => '777',
+ }
+
 }
-
-
-
-
-
 
 class orderingservice {
   package { 'openjdk-7-jre':
@@ -120,6 +127,7 @@ class orderingservice {
     cache_dir => '/var/cache/wget',
     timeout => 0,
   }->
+  
   exec { 'stoporderingservice':
     command => "pkill -f ordering-service",
     path => '/bin:/usr/bin:/usr/sbin',
@@ -132,7 +140,7 @@ class orderingservice {
     onlyif => "test -f /etc/init.d/tomcat7",
   }->
   exec { 'orderservice':
-    command => 'java -jar /opt/mrp/ordering-service.jar >> /tmp/log.txt &',
+    command => 'java -jar /opt/mrp/ordering-service.jar &',
     path => '/usr/bin:/usr/sbin:/usr/lib/jvm/java-8-openjdk-amd64/bin',
   }->
   exec { 'wait':
@@ -141,5 +149,3 @@ class orderingservice {
     notify => Tomcat::Service['default']
   }
 }
-
-
