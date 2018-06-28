@@ -17,7 +17,7 @@ navigation: 2
 codeurl: 'https://github.com/Microsoft/PartsUnlimitedMRP'
 
 # Default categories (in order) to appear in the navigation
-sections: [['PandP',DevOps Practices and Principles],['IaC', 'Infrastructure as Code'],['CICD', 'Continuous Integration and Continuous Deployment'],['ConfigMgmt', 'Configuration Mgmt For Containerized Delivery'],['Testing', 'Testing'],['db', 'DevOps for Databases'],['APM', 'Application Monitoring and Feedback Loops'],['mobile', 'DevOps for Mobile Apps'],['Arch', 'Architecting Distributed Cloud Applications'],['FundVSTS', 'Fundamentals using Visual Studio Team Services'],['FundOth', 'Fundamentals using Other Tools'],['AzureStack', 'Fundamentals on Azure Stack'],['Misc', 'Miscellaneous'],['Adv', 'Advanced']]
+sections: [['PandP',DevOps Practices and Principles],['IaC', 'Infrastructure as Code'],['CICD', 'Continuous Integration and Continuous Deployment'],['ConfigMgmt', 'Configuration Mgmt For Containerized Delivery'],['Testing', 'Testing'],['db', 'DevOps for Databases'],['APM', 'Application Monitoring and Feedback Loops'],['mobile', 'DevOps for Mobile Apps'],['Arch', 'Architecting Distributed Cloud Applications'],['FundVSTS', 'Fundamentals using Visual Studio Team Services'],['FundOth', 'Fundamentals using Other Tools'],['AzureStack', 'DevOps with Azure Stack'],['Misc', 'Miscellaneous'],['Adv', 'Advanced - Miscellaneous']]
 
 # Keep as an empty string if served up at the root. If served up at a specific
 # path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
