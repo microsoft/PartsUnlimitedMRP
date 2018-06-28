@@ -12,13 +12,15 @@ The application uses entirely open source software including Linux, Java, Apache
 There is also a shortened URL avalable for this site which you can use if you wish i.e. <a href="http://aka.ms/pumrplabs" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://aka.ms/pumrplabs</span></a>
 
 
-## PartsUnlimited Application Key Features ##
+## PartsUnlimitedMRP Application  - Key Features ##
 - Front end service - runs Apache Tomcat and talks to order service
 - Order and Integration service - runs Java and calls MongoDB
 - Integration service - present to integrate with Parts Unlimited Website
 - Includes a Dockerfile and sample publishing profile to publish to a Docker container
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
 
+
+For the labs based around the .NET PartsUnlimited application see the page related .NET based <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and more Microsoft tools, products and services.
 
 ## Lab Structure
 The labs available on this page are divided into sections and in most cases these sections correspond to online courses, that are available on <a href="http://www.edx.org" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://www.edx.org </span></a>. Not all sections currently have a corresponding online.
