@@ -1,6 +1,0 @@
-apply plugin: 'war'
-
-war {
-  from 'Web'
-  baseName='mrp'
-}

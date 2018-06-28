@@ -1,9 +1,0 @@
-{
-  "displayName": "Puppet Enterprise",
-  "publisherDisplayName": "Puppet",
-  "summary": "Puppet Enterprise on Ubuntu 16.04-LTS VM, pre-configured and ready to run on Azure Stack",
-  "longSummary": "Puppet Enterprise on Ubuntu 16.04-LTS VM, pre-configured and ready to run on Azure Stack",
-  "description": "<p>Puppet Enterprise lets you automate the entire lifecycle of your Azure infrastructure, simply, scalably, and securely, from initial provisioning through application deployment.</p><p>After you set up your Puppet Master, you can start automating common tasks, such as provisioning VMs, deploying an IIS site, and configuring a SQL server database.</p><p>For more information, review the links below.</p><p><b>Please Note</b> - This image is not officially provided by, or supported by Puppet and is provided solely for use with the Parts Unlimited MRP Hands-on-Labs. All logos and images are property of Puppet</p>",
-  "documentationLink": "Puppet Enterprise",
-  "documentationLink2": "Puppet Documentation"
-}
