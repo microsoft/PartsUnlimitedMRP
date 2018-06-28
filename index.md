@@ -20,7 +20,7 @@ There is also a shortened URL avalable for this site which you can use if you wi
 - Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
 
 
-For the labs based around the .NET PartsUnlimited application see the page related .NET based <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and more Microsoft tools, products and services.
+For the labs based around the PartsUnlimited .NET application see the page <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and is more aligned with Microsoft products, tools and services.
 
 ## Lab Structure
 The labs available on this page are divided into sections and in most cases these sections correspond to online courses, that are available on <a href="http://www.edx.org" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://www.edx.org </span></a>. Not all sections currently have a corresponding online.
