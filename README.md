@@ -1,4 +1,4 @@
-﻿# Parts Unlimited MRP#
+﻿# Parts Unlimited MRP #
 
 Parts Unlimited MRP is a fictional outsourced Manufacturing Resource Planning (MRP) application for training purposes based on the description in chapters 31-35 of The Phoenix Projectby Gene Kim, Kevin Behr and George Spafford. © 2013 IT Revolution Press LLC, Portland, OR. Resemblance to “Project Unicorn” in the novel is intentional; resemblance to any real company is purely coincidental.
 
@@ -12,7 +12,7 @@ To get started, please proceed to the page <a href="http://microsoft.github.io/P
 
 
 
-## PartsUnlimited MRP  - Key Features##
+## PartsUnlimited MRP  - Key Features
 - Front end service - runs Apache Tomcat and talks to order service
 - Order and Integration service - runs Java and calls MongoDB
 - Integration service - present to integrate with Parts Unlimited Website
