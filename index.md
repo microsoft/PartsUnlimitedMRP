@@ -38,6 +38,19 @@ The labs available on this page are divided into sections and in most cases thes
 
 The successful completion of the courses and capstone project, that together make up the   **MPP for DevOps**, results in the granting of the Microsoft **MPP for DevOps** credential. For more information on the **Microsoft Professional Program (MPP) for DevOps** program see the pages <a href="https://academy.microsoft.com/en-us/professional-program/tracks/devops/ " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://academy.microsoft.com/en-us/professional-program/tracks/devops/ </span></a> and <a href="https://www.edx.org/microsoft-professional-program-devops " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://www.edx.org/microsoft-professional-program-devops</span></a> 
 
+## Issues and Updates
+
+If you find any issues with the lab steps, you can open an issue in the github repo <a href="https://github.com/microsoft/PartsUnlimitedMRP" target="_blank"><span style="color: #0066cc;" color="#0066cc">https://github.com/microsoft/PartsUnlimitedMRP</span></a> and we will try to help resolve it, although response times can vary. You can also look through any previosuly logged issues in case it has been reported previously.
+
+If you wish to submit fixes directly to a lab you can do so by opening Pull Request in the same GitHub repo, i.e. <a href="https://github.com/microsoft/PartsUnlimitedMRP" target="_blank"><span style="color: #0066cc;" color="#0066cc">https://github.com/microsoft/PartsUnlimitedMRP</span></a> against the file in question. See the bullets below for details.
+
+- The lab steps on this page are sourced from files in the **gh-pages** branch in the **_posts** folder. 
+- To identify the correct file against which to open a Pull Request, note the last part of the URL on the lab in question from your browser i.e. for the **Set Up Parts Unlimted MRP with VSTS** lab, the URL is <a href="http://microsoft.github.io/PartsUnlimitedMRP/pandp/200.1x-PandP-PUMRPSetupVSTS.html" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimitedMRP/pandp/200.1x-PandP-PUMRPSetupVSTS.html</span></a>, so note the last part of that URL. 
+- Then locate the corresponding file in the **gh-pages** branch in the **_posts** folder i.e. in this example it would be <a href="https://github.com/Microsoft/PartsUnlimitedMRP/blob/gh-pages/_posts/2018-01-08-200.1x-PandP-PUMRPSetupVSTS.md" target="_blank"><span style="color: #0066cc;" color="#0066cc">https://github.com/Microsoft/PartsUnlimitedMRP/blob/gh-pages/_posts/2018-01-08-200.1x-PandP-PUMRPSetupVSTS.md</span></a> 
+- Then open the Pull request against the file in question.
+- All lab step files are in markdown.
+- Images in the lab steps are located in the **assets** folder in individual lab folders. If you are not sure of the folder, the image location paths are available from the individual lab markdown files located in the **_posts** folder. 
+- Updates to help keep the labs current are welcome.
 
 
 ## You want to contribute ?
