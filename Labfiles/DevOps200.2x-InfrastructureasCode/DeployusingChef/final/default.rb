@@ -14,11 +14,11 @@ apt_repository 'openJDK' do
 end
 
 # Install JDK and JRE
-apt_package 'openjdk-8-jdk' do
+apt_package 'openjdk-8-jdk-headless' do
     action :install
 end
 
-apt_package 'openjdk-8-jre' do
+apt_package 'openjdk-8-jre-headless' do
     action :install
 end
 
