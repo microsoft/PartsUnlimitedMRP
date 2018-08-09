@@ -6,14 +6,14 @@
             "type": "string",
             "metadata": {
                 "description": "User name for the Virtual Machine."
-            }
+            },
             "defaultValue": "azureuser"
         },
         "adminPassword": {
             "type": "securestring",
             "metadata": {
                 "description": "Password for the Virtual Machine."
-            }
+            },
             "defaultValue": ""
         },        
         "authenticationType": {
