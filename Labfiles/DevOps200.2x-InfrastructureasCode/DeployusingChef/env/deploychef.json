@@ -7,12 +7,14 @@
             "metadata": {
                 "description": "User name for the Virtual Machine."
             }
+            "defaultValue": "azureuser"
         },
         "adminPassword": {
             "type": "securestring",
             "metadata": {
                 "description": "Password for the Virtual Machine."
             }
+            "defaultValue": ""
         },        
         "authenticationType": {
             "type": "string",
@@ -31,9 +33,9 @@
         "diagnosticStorageAccountName": {
             "type": "string",
             "metadata": {
-                "description": "Name of the storage account to use for diagnostics"
+                "description": "Name of the storage account to use for diagnostics, must be unique"
             },
-            "defaultValue": "diagstoragename"
+            "defaultValue": ""
         },
         "diagnosticStorageAccountNewOrExisting": {
             "type": "string",
@@ -82,14 +84,14 @@
             "metadata": {
                 "description": "Azure location for this machine"
             },
-            "defaultValue": "East Us"
+            "defaultValue": ""
         },
         "publicIPAddressName": {
             "type": "string",
             "metadata": {
                 "description": "Name to give to the Public IP address of the machine"
             },
-            "defaultValue": "partschefip"
+            "defaultValue": "chefautomateip"
         },
         "publicIPAddressResourceGroup": {
             "type": "string",
@@ -128,9 +130,9 @@
         "storageAccountName": {
             "type": "string",
             "metadata": {
-                "description": "Name of the storage account to use or created"
+                "description": "Name of the storage account to use or created, must be unique"
             },
-            "defaultValue": "storageaccname"
+            "defaultValue": ""
         },
         "storageAccountNewOrExisting": {
             "type": "string",
@@ -158,7 +160,7 @@
             "metadata": {
                 "description": "Name of the subnet to create within the virtual network"
             },
-            "defaultValue": "partschefsubnet"
+            "defaultValue": "chefautomatesubnet"
         },
         "subnetPrefix": {
             "type": "string",
@@ -179,7 +181,7 @@
             "metadata": {
                 "description": "Name of the virtual network to create or use"
             },
-            "defaultValue": "partschefvnet"
+            "defaultValue": "chefautomatevnet"
         },
         "virtualNetworkNewOrExisting": {
             "type": "string",
@@ -200,7 +202,7 @@
             "metadata": {
                 "description": "Name of the virtual machine in Azure, this will also be the hostname"
             },
-            "defaultValue": "chefpartsvm"
+            "defaultValue": "chefautomatevm"
         },
         "vmSize": {
             "type": "string",
@@ -215,7 +217,7 @@
                 "description": "Base URL for dependent assets",
                 "artifactsBaseUrl": ""
             },
-            "defaultValue": "https://gallery.azure.com/artifact/20151001/chef-software.chef-automateallinone.1.0.14/Artifacts"
+            "defaultValue": "https://gallery.azure.com/artifact/20151001/chef-software.chef-automateallinone.1.0.15/Artifacts"
         }
     },
     "variables": {
