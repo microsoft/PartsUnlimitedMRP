@@ -21,7 +21,7 @@ if (-not (Test-Path plink.exe)) {
 
 # Set deploy directory on target server
 $deployDirectory = "/tmp/mrpdeploy_" + [System.Guid]::NewGuid().toString()
-$buildName = $($env:BUILD_DEFINITIONNAME)
+$buildName =  "_" + $($env:BUILD_DEFINITIONNAME)
 # Save sftp command text to file
 $sftpFile = "sftp.txt"
 $sftpContent = @'
