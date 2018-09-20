@@ -49,7 +49,6 @@ Set-Content -Path $sftpFile -Value $sftpContent
 $plinkFile = "plink.txt"
 $plinkContent = @'
 cd ROOT_DEPLOY_DIRECTORY/deploy
-sudo apt-get install dos2unix -y
 dos2unix deploy_mrp_app.sh
 sudo bash ./deploy_mrp_app.sh
 '@
