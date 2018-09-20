@@ -9,7 +9,7 @@ apt-get install mongodb -y
 apt-get install tomcat7 -y
 apt-get install wget -y
 
-# Install doc2unix package
+# Install dos2unix package
 add-apt-repository main
 add-apt-repository universe
 add-apt-repository restricted
