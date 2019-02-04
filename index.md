@@ -12,16 +12,6 @@ The application uses entirely open source software including Linux, Java, Apache
 There is also a shortened URL avalable for this site which you can use if you wish i.e. <a href="http://aka.ms/pumrplabs" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://aka.ms/pumrplabs</span></a>
 
 
-## PartsUnlimitedMRP Application  - Key Features ##
-- Front end service - runs Apache Tomcat and talks to order service
-- Order and Integration service - runs Java and calls MongoDB
-- Integration service - present to integrate with Parts Unlimited Website
-- Includes a Dockerfile and sample publishing profile to publish to a Docker container
-- Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
-
-
-For the labs based around the PartsUnlimited .NET application see the page <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and is more aligned with Microsoft products, tools and services.
-
 ## Training and Certification usage
 
 These labs are used as part of two training paths and certification programs:
@@ -30,7 +20,6 @@ These labs are used as part of two training paths and certification programs:
 - **Microsoft Exam AZ-400: Implementing Azure DevOps Solutions**
     - The <a href="https://www.microsoft.com/en-us/learning/exam-AZ-400.aspx " target="_blank"><span style="color: #0066cc;" color="#0066cc">AZ-400T05: Microsoft Azure DevOps Solutions </span></a> exam is currently in beta and some labs available on these pages map directly to sections of that exam. Individual labs that map to this exam will call that out on the lab page.
 
-The successful completion of the courses and capstone project, that together make up the **MPP for DevOps**, results in the granting of the **Microsoft MPP for DevOps** credential. For more information on the **Microsoft Professional Program (MPP) for DevOps** program see the pages <a href="https://academy.microsoft.com/en-us/professional-program/tracks/devops/ " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://academy.microsoft.com/en-us/professional-program/tracks/devops/ </span></a> and <a href="https://www.edx.org/microsoft-professional-program-devops " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://www.edx.org/microsoft-professional-program-devops</span></a> 
 
 
 
@@ -51,6 +40,15 @@ The labs available on this page are divided into sections that correspond to onl
 - DevOps with Azure Stack
 
 
+## PartsUnlimitedMRP Application  - Key Features ##
+- Front end service - runs Apache Tomcat and talks to order service
+- Order and Integration service - runs Java and calls MongoDB
+- Integration service - present to integrate with Parts Unlimited Website
+- Includes a Dockerfile and sample publishing profile to publish to a Docker container
+- Includes Azure RM JSON templates and PowerShell automation scripts to easily build and provision your environment
+
+
+For the labs based around the PartsUnlimited .NET application see the page <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and is more aligned with Microsoft products, tools and services.
 
 ## Issues and Updates
 
