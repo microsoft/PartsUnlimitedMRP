@@ -22,6 +22,18 @@ There is also a shortened URL avalable for this site which you can use if you wi
 
 For the labs based around the PartsUnlimited .NET application see the page <a href="http://microsoft.github.io/PartsUnlimited" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://microsoft.github.io/PartsUnlimited</span></a>. It will show you how to use Visual Studio Team Services with a .NET application and is more aligned with Microsoft products, tools and services.
 
+## Training and Certification usage
+
+These labs are used as part of two training paths and certification programs:
+- **Microsoft Professional Program (MPP) with DevOps**. 
+    - The successful completion of the online courses and capstone project, that together make up the **MPP for DevOps**, results in the granting of the **Microsoft MPP for DevOps** credential. For more information on the **Microsoft Professional Program (MPP) for DevOps** program see the pages <a href="https://academy.microsoft.com/en-us/professional-program/tracks/devops/ " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://academy.microsoft.com/en-us/professional-program/tracks/devops/ </span></a> and <a href="https://www.edx.org/microsoft-professional-program-devops " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://www.edx.org/microsoft-professional-program-devops</span></a> 
+- **Microsoft Exam AZ-400: Implementing Azure DevOps Solutions**
+    - The <a href="https://www.microsoft.com/en-us/learning/exam-AZ-400.aspx " target="_blank"><span style="color: #0066cc;" color="#0066cc">AZ-400T05: Microsoft Azure DevOps Solutions </span></a> exam is currently in beta and some labs available on these pages map directly to sections of that exam. Individual labs that map to this exam will call that out on the lab page.
+
+The successful completion of the courses and capstone project, that together make up the **MPP for DevOps**, results in the granting of the **Microsoft MPP for DevOps** credential. For more information on the **Microsoft Professional Program (MPP) for DevOps** program see the pages <a href="https://academy.microsoft.com/en-us/professional-program/tracks/devops/ " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://academy.microsoft.com/en-us/professional-program/tracks/devops/ </span></a> and <a href="https://www.edx.org/microsoft-professional-program-devops " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://www.edx.org/microsoft-professional-program-devops</span></a> 
+
+
+
 ## Lab Structure
 The labs available on this page are divided into sections and in most cases these sections correspond to online courses, that are available on <a href="http://www.edx.org" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://www.edx.org</span></a>. Not all sections currently have a corresponding online course.
 
