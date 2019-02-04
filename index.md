@@ -35,10 +35,15 @@ The successful completion of the courses and capstone project, that together mak
 
 
 ## Lab Structure
-The labs available on this page are divided into sections and in most cases these sections correspond to online courses, that are available on <a href="http://www.edx.org" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://www.edx.org</span></a>. Not all sections currently have a corresponding online course.
+The labs available on this page are divided into sections that correspond to online courses or are direct mapping to objective domains sections of the AZ-400: Microsoft Azure DevOps Solutions exam. 
+- The online courses are available  on <a href="http://www.edx.org" target="_blank"><span style="color: #0066cc;" color="#0066cc">http://www.edx.org</span></a>
+- The courses corresponding objective domains sections of the *AZ-400: Microsoft Azure DevOps Solutions* exam are classroom based labs delivered by Microsoft Partners. Details of these course are available from Microsoft partner sites.
 
+### Pages lab sections
 - DevOps Practices and Principles - <a href="https://www.edx.org/course/devops-practices-and-principles-0" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.1x: DevOps Practices and Principles</span></a>
-- Infrastructure as Code - <a href="https://www.edx.org/course/infrastructure-as-code-0" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.2x: Infrastructure as Code</span></a>
+- Infrastructure as Code 
+    - <a href="https://www.edx.org/course/infrastructure-as-code-0" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.2x: Infrastructure as Code</span></a>
+    - *AZ-400: Implementing Azure Applications* classroom based course. 
 - Continuous Integration and Continuous Deployment - <a href="https://www.edx.org/course/continuous-integration-and-continuous-deployment-0" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.3x: Continuous Integration and Continuous Deployment</span></a>
 - Testing - <a href="https://www.edx.org/course/devops-testing-1" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.5x: DevOps Testing </span></a>
 - Application Monitoring and Feedback Loops - <a href="https://www.edx.org/course/application-monitoring-and-feedback-loops-0" target="_blank"><span style="color: #0066cc;" color="#0066cc">DevOps200.7x: Application Monitoring and Feedback Loops</span></a>
@@ -46,9 +51,6 @@ The labs available on this page are divided into sections and in most cases thes
 - DevOps with Azure Stack
 
 
-## Microsoft Professional Program (MPP) for DevOps
-
-These labs are used as part of the **Microsoft Professional Program (MPP) with DevOps** series of online courses. The successful completion of the courses and capstone project, that together make up the   **MPP for DevOps**, results in the granting of the Microsoft **MPP for DevOps** credential. For more information on the **Microsoft Professional Program (MPP) for DevOps** program see the pages <a href="https://academy.microsoft.com/en-us/professional-program/tracks/devops/ " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://academy.microsoft.com/en-us/professional-program/tracks/devops/ </span></a> and <a href="https://www.edx.org/microsoft-professional-program-devops " target="_blank"><span style="color: #0066cc;" color="#0066cc">https://www.edx.org/microsoft-professional-program-devops</span></a> 
 
 ## Issues and Updates
 
