@@ -1,0 +1,20 @@
+- name: Install Apache Web Server 
+  hosts: '{{ vmname }}'
+  gather_facts: no
+  tasks:
+  - name: Ensure apache is at the latest version
+    yum: name=httpd state=latest
+    become: true
+  - name: Change permissions of /var/www/html
+    file: path=/var/www/html mode=0777
+    become: true
+  - name: Download index.html
+    get_url:
+      url: https://raw.githubusercontent.com/erjosito/ansible-azure-lab/master/index.html
+      dest: /var/www/html/index.html
+      mode: 0644
+  - name: Ensure apache is running (and enable it at boot)
+    service: name=httpd state=started enabled=yes
+    become: true
+
+
