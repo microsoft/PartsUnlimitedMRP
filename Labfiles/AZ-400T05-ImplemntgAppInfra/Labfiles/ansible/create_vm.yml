@@ -78,5 +78,5 @@
       image:
         offer: UbuntuServer
         publisher: Canonical
-        sku: UbuntuLTS
+        sku: 18.04-LTS
         version: latest
