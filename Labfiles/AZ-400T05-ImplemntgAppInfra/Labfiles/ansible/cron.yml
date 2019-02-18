@@ -8,7 +8,7 @@
      name: "httpd yml configuration"
      minute: "*"
      hour: "*"
-     job: 'ansible-playbook -i /home/azureuser/ansible/contrib/inventory/azure_rm.py /home/azureuser/PartsUnlimitedMRP/Labfiles/AZ-400T05-ImplemntgAppInfra/Labfiles/ansible/httpd.yml --extra-vars "vmname=< your-vm-name >"'
+     job: '/usr/bin/ansible-playbook -i /home/azureuser/ansible/contrib/inventory/azure_rm.py /home/azureuser/PartsUnlimitedMRP/Labfiles/AZ-400T05-ImplemntgAppInfra/Labfiles/ansible/httpd.yml --extra-vars "vmname=< your-vm-name >"'
 
   - name: 'Ensure an old job is no longer present. Removes any job that is prefixed by "#Ansible: an old job" from the crontab'
     cron:
