@@ -4,7 +4,7 @@
   gather_facts: False
   vars:
     # Variables 'resgrp' and 'location' need to be provided at command line with arg --extra-vars
-    templateLink: 'https://raw.githubusercontent.com/erjosito/ansible-azure-lab/master/ARMtemplate-newVM.json'
+    templateLink: 'https://raw.githubusercontent.com/Microsoft/PartsUnlimitedMRP/master/Labfiles/AZ-400T05-ImplemntgAppInfra/Labfiles/ansible/ARMtemplate-newVM.json'
     # No parameters required for this template
     #paramsLink: ''
    
