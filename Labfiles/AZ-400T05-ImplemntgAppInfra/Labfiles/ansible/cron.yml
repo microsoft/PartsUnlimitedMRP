@@ -8,4 +8,4 @@
      name: "httpd yml configuration"
      minute: "*"
      hour: "*"
-     job: 'ansible-playbook -i ~/ansible/contrib/inventory/azure_rm.py ~/PartsUnlimitedMRP/Labfiles/AZ-400T05-ImplemntgAppInfra/Labfiles/ansible/httpd.yml --extra-vars  "vmname=vmw$
+     job: 'ansible-playbook -i ~/ansible/contrib/inventory/azure_rm.py ~/PartsUnlimitedMRP/Labfiles/AZ-400T05-ImplemntgAppInfra/Labfiles/ansible/httpd.yml --extra-vars "vmname=< your-vm-name >"'
