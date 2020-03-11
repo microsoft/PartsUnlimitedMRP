@@ -2,10 +2,10 @@ import com.microsoft.appinsights.*
 
 buildscript {
     repositories {
-        maven { url "http://repo.spring.io/libs-release" }
-        maven { url "http://gradle.artifactoryonline.com/gradle/libs/" }
+        maven { url "https://repo.spring.io/libs-release" }
+        maven { url "https://gradle.artifactoryonline.com/gradle/libs/" }
         mavenLocal()
-        mavenCentral()
+        maven { url 'https://repo1.maven.org/maven2' }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.7.RELEASE")
@@ -27,8 +27,8 @@ war {
 
 repositories {
     mavenLocal()
-    mavenCentral()
-    maven { url "http://repo.spring.io/libs-release" }
+    maven { url 'https://repo1.maven.org/maven2' }
+    maven { url "https://repo.spring.io/libs-release" }
 }
 
 configurations {
