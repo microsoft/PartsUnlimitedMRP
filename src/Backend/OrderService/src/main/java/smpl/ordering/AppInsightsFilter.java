@@ -15,6 +15,7 @@ import com.microsoft.applicationinsights.telemetry.TelemetryContext;
 
 import org.springframework.stereotype.Component;
 
+// Fix
 @Component
 public class AppInsightsFilter implements Filter
 {
