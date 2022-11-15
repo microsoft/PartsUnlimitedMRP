@@ -1,9 +1,0 @@
-{
-  "displayName": "Jenkins",
-  "publisherDisplayName": "The Jenkins Project",
-  "summary": "Jenkins on Ubuntu 16.04-LTS VM, pre-configured and ready to run on Azure Stack",
-  "longSummary": "Jenkins on Ubuntu 16.04-LTS VM, pre-configured and ready to run on Azure Stack",
-  "description": "<p>The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.</p><p>This VM contains the latest version of Jenkins, running on Ubuntu 16.04-LTS, configured as a single, standalone installation and will allow you to get started learning and understanding key Jenkins tasks.</p><p>For more information, review the links below.</p><p><b>Please Note</b> - This image is not officially provided by, or supported by Cloudbees or the Jenkins Community and is provided solely for use with the Parts Unlimited MRP Hands-on-Labs.</p>",
-  "documentationLink": "The Jenkins Project",
-  "documentationLink2": "Jenkins Documentation"
-}
