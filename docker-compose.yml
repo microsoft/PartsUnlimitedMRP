@@ -46,4 +46,4 @@ volumes:
       driver: azure_file
       driver_opts: 
         share_name: db-data
-        storage_account_name: almacengpsidUnico
+        storage_account_name: almacengpsidunico
