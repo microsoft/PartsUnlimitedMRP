@@ -7,14 +7,14 @@ services:
       resources:
         limits:
           cpus: "0.15"
-          #memory: 200M
+          memory: 200M
       restart_policy:
-          condition: none
+          condition: on-failure
     ports:
-        - "28017"
-        - "27017"
+        - "28017:28017"
+        - "27017:27017"
     volumes:
-        - "db-data:/var/logs/"
+        - "db-data:/data/db"
   order:
     image: jriniesta/p2gps:order
     depends_on:
@@ -23,12 +23,12 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "1.0"
-          #memory: 500M
+          cpus: "0.3"
+          memory: 500M
       restart_policy:
-          condition: none
+          condition: on-failure
     ports:
-        - "8080"
+        - "8080:8080"
   web:
     image: jriniesta/p2gps:web
     deploy:
@@ -36,14 +36,10 @@ services:
       resources:
         limits:
           cpus: "0.25"
-          #memory: 300M
+          memory: 300M
       restart_policy:
-          condition: none
+          condition: on-failure
     ports:
-        - "8082"
+        - "80:8080"
 volumes:
     db-data:
-      driver: azure_file
-      driver_opts: 
-        share_name: db-data
-        storage_account_name: almacengpsidunico
