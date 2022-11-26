@@ -10,36 +10,36 @@ services:
           memory: 200M
       restart_policy:
           condition: on-failure
-      ports:
+    ports:
         - "28017:28017"
         - "27017:27017"
-      volumes:
+    volumes:
         - "db-data:/data/db"
-    order:
-      image: jriniesta/p2gps:order
-      depends_on:
+  order:
+    image: jriniesta/p2gps:order
+    depends_on:
         - "mongo"
-      deploy:
-        replicas: 1
-        resources:
-          limits:
-            cpus: "0.3"
-            memory: 500M
-        restart_policy:
-            condition: on-failure
-        ports:
-            - "8080:8080"
-        webs:
-          image: jriniesta/p2gps:web
-          deploy:
-            replicas: 1
-            resources:
-              limits:
-                cpus: "0.25"
-                memory: 300M
-            restart_policy:
-                condition: on-failure
-          ports:
-             - "80:8080"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.3"
+          memory: 500M
+      restart_policy:
+          condition: on-failure
+    ports:
+        - "8080:8080"
+  web:
+    image: jriniesta/p2gps:web
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 300M
+      restart_policy:
+          condition: on-failure
+    ports:
+        - "8080:8080"
 volumes:
-  db-data:
+    db-data:
