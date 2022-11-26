@@ -16,7 +16,7 @@ services:
       volumes:
         - "db-data:/data/db"
     order:
-      image: jriniesta/p2gps
+      image: jriniesta/p2gps:order
       depends_on:
         - "mongo"
       deploy:
@@ -30,7 +30,7 @@ services:
           ports:
             - "8080:8080"
         webs:
-          image: jriniesta/p2gps
+          image: jriniesta/p2gps:web
           deploy:
             replicas:
             resources:
