@@ -8,9 +8,8 @@ RUN mkdir -p /usr/local/app
 
 # copiar el .jar del servicio a la imagen
 # No se indica el nombre porque las versiones pueden cambiar
+COPY drop/*.jar usr/local/app
 
-
-COPY drop/* /usr/local/app/
 
 COPY drop/run.sh usr/local/app/run.sh
 
