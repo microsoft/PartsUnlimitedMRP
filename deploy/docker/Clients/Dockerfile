@@ -4,6 +4,6 @@ MAINTAINER JuanRafael.Iniesta@alu.uclm.es
 
 COPY drop/* /usr/local/tomcat/webapps/
 
-EXPOSE 8080
+EXPOSE 8082
 
 ENTRYPOINT catalina.sh run
