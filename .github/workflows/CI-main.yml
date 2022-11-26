@@ -51,8 +51,12 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}/p2gps:web
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}/p2gps:order
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Etiquetar con formato DockerHub
+        run: |
+          docker tag p2gps/web ${{secrets.DOCKERHUB_USERNAME }}/p2gps:web
+          docker tag p2gps/web ${{secrets.DOCKERHUB_USERNAME }}/p2gps:order
       - name: Push a Dockerhub
         run: |
             docker push ${{secrets.DOCKERHUB_USERNAME }}/p2gps:order
