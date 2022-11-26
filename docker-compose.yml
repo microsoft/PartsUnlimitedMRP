@@ -27,7 +27,7 @@ services:
             memory: 500M
         restart_policy:
             condition: on-failure
-          ports:
+        ports:
             - "8080:8080"
         webs:
           image: jriniesta/p2gps:web
@@ -39,7 +39,7 @@ services:
                 memory: 300M
             restart_policy:
                 condition: on-failure
-            ports:
-              - "80:8080"
+          ports:
+             - "80:8080"
 volumes:
   db-data:
