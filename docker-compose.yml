@@ -3,7 +3,7 @@ services:
   mongo:
     image: jriniesta/p2gps:db
     deploy:
-      replicas:
+      replicas: 1
       resources:
         limits:
           cpus: "0.15"
@@ -20,7 +20,7 @@ services:
       depends_on:
         - "mongo"
       deploy:
-        replicas:
+        replicas: 1
         resources:
           limits:
             cpus: "0.3"
@@ -32,7 +32,7 @@ services:
         webs:
           image: jriniesta/p2gps:web
           deploy:
-            replicas:
+            replicas: 1
             resources:
               limits:
                 cpus: "0.25"
