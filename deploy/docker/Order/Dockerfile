@@ -16,7 +16,7 @@ COPY drop/run.sh usr/local/app/run.sh
 COPY drop/application.properties application.properties
 
 
-EXPOSE 8082
+EXPOSE 8080
 
-ENTRYPOINT P=8082 ;sed "s/8080/$P/g" < conf/server.xml > /tmp/srv.xml && catalina.sh run -config /tmp/srv.xml
+ENTRYPOINT sh usr/local/app/run.sh
 
