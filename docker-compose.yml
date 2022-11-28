@@ -38,7 +38,7 @@ services:
           cpus: "0.25"
           #memory: 300M
       restart_policy:
-          condition: on failure
+          condition: on-failure
     ports:
         - "80:8080"
 volumes:
