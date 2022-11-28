@@ -1,7 +1,7 @@
-FROM mongo
+FROM mongo:3.4
 
-MAINTAINER juliens@microsoft.com
+MAINTAINER JuanRafael.Iniesta@alu.uclm.es
 
-COPY drop/* /tmp/
+COPY drop/* usr/local/data/db/
 
 CMD ["mongod", "--smallfiles", "--rest"]

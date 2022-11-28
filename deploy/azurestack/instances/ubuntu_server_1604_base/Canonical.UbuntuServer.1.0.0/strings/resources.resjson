@@ -1,8 +1,0 @@
-{
-  "displayName": "Ubuntu Server 16.04-LTS",
-  "publisherDisplayName": "Canonical",
-  "summary": "Ubuntu Server delivers the best value scale-out performance available.",
-  "longSummary": "Ubuntu Server delivers the best value scale-out performance available.",
-  "description": "<p>Ubuntu Server is the world's most popular Linux for cloud environments. Updates and patches for Ubuntu 16.04 will be available until April 2021.</p><p>Ubuntu Server is the perfect virtual machine (VM) platform for all workloads from web applications to NoSQL databases and Hadoop.</p><p><b>Please Note</b> - This image is not officially provided by, or supported by Canonical and is provided solely for use with the Parts Unlimited MRP Hands-on-Labs. All logos and images are property of Canonical</p>",
-  "documentationLink": "Documentation"
-}
